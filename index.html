@@ -3232,8 +3232,18 @@ html, body { overscroll-behavior-y: none; }
 }
 
 /* ---- TA 抽的塔罗，在聊天里显示成一张小卡 ---- */
-.tr-msg-card { max-width:260px; border-radius:12px; padding:10px 12px;
+.tr-msg-card { max-width:280px; border-radius:12px; padding:10px 12px;
     background:var(--color-surface); border:1px solid var(--color-border); }
+/* 把塔罗页那张牌面原样带进聊天：同样的 2:3 比例、同样的描边色 */
+.tr-msg-body { display:flex; gap:10px; align-items:flex-start; }
+.tr-msg-pic { width:72px; height:108px; flex-shrink:0; overflow:hidden;
+    border:1px solid var(--color-border); border-radius:6px;
+    color:var(--color-text); background:var(--color-bg);
+    box-shadow:0 2px 7px rgba(0,0,0,.07); }
+.tr-msg-pic svg { width:100%; height:100%; display:block; }
+.tr-msg-pic.rev svg { transform:rotate(180deg); }
+.tr-msg-txt { flex:1; min-width:0; }
+.tr-msg-txt .tr-msg-head { flex-direction:column; align-items:flex-start; gap:2px; margin-bottom:5px; }
 .tr-msg-head { display:flex; align-items:baseline; gap:6px; margin-bottom:6px; flex-wrap:wrap; }
 .tr-msg-mode { font-size:10px; letter-spacing:.08em; color:#22C55E; }
 .tr-msg-name { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:12.5px; color:var(--color-text); }
@@ -3241,6 +3251,70 @@ html, body { overscroll-behavior-y: none; }
 .tr-msg-ask { font-size:12px; line-height:1.6; color:var(--color-muted);
     border-top:1px dashed var(--color-border); padding-top:6px; }
 .tr-msg-ask::before { content:'他问：'; color:#22C55E; }
+/* 牌阵抽了几张，就在卡片上面一横排列几张牌面；单张仍走左图右文 */
+.tr-msg-card.multi { max-width:320px; }
+.tr-msg-card.multi .tr-msg-ask::before { content:'问的是：'; }
+.tr-msg-pics { display:flex; gap:6px; margin-bottom:9px; align-items:flex-start; }
+.tr-msg-pic-col { flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center; }
+.tr-msg-pics .tr-msg-pic { width:100%; height:auto; aspect-ratio:2/3; flex:none; }
+.tr-msg-pics .tr-msg-pic svg { width:100%; height:100%; }
+.tr-msg-pics .tr-msg-pic.rev svg { transform:rotate(180deg); }
+.tr-msg-pic-cap { margin-top:4px; font-size:9px; line-height:1.3; color:var(--color-muted);
+    text-align:center; letter-spacing:.04em; }
+.tr-msg-mrow { padding:5px 0; border-top:1px dashed var(--color-border); }
+.tr-msg-mrow:first-child { border-top:none; padding-top:0; }
+.tr-msg-mname { display:block; font-family:'Noto Serif SC','Noto Serif SC Offline',serif;
+    font-size:11.5px; color:var(--color-text); margin-bottom:2px; }
+.tr-msg-mname i { font-style:normal; font-size:10px; color:var(--color-muted); margin-right:4px; }
+.tr-msg-mmean { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;
+    overflow:hidden; font-size:11px; line-height:1.55; color:var(--color-muted); }
+.tr-msg-count { font-size:10px; color:var(--color-muted); margin-left:auto; }
+
+/* ---- 他推来的歌：主聊天一张卡片，现在听 / 等会再听 ---- */
+.sg-msg-card { position:relative; z-index:20; width:252px; max-width:80vw; border-radius:14px;
+    padding:11px 12px; background:var(--color-surface); border:1px solid var(--color-border); }
+.sg-msg-head { display:flex; align-items:center; gap:6px; font-size:10px; letter-spacing:.08em;
+    color:var(--color-muted); margin-bottom:8px; }
+.sg-msg-head .sg-dot { width:6px; height:6px; border-radius:50%; background:var(--cp-primary); flex-shrink:0; }
+.sg-msg-src { margin-left:auto; font-size:9px; letter-spacing:0; opacity:.85; }
+.sg-msg-main { display:flex; gap:9px; align-items:center; }
+.sg-msg-cover { width:46px; height:46px; flex:none; border-radius:8px; overflow:hidden;
+    background:var(--color-bg); border:1px solid var(--color-border);
+    display:flex; align-items:center; justify-content:center; color:var(--color-muted); }
+.sg-msg-cover img { width:100%; height:100%; object-fit:cover; }
+.sg-msg-cover svg { width:22px; height:22px; }
+.sg-msg-info { min-width:0; flex:1; }
+.sg-msg-title { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:13px;
+    color:var(--color-text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sg-msg-artist { font-size:10.5px; color:var(--color-muted); margin-top:3px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sg-msg-line { margin-top:9px; font-size:11px; color:var(--color-muted); }
+.sg-msg-line b { color:var(--cp-primary); font-weight:600; }
+.sg-msg-acts { display:flex; gap:8px; margin-top:10px; }
+.sg-msg-btn { flex:1; padding:8px 0; border-radius:9px; font-size:11px; text-align:center;
+    border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text); cursor:pointer; }
+.sg-msg-btn.main { background:var(--color-text); color:var(--color-bg); border-color:var(--color-text); }
+.sg-msg-btn:active { transform:scale(.97); }
+.sg-msg-state { margin-top:8px; padding-top:8px; border-top:1px dashed var(--color-border);
+    font-size:10px; line-height:1.5; color:var(--cp-primary); }
+.sg-msg-note { margin-top:7px; font-size:10px; line-height:1.5; color:var(--color-muted); }
+/* 音乐页：让他推一首 + 等会再听清单 */
+.sg-them-row { display:flex; align-items:center; gap:8px; margin-top:9px; }
+.sg-them-btn { flex:none; font-size:10.5px; padding:7px 10px; border-radius:9px;
+    border:1px solid var(--color-border); background:var(--color-surface); color:var(--color-text); cursor:pointer; }
+.sg-them-btn:active { transform:scale(.97); }
+.sg-them-tip { font-size:9.5px; line-height:1.4; color:var(--color-muted); }
+.sg-later-wrap { margin-top:10px; border:1px solid var(--color-border); border-radius:10px;
+    background:var(--color-surface); overflow:hidden; }
+.sg-later-head { display:flex; align-items:center; padding:9px 11px; font-size:11px; color:var(--color-text); cursor:pointer; }
+.sg-later-head span { margin-left:auto; font-size:9.5px; color:var(--color-muted); }
+.sg-later-list { border-top:1px solid var(--color-border); }
+.sg-later-item { display:flex; align-items:center; gap:8px; padding:9px 11px;
+    border-bottom:1px solid var(--color-border); cursor:pointer; }
+.sg-later-item:last-child { border-bottom:none; }
+.sg-later-item .t { flex:1; min-width:0; font-size:11px; color:var(--color-text);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sg-later-item .a { font-size:9.5px; color:var(--color-muted); flex:none; }
 
 /* ---- 滑动性能 ---- */
 /* 容器隔离：限制布局/绘制范围，滚动时不必重算整页 */
@@ -3748,6 +3822,17 @@ html, body { overscroll-behavior-y: none; }
                 </div>
                 <div class="p-3.5 flex flex-col gap-2 border-t border-border">
                     <div class="flex items-center justify-between">
+                        <span>他推歌的概率</span>
+                        <div class="flex items-center gap-3">
+                            <button @click="settings.songRate = Math.max(0, (settings.songRate == null ? 12 : settings.songRate) - 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">−</button>
+                            <span class="w-10 text-center font-mono font-medium">{{ settings.songRate == null ? 12 : settings.songRate }}%</span>
+                            <button @click="settings.songRate = Math.min(100, (settings.songRate == null ? 12 : settings.songRate) + 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
+                        </div>
+                    </div>
+                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：他回你消息时，有这个概率自己搜一首、或从你歌单里挑一首，在主聊天发一张卡片给你；点「现在听」就播，点「等会再听」先留着。音乐页里也能直接让他推一首。</span>
+                </div>
+                <div class="p-3.5 flex flex-col gap-2 border-t border-border">
+                    <div class="flex items-center justify-between">
                         <span>他点助眠音的概率</span>
                         <div class="flex items-center gap-3">
                             <button @click="settings.sleepRate = Math.max(0, (settings.sleepRate || 0) - 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">−</button>
@@ -3755,7 +3840,7 @@ html, body { overscroll-behavior-y: none; }
                             <button @click="settings.sleepRate = Math.min(100, (settings.sleepRate || 0) + 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
                         </div>
                     </div>
-                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：他自己挑白噪音或助眠音乐、自己按下播放，叠进来直接响，你不用点。睡眠页「开始睡眠」后也按这个概率自动点。</span>
+                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：只在「睡眠」页生效——开始睡眠时他自己先放一组，之后睡眠聊天里按这个概率再点，叠进来直接响，你不用点。主聊天和陪伴里不会自动点；陪伴里的音只能你自己选。</span>
                 </div>
             </div>
         </section>
@@ -4243,29 +4328,72 @@ html, body { overscroll-behavior-y: none; }
 
                         <div v-else-if="msg.type === 'sticker'" class="sticker-bubble"><img :src="msg.sticker"></div>
 
-                        <div v-else-if="msg.type === 'tarot'" class="tr-msg-card">
-                            <div class="tr-msg-head">
-                                <span class="tr-msg-mode">{{ msg.tarot.modeName }}</span>
-                                <span class="tr-msg-name">{{ msg.tarot.name }}{{ msg.tarot.rev ? '逆位' : '正位' }}</span>
+                        <div v-else-if="msg.type === 'tarot'" class="tr-msg-card" :class="{ multi: trMsgCards(msg.tarot).length > 1 }">
+                            <!-- 单张：左边一张牌面，右边文字 -->
+                            <div v-if="trMsgCards(msg.tarot).length <= 1" class="tr-msg-body">
+                                <div v-if="trMsgCardSVG(msg.tarot)" class="tr-msg-pic" :class="{ rev: msg.tarot.rev }" v-html="trMsgCardSVG(msg.tarot)"></div>
+                                <div class="tr-msg-txt">
+                                    <div class="tr-msg-head">
+                                        <span class="tr-msg-mode">{{ msg.tarot.modeName }}</span>
+                                        <span class="tr-msg-name">{{ msg.tarot.name }}{{ msg.tarot.rev ? '逆位' : '正位' }}</span>
+                                    </div>
+                                    <div class="tr-msg-mean">{{ msg.tarot.mean }}</div>
+                                    <div v-if="msg.content" class="tr-msg-ask">{{ msg.content }}</div>
+                                </div>
                             </div>
-                            <div class="tr-msg-mean">{{ msg.tarot.mean }}</div>
-                            <div v-if="msg.content" class="tr-msg-ask">{{ msg.content }}</div>
-                        </div>
-
-                        <div v-else-if="msg.type === 'tarot'" class="tr-msg-card">
-                            <div class="tr-msg-head">
-                                <span class="tr-msg-mode">{{ msg.tarot.modeName }}</span>
-                                <span class="tr-msg-name">{{ msg.tarot.name }}{{ msg.tarot.rev ? '逆位' : '正位' }}</span>
-                            </div>
-                            <div class="tr-msg-mean">{{ msg.tarot.mean }}</div>
-                            <div v-if="msg.content" class="tr-msg-ask">{{ msg.content }}</div>
+                            <!-- 抽了几张就横排几张：三牌阵三张、四牌阵四张，以此类推 -->
+                            <template v-else>
+                                <div class="tr-msg-pics">
+                                    <div v-for="(c, ci) in trMsgCards(msg.tarot)" :key="ci" class="tr-msg-pic-col">
+                                        <div class="tr-msg-pic" :class="{ rev: c.rev }" v-html="trMsgCardSVG(c)"></div>
+                                        <div v-if="c.pos" class="tr-msg-pic-cap">{{ c.pos }}</div>
+                                    </div>
+                                </div>
+                                <div class="tr-msg-head">
+                                    <span class="tr-msg-mode">{{ msg.tarot.modeName || '塔罗牌阵' }}</span>
+                                    <span class="tr-msg-count">{{ trMsgCards(msg.tarot).length }} 张</span>
+                                </div>
+                                <div v-for="(c, ci) in trMsgCards(msg.tarot)" :key="'r'+ci" class="tr-msg-mrow">
+                                    <span class="tr-msg-mname"><i v-if="c.pos">{{ c.pos }}</i>{{ c.name }}{{ c.rev ? '逆位' : '正位' }}</span>
+                                    <span class="tr-msg-mmean">{{ c.mean }}</span>
+                                </div>
+                                <div v-if="msg.content" class="tr-msg-ask">{{ msg.content }}</div>
+                            </template>
                         </div>
                         
-                        <div v-else-if="msg.type === 'sleep'" class="slp-msg-card" @click.stop="cpJoinSleep(msg)">
+                        <div v-else-if="msg.type === 'song'" class="sg-msg-card" @click.stop>
+                            <div class="sg-msg-head">
+                                <span class="sg-dot"></span>推给你听
+                                <span class="sg-msg-src">{{ msg.song.from === 'search' ? '他自己搜的' : '从你歌单里挑的' }}</span>
+                            </div>
+                            <div class="sg-msg-main">
+                                <div class="sg-msg-cover">
+                                    <img v-if="msg.song.cover && !sgNoNet" :src="msg.song.cover" @error="sgCoverErr(msg)">
+                                    <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+                                    </svg>
+                                </div>
+                                <div class="sg-msg-info">
+                                    <div class="sg-msg-title">{{ msg.song.title }}</div>
+                                    <div class="sg-msg-artist">{{ msg.song.artist }}</div>
+                                </div>
+                            </div>
+                            <div class="sg-msg-line"><b>{{ profiles[msg.sender].name }}</b> 推来一首，想现在听吗</div>
+                            <div class="sg-msg-acts">
+                                <div class="sg-msg-btn main" @click.stop="sgPlayNow(msg)">{{ sgIsPlaying(msg) ? '再听一遍' : '现在听' }}</div>
+                                <div v-if="msg.song.state !== 'later'" class="sg-msg-btn" @click.stop="sgLater(msg)">等会再听</div>
+                            </div>
+                            <div v-if="sgIsPlaying(msg)" class="sg-msg-state">正在听 ♫</div>
+                            <div v-else-if="msg.song.state === 'later'" class="sg-msg-state">等会再听 · 我给你留着，想听随时点上面「现在听」</div>
+                            <div v-else-if="msg.song.state === 'played'" class="sg-msg-state">听过了 · 想再放一次就点「现在听」</div>
+                            <div v-if="sgNote && sgNote.id === msg.id" class="sg-msg-note">{{ sgNote.text }}</div>
+                        </div>
+
+                        <div v-else-if="msg.type === 'sleep'" class="slp-msg-card" @click.stop="cpJoinSleepFromChat(msg)">
                             <div class="slp-msg-head"><span class="slp-msg-dot"></span>助眠音</div>
                             <div class="slp-msg-line"><b>{{ profiles[msg.sender].name }}</b> 播放了 <b>{{ msg.sleep.title }}</b></div>
                             <div class="slp-msg-wave"><i v-for="(h, j) in [5,9,6,12,8,4,10,6]" :key="j" :style="{ height: h + 'px' }"></i></div>
-                            <div class="slp-msg-sub">他点的 · 已经在放，一起听</div>
+                            <div class="slp-msg-sub">以前点的 · 去睡眠页一起听</div>
                         </div>
 
                         <div v-else-if="msg.type === 'redpacket'" class="rp-msg-card" @click="openedRP = msg">
@@ -4624,6 +4752,22 @@ html, body { overscroll-behavior-y: none; }
               </div>
               <span class="ms-tag">{{ r.tag }}</span>
               <button class="ms-add" :class="{ done: r.added }" @click.stop="msAdd(r)" :title="r.added ? '已加入歌单' : '加入歌单'">{{ r.added ? '✓' : '+' }}</button>
+            </div>
+          </div>
+          <div class="sg-them-row">
+            <button class="sg-them-btn" @click="themPushSong(true)">让他推一首 ♫</button>
+            <span class="sg-them-tip">他自己搜一首，或从歌单里挑，发到聊天给你选</span>
+          </div>
+          <div v-if="sgLaterList.length" class="sg-later-wrap">
+            <div class="sg-later-head" @click="sgLaterOpen = !sgLaterOpen">
+              等会再听 · {{ sgLaterList.length }} 首 <span>{{ sgLaterOpen ? '收起' : '展开' }}</span>
+            </div>
+            <div v-if="sgLaterOpen" class="sg-later-list">
+              <div v-for="m in sgLaterList" :key="m.id" class="sg-later-item" @click="sgPlayLater(m)">
+                <span class="t">{{ m.song.title }}</span>
+                <span class="a">{{ m.song.artist }}</span>
+                <span class="a">▷ 现在听</span>
+              </div>
             </div>
           </div>
         </div>
@@ -5106,7 +5250,7 @@ html, body { overscroll-behavior-y: none; }
                     {{ r.name }}<i @click.stop="cpDelRecipe(r)">×</i>
                 </span>
             </div>
-            <div class="cp-noise-tip">每种音已按实测响度自动校准，叠得越多每层越轻，进出都淡入淡出，不用手动压也不会一惊一乍。白噪音、音乐、ASMR 随便叠；你手动调过的音量会记住。开始睡眠后他自己会点。</div>
+            <div class="cp-noise-tip">每种音已按实测响度自动校准，叠得越多每层越轻，进出都淡入淡出，不用手动压也不会一惊一乍。白噪音、音乐、ASMR 随便叠；你手动调过的音量会记住。陪伴里只能你自己选，只有睡眠页开始睡眠后他自己会点。</div>
         </div>
 
         <div class="cp-enter-btn" @click="cpGo">进入陪伴</div>
@@ -5340,7 +5484,7 @@ html, body { overscroll-behavior-y: none; }
                     {{ r.name }}<i @click.stop="cpDelRecipe(r)">×</i>
                 </span>
             </div>
-            <div class="cp-noise-tip">每种音已按实测响度自动校准，叠得越多每层越轻，进出都淡入淡出，不用手动压也不会一惊一乍。白噪音、音乐、ASMR 随便叠；你手动调过的音量会记住。开始睡眠后他自己会点。</div>
+            <div class="cp-noise-tip">每种音已按实测响度自动校准，叠得越多每层越轻，进出都淡入淡出，不用手动压也不会一惊一乍。白噪音、音乐、ASMR 随便叠；你手动调过的音量会记住。陪伴里只能你自己选，只有睡眠页开始睡眠后他自己会点。</div>
         </div>
             <!-- 开始睡眠：进去之后只剩聊天，他自己会挑音、自己播，不用你再点 -->
             <button class="slp-start-btn" @click="slpStart">
@@ -5819,8 +5963,9 @@ html, body { overscroll-behavior-y: none; }
                 <div class="tr-act" :class="{ busy: trAiBusy }" @click="trAskAI">{{ trAiBusy ? 'TA 看着…' : (trAiOn ? 'TA 再说一遍' : '让 TA 解') }}</div>
                 <div class="tr-act" @click="trDeleteThis">{{ trDeleted ? '已删掉' : '删掉这次' }}</div>
             </div>
-            <div class="tr-acts" style="padding-top:0" v-if="!trDeleted">
-                <div class="tr-act main" @click="trOpenNote">{{ trCurNote ? '改一句' : '写一句' }}</div>
+            <div class="tr-acts" style="padding-top:0">
+                <div class="tr-act" @click="trSendToChat">发到聊天</div>
+                <div class="tr-act main" v-if="!trDeleted" @click="trOpenNote">{{ trCurNote ? '改一句' : '写一句' }}</div>
             </div>
             <div style="height:22px"></div>
         </template>
@@ -6289,7 +6434,7 @@ createApp({
         const profiles = reactive({ me: { name: '我', avatar: '' }, them: { name: '客', avatar: '' } });
         
         const settings = reactive({ 
-            darkMode: false, showAvatar: true, avatarRadius: 50, autoReply: true, soundEnabled: true, tarotRate: 15, sleepRate: 12,
+            darkMode: false, showAvatar: true, avatarRadius: 50, autoReply: true, soundEnabled: true, tarotRate: 15, sleepRate: 12, songRate: 12,
             keepAlive: true,
             fontFamily: 'serif', fontSize: 14,
             learnRate: 30,
@@ -8439,8 +8584,18 @@ createApp({
             msg.sleep.joined = true;
             saveAll();
         };
+        // 主聊天里以前留下的点音卡片：不在这个页面放，切到睡眠页再一起听
+        const cpJoinSleepFromChat = (msg) => {
+            if (!msg || !msg.sleep) return;
+            try { switchView('sleep'); sleepView.value = 'setup'; } catch (e) {}
+            cpApplyMix(msg.sleep.items, true);
+            msg.sleep.joined = true;
+            saveAll();
+        };
         const themSendSleep = (target) => {
-            const arr = target || messages.value;
+            // 只在睡眠页生效：主聊天、陪伴页一律不生成点音卡片、不叠播
+            if (target !== slpChatMsgs.value) return;
+            const arr = slpChatMsgs.value;
             const pick = (a) => a[Math.floor(Math.random() * a.length)];
             const r = Math.random();
             let items;
@@ -8493,7 +8648,14 @@ createApp({
             if (m.type === 'image') return '[图片]';
             if (m.type === 'sticker') return '[表情包]';
             if (m.type === 'voice') return `[语音 ${m.duration}"]`;
-            if (m.type === 'tarot') return `[塔罗] ${(m.tarot && m.tarot.name) || ''}`;
+            if (m.type === 'tarot') {
+                const t = m.tarot || {};
+                return `[塔罗] ${(t.cards && t.cards.length ? t.cards.map(x => x.name).join(' · ') : t.name) || ''}`;
+            }
+            if (m.type === 'song') {
+                const s = m.song || {};
+                return `[歌曲] ${s.title || ''}${s.artist ? ' - ' + s.artist : ''}${s.state === 'later' ? '（等会再听）' : ''}`;
+            }
             if (m.type === 'redpacket') return '[红包]';
             if (m.type === 'call') return '[视频通话]';
             return m.content || '[消息]';
@@ -9711,7 +9873,7 @@ createApp({
                         const time = new Date(m.timestamp).toLocaleString();
                         const name = m.sender === 'me' ? '我' : profiles.them.name;
                         let content = '';
-                        if (m.type === 'image') content = '[图片]'; else if (m.type === 'sticker') content = '[表情包]'; else if (m.type === 'voice') content = `[语音 ${m.duration}"]`; else if (m.type === 'redpacket') content = `[红包] ${m.blessing}`; else if (m.type === 'survey') content = `[问卷] ${m.question}`; else if (m.type === 'dice') content = `[骰子 ${m.dice}]`; else if (m.type === 'call') content = `[视频通话]`; else if (m.type === 'sleep') content = `[助眠音] ${m.sleep ? m.sleep.title : ''}`; else content = m.content;
+                        if (m.type === 'image') content = '[图片]'; else if (m.type === 'sticker') content = '[表情包]'; else if (m.type === 'voice') content = `[语音 ${m.duration}"]`; else if (m.type === 'song') content = `[歌曲] ${(m.song && m.song.title) || ''}${(m.song && m.song.artist) ? ' - ' + m.song.artist : ''}${(m.song && m.song.state === 'later') ? '（等会再听）' : ''}`; else if (m.type === 'redpacket') content = `[红包] ${m.blessing}`; else if (m.type === 'survey') content = `[问卷] ${m.question}`; else if (m.type === 'dice') content = `[骰子 ${m.dice}]`; else if (m.type === 'call') content = `[视频通话]`; else if (m.type === 'sleep') content = `[助眠音] ${m.sleep ? m.sleep.title : ''}`; else content = m.content;
                         text += `[${time}] ${name}:\n${content}\n\n`;
                     });
                     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
@@ -9861,7 +10023,7 @@ createApp({
         const toggleSelect = (id) => { if (!selectMode.value) return; const idx = selectedMsgs.value.indexOf(id); if (idx > -1) selectedMsgs.value.splice(idx, 1); else selectedMsgs.value.push(id); };
         const mergeAndSend = () => {
             if (selectedMsgs.value.length === 0) return;
-            const mergedContent = selectedMsgs.value.map(id => { const m = messages.value.find(x => x.id === id); if (!m) return ''; if (m.type === 'text') return m.content; if (m.type === 'image') return '[图片]'; if (m.type === 'voice') return '[语音]'; return '[' + m.type + ']'; }).filter(x => x).join('\n');
+            const mergedContent = selectedMsgs.value.map(id => { const m = messages.value.find(x => x.id === id); if (!m) return ''; if (m.type === 'text') return m.content; if (m.type === 'image') return '[图片]'; if (m.type === 'voice') return '[语音]'; if (m.type === 'song') return '[歌曲] ' + ((m.song && m.song.title) || ''); return '[' + m.type + ']'; }).filter(x => x).join('\n');
             messages.value.push({ id: genId(), sender: 'me', type: 'text', content: `【合并转发】\n${mergedContent}`, timestamp: Date.now() });
             exitSelectMode(); playTone('send'); scrollToBottom(); saveAll();
         };
@@ -10159,7 +10321,7 @@ createApp({
                 if (!existing) learnGroup.replies.push({ id: genId(), text: txt, enabled: true });
             }
             if (settings.autoReply) setTimeout(() => triggerAutoReplies(), 200);
-            if (Math.random() * 100 < (settings.sleepRate || 0)) setTimeout(() => themSendSleep(), 2200 + Math.random() * 1200);
+            // 他点助眠音只发生在「睡眠」页，主聊天里不再触发
             saveAll();
         };
 
@@ -10214,6 +10376,8 @@ createApp({
                 // AI 模式下也按概率附一张（延后一点，等 AI 那条落地）
                 const r0 = (settings.tarotRate || 0) / 100;
                 if (Math.random() < r0) setTimeout(() => themSendTarot(), 3500);
+                const rS = (settings.songRate == null ? 12 : settings.songRate) / 100;
+                if (Math.random() < rS) setTimeout(() => themPushSong(), 4300);
                 return;
             }
             const total = Math.floor(Math.random() * (replyMaxCount.value - replyMinCount.value + 1)) + replyMinCount.value;
@@ -10221,7 +10385,7 @@ createApp({
             for (let i = 0; i < total; i++) { const randomDelay = Math.floor(Math.random() * (replyMaxDelay.value - replyMinDelay.value + 1)) + replyMinDelay.value; if (i === 0) elapsed = randomDelay * 1000; else elapsed += randomDelay * 1000; scheduled.push(elapsed); }
             const kaTok = kaNewToken();
             kaPlan('chat', total, scheduled[0] || 1000, kaTok);
-            scheduled.forEach((delay, i) => { setTimeout(() => { if (kaTok !== kaToken) return; if (i === scheduled.length - 1) isTyping.value = false; sendAutoReply(); kaTick('chat', scheduled[i + 1] || 0, kaTok); if (i === scheduled.length - 1) { const r = (settings.tarotRate || 0) / 100; if (Math.random() < r) setTimeout(() => themSendTarot(), 900); } }, delay); });
+            scheduled.forEach((delay, i) => { setTimeout(() => { if (kaTok !== kaToken) return; if (i === scheduled.length - 1) isTyping.value = false; sendAutoReply(); kaTick('chat', scheduled[i + 1] || 0, kaTok); if (i === scheduled.length - 1) { const r = (settings.tarotRate || 0) / 100; if (Math.random() < r) setTimeout(() => themSendTarot(), 900); const rS = (settings.songRate == null ? 12 : settings.songRate) / 100; if (Math.random() < rS) setTimeout(() => themPushSong(), 1700); } }, delay); });
         };
         const sendAutoReply = () => {
             const useSticker = stickers.value.length > 0 && Math.random() < 0.35; let newMsg;
@@ -10988,6 +11152,20 @@ createApp({
             return '<svg viewBox="0 0 100 150" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'
                 + '<rect x="6" y="6" width="88" height="138" rx="4" stroke-width="0.7" opacity="0.26"/>' + d.art + '</svg>';
         };
+        // 聊天里的塔罗卡：把塔罗页那张牌面原样带过来。
+        // 内联 SVG、按 id 现算：不存图、不联网；旧消息只要有 id 也自动补上牌面。
+        const trMsgCardSVG = (t) => {
+            try { return (t && t.id && TR_MAP[t.id]) ? trCardSVG({ id: t.id, rev: !!t.rev }) : ''; }
+            catch (e) { return ''; }
+        };
+        // 一个牌阵抽了几张，聊天里就横排几张；老的单张消息自动当成 1 张
+        const trMsgCards = (t) => {
+            if (!t) return [];
+            if (Array.isArray(t.cards) && t.cards.length) {
+                return t.cards.filter(c => c && c.id && TR_MAP[c.id]);
+            }
+            return (t.id && TR_MAP[t.id]) ? [t] : [];
+        };
         const trSpreadDef = (k) => TR_SPREADS.find(s => s.key === k) || TR_SPREADS[0];
         const trSpreadName = (k) => trSpreadDef(k).name;
         const trHeaderTitle = computed(() => {
@@ -11167,6 +11345,24 @@ createApp({
             if (trHistory.value.length > 300) trHistory.value.length = 300;
             trSavedId.value = rec.id;
             await trPersist();
+        };
+        // 把整副牌阵发到聊天：几张牌就在卡片上面横排几张牌面
+        const trSendToChat = () => {
+            if (!trCards.value.length) return;
+            const cards = trCards.value.map(c => ({
+                id: c.id, name: c.name, pos: c.pos || '', rev: !!c.rev,
+                kw: (c.kw || []).slice(), mean: c.mean || ''
+            }));
+            const first = cards[0];
+            const msg = { id: genId(), sender: 'me', type: 'tarot',
+                tarot: { modeName: trSpreadName(trSpreadKey.value), spread: trSpreadKey.value,
+                         count: cards.length, cards: cards,
+                         // 单张字段留一份，兼容搜索、导出等老逻辑
+                         id: first.id, name: first.name, rev: first.rev, mean: first.mean },
+                content: (trQuestion.value || '').trim(), timestamp: Date.now() };
+            messages.value.push(msg);
+            try { saveAll(); } catch (e) {}
+            try { switchView('chat'); nextTick(() => scrollToBottom()); } catch (e) {}
         };
         const trDeleteThis = async () => {
             if (!trSavedId.value || trDeleted.value) return;
@@ -12144,6 +12340,121 @@ createApp({
             playTone('recv'); scrollToBottom(); saveAll();
         };
 
+        // ===== 他推歌：自己搜一首 / 从你歌单里挑一首，在主聊天发一张卡片 =====
+        // 卡片只存元数据，不存音频；点「现在听」时才把歌接进播放列表，
+        // 这样暂停续播、链接失效自愈、HTTPS 升级全都复用原来那一套。
+        const sgPlayingId = ref('');
+        const sgNote = ref(null);
+        const sgLaterOpen = ref(true);
+        const sgNoNet = ref(navigator.onLine === false || !!(window.__netState && window.__netState.down));
+        window.addEventListener('net-down', () => { sgNoNet.value = true; });
+        window.addEventListener('net-up', () => { sgNoNet.value = false; });
+        const sgIsPlaying = (msg) => !!(msg && msg.id === sgPlayingId.value && syncState.isPlaying
+            && currentSong.value && currentSong.value.title === (msg.song && msg.song.title));
+        let sgLastKey = '';
+        const sgQuietWords = ['夜的钢琴曲', 'River Flows in You', 'Kiss The Rain',
+            '久石让', '卡农', '月光', '雨的印记', '睡前纯音乐'];
+        const sgLaterList = computed(() => messages.value.filter(m =>
+            m && m.type === 'song' && m.song && m.song.state === 'later'));
+        const sgCoverErr = (msg) => { if (msg && msg.song) msg.song.cover = ''; };
+        // 歌单里已有就直接用，没有才补一条（他自己搜来的歌顺手进歌单）
+        const sgFindTrack = (s) => {
+            const list = syncPlaylist.value;
+            let idx = -1;
+            if (s.trackId) idx = list.findIndex(t => t && t.id === s.trackId);
+            if (idx < 0 && s.src) idx = list.findIndex(t => t && getTrackSrc(t) && getTrackSrc(t) === msSafeSrc(s.src));
+            if (idx < 0) idx = list.findIndex(t => t && t.title === s.title && (!s.artist || !t.artist || t.artist === s.artist));
+            if (idx < 0) {
+                list.push({ id: genId(), title: s.title || '未知歌曲', artist: s.artist || '',
+                    src: msSafeSrc(s.src || ''), cover: s.cover || '', duration: s.duration || '',
+                    fromSearch: s.from === 'search' });
+                idx = list.length - 1;
+                s.trackId = list[idx].id;
+            }
+            return idx;
+        };
+        const sgStartPlay = (msg) => {
+            const s = msg && msg.song; if (!s) return;
+            const idx = sgFindTrack(s);
+            try { loadSong(idx, true); } catch (e) {}
+            sgPlayingId.value = msg.id;
+            s.state = 'played';                  // 从「等会再听」里收回来
+            try { saveAll(); } catch (e) {}
+            // 链接过期 / 自动播放被拦时，把音乐页那句提示也带到卡片上，不弹框
+            setTimeout(() => {
+                try { sgNote.value = msPlayNote.value ? { id: msg.id, text: msPlayNote.value } : null; } catch (e) {}
+            }, 1600);
+        };
+        const sgPlayNow = (msg) => { sgNote.value = null; sgStartPlay(msg); };
+        const sgLater = (msg) => {
+            if (!msg || !msg.song) return;
+            msg.song.state = 'later';
+            // 这张卡刚点过「现在听」又改主意了：把它停掉，别在后台继续响
+            if (sgPlayingId.value === msg.id) {
+                try { syncAudio.pause(); } catch (e) {}
+                syncState.isPlaying = false;
+                sgPlayingId.value = '';
+            }
+            sgNote.value = null;
+            try { saveAll(); } catch (e) {}
+        };
+        const sgPlayLater = (msg) => { sgNote.value = null; sgStartPlay(msg); };
+        // 他自己搜：沿用搜歌那几个公开源，只试前几个、不碰你搜索区的状态
+        const themSearchSong = async () => {
+            if (navigator.onLine === false) return null;
+            const pool = syncPlaylist.value.filter(t => t && t.title);
+            let q = (msQuery.value || '').trim();
+            if (!q && pool.length) q = pool[Math.floor(Math.random() * pool.length)].title;
+            if (!q) q = sgQuietWords[Math.floor(Math.random() * sgQuietWords.length)];
+            for (const src of msSources(q, 'cn').slice(0, 3)) {
+                try {
+                    const d = await msGetJSON(src.url);
+                    const arr = src.kind === 'cn' ? msFromMeting(d) : msFromAudius(d);
+                    const usable = arr.filter(x => x && x.title && x.src);
+                    if (!usable.length) continue;
+                    const pick = usable[Math.floor(Math.random() * Math.min(usable.length, 8))];
+                    return { title: pick.title, artist: pick.artist || '未知歌手',
+                        src: msSafeSrc(pick.src), cover: pick.cover || '',
+                        duration: pick.duration || '', from: 'search' };
+                } catch (e) {}
+            }
+            return null;
+        };
+        // 或者从你歌单里挑一首
+        const themPickPlaylist = () => {
+            const pool = syncPlaylist.value.filter(t => t && t.title && getTrackSrc(t));
+            if (!pool.length) return null;
+            const t = pool[Math.floor(Math.random() * pool.length)];
+            return { title: t.title, artist: t.artist || '', src: getTrackSrc(t),
+                cover: t.cover || '', duration: t.duration || '',
+                from: 'playlist', trackId: t.id };
+        };
+        const themPushSong = async (manual = false) => {
+            let s = null;
+            // 一半自己搜、一半从歌单挑；搜不到 / 断网就退回歌单，不推空卡
+            if (Math.random() < 0.55) s = await themSearchSong();
+            if (!s) s = themPickPlaylist();
+            if (!s) {
+                if (manual) msMsg.value = '歌单还是空的，先搜一首加进来，我再推给你';
+                return null;
+            }
+            const key = s.title + '|' + s.artist;
+            if (key === sgLastKey) {
+                const alt = themPickPlaylist();
+                if (alt && (alt.title + '|' + alt.artist) !== key) s = alt;
+            }
+            sgLastKey = s.title + '|' + s.artist;
+            const msg = { id: genId(), sender: 'them', type: 'song',
+                song: Object.assign({ state: 'new' }, s),
+                content: '推给你一首《' + s.title + '》 · ' + (s.artist || '未知歌手'),
+                timestamp: Date.now() };
+            messages.value.push(msg);
+            try { playTone('recv'); } catch (e) {}
+            try { scrollToBottom(); } catch (e) {}
+            try { saveAll(); } catch (e) {}
+            return msg;
+        };
+
         // ================= [MOD-24] 首页重做：两页左右滑 =================
         // 名字、图标全部沿用 homeIcons 里的原值，这里只做排版，不改任何显示名。
         const hpPage = ref(0);
@@ -12470,7 +12781,7 @@ createApp({
             cpNoises, cpNoise, cpNoiseName, cpToggleNoise, cpNoiseStop, cpSetNoiseVol, cpQueueSave, cpFlushSave,
             cpMusics, cpAsmr, cpSoundName, cpActive, cpTrim, cpTargetGain, cpRebalance, cpUserVol, cpActiveKeys, cpRecipes, cpRecipeName,
             cpSetTrackVol, cpSaveMix, cpSaveRecipe, cpLoadRecipe, cpDelRecipe,
-            cpApplyMix, cpJoinSleep, themSendSleep, cpDebug,
+            cpApplyMix, cpJoinSleep, cpJoinSleepFromChat, themSendSleep, cpDebug,
             sleepView, slpChatMsgs, slpInput, slpMsgText, slpSend, slpStart, slpExit, slpSaveChat,
             slpStartAt, slpElapsed, slpElapsedText, slpSummary, slpLastSummary,
             slpEnd, slpResume, slpAgain, slpGoSetup, slpGoHome, slpShowLast, slpLoadSession, slpBuildSummary,
@@ -12489,10 +12800,10 @@ createApp({
             trNoteOpen, trNoteText, trAiOn, trAiBusy, trSavedId, trDeleted, trShuffleT, trShuffleStyle,
             TR_DECK, trSuits, trDeckFilter, trDeckQuery, trDeckGroups, trDeckTotal, trDeckCard, trDeckRev,
             trDeckCardOf, trDeckFlat, trDeckIdx, trStepCard, trOpenDeck, trOpenCard, trCloseCard,
-            trCardSVG, trSpreadName, trSpreadDef, trDef, trNeed, trLayout, trHeaderTitle, trHint, trFmtTime, trFmtClock,
+            trCardSVG, trMsgCardSVG, trMsgCards, trSpreadName, trSpreadDef, trDef, trNeed, trLayout, trHeaderTitle, trHint, trFmtTime, trFmtClock,
             trStart, trToPick, trTogglePick, trConfirmPick, trRandomPick, trQuestion, trPickPool, trPicked, trFlip,
             trSummary, trLast, trHisGroups, trOpenHis, trDelHis, trDeleteThis, trOpenNote, trEditNote,
-            trSaveNote, trCurNote, trAskAI, trAgain, trOpenHistory, trExit,
+            trSaveNote, trCurNote, trAskAI, trAgain, trOpenHistory, trExit, trSendToChat,
             gmOpen, gmBoard, gmTurn, gmThinking, gmOver, gmLast, gmWinLine, gmSay, gmSaySoft,
             gmLeft, gmWinMe, gmWinThem, gmName, gmGridLines, gmStars, gmCells,
             gmOverTitle, gmOverSub, gmPlay, gmThreat, gmCute, gmNewGame, gmStartGame, gmClose,
@@ -12501,6 +12812,8 @@ createApp({
             snTouchStart, snTouchMove, snTouchEnd, snDraw, snResize, snSetupCanvas, snDirMe, snNextDirMe,
             hpPage, hpFront, hpEight, hpImg1, hpImg2, hpImg3, hpAnnivImg, hpAnnivName, hpAnnivDays,
             themDrawTarot, themSendTarot,
+            sgPlayingId, sgNote, sgLaterOpen, sgLaterList, sgCoverErr, sgNoNet, sgIsPlaying,
+            sgPlayNow, sgLater, sgPlayLater, themPushSong, themSearchSong, themPickPlaylist,
             pickEmojiToSend, insertEmojiNow,
             hpTopMain, hpTopSub, hpEditTop,
             hpNote1, hpNote2, hpNoteSty, hpNoteStyle, hpEditNote, hpNoteDown, hpNoteUp,
