@@ -6701,6 +6701,7 @@ createApp({
         const syncState = reactive({ index: 0, isPlaying: false, currentTime: 0, duration: 0, progress: 0, showList: false, loop: 0 });
         const syncAudio = new Audio(); syncAudio.preload = 'none';
         try { syncAudio.referrerPolicy = 'no-referrer'; } catch (e) {}   // 部分源站查 Referer 防盗链
+        let msLoadedSrc = '';   // 当前已载入 audio 的地址；恢复播放时用它判断能否跳过 load()
         const currentSong = computed(() => syncPlaylist.value[syncState.index] || { title: '', artist: '', duration: '00:00' });
         const fmt = (sec) => { if (isNaN(sec) || !isFinite(sec) || sec < 0) return "00:00"; return Math.floor(sec/60).toString().padStart(2,'0') + ':' + Math.floor(sec%60).toString().padStart(2,'0'); };
         const fmtCallTime = (sec) => { if (!sec || isNaN(sec)) return '00:00'; return Math.floor(sec/60).toString().padStart(2,'0') + ':' + Math.floor(sec%60).toString().padStart(2,'0'); };
@@ -8958,7 +8959,7 @@ createApp({
                 }
 
                 const t = syncPlaylist.value[syncState.index];
-                if (t) { const src = getTrackSrc(t); if (src) { syncAudio.src = src; } }   // getTrackSrc 已统一升级为安全地址
+                if (t) { const src = getTrackSrc(t); if (src) { syncAudio.src = src; msLoadedSrc = src; } }   // getTrackSrc 已统一升级为安全地址
             } catch (e) { console.log('加载数据出错:', e); } finally { isLoading = false; }
         };
         
@@ -8988,12 +8989,25 @@ createApp({
             try { syncAudio.pause(); } catch (e) {}
             syncState.isPlaying = false; stopVinylBars();
         };
-        const msAttemptPlay = async (idx) => {
+        const msAttemptPlay = async (idx, keepPosition = false, resumeAt = 0) => {
             const t = syncPlaylist.value[idx]; if (!t) return 'no-track';
             const src = getTrackSrc(t);
             if (!src) { msResetPlaying(); msPlayNote.value = '这首歌没有可播放的链接'; return 'no-src'; }
-            syncAudio.src = src; syncAudio.load();
-            try { await syncAudio.play(); msPlayNote.value = ''; return 'ok'; }
+            // 恢复播放时若载入的还是同一条地址，绝不再 load()：load 会把 currentTime 清成 0
+            const needLoad = !keepPosition || msLoadedSrc !== src;
+            if (needLoad) { syncAudio.src = src; syncAudio.load(); msLoadedSrc = src; }
+            try {
+                await syncAudio.play();
+                // 换链后尽量把「听到一半」的位置找回来，避免一续链就从头
+                if (needLoad && resumeAt > 0.5) {
+                    try {
+                        const d = syncAudio.duration;
+                        syncAudio.currentTime = (isNaN(d) || !isFinite(d)) ? resumeAt
+                            : Math.min(resumeAt, Math.max(0, d - 0.05));
+                    } catch (e) {}
+                }
+                msPlayNote.value = ''; return 'ok';
+            }
             catch (e) {
                 if (e && e.name === 'NotAllowedError') {
                     msPlayNote.value = '浏览器拦了自动播放，再点一下播放键就行';
@@ -9004,10 +9018,11 @@ createApp({
                 return 'failed';
             }
         };
-        const msPlayWithHeal = async (idx) => {
+        const msPlayWithHeal = async (idx, keepPosition = false) => {
             const t = syncPlaylist.value[idx]; if (!t) return;
             msHealing.value = false;
-            const first = await msAttemptPlay(idx);
+            const resumeAt = keepPosition ? (syncAudio.currentTime || 0) : 0;
+            const first = await msAttemptPlay(idx, keepPosition, resumeAt);
             if (first === 'ok' || first === 'blocked' || first === 'no-src' || first === 'no-track') return;
             // 手填的 MP3 直链不猜，直接说清楚；搜歌加进来的才去续链
             if (!t.fromSearch && !/music\.126\.net|netease|163\.com|audius|qijieya|injahow|i-meto|meting/i.test(t.src || '')) {
@@ -9024,7 +9039,8 @@ createApp({
                 const fresh = await msResolveFresh(t);
                 if (fresh) {
                     t.src = fresh; saveAll();
-                    if (await msAttemptPlay(idx) === 'ok') { msHealing.value = false; return; }
+                    msLoadedSrc = '';   // 换了新链，必须重新 load
+                    if (await msAttemptPlay(idx, false, resumeAt) === 'ok') { msHealing.value = false; return; }
                 }
             } catch (e) {}
             msHealing.value = false;
@@ -9034,13 +9050,18 @@ createApp({
             syncState.index = idx; const t = syncPlaylist.value[idx]; if (!t) { syncAudio.removeAttribute('src'); syncAudio.load(); return; }
             if (!('cover' in t)) t.cover = '';
             const src = getTrackSrc(t);
-            if (src) { if (autoPlay) msPlayWithHeal(idx); }
-            else { syncAudio.removeAttribute('src'); syncAudio.load(); msPlayNote.value = '这首歌没有可播放的链接'; }
+            if (src) {
+                if (autoPlay) msPlayWithHeal(idx);
+                else { syncAudio.src = src; syncAudio.load(); msLoadedSrc = src;
+                       syncState.currentTime = 0; syncState.progress = 0; msPlayNote.value = ''; }
+            }
+            else { syncAudio.removeAttribute('src'); syncAudio.load(); msLoadedSrc = '';
+                   msPlayNote.value = '这首歌没有可播放的链接'; }
         };
         const togglePlay = () => {
             if (!syncPlaylist.value.length) { msPlayNote.value = '播放列表是空的，先搜一首加进来，或填个 MP3 直链'; return; }
             if (!syncAudio.src || syncAudio.src === window.location.href) { loadSong(syncState.index); return; }
-            if (syncAudio.paused) msPlayWithHeal(syncState.index);
+            if (syncAudio.paused) msPlayWithHeal(syncState.index, true);   // 续播：不重新 load，保住听到一半的位置
             else syncAudio.pause();
         };
         const selectSong = (idx) => { loadSong(idx); };
@@ -9052,7 +9073,7 @@ createApp({
                 syncState.index = 0;
                 syncAudio.pause();
                 syncAudio.removeAttribute('src');
-                syncAudio.load();
+                syncAudio.load(); msLoadedSrc = '';
             } else if (wasCurrent) {
                 syncState.index = Math.min(idx, syncPlaylist.value.length - 1);
                 loadSong(syncState.index, false);
