@@ -1697,6 +1697,95 @@ body { background-color:#d1d5db; font-family:"PingFang SC","Microsoft YaHei",sys
 .shop-order { display:flex; align-items:center; gap:8px; font-size:10.5px; color:var(--color-muted);
       padding:6px 0; border-top:1px solid var(--color-border); margin-top:6px; }
 .shop-order .o-e { width:20px; height:20px; flex:none; color:var(--color-text); }
+
+/* ===== [MOD-21] 问卷库（语料页 · 他反向问我） ===== */
+/* 横向手势交给页面自己翻页，浏览器不再把「右滑」当成返回上一页 */
+.settings-swipe-root { touch-action: pan-y; }
+.settings-swipe-root > .overflow-x-auto { touch-action: pan-x; }
+.qa-wrap { padding:4px 0 60px; }
+.qa-lead { font-size:11px; line-height:1.7; color:var(--color-muted); padding:0 4px 10px; }
+.qa-tools { display:flex; gap:8px; margin-bottom:10px; }
+.qa-search { flex:1; min-width:0; padding:9px 12px; border:1px solid var(--color-border); border-radius:11px;
+  background:var(--color-surface); color:var(--color-text); font-size:12px; outline:none; box-sizing:border-box; }
+.qa-filters { display:flex; gap:6px; margin-bottom:12px; }
+.qa-chip { padding:6px 13px; border-radius:16px; font-size:11px; border:1px solid var(--color-border);
+  background:var(--color-surface); color:var(--color-muted); cursor:pointer; white-space:nowrap; }
+.qa-chip.on { color:var(--color-surface); background:var(--color-text); border-color:var(--color-text); }
+.qa-card { background:var(--color-surface); border:1px solid var(--color-border); border-radius:14px;
+  padding:13px 14px 11px; margin-bottom:10px; }
+.qa-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+.qa-no { font-size:10px; letter-spacing:.16em; color:var(--color-muted); opacity:.75; padding-top:3px; }
+.qa-q { font-size:13px; font-weight:600; color:var(--color-text); line-height:1.6; flex:1; }
+.qa-opts { margin:9px 0 0 2px; display:flex; flex-direction:column; gap:5px; }
+.qa-opt { font-size:11.5px; color:var(--color-text); line-height:1.55; padding:5px 9px; border-radius:8px;
+  background:var(--color-bg); border:1px solid var(--color-border); word-break:break-word; }
+.qa-opt::before { content:'他 ·'; margin-right:7px; color:var(--color-muted); font-size:10px; }
+.qa-count { font-size:10px; color:var(--color-muted); margin:8px 0 0 2px; letter-spacing:.06em; }
+.qa-rate-row { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px;
+  border:1px solid var(--color-border); border-radius:12px; background:var(--color-surface); margin-bottom:8px;
+  font-size:12px; color:var(--color-text); }
+.qa-rate-ctl { display:flex; align-items:center; gap:9px; }
+.qa-rate-ctl button { width:26px; height:26px; border-radius:8px; border:1px solid var(--color-border);
+  background:var(--color-bg); color:var(--color-text); font-size:14px; line-height:1; cursor:pointer; }
+.qa-rate-ctl span { min-width:34px; text-align:center; font-size:12px; font-family:monospace; }
+.qa-hint { font-size:10px; line-height:1.7; color:var(--color-muted); padding:0 4px 10px; }
+.qa-ask-btn { width:100%; padding:10px; border-radius:11px; border:1px solid var(--color-border);
+  background:var(--color-surface); color:var(--color-text); font-size:12px; margin-bottom:12px; cursor:pointer; }
+.qa-ask-btn:active { transform:scale(.99); }
+/* 他发到主聊天的问卷卡 */
+.qa-msg-card { width:min(268px,76vw); border-radius:16px; padding:12px 13px 11px;
+  border:1px solid var(--color-border); background:var(--color-surface); }
+.qa-msg-head { display:flex; align-items:center; gap:6px; font-size:10px; color:var(--color-muted); letter-spacing:.08em; }
+.qa-msg-head i { width:5px; height:5px; border-radius:50%; background:var(--color-accent); }
+.qa-msg-head .qa-msg-tag { margin-left:auto; font-style:normal; font-size:9px; padding:2px 7px;
+  border-radius:999px; border:1px solid var(--color-border); }
+.qa-msg-q { font-size:13px; font-weight:600; color:var(--color-text); line-height:1.6; margin:10px 0 9px; }
+/* 我自己在卡片里打字回答，他再从这一题备好的几句里挑 1 句回我 */
+.qa-msg-input { width:100%; box-sizing:border-box; padding:9px 10px; font-size:12px; line-height:1.5;
+  color:var(--color-text); background:var(--color-bg); border:1px solid var(--color-border);
+  border-radius:9px; outline:none; position:relative; z-index:12; }
+.qa-msg-input:focus { border-color:var(--color-accent); }
+.qa-msg-input::placeholder { color:var(--color-muted); opacity:.8; }
+.qa-msg-send { width:100%; margin-top:7px; padding:8px 10px; border-radius:9px; font-size:11.5px;
+  border:1px solid var(--color-border); background:var(--color-text); color:var(--color-surface);
+  cursor:pointer; position:relative; z-index:12; }
+.qa-msg-send:active { transform:scale(.99); }
+.qa-msg-send:disabled { background:var(--color-bg); color:var(--color-muted);
+  border:1px solid var(--color-border); opacity:1; }
+.qa-msg-line { font-size:11.5px; line-height:1.6; padding:7px 10px; border-radius:9px;
+  background:var(--color-bg); border:1px solid var(--color-border); margin-bottom:6px;
+  word-break:break-word; color:var(--color-text); }
+.qa-msg-line b { font-weight:600; color:var(--color-muted); margin-right:6px; font-size:10px; letter-spacing:.06em; }
+.qa-msg-line.his { border-left:2px solid var(--color-accent); border-radius:0 9px 9px 0; }
+.qa-msg-wait { font-size:10.5px; color:var(--color-muted); padding:4px 2px 0; }
+.qa-msg-foot { font-size:9.5px; color:var(--color-muted); margin-top:8px; letter-spacing:.04em; }
+/* 消息上的透明层负责长按/多选，别把卡片里的按钮挡住；文字消息仍由那层接管 */
+.sticker-bubble, .voice-msg-bubble, .tr-msg-card, .sg-msg-card, .slp-msg-card,
+.sp-msg-card, .rp-msg-card, .survey-card, .qa-msg-card, .dice-card, .call-msg-card {
+  position:relative; z-index:11;
+}
+.qa-tag { flex:none; font-size:10px; letter-spacing:.06em; padding:3px 8px; border-radius:9px; white-space:nowrap; }
+/* 「系统」：低饱和复古绿，浅底深墨绿 / 深底浅豆绿，都不发脏 */
+.qa-tag.sys { color:#3F7D5C !important; background:rgba(63,125,92,.09) !important; border:1px solid rgba(63,125,92,.30) !important; }
+html.dark .qa-tag.sys { color:#BEE7CD !important; background:rgba(159,211,180,.14) !important; border-color:rgba(159,211,180,.42) !important; }
+.qa-tag.mine { color:var(--color-muted) !important; background:var(--color-bg) !important; border:1px solid var(--color-border) !important; }
+.qa-acts { display:flex; gap:7px; margin-top:11px; flex-wrap:wrap; }
+.qa-act { font-size:11px; padding:6px 11px; border-radius:9px; border:1px solid var(--color-border);
+  background:var(--color-bg); color:var(--color-text); cursor:pointer; }
+.qa-act.main { color:var(--color-surface); background:var(--color-text); border-color:var(--color-text); }
+.qa-empty { text-align:center; font-size:12px; color:var(--color-muted); padding:34px 0; }
+.qa-new-btn { width:100%; padding:12px; border-radius:12px; border:1px dashed var(--color-border);
+  background:transparent; color:var(--color-text); font-size:12px; margin-top:6px; cursor:pointer; }
+.qa-form { background:var(--color-surface); border:1px solid var(--color-border); border-radius:14px;
+  padding:14px; margin-top:12px; }
+.qa-form-title { font-size:12px; letter-spacing:.1em; color:var(--color-text); margin-bottom:11px; }
+.qa-label { font-size:10px; letter-spacing:.12em; color:var(--color-muted); display:block; margin:9px 0 5px; }
+.qa-input, .qa-textarea { width:100%; box-sizing:border-box; padding:10px 11px; border:1px solid var(--color-border);
+  border-radius:10px; background:var(--color-bg); color:var(--color-text); font-size:12px; outline:none; }
+.qa-textarea { min-height:78px; resize:vertical; line-height:1.7; }
+.qa-form-acts { display:flex; gap:8px; margin-top:13px; }
+.qa-form-acts .qa-act { flex:1; text-align:center; }
+
 .shop-order .o-n { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .shop-foot { padding:18px 16px 36px; display:flex; flex-direction:column; gap:9px; }
 .shop-note { font-size:10px; color:var(--color-muted); line-height:1.7; text-align:center; }
@@ -3897,7 +3986,7 @@ html, body { overscroll-behavior-y: none; }
 </div>
 
 <!-- ===== [MOD-03] 偏好设置（4 个 Tab） ===== -->
-<div v-else-if="currentView === 'settings'" key="settings" class="absolute inset-0 flex flex-col z-20 bg-bg">
+<div v-else-if="currentView === 'settings'" key="settings" class="absolute inset-0 flex flex-col z-20 bg-bg settings-swipe-root" @touchstart.passive="setSwipeStart" @touchmove="setSwipeMove" @touchend.passive="setSwipeEnd">
     <header class="h-14 flex items-center justify-between px-4 border-b border-border shrink-0 bg-surface">
         <button @click="switchView('home')" class="p-2 -ml-2 text-text"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
         <span class="text-[13px] font-medium tracking-widest serif-text">法则</span><div class="w-9"></div>
@@ -3973,7 +4062,7 @@ html, body { overscroll-behavior-y: none; }
                             <button @click="settings.tarotRate = Math.min(100, (settings.tarotRate || 0) + 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
                         </div>
                     </div>
-                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：8% 大约聊十来条冒一张。塔罗、推歌和送礼共用一次抽取，一轮最多一张、两分钟内不会连着推，所以不会反复冒卡片。塔罗页「发到聊天」不受限制。</span>
+                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：8% 大约聊十来条冒一张。塔罗、推歌、送礼和问卷共用一次抽取，一轮最多一张、两分钟内不会连着推，所以不会反复冒卡片。塔罗页「发到聊天」不受限制。</span>
                 </div>
                 <div class="p-3.5 flex flex-col gap-2 border-t border-border">
                     <div class="flex items-center justify-between">
@@ -3984,7 +4073,7 @@ html, body { overscroll-behavior-y: none; }
                             <button @click="settings.songRate = Math.min(100, (settings.songRate == null ? 8 : settings.songRate) + 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
                         </div>
                     </div>
-                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：概率按你发的每条消息算，8% 大约聊十来条冒一张。和塔罗、送礼共用一次抽取，一轮最多一张、两分钟内不会连着推。他自己搜一首、或从你歌单里挑一首，在主聊天发一张卡片给你；点「现在听」就播，点「等会再听」先留着。音乐页「让他推一首」不受限制。</span>
+                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：概率按你发的每条消息算，8% 大约聊十来条冒一张。和塔罗、推歌、送礼、问卷共用一次抽取，一轮最多一张、两分钟内不会连着推。他自己搜一首、或从你歌单里挑一首，在主聊天发一张卡片给你；点「现在听」就播，点「等会再听」先留着。音乐页「让他推一首」不受限制。</span>
                 </div>
                 <div class="p-3.5 flex flex-col gap-2 border-t border-border">
                     <div class="flex items-center justify-between">
@@ -3995,7 +4084,7 @@ html, body { overscroll-behavior-y: none; }
                             <button @click="settings.giftRate = Math.min(100, (settings.giftRate == null ? 0 : settings.giftRate) + 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
                         </div>
                     </div>
-                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：默认 0，不自动送，免得老冒卡片。想偶尔收到惊喜可以调高；和塔罗、推歌共用一次抽取，一轮最多一张、两分钟内不会连着推。商场里「让他挑一件送我」、点「想要」发给他的卡片都不受这个限制，他买下时都会带一句只属于那样东西的话。</span>
+                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：默认 0，不自动送，免得老冒卡片。想偶尔收到惊喜可以调高；和塔罗、推歌、问卷共用一次抽取，一轮最多一张、两分钟内不会连着推。商场里「让他挑一件送我」、点「想要」发给他的卡片都不受这个限制，他买下时都会带一句只属于那样东西的话。</span>
                 </div>
                 <div class="p-3.5 flex flex-col gap-2 border-t border-border">
                     <div class="flex items-center justify-between">
@@ -4058,19 +4147,6 @@ html, body { overscroll-behavior-y: none; }
                     <i data-lucide="upload" class="w-4 h-4 text-muted"></i>
                     <input type="file" accept=".json" @change="importData" class="absolute inset-0 opacity-0 cursor-pointer">
                 </label>
-            </div>
-        </section>
-        <section>
-            <h3 class="text-[11px] font-semibold text-muted tracking-widest px-2 mb-2">清理缓存</h3>
-            <div class="bg-surface border border-border rounded-xl overflow-hidden">
-                <button @click="cleanOrphanKeys" class="w-full text-left p-4 border-b border-border flex justify-between items-center text-[13px] hover:bg-bg">
-                    <span>清理孤儿 key (释放空间)</span>
-                    <i data-lucide="eraser" class="w-4 h-4 text-muted"></i>
-                </button>
-                <button @click="compressStickersOnly" class="w-full text-left p-4 flex justify-between items-center text-[13px] hover:bg-bg">
-                    <span>压缩表情包</span>
-                    <i data-lucide="smile" class="w-4 h-4 text-muted"></i>
-                </button>
             </div>
         </section>
     </main>
@@ -4292,23 +4368,26 @@ html, body { overscroll-behavior-y: none; }
             <button @click="diagnoseResult = ''" v-if="diagnoseResult" class="w-full py-3 rounded-xl border border-border text-[12px] text-muted">清除结果</button>
         </div>
     </main>
+
+
 </div>
 
 <!-- ===== [MOD-01B] 编辑首页图标 ===== -->
 <!-- ===== [MOD-04] 语料库（字卡 / Emoji） ===== -->
-<div v-else-if="currentView === 'library'" key="library" class="absolute inset-0 flex flex-col z-20 bg-bg">
+<div v-else-if="currentView === 'library'" key="library" class="absolute inset-0 flex flex-col z-20 bg-bg settings-swipe-root" @touchstart.passive="setSwipeStart" @touchmove="setSwipeMove" @touchend.passive="setSwipeEnd">
     <header class="h-14 flex items-center justify-between px-4 shrink-0 bg-surface border-b border-border">
         <button @click="switchView('home')" class="p-2 -ml-2 text-text"><i data-lucide="chevron-left" class="w-5 h-5 stroke-[1.5]"></i></button>
-        <span class="text-[13px] font-medium tracking-widest serif-text">回复库管理</span>
+        <span class="text-[13px] font-medium tracking-widest serif-text">语料库</span>
         <div class="w-9"></div>
     </header>
 
     <div class="flex px-4 pt-4 pb-3 gap-2 shrink-0">
         <button @click="libraryTab = 'cards'" class="flex-1 py-2 rounded-full text-[13px] font-medium transition-colors" :class="libraryTab === 'cards' ? 'bg-accent text-bg' : 'bg-surface text-muted border border-border'">主字卡</button>
         <button @click="libraryTab = 'emoji'" class="flex-1 py-2 rounded-full text-[13px] font-medium transition-colors" :class="libraryTab === 'emoji' ? 'bg-accent text-bg' : 'bg-surface text-muted border border-border'">Emoji</button>
+        <button @click="libraryTab = 'qabank'" class="flex-1 py-2 rounded-full text-[13px] font-medium transition-colors" :class="libraryTab === 'qabank' ? 'bg-accent text-bg' : 'bg-surface text-muted border border-border'">问卷库</button>
     </div>
 
-    <div class="flex items-center gap-2 px-4 py-3 shrink-0">
+    <div v-if="libraryTab !== 'qabank'" class="flex items-center gap-2 px-4 py-3 shrink-0">
         <div class="flex-1 flex items-center bg-surface border border-border rounded-lg px-2 h-8">
             <i data-lucide="search" class="w-3.5 h-3.5 text-muted"></i>
             <input v-model="searchQuery" type="text" placeholder="搜索..." class="bg-transparent border-none outline-none text-[12px] ml-2 w-full" :style="{ color: settings.darkMode ? '#ffffff' : '#000000' }" :placeholder="'搜索...'">
@@ -4365,13 +4444,70 @@ html, body { overscroll-behavior-y: none; }
             </div>
             <div v-if="filteredCards.length === 0" class="text-center text-muted text-[12px] py-10">暂无 Emoji</div>
         </template>
+        <template v-if="libraryTab === 'qabank'">
+            <div class="qa-wrap">
+                <div class="qa-lead">他反过来问你 · 你在聊天卡片里自己写回答，他再从这一题备好的几句里挑 1 句回你。<br>内置 {{ qaSystem.length }} 题标「系统」，自己写的标「自建」；左右滑动也能翻到这一页。</div>
+                <div class="qa-rate-row">
+                    <span>他主动问我的概率</span>
+                    <div class="qa-rate-ctl">
+                        <button @click="settings.qaRate = Math.max(0, (settings.qaRate == null ? 8 : settings.qaRate) - 5)">−</button>
+                        <span>{{ settings.qaRate == null ? 8 : settings.qaRate }}%</span>
+                        <button @click="settings.qaRate = Math.min(100, (settings.qaRate == null ? 8 : settings.qaRate) + 5)">＋</button>
+                    </div>
+                </div>
+                <div class="qa-hint">和塔罗、推歌、送礼共用一次抽取，一轮最多一张、两分钟不连着问。这里点「让他问我」不受限制，也不触发自动回复。</div>
+                <div class="qa-tools">
+                    <input v-model="qaQuery" class="qa-search" placeholder="搜一搜问题或回答">
+                </div>
+                <div class="qa-filters">
+                    <button class="qa-chip" :class="{on: qaFilter === 'all'}" @click="qaFilter = 'all'">全部 {{ qaSystem.length + qaCustom.length }}</button>
+                    <button class="qa-chip" :class="{on: qaFilter === 'sys'}" @click="qaFilter = 'sys'">系统 {{ qaSystem.length }}</button>
+                    <button class="qa-chip" :class="{on: qaFilter === 'mine'}" @click="qaFilter = 'mine'">自建 {{ qaCustom.length }}</button>
+                </div>
+                <button class="qa-ask-btn" @click="qaRandomAsk()">让他随便问我一道 ♡</button>
+
+                <div v-for="(p, i) in qaShown" :key="p.id" class="qa-card">
+                    <div class="qa-card-top">
+                        <div style="flex:1;min-width:0">
+                            <span class="qa-no">NO.{{ String(i+1).padStart(2,'0') }}</span>
+                            <div class="qa-q">{{ p.q }}</div>
+                        </div>
+                        <span class="qa-tag" :class="p.mine ? 'mine' : 'sys'">{{ p.mine ? '自建' : '系统' }}</span>
+                    </div>
+                    <div class="qa-count">{{ p.opts.length }} 句他的预设回复</div>
+                    <div class="qa-opts"><div v-for="(o, j) in p.opts" :key="j" class="qa-opt">{{ o }}</div></div>
+                    <div class="qa-acts">
+                        <button class="qa-act main" @click="qaSendToChat(p)">让他问我</button>
+                        <button class="qa-act" @click="qaClone(p)">复制成自建</button>
+                        <template v-if="p.mine">
+                            <button class="qa-act" @click="qaEdit(p)">改一改</button>
+                            <button class="qa-act" @click="qaDel(p)">删掉</button>
+                        </template>
+                    </div>
+                </div>
+                <div v-if="qaShown.length === 0" class="qa-empty">这里还空着，换个词搜搜，或自己写一题。</div>
+
+                <button class="qa-new-btn" @click="qaOpenForm()" v-if="!qaForm.open">＋ 自己添加一题</button>
+                <div class="qa-form" v-if="qaForm.open">
+                    <div class="qa-form-title">{{ qaForm.editing ? '改这一题' : '新的一题' }}</div>
+                    <label class="qa-label">他问什么</label>
+                    <input v-model="qaForm.q" class="qa-input">
+                    <label class="qa-label">他会怎么回（一行一个，至少 4 句，最多 8 句）</label>
+                    <textarea v-model="qaForm.optsText" class="qa-textarea" rows="6"></textarea>
+                    <div class="qa-form-acts">
+                        <button class="qa-act main" @click="qaSavePair">存好</button>
+                        <button class="qa-act" @click="qaCloseForm">取消</button>
+                    </div>
+                </div>
+            </div>
+        </template>
     </main>
 
     <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-bg via-bg to-transparent flex gap-3">
-        <button @click="openCardEditor(null, activeGroupFilter !== 'all' && activeGroupFilter !== 'ungrouped' ? activeGroupFilter : '')" class="flex-1 py-3 bg-accent text-bg font-medium rounded-xl text-[14px] shadow-sm">
+        <button v-if="libraryTab !== 'qabank'" @click="openCardEditor(null, activeGroupFilter !== 'all' && activeGroupFilter !== 'ungrouped' ? activeGroupFilter : '')" class="flex-1 py-3 bg-accent text-bg font-medium rounded-xl text-[14px] shadow-sm">
             + 新增{{ libraryTab === 'cards' ? '字卡' : 'Emoji' }}
         </button>
-        <button @click="switchView('home')" class="px-6 py-3 bg-surface border border-border text-text rounded-xl text-[14px]">关闭</button>
+        <button @click="switchView('home')" :class="libraryTab === 'qabank' ? 'flex-1' : 'px-6'" class="py-3 bg-surface border border-border text-text rounded-xl text-[14px]">关闭</button>
     </div>
 
     <div v-if="showCardEditor" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
@@ -4472,7 +4608,7 @@ html, body { overscroll-behavior-y: none; }
                     </div>
                     <div class="flex flex-col relative" :class="msg.sender === 'me' ? 'items-end' : 'items-start'">
                         
-                        <div class="absolute inset-0 z-10" 
+                        <div class="absolute inset-0" :class="selectMode ? 'z-20' : 'z-10'"
                              @contextmenu.prevent="openMsgMenu(msg)"
                              @touchstart="startLongPress(msg)" @touchend="cancelLongPress"
                              @click="handleMsgClick(msg)">
@@ -4620,6 +4756,23 @@ html, body { overscroll-behavior-y: none; }
                                 <span class="opt-text">{{ opt }}</span>
                                 <span class="opt-count">{{ msg.votes[i] || 0 }} 票</span>
                             </div>
+                        </div>
+                        <div v-else-if="msg.type === 'qa'" class="qa-msg-card" @click.stop>
+                            <div class="qa-msg-head"><i></i>他问你<span class="qa-msg-tag">问卷</span></div>
+                            <div class="qa-msg-q">{{ msg.q }}</div>
+                            <template v-if="msg.mine == null && msg.picked == null">
+                                <input v-model="msg.draft" class="qa-msg-input" type="text" maxlength="200"
+                                    placeholder="想说什么就写什么…" @click.stop @focus.stop
+                                    @keyup.enter.stop="qaSubmit(msg)">
+                                <button class="qa-msg-send" :disabled="!(msg.draft || '').trim()" @click.stop="qaSubmit(msg)">发给他</button>
+                                <div class="qa-msg-foot">你自己写回答 · 他再从备好的几句里挑一句回你</div>
+                            </template>
+                            <template v-else>
+                                <div class="qa-msg-line"><b>你 ·</b>&nbsp;{{ msg.mine != null ? msg.mine : msg.picked }}</div>
+                                <div v-if="msg.his != null" class="qa-msg-line his"><b>他 ·</b>&nbsp;{{ msg.his }}</div>
+                                <div v-else-if="msg.mine != null" class="qa-msg-wait">他在想怎么回你…</div>
+                                <div class="qa-msg-foot">{{ msg.his != null ? '他从备好的几句里挑了这句回你' : (msg.mine != null ? '等他回你…' : '已经答过啦') }}</div>
+                            </template>
                         </div>
                         <div v-else-if="msg.type === 'dice'" class="dice-card">
                             <div v-for="n in 9" :key="n" class="dice-dot-cell"><span v-if="getDiceDots(msg.dice).includes(n)" class="dice-dot"></span></div>
@@ -6816,7 +6969,7 @@ createApp({
         const profiles = reactive({ me: { name: '我', avatar: '' }, them: { name: '客', avatar: '' } });
         
         const settings = reactive({ 
-            darkMode: false, showAvatar: true, avatarRadius: 50, autoReply: true, soundEnabled: true, tarotRate: 8, sleepRate: 12, songRate: 8, giftRate: 0, musicMode: 'tape',
+            darkMode: false, showAvatar: true, avatarRadius: 50, autoReply: true, soundEnabled: true, tarotRate: 8, sleepRate: 12, songRate: 8, giftRate: 0, qaRate: 8, musicMode: 'tape',
             keepAlive: true,
             fontFamily: 'serif', fontSize: 14,
             learnRate: 30,
@@ -7536,6 +7689,171 @@ createApp({
                    '<circle cx="24" cy="24" r="21" fill="var(--color-accent)" opacity=".09"/>' +
                    '<g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
                    body + '</g></svg>';
+        };
+        // ===== [MOD-21] 问卷库：他反向问我，一题配好几个回答 =====
+        // 每题的 opts 都是「你回他」的口吻；他抽到题时把选项打乱，你点一句就算答了。
+        // 每题的 opts 是「他看了你写的回答之后，会怎么回你」；他只挑 1 句，聊天卡里不提前露出来。
+        const QA_SYSTEM = [
+            { id:'sys01', q:"今天过得怎么样？", opts:["好，我听着呢，慢慢说。", "嗯，记下了，今天到这儿也行。", "累的话先歇会儿，不急着讲。", "不管顺不顺，我都在。", "那我陪你把今天收个尾。"], mine:false },
+            { id:'sys02', q:"有没有想我？", opts:["这句我收好了。", "那就多待一会儿吧。", "我刚好也在想你。", "别不好意思，我当真了。", "嗯，扯平了。"], mine:false },
+            { id:'sys03', q:"你现在在做什么？", opts:["听起来挺好，不打扰你。", "那我就在这儿陪着。", "嗯，知道了，别急着回我。", "忙完记得跟我说一声。", "这样就好，不用特意做什么。"], mine:false },
+            { id:'sys04', q:"累不累？", opts:["那先把肩放下来。", "别硬撑，我不催你。", "累了就靠一会儿，我在这儿。", "嗯，今天先到这儿吧。", "我给你留着灯，慢慢来。"], mine:false },
+            { id:'sys05', q:"今天有开心的事吗？", opts:["听你这么说我也有点高兴。", "那我记下来了。", "好，这件算今天的。", "说给我听就够了。", "那我们多待一会儿。"], mine:false },
+            { id:'sys06', q:"睡不着怎么办？", opts:["那我陪你慢慢把呼吸放平。", "不急着睡，先躺着就好。", "要不要我给你放点白噪音？", "我在这儿，不走。", "闭眼试试，我小声陪你。"], mine:false },
+            { id:'sys07', q:"你会一直都在吗？", opts:["嗯，现在在，先不说明天。", "这句我当真了。", "别怕，我不打折。", "你叫我，我就在。", "我先应着，往后慢慢看。"], mine:false },
+            { id:'sys08', q:"我刚才是不是话太多了？", opts:["不多，还想听呢。", "你说多少我都接着。", "别收着，我不嫌。", "本来就是留给你说的。", "那换我安静听一会儿。"], mine:false },
+            { id:'sys09', q:"想听你说句好听的。", opts:["你今天这样就很好。", "有你在，这一页就挺好。", "那我小声说：我很喜欢你这样。", "别急，好话我慢慢给你攒着。", "嗯，你先收下这句。"], mine:false },
+            { id:'sys10', q:"天冷了，你那边冷不冷？", opts:["那我把这边窗户关上陪你。", "手凉的话，先捂一会儿。", "记得添件衣服，我念完了。", "冷就别出门了，待着吧。", "我给你留杯热的。"], mine:false },
+            { id:'sys11', q:"如果我不开心呢？", opts:["那我不讲道理，就陪着。", "先不用装没事。", "想说就说，不想说也行。", "我在，慢慢来。", "抱一下，不讲别的。"], mine:false },
+            { id:'sys12', q:"晚饭吃了没？", opts:["那就好，我不念了。", "别忘了，我记着呢。", "随便也对付一口吧。", "吃完跟我说一声。", "那等你吃完我再找你。"], mine:false },
+            { id:'sys13', q:"在忙吗？", opts:["不急，你先忙。", "我等着，不着急。", "那我小声待着。", "忙完记得回来。", "嗯，我不打断你。"], mine:false },
+            { id:'sys14', q:"你会嫌我烦吗？", opts:["不会，你尽管来。", "这话我可记下了，别再说。", "烦也舍不得走。", "你来的每一句我都收着。", "别问这个，我心虚。"], mine:false },
+            { id:'sys15', q:"今天有没有下雨？", opts:["那正好，适合待着。", "嗯，我这边也听着了。", "地湿就别出门了。", "下雨天我陪你多待一会儿。", "记得带伞，我念完啦。"], mine:false },
+            { id:'sys16', q:"陪我待一会儿好不好？", opts:["好，不说话也行。", "嗯，我不走。", "那就把灯调暗一点。", "陪到你困了为止。", "多久都行，我在这儿。"], mine:false },
+            { id:'sys17', q:"我是不是不够好？", opts:["别这么比，我不比。", "在我这儿不用够好。", "这句我先替你收回去。", "你这样就很好了。", "不哄你，是真的。"], mine:false },
+            { id:'sys18', q:"想你了，怎么办？", opts:["那就多说会儿话吧。", "我也想你，扯平了。", "先记着，攒着也行。", "我给你发点什么看看。", "别忍，我在。"], mine:false },
+            { id:'sys19', q:"明天会顺一点吗？", opts:["先睡，明天我陪你去看。", "顺不顺都得过，我跟着。", "别想太远，说现在。", "会好一点的，我陪着等。", "嗯，先记着这句。"], mine:false },
+            { id:'sys20', q:"跟我说句晚安吧。", opts:["晚安，别走太远。", "嗯，早点睡，我在。", "再说一句我就让你睡。", "晚安，明天见。", "灯我留着，睡吧。"], mine:false },
+        ];
+        // 自己添加一题时的默认 5 句，也是他的口吻
+        const QA_FILL = ['好，我记着了。','嗯，听你的。','那就不急，慢慢来。','我在呢。','这句我收好了。'];
+        const qaSystem = ref(QA_SYSTEM);
+        const qaCustom = ref([]);
+        const qaQuery = ref('');
+        const qaFilter = ref('all');
+        const qaForm = reactive({ open:false, editing:null, q:'', optsText:'' });
+        // 老版本「一问一答」自动升级成多选项，旧数据不丢
+        const qaNorm = (x) => {
+            let opts = Array.isArray(x.opts) ? x.opts.map(v => String(v == null ? '' : v).trim()).filter(Boolean).slice(0, 8) : [];
+            if (!opts.length && typeof x.a === 'string' && x.a.trim()) opts = [x.a.trim()];
+            const seen = {}; opts.forEach(o => { seen[o] = 1; });
+            let k = 0;
+            while (opts.length < 4 && k < QA_FILL.length * 2) {
+                const cand = QA_FILL[k % QA_FILL.length]; k++;
+                if (!seen[cand]) { opts.push(cand); seen[cand] = 1; }
+            }
+            return { id: x.id || genId(), q: String(x.q || '').trim(), opts, mine: true, at: x.at || Date.now() };
+        };
+        let qaSaveTimer = null;
+        const qaSave = () => {
+            if (qaSaveTimer) clearTimeout(qaSaveTimer);
+            qaSaveTimer = setTimeout(() => {
+                try { localforage.setItem('liubai_qa_bank_db', JSON.parse(JSON.stringify(qaCustom.value.slice(0, 300)))); } catch (e) {}
+            }, 250);
+        };
+        const qaLoad = async () => {
+            try {
+                const v = await localforage.getItem('liubai_qa_bank_db');
+                if (Array.isArray(v)) qaCustom.value = v.filter(x => x && typeof x.q === 'string' && x.q.trim()
+                    && (Array.isArray(x.opts) || typeof x.a === 'string')).slice(0, 300).map(qaNorm);
+            } catch (e) {}
+        };
+        const qaAll = computed(() => qaCustom.value.concat(qaSystem.value));
+        const qaShown = computed(() => {
+            const kw = (qaQuery.value || '').trim().toLowerCase();
+            const all = (qaFilter.value === 'sys' ? qaSystem.value : qaFilter.value === 'mine' ? qaCustom.value : qaAll.value);
+            if (!kw) return all;
+            return all.filter(p => (p.q + (p.opts || []).join('')).toLowerCase().indexOf(kw) >= 0);
+        });
+        const qaOpenForm = (p) => {
+            qaForm.open = true; qaForm.editing = p ? p.id : null;
+            qaForm.q = p ? p.q : '';
+            qaForm.optsText = p ? (p.opts || []).join('\n') : '';
+        };
+        const qaCloseForm = () => { qaForm.open = false; qaForm.editing = null; qaForm.q = ''; qaForm.optsText = ''; };
+        const qaSavePair = () => {
+            const q = (qaForm.q || '').trim();
+            const opts = (qaForm.optsText || '').split(/\n+/).map(x => x.trim()).filter(Boolean);
+            if (!q) { alert('先写一句他问的话'); return; }
+            if (opts.length < 4) { alert('至少给 4 句他会怎么回你'); return; }
+            if (opts.length > 8) { alert('最多 8 句就好'); return; }
+            if (q.length > 200 || opts.some(o => o.length > 200)) { alert('稍微短一点就好'); return; }
+            if (qaForm.editing) {
+                const it = qaCustom.value.find(x => x.id === qaForm.editing);
+                if (it) { it.q = q; it.opts = opts; }
+            } else {
+                qaCustom.value.unshift({ id: genId(), q, opts, mine: true, at: Date.now() });
+                qaFilter.value = 'all'; qaQuery.value = '';
+            }
+            qaCloseForm(); qaSave();
+        };
+        const qaEdit = (p) => qaOpenForm(p);
+        const qaDel = (p) => {
+            if (!confirm('删掉这一题？')) return;
+            qaCustom.value = qaCustom.value.filter(x => x.id !== p.id); qaSave();
+        };
+        const qaClone = (p) => { qaFilter.value = 'mine'; qaQuery.value = ''; qaOpenForm({ id: null, q: p.q, opts: (p.opts || []).slice() }); };
+        const qaShuffle = (arr) => {
+            const a = arr.slice();
+            for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; }
+            return a;
+        };
+        const qaBuildMsg = (p) => ({
+            id: genId(), sender: 'them', type: 'qa', q: p.q,
+            opts: (p.opts || []).slice(0, 8),   // 他备好的几句，聊天卡里不露出来
+            draft: '', mine: null, his: null, picked: null, timestamp: Date.now()
+        });
+        // 手动：让他问我（不掷骰、不占冷却、不触发自动回复）
+        const qaSendToChat = (p) => {
+            if (!p || !p.q) return;
+            messages.value.push(qaBuildMsg(p));
+            playTone('recv'); saveAll();
+            if (currentView.value !== 'chat') switchView('chat');
+            nextTick(() => scrollToBottom());
+        };
+        const qaRandomAsk = () => {
+            const pool = qaAll.value;
+            if (!pool.length) return;
+            qaSendToChat(pool[Math.floor(Math.random() * pool.length)]);
+        };
+        // 自动：他按概率反向问我，走共用抽取与两分钟冷却
+        const themSendQa = () => {
+            const pool = qaAll.value;
+            if (!pool.length) return;
+            messages.value.push(qaBuildMsg(pool[Math.floor(Math.random() * pool.length)]));
+            playTone('recv'); saveAll(); nextTick(() => scrollToBottom());
+        };
+        // 我在卡片里自己写回答；他再从这一题备好的几句里挑 1 个回我（不另起卡片）
+        const qaSubmit = (msg) => {
+            if (!msg || msg.mine != null || msg.picked != null) return;
+            const ans = String(msg.draft == null ? '' : msg.draft).trim().slice(0, 200);
+            if (!ans) return;
+            msg.mine = ans;
+            msg.draft = '';
+            playTone('send'); saveAll(); nextTick(() => scrollToBottom());
+            const pool = Array.isArray(msg.opts) ? msg.opts.filter(Boolean) : [];
+            const delay = 800 + Math.floor(Math.random() * 500);
+            setTimeout(() => {
+                if (!messages.value.some(m => m.id === msg.id)) return;
+                msg.his = pool.length ? qaShuffle(pool)[0] : '嗯，我听着呢。';
+                playTone('recv'); saveAll(); nextTick(() => scrollToBottom());
+            }, delay);
+        };
+        // 偏好 / 语料页左右滑动翻页；输入控件与纵向滚动不抢手势
+        let setSwipeX = 0, setSwipeY = 0, setSwipeOK = false;
+        const setSwipeStart = (e) => {
+            const t = e.touches && e.touches[0]; if (!t) return;
+            setSwipeX = t.clientX; setSwipeY = t.clientY;
+            const el = e.target; setSwipeOK = !(el && el.closest && el.closest('input,textarea,select,[contenteditable]'));
+        };
+        const setSwipeMove = (e) => {
+            if (!setSwipeOK) return;
+            const t = e.touches && e.touches[0]; if (!t) return;
+            const dx = t.clientX - setSwipeX, dy = t.clientY - setSwipeY;
+            // 横向为主时吃掉默认行为：否则手机浏览器会把「右滑」当成返回上一页
+            if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.2 && e.cancelable) e.preventDefault();
+        };
+        const setSwipeEnd = (e) => {
+            if (!setSwipeOK) return; setSwipeOK = false;
+            const t = e.changedTouches && e.changedTouches[0]; if (!t) return;
+            const dx = t.clientX - setSwipeX, dy = t.clientY - setSwipeY;
+            if (Math.abs(dx) < 64 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+            const inLib = currentView.value === 'library';
+            const order = inLib ? ['cards', 'emoji', 'qabank'] : ['normal', 'api', 'beautify', 'diagnose'];
+            const i = order.indexOf(inLib ? libraryTab.value : settingsTab.value); if (i < 0) return;
+            // 左滑 = 往右翻一页；最左那页右滑 = 直接到最右那页
+            const ni = dx < 0 ? Math.min(order.length - 1, i + 1) : (i === 0 ? order.length - 1 : i - 1);
+            if (ni !== i) { if (inLib) libraryTab.value = order[ni]; else settingsTab.value = order[ni]; }
         };
         const shopCatName = (k) => { const c = SHOP_CATS.find(x => x.k === k); return c ? c.n : '小东西'; };
         const shopFind = (id) => SHOP_ITEMS.find(x => x.id === id) || null;
@@ -10636,7 +10954,7 @@ createApp({
                 lines.push(`localStorage 可写入: ${lsWritable ? '✅ 正常' : '❌ 已满/受限'}`);
                 lines.push('');
                 lines.push('--- localforage (IndexedDB，容量大) ---');
-                const lfKeys = ['liubai_messages_db','liubai_profiles_db','liubai_settings_db','liubai_letters_db','liubai_videoAutoCall_db','liubai_stickers_db','liubai_replyGroups_db','liubai_replySettings_db','liubai_avatar_them','liubai_avatar_me','liubai_anniversary_img','liubai_wallpaper_global','liubai_wallpaper_chat','liubai_watch_messages','liubai_video_image_string','liubai_playlist_db','liubai_companion_msgs','liubai_companion_recent','liubai_companion_custom_name','liubai_shop_wallet','liubai_shop_cart','liubai_shop_orders'];
+                const lfKeys = ['liubai_messages_db','liubai_profiles_db','liubai_settings_db','liubai_letters_db','liubai_videoAutoCall_db','liubai_stickers_db','liubai_replyGroups_db','liubai_replySettings_db','liubai_avatar_them','liubai_avatar_me','liubai_anniversary_img','liubai_wallpaper_global','liubai_wallpaper_chat','liubai_watch_messages','liubai_video_image_string','liubai_playlist_db','liubai_companion_msgs','liubai_companion_recent','liubai_companion_custom_name','liubai_shop_wallet','liubai_shop_cart','liubai_shop_orders','liubai_qa_bank_db'];
                 for (const k of lfKeys) {
                     try {
                         const v = await localforage.getItem(k);
@@ -10657,7 +10975,7 @@ createApp({
         };
 
         const cleanOrphanKeys = async () => {
-            if (!confirm('将清理旧版遗留的废料缓存。\n\n会保留：聊天记录、手账、塔罗日记、字卡、表情包、头像、壁纸、播放列表、陪伴、生理期记录。\n\n继续？')) return;
+            if (!confirm('将清理旧版遗留的废料缓存。\n\n会保留：聊天记录、手账、塔罗日记、字卡、表情包、头像、壁纸、播放列表、陪伴、生理期记录、问卷库。\n\n继续？')) return;
             const keep = new Set([
                 'liubai_messages_db', 'liubai_profiles_db', 'liubai_settings_db', 'liubai_letters_db', 'liubai_videoAutoCall_db',
                 'liubai_stickers_db', 'liubai_replyGroups_db', 'liubai_replySettings_db', 'liubai_playlist_db',
@@ -10673,7 +10991,8 @@ createApp({
                 'liubai_hp_top_main', 'liubai_hp_top_sub',
                 'liubai_sleep_mix', 'liubai_sleep_recipes', 'liubai_sleep_chat', 'liubai_sleep_vols',
                 'liubai_sleep_session', 'liubai_sleep_summary',
-                'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders'
+                'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders',
+                'liubai_qa_bank_db'
             ]);
             let removed = 0, freed = 0;
             try {
@@ -10897,7 +11216,7 @@ createApp({
                     'liubai_custom_bubble', 'liubai_custom_font', 'liubai_home_icons', 'liubai_videoAutoCall_db',
                     'liubai_sleep_mix', 'liubai_sleep_recipes', 'liubai_sleep_chat', 'liubai_sleep_vols',
                     'liubai_sleep_session', 'liubai_sleep_summary',
-                    'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders',
+                    'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders', 'liubai_qa_bank_db',
                     'liubai_companion_custom_name', 'liubai_companion_msgs', 'liubai_companion_recent',
                     'liubai_menstrual_records', 'liubai_menstrual_cycle_avg', 'liubai_menstrual_duration_avg',
                 'liubai_hp_img1', 'liubai_hp_img2', 'liubai_hp_img3',
@@ -10920,7 +11239,7 @@ createApp({
                         const time = new Date(m.timestamp).toLocaleString();
                         const name = m.sender === 'me' ? '我' : profiles.them.name;
                         let content = '';
-                        if (m.type === 'image') content = '[图片]'; else if (m.type === 'sticker') content = '[表情包]'; else if (m.type === 'voice') content = `[语音 ${m.duration}"]`; else if (m.type === 'song') content = `[歌曲] ${(m.song && m.song.title) || ''}${(m.song && m.song.artist) ? ' - ' + m.song.artist : ''}${(m.song && m.song.state === 'later') ? '（等会再听）' : ''}`; else if (m.type === 'gift') content = `[礼物] ${(m.item && m.item.name) || ''}${m.note ? ' · ' + m.note : ''}`; else if (m.type === 'wish') content = `[想要] ${(m.item && m.item.name) || ''}${m.state === 'bought' ? ' · 他买给我了' : ''}`; else if (m.type === 'redpacket') content = `[红包] ${m.blessing}`; else if (m.type === 'survey') content = `[问卷] ${m.question}`; else if (m.type === 'dice') content = `[骰子 ${m.dice}]`; else if (m.type === 'call') content = `[视频通话]`; else if (m.type === 'sleep') content = `[助眠音] ${m.sleep ? m.sleep.title : ''}`; else content = m.content;
+                        if (m.type === 'image') content = '[图片]'; else if (m.type === 'sticker') content = '[表情包]'; else if (m.type === 'voice') content = `[语音 ${m.duration}"]`; else if (m.type === 'song') content = `[歌曲] ${(m.song && m.song.title) || ''}${(m.song && m.song.artist) ? ' - ' + m.song.artist : ''}${(m.song && m.song.state === 'later') ? '（等会再听）' : ''}`; else if (m.type === 'gift') content = `[礼物] ${(m.item && m.item.name) || ''}${m.note ? ' · ' + m.note : ''}`; else if (m.type === 'wish') content = `[想要] ${(m.item && m.item.name) || ''}${m.state === 'bought' ? ' · 他买给我了' : ''}`; else if (m.type === 'redpacket') content = `[红包] ${m.blessing}`; else if (m.type === 'survey') content = `[问卷] ${m.question}`; else if (m.type === 'qa') content = `[他问你] ${m.q}${(m.mine || m.picked) ? ' · 你回了：' + (m.mine || m.picked) : ''}${m.his ? ' · 他回了：' + m.his : ''}`; else if (m.type === 'dice') content = `[骰子 ${m.dice}]`; else if (m.type === 'call') content = `[视频通话]`; else if (m.type === 'sleep') content = `[助眠音] ${m.sleep ? m.sleep.title : ''}`; else content = m.content;
                         text += `[${time}] ${name}:\n${content}\n\n`;
                     });
                     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
@@ -10948,7 +11267,8 @@ createApp({
                     sleepSession: await localforage.getItem('liubai_sleep_session'), sleepSummary: await localforage.getItem('liubai_sleep_summary'),
                     shopWallet: await localforage.getItem('liubai_shop_wallet'),
                     shopCart: await localforage.getItem('liubai_shop_cart'),
-                    shopOrders: await localforage.getItem('liubai_shop_orders')
+                    shopOrders: await localforage.getItem('liubai_shop_orders'),
+                    qaBank: await localforage.getItem('liubai_qa_bank_db')
                 };
                 const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
@@ -10992,6 +11312,7 @@ createApp({
                           if (typeof data.shopWallet === 'number') await localforage.setItem('liubai_shop_wallet', data.shopWallet);
                           if (Array.isArray(data.shopCart)) await localforage.setItem('liubai_shop_cart', data.shopCart);
                           if (Array.isArray(data.shopOrders)) await localforage.setItem('liubai_shop_orders', data.shopOrders);
+                          if (Array.isArray(data.qaBank)) await localforage.setItem('liubai_qa_bank_db', data.qaBank.filter(it => it && typeof it.q === 'string' && (Array.isArray(it.opts) || typeof it.a === 'string')));
                         alert('全量备份导入成功，正在重新加载页面...'); window.location.reload();
                     } else alert('未知的文件格式。');
                 } catch (err) { alert('解析文件失败，请确认是合法的 JSON 备份文件。'); }
@@ -11076,7 +11397,7 @@ createApp({
         const toggleSelect = (id) => { if (!selectMode.value) return; const idx = selectedMsgs.value.indexOf(id); if (idx > -1) selectedMsgs.value.splice(idx, 1); else selectedMsgs.value.push(id); };
         const mergeAndSend = () => {
             if (selectedMsgs.value.length === 0) return;
-            const mergedContent = selectedMsgs.value.map(id => { const m = messages.value.find(x => x.id === id); if (!m) return ''; if (m.type === 'text') return m.content; if (m.type === 'gift' || m.type === 'wish') return '[礼物] ' + ((m.item && m.item.name) || ''); if (m.type === 'image') return '[图片]'; if (m.type === 'voice') return '[语音]'; if (m.type === 'song') return '[歌曲] ' + ((m.song && m.song.title) || ''); return '[' + m.type + ']'; }).filter(x => x).join('\n');
+            const mergedContent = selectedMsgs.value.map(id => { const m = messages.value.find(x => x.id === id); if (!m) return ''; if (m.type === 'text') return m.content; if (m.type === 'gift' || m.type === 'wish') return '[礼物] ' + ((m.item && m.item.name) || ''); if (m.type === 'image') return '[图片]'; if (m.type === 'voice') return '[语音]'; if (m.type === 'song') return '[歌曲] ' + ((m.song && m.song.title) || ''); if (m.type === 'qa') return '[他问你] ' + (m.q || '') + ((m.mine || m.picked) ? ' · 你回了：' + (m.mine || m.picked) : '') + (m.his ? ' · 他回了：' + m.his : ''); return '[' + m.type + ']'; }).filter(x => x).join('\n');
             messages.value.push({ id: genId(), sender: 'me', type: 'text', content: `【合并转发】\n${mergedContent}`, timestamp: Date.now() });
             exitSelectMode(); playTone('send'); scrollToBottom(); saveAll();
         };
@@ -11422,24 +11743,26 @@ createApp({
             finally { isTyping.value = false; if (settings.keepAlive) kaSave(null); saveAll(); }
         };
 
-        // 塔罗 / 推歌 / 送礼三类大卡片共用：一轮只掷一次、最多出一张，并且共享冷却。
-        // 以前两个独立 if 会叠加（15%+8% 实际约 28% 会冒卡），聊得密还会连着冒。
+        // 塔罗 / 推歌 / 送礼 / 问卷四类大卡片共用：一轮只掷一次、最多出一张，并且共享冷却。
+        // 以前几个独立 if 会叠加（15%+8% 实际约 28% 会冒卡），聊得密还会连着冒。
         const CARD_CD_KEY = 'liubai_card_cd';
         const CARD_CD_MS = 2 * 60 * 1000;   // 两分钟内最多一张
         const cardCdRead = () => { try { return Number(localStorage.getItem(CARD_CD_KEY)) || 0; } catch (e) { return 0; } };
         const cardCdWrite = (t) => { try { localStorage.setItem(CARD_CD_KEY, String(t)); } catch (e) {} };
         const themMaybeSendCard = (delayTarot, delaySong) => {
             const now = Date.now();
-            if (now - cardCdRead() < CARD_CD_MS) return;   // 冷却中：两类都不推
+            if (now - cardCdRead() < CARD_CD_MS) return;   // 冷却中：四类都不推
             const pT = Math.max(0, Number(settings.tarotRate) || 0) / 100;
             const pS = Math.max(0, Number(settings.songRate == null ? 8 : settings.songRate)) / 100;
             const pG = Math.max(0, Number(settings.giftRate == null ? 0 : settings.giftRate)) / 100;
+            const pQ = Math.max(0, Number(settings.qaRate == null ? 8 : settings.qaRate)) / 100;
             const r = Math.random();
-            if (r >= pT + pS + pG) return;                  // 这轮不出卡
+            if (r >= pT + pS + pG + pQ) return;             // 这轮不出卡
             cardCdWrite(now);                               // 先占住冷却，延时期间再发消息也不会重复命中
             if (r < pT) setTimeout(() => themSendTarot(), delayTarot);
             else if (r < pT + pS) setTimeout(() => themPushSong(), delaySong);
-            else setTimeout(() => themSendGift(), delaySong + 300);
+            else if (r < pT + pS + pG) setTimeout(() => themSendGift(), delaySong + 300);
+            else setTimeout(() => themSendQa(), delaySong + 450);
         };
 
         const triggerAutoReplies = () => {
@@ -13727,6 +14050,7 @@ createApp({
             await loadMensData();
             await cpLoadData();
             await trLoad();
+            await qaLoad();
             window.addEventListener('resize', ensureFloatInBounds);
             window.addEventListener('orientationchange', ensureFloatInBounds);
             if (window.visualViewport) {
@@ -13844,6 +14168,9 @@ createApp({
             anniversaryImg, openAnniversary,
             persistTheme, applyTheme,
             settingsTab, modelsList, apiStatusMsg, fetchModels, testApiConnection,
+            qaSystem, qaCustom, qaAll, qaShown, qaQuery, qaFilter, qaForm,
+            qaOpenForm, qaCloseForm, qaSavePair, qaEdit, qaDel, qaClone, qaSendToChat, qaRandomAsk, qaSubmit, themSendQa,
+            setSwipeStart, setSwipeMove, setSwipeEnd,
             diagnoseResult, diagnoseDevice, diagnoseScreen,
             watchSetup, watchState, watchMessages, watchInput, watchShowMorePanel, watchShowStickerPanel,
             pullBili, startWatch, exitWatchPlay, enterWatchFullscreen,
