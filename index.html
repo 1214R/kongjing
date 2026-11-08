@@ -1426,7 +1426,7 @@ video {
 !function(a){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=a();else if("function"==typeof define&&define.amd)define([],a);else{var b;b="undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this,b.localforage=a()}}(function(){return function a(b,c,d){function e(g,h){if(!c[g]){if(!b[g]){var i="function"==typeof require&&require;if(!h&&i)return i(g,!0);if(f)return f(g,!0);var j=new Error("Cannot find module '"+g+"'");throw j.code="MODULE_NOT_FOUND",j}var k=c[g]={exports:{}};b[g][0].call(k.exports,function(a){var c=b[g][1][a];return e(c||a)},k,k.exports,a,b,c,d)}return c[g].exports}for(var f="function"==typeof require&&require,g=0;g<d.length;g++)e(d[g]);return e}({1:[function(a,b,c){(function(a){"use strict";function c(){k=!0;for(var a,b,c=l.length;c;){for(b=l,l=[],a=-1;++a<c;)b[a]();c=l.length}k=!1}function d(a){1!==l.push(a)||k||e()}var e,f=a.MutationObserver||a.WebKitMutationObserver;if(f){var g=0,h=new f(c),i=a.document.createTextNode("");h.observe(i,{characterData:!0}),e=function(){i.data=g=++g%2}}else if(a.setImmediate||void 0===a.MessageChannel)e="document"in a&&"onreadystatechange"in a.document.createElement("script")?function(){var b=a.document.createElement("script");b.onreadystatechange=function(){c(),b.onreadystatechange=null,b.parentNode.removeChild(b),b=null},a.document.documentElement.appendChild(b)}:function(){setTimeout(c,0)};else{var j=new a.MessageChannel;j.port1.onmessage=c,e=function(){j.port2.postMessage(0)}}var k,l=[];b.exports=d}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],2:[function(a,b,c){"use strict";function d(){}function e(a){if("function"!=typeof a)throw new TypeError("resolver must be a function");this.state=s,this.queue=[],this.outcome=void 0,a!==d&&i(this,a)}function f(a,b,c){this.promise=a,"function"==typeof b&&(this.onFulfilled=b,this.callFulfilled=this.otherCallFulfilled),"function"==typeof c&&(this.onRejected=c,this.callRejected=this.otherCallRejected)}function g(a,b,c){o(function(){var d;try{d=b(c)}catch(b){return p.reject(a,b)}d===a?p.reject(a,new TypeError("Cannot resolve promise with itself")):p.resolve(a,d)})}function h(a){var b=a&&a.then;if(a&&("object"==typeof a||"function"==typeof a)&&"function"==typeof b)return function(){b.apply(a,arguments)}}function i(a,b){function c(b){f||(f=!0,p.reject(a,b))}function d(b){f||(f=!0,p.resolve(a,b))}function e(){b(d,c)}var f=!1,g=j(e);"error"===g.status&&c(g.value)}function j(a,b){var c={};try{c.value=a(b),c.status="success"}catch(a){c.status="error",c.value=a}return c}function k(a){return a instanceof this?a:p.resolve(new this(d),a)}function l(a){var b=new this(d);return p.reject(b,a)}function m(a){function b(a,b){function d(a){g[b]=a,++h!==e||f||(f=!0,p.resolve(j,g))}c.resolve(a).then(d,function(a){f||(f=!0,p.reject(j,a))})}var c=this;if("[object Array]"!==Object.prototype.toString.call(a))return this.reject(new TypeError("must be an array"));var e=a.length,f=!1;if(!e)return this.resolve([]);for(var g=new Array(e),h=0,i=-1,j=new this(d);++i<e;)b(a[i],i);return j}function n(a){function b(a){c.resolve(a).then(function(a){f||(f=!0,p.resolve(h,a))},function(a){f||(f=!0,p.reject(h,a))})}var c=this;if("[object Array]"!==Object.prototype.toString.call(a))return this.reject(new TypeError("must be an array"));var e=a.length,f=!1;if(!e)return this.resolve([]);for(var g=-1,h=new this(d);++g<e;)b(a[g]);return h}var o=a(1),p={},q=["REJECTED"],r=["FULFILLED"],s=["PENDING"];b.exports=e,e.prototype.catch=function(a){return this.then(null,a)},e.prototype.then=function(a,b){if("function"!=typeof a&&this.state===r||"function"!=typeof b&&this.state===q)return this;var c=new this.constructor(d);if(this.state!==s){g(c,this.state===r?a:b,this.outcome)}else this.queue.push(new f(c,a,b));return c},f.prototype.callFulfilled=function(a){p.resolve(this.promise,a)},f.prototype.otherCallFulfilled=function(a){g(this.promise,this.onFulfilled,a)},f.prototype.callRejected=function(a){p.reject(this.promise,a)},f.prototype.otherCallRejected=function(a){g(this.promise,this.onRejected,a)},p.resolve=function(a,b){var c=j(h,b);if("error"===c.status)return p.reject(a,c.value);var d=c.value;if(d)i(a,d);else{a.state=r,a.outcome=b;for(var e=-1,f=a.queue.length;++e<f;)a.queue[e].callFulfilled(b)}return a},p.reject=function(a,b){a.state=q,a.outcome=b;for(var c=-1,d=a.queue.length;++c<d;)a.queue[c].callRejected(b);return a},e.resolve=k,e.reject=l,e.all=m,e.race=n},{1:1}],3:[function(a,b,c){(function(b){"use strict";"function"!=typeof b.Promise&&(b.Promise=a(2))}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{2:2}],4:[function(a,b,c){"use strict";function d(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}function e(){try{if("undefined"!=typeof indexedDB)return indexedDB;if("undefined"!=typeof webkitIndexedDB)return webkitIndexedDB;if("undefined"!=typeof mozIndexedDB)return mozIndexedDB;if("undefined"!=typeof OIndexedDB)return OIndexedDB;if("undefined"!=typeof msIndexedDB)return msIndexedDB}catch(a){return}}function f(){try{if(!ua||!ua.open)return!1;var a="undefined"!=typeof openDatabase&&/(Safari|iPhone|iPad|iPod)/.test(navigator.userAgent)&&!/Chrome/.test(navigator.userAgent)&&!/BlackBerry/.test(navigator.platform),b="function"==typeof fetch&&-1!==fetch.toString().indexOf("[native code");return(!a||b)&&"undefined"!=typeof indexedDB&&"undefined"!=typeof IDBKeyRange}catch(a){return!1}}function g(a,b){a=a||[],b=b||{};try{return new Blob(a,b)}catch(f){if("TypeError"!==f.name)throw f;for(var c="undefined"!=typeof BlobBuilder?BlobBuilder:"undefined"!=typeof MSBlobBuilder?MSBlobBuilder:"undefined"!=typeof MozBlobBuilder?MozBlobBuilder:WebKitBlobBuilder,d=new c,e=0;e<a.length;e+=1)d.append(a[e]);return d.getBlob(b.type)}}function h(a,b){b&&a.then(function(a){b(null,a)},function(a){b(a)})}function i(a,b,c){"function"==typeof b&&a.then(b),"function"==typeof c&&a.catch(c)}function j(a){return"string"!=typeof a&&(console.warn(a+" used as a key, but it is not a string."),a=String(a)),a}function k(){if(arguments.length&&"function"==typeof arguments[arguments.length-1])return arguments[arguments.length-1]}function l(a){for(var b=a.length,c=new ArrayBuffer(b),d=new Uint8Array(c),e=0;e<b;e++)d[e]=a.charCodeAt(e);return c}function m(a){return new va(function(b){var c=a.transaction(wa,Ba),d=g([""]);c.objectStore(wa).put(d,"key"),c.onabort=function(a){a.preventDefault(),a.stopPropagation(),b(!1)},c.oncomplete=function(){var a=navigator.userAgent.match(/Chrome\/(\d+)/),c=navigator.userAgent.match(/Edge\//);b(c||!a||parseInt(a[1],10)>=43)}}).catch(function(){return!1})}function n(a){return"boolean"==typeof xa?va.resolve(xa):m(a).then(function(a){return xa=a})}function o(a){var b=ya[a.name],c={};c.promise=new va(function(a,b){c.resolve=a,c.reject=b}),b.deferredOperations.push(c),b.dbReady?b.dbReady=b.dbReady.then(function(){return c.promise}):b.dbReady=c.promise}function p(a){var b=ya[a.name],c=b.deferredOperations.pop();if(c)return c.resolve(),c.promise}function q(a,b){var c=ya[a.name],d=c.deferredOperations.pop();if(d)return d.reject(b),d.promise}function r(a,b){return new va(function(c,d){if(ya[a.name]=ya[a.name]||B(),a.db){if(!b)return c(a.db);o(a),a.db.close()}var e=[a.name];b&&e.push(a.version);var f=ua.open.apply(ua,e);b&&(f.onupgradeneeded=function(b){var c=f.result;try{c.createObjectStore(a.storeName),b.oldVersion<=1&&c.createObjectStore(wa)}catch(c){if("ConstraintError"!==c.name)throw c;console.warn('The database "'+a.name+'" has been upgraded from version '+b.oldVersion+" to version "+b.newVersion+', but the storage "'+a.storeName+'" already exists.')}}),f.onerror=function(a){a.preventDefault(),d(f.error)},f.onsuccess=function(){var b=f.result;b.onversionchange=function(a){a.target.close()},c(b),p(a)}})}function s(a){return r(a,!1)}function t(a){return r(a,!0)}function u(a,b){if(!a.db)return!0;var c=!a.db.objectStoreNames.contains(a.storeName),d=a.version<a.db.version,e=a.version>a.db.version;if(d&&(a.version!==b&&console.warn('The database "'+a.name+"\" can't be downgraded from version "+a.db.version+" to version "+a.version+"."),a.version=a.db.version),e||c){if(c){var f=a.db.version+1;f>a.version&&(a.version=f)}return!0}return!1}function v(a){return new va(function(b,c){var d=new FileReader;d.onerror=c,d.onloadend=function(c){var d=btoa(c.target.result||"");b({__local_forage_encoded_blob:!0,data:d,type:a.type})},d.readAsBinaryString(a)})}function w(a){return g([l(atob(a.data))],{type:a.type})}function x(a){return a&&a.__local_forage_encoded_blob}function y(a){var b=this,c=b._initReady().then(function(){var a=ya[b._dbInfo.name];if(a&&a.dbReady)return a.dbReady});return i(c,a,a),c}function z(a){o(a);for(var b=ya[a.name],c=b.forages,d=0;d<c.length;d++){var e=c[d];e._dbInfo.db&&(e._dbInfo.db.close(),e._dbInfo.db=null)}return a.db=null,s(a).then(function(b){return a.db=b,u(a)?t(a):b}).then(function(d){a.db=b.db=d;for(var e=0;e<c.length;e++)c[e]._dbInfo.db=d}).catch(function(b){throw q(a,b),b})}function A(a,b,c,d){void 0===d&&(d=1);try{var e=a.db.transaction(a.storeName,b);c(null,e)}catch(e){if(d>0&&(!a.db||"InvalidStateError"===e.name||"NotFoundError"===e.name))return va.resolve().then(function(){if(!a.db||"NotFoundError"===e.name&&!a.db.objectStoreNames.contains(a.storeName)&&a.version<=a.db.version)return a.db&&(a.version=a.db.version+1),t(a)}).then(function(){return z(a).then(function(){A(a,b,c,d-1)})}).catch(c);c(e)}}function B(){return{forages:[],db:null,dbReady:null,deferredOperations:[]}}function C(a){function b(){return va.resolve()}var c=this,d={db:null};if(a)for(var e in a)d[e]=a[e];var f=ya[d.name];f||(f=B(),ya[d.name]=f),f.forages.push(c),c._initReady||(c._initReady=c.ready,c.ready=y);for(var g=[],h=0;h<f.forages.length;h++){var i=f.forages[h];i!==c&&g.push(i._initReady().catch(b))}var j=f.forages.slice(0);return va.all(g).then(function(){return d.db=f.db,s(d)}).then(function(a){return d.db=a,u(d,c._defaultConfig.version)?t(d):a}).then(function(a){d.db=f.db=a,c._dbInfo=d;for(var b=0;b<j.length;b++){var e=j[b];e!==c&&(e._dbInfo.db=d.db,e._dbInfo.version=d.version)}})}function D(a,b){var c=this;a=j(a);var d=new va(function(b,d){c.ready().then(function(){A(c._dbInfo,Aa,function(e,f){if(e)return d(e);try{var g=f.objectStore(c._dbInfo.storeName),h=g.get(a);h.onsuccess=function(){var a=h.result;void 0===a&&(a=null),x(a)&&(a=w(a)),b(a)},h.onerror=function(){d(h.error)}}catch(a){d(a)}})}).catch(d)});return h(d,b),d}function E(a,b){var c=this,d=new va(function(b,d){c.ready().then(function(){A(c._dbInfo,Aa,function(e,f){if(e)return d(e);try{var g=f.objectStore(c._dbInfo.storeName),h=g.openCursor(),i=1;h.onsuccess=function(){var c=h.result;if(c){var d=c.value;x(d)&&(d=w(d));var e=a(d,c.key,i++);void 0!==e?b(e):c.continue()}else b()},h.onerror=function(){d(h.error)}}catch(a){d(a)}})}).catch(d)});return h(d,b),d}function F(a,b,c){var d=this;a=j(a);var e=new va(function(c,e){var f;d.ready().then(function(){return f=d._dbInfo,"[object Blob]"===za.call(b)?n(f.db).then(function(a){return a?b:v(b)}):b}).then(function(b){A(d._dbInfo,Ba,function(f,g){if(f)return e(f);try{var h=g.objectStore(d._dbInfo.storeName);null===b&&(b=void 0);var i=h.put(b,a);g.oncomplete=function(){void 0===b&&(b=null),c(b)},g.onabort=g.onerror=function(){var a=i.error?i.error:i.transaction.error;e(a)}}catch(a){e(a)}})}).catch(e)});return h(e,c),e}function G(a,b){var c=this;a=j(a);var d=new va(function(b,d){c.ready().then(function(){A(c._dbInfo,Ba,function(e,f){if(e)return d(e);try{var g=f.objectStore(c._dbInfo.storeName),h=g.delete(a);f.oncomplete=function(){b()},f.onerror=function(){d(h.error)},f.onabort=function(){var a=h.error?h.error:h.transaction.error;d(a)}}catch(a){d(a)}})}).catch(d)});return h(d,b),d}function H(a){var b=this,c=new va(function(a,c){b.ready().then(function(){A(b._dbInfo,Ba,function(d,e){if(d)return c(d);try{var f=e.objectStore(b._dbInfo.storeName),g=f.clear();e.oncomplete=function(){a()},e.onabort=e.onerror=function(){var a=g.error?g.error:g.transaction.error;c(a)}}catch(a){c(a)}})}).catch(c)});return h(c,a),c}function I(a){var b=this,c=new va(function(a,c){b.ready().then(function(){A(b._dbInfo,Aa,function(d,e){if(d)return c(d);try{var f=e.objectStore(b._dbInfo.storeName),g=f.count();g.onsuccess=function(){a(g.result)},g.onerror=function(){c(g.error)}}catch(a){c(a)}})}).catch(c)});return h(c,a),c}function J(a,b){var c=this,d=new va(function(b,d){if(a<0)return void b(null);c.ready().then(function(){A(c._dbInfo,Aa,function(e,f){if(e)return d(e);try{var g=f.objectStore(c._dbInfo.storeName),h=!1,i=g.openKeyCursor();i.onsuccess=function(){var c=i.result;if(!c)return void b(null);0===a?b(c.key):h?b(c.key):(h=!0,c.advance(a))},i.onerror=function(){d(i.error)}}catch(a){d(a)}})}).catch(d)});return h(d,b),d}function K(a){var b=this,c=new va(function(a,c){b.ready().then(function(){A(b._dbInfo,Aa,function(d,e){if(d)return c(d);try{var f=e.objectStore(b._dbInfo.storeName),g=f.openKeyCursor(),h=[];g.onsuccess=function(){var b=g.result;if(!b)return void a(h);h.push(b.key),b.continue()},g.onerror=function(){c(g.error)}}catch(a){c(a)}})}).catch(c)});return h(c,a),c}function L(a,b){b=k.apply(this,arguments);var c=this.config();a="function"!=typeof a&&a||{},a.name||(a.name=a.name||c.name,a.storeName=a.storeName||c.storeName);var d,e=this;if(a.name){var f=a.name===c.name&&e._dbInfo.db,g=f?va.resolve(e._dbInfo.db):s(a).then(function(b){var c=ya[a.name],d=c.forages;c.db=b;for(var e=0;e<d.length;e++)d[e]._dbInfo.db=b;return b});d=a.storeName?g.then(function(b){if(b.objectStoreNames.contains(a.storeName)){var c=b.version+1;o(a);var d=ya[a.name],e=d.forages;b.close();for(var f=0;f<e.length;f++){var g=e[f];g._dbInfo.db=null,g._dbInfo.version=c}return new va(function(b,d){var e=ua.open(a.name,c);e.onerror=function(a){e.result.close(),d(a)},e.onupgradeneeded=function(){e.result.deleteObjectStore(a.storeName)},e.onsuccess=function(){var a=e.result;a.close(),b(a)}}).then(function(a){d.db=a;for(var b=0;b<e.length;b++){var c=e[b];c._dbInfo.db=a,p(c._dbInfo)}}).catch(function(b){throw(q(a,b)||va.resolve()).catch(function(){}),b})}}):g.then(function(b){o(a);var c=ya[a.name],d=c.forages;b.close();for(var e=0;e<d.length;e++){d[e]._dbInfo.db=null}return new va(function(b,c){var d=ua.deleteDatabase(a.name);d.onerror=function(){var a=d.result;a&&a.close(),c(d.error)},d.onblocked=function(){console.warn('dropInstance blocked for database "'+a.name+'" until all open connections are closed')},d.onsuccess=function(){var a=d.result;a&&a.close(),b(a)}}).then(function(a){c.db=a;for(var b=0;b<d.length;b++)p(d[b]._dbInfo)}).catch(function(b){throw(q(a,b)||va.resolve()).catch(function(){}),b})})}else d=va.reject("Invalid arguments");return h(d,b),d}function M(){return"function"==typeof openDatabase}function N(a){var b,c,d,e,f,g=.75*a.length,h=a.length,i=0;"="===a[a.length-1]&&(g--,"="===a[a.length-2]&&g--);var j=new ArrayBuffer(g),k=new Uint8Array(j);for(b=0;b<h;b+=4)c=Da.indexOf(a[b]),d=Da.indexOf(a[b+1]),e=Da.indexOf(a[b+2]),f=Da.indexOf(a[b+3]),k[i++]=c<<2|d>>4,k[i++]=(15&d)<<4|e>>2,k[i++]=(3&e)<<6|63&f;return j}function O(a){var b,c=new Uint8Array(a),d="";for(b=0;b<c.length;b+=3)d+=Da[c[b]>>2],d+=Da[(3&c[b])<<4|c[b+1]>>4],d+=Da[(15&c[b+1])<<2|c[b+2]>>6],d+=Da[63&c[b+2]];return c.length%3==2?d=d.substring(0,d.length-1)+"=":c.length%3==1&&(d=d.substring(0,d.length-2)+"=="),d}function P(a,b){var c="";if(a&&(c=Ua.call(a)),a&&("[object ArrayBuffer]"===c||a.buffer&&"[object ArrayBuffer]"===Ua.call(a.buffer))){var d,e=Ga;a instanceof ArrayBuffer?(d=a,e+=Ia):(d=a.buffer,"[object Int8Array]"===c?e+=Ka:"[object Uint8Array]"===c?e+=La:"[object Uint8ClampedArray]"===c?e+=Ma:"[object Int16Array]"===c?e+=Na:"[object Uint16Array]"===c?e+=Pa:"[object Int32Array]"===c?e+=Oa:"[object Uint32Array]"===c?e+=Qa:"[object Float32Array]"===c?e+=Ra:"[object Float64Array]"===c?e+=Sa:b(new Error("Failed to get type for BinaryArray"))),b(e+O(d))}else if("[object Blob]"===c){var f=new FileReader;f.onload=function(){var c=Ea+a.type+"~"+O(this.result);b(Ga+Ja+c)},f.readAsArrayBuffer(a)}else try{b(JSON.stringify(a))}catch(c){console.error("Couldn't convert value into a JSON string: ",a),b(null,c)}}function Q(a){if(a.substring(0,Ha)!==Ga)return JSON.parse(a);var b,c=a.substring(Ta),d=a.substring(Ha,Ta);if(d===Ja&&Fa.test(c)){var e=c.match(Fa);b=e[1],c=c.substring(e[0].length)}var f=N(c);switch(d){case Ia:return f;case Ja:return g([f],{type:b});case Ka:return new Int8Array(f);case La:return new Uint8Array(f);case Ma:return new Uint8ClampedArray(f);case Na:return new Int16Array(f);case Pa:return new Uint16Array(f);case Oa:return new Int32Array(f);case Qa:return new Uint32Array(f);case Ra:return new Float32Array(f);case Sa:return new Float64Array(f);default:throw new Error("Unkown type: "+d)}}function R(a,b,c,d){a.executeSql("CREATE TABLE IF NOT EXISTS "+b.storeName+" (id INTEGER PRIMARY KEY, key unique, value)",[],c,d)}function S(a){var b=this,c={db:null};if(a)for(var d in a)c[d]="string"!=typeof a[d]?a[d].toString():a[d];var e=new va(function(a,d){try{c.db=openDatabase(c.name,String(c.version),c.description,c.size)}catch(a){return d(a)}c.db.transaction(function(e){R(e,c,function(){b._dbInfo=c,a()},function(a,b){d(b)})},d)});return c.serializer=Va,e}function T(a,b,c,d,e,f){a.executeSql(c,d,e,function(a,g){g.code===g.SYNTAX_ERR?a.executeSql("SELECT name FROM sqlite_master WHERE type='table' AND name = ?",[b.storeName],function(a,h){h.rows.length?f(a,g):R(a,b,function(){a.executeSql(c,d,e,f)},f)},f):f(a,g)},f)}function U(a,b){var c=this;a=j(a);var d=new va(function(b,d){c.ready().then(function(){var e=c._dbInfo;e.db.transaction(function(c){T(c,e,"SELECT * FROM "+e.storeName+" WHERE key = ? LIMIT 1",[a],function(a,c){var d=c.rows.length?c.rows.item(0).value:null;d&&(d=e.serializer.deserialize(d)),b(d)},function(a,b){d(b)})})}).catch(d)});return h(d,b),d}function V(a,b){var c=this,d=new va(function(b,d){c.ready().then(function(){var e=c._dbInfo;e.db.transaction(function(c){T(c,e,"SELECT * FROM "+e.storeName,[],function(c,d){for(var f=d.rows,g=f.length,h=0;h<g;h++){var i=f.item(h),j=i.value;if(j&&(j=e.serializer.deserialize(j)),void 0!==(j=a(j,i.key,h+1)))return void b(j)}b()},function(a,b){d(b)})})}).catch(d)});return h(d,b),d}function W(a,b,c,d){var e=this;a=j(a);var f=new va(function(f,g){e.ready().then(function(){void 0===b&&(b=null);var h=b,i=e._dbInfo;i.serializer.serialize(b,function(b,j){j?g(j):i.db.transaction(function(c){T(c,i,"INSERT OR REPLACE INTO "+i.storeName+" (key, value) VALUES (?, ?)",[a,b],function(){f(h)},function(a,b){g(b)})},function(b){if(b.code===b.QUOTA_ERR){if(d>0)return void f(W.apply(e,[a,h,c,d-1]));g(b)}})})}).catch(g)});return h(f,c),f}function X(a,b,c){return W.apply(this,[a,b,c,1])}function Y(a,b){var c=this;a=j(a);var d=new va(function(b,d){c.ready().then(function(){var e=c._dbInfo;e.db.transaction(function(c){T(c,e,"DELETE FROM "+e.storeName+" WHERE key = ?",[a],function(){b()},function(a,b){d(b)})})}).catch(d)});return h(d,b),d}function Z(a){var b=this,c=new va(function(a,c){b.ready().then(function(){var d=b._dbInfo;d.db.transaction(function(b){T(b,d,"DELETE FROM "+d.storeName,[],function(){a()},function(a,b){c(b)})})}).catch(c)});return h(c,a),c}function $(a){var b=this,c=new va(function(a,c){b.ready().then(function(){var d=b._dbInfo;d.db.transaction(function(b){T(b,d,"SELECT COUNT(key) as c FROM "+d.storeName,[],function(b,c){var d=c.rows.item(0).c;a(d)},function(a,b){c(b)})})}).catch(c)});return h(c,a),c}function _(a,b){var c=this,d=new va(function(b,d){c.ready().then(function(){var e=c._dbInfo;e.db.transaction(function(c){T(c,e,"SELECT key FROM "+e.storeName+" WHERE id = ? LIMIT 1",[a+1],function(a,c){var d=c.rows.length?c.rows.item(0).key:null;b(d)},function(a,b){d(b)})})}).catch(d)});return h(d,b),d}function aa(a){var b=this,c=new va(function(a,c){b.ready().then(function(){var d=b._dbInfo;d.db.transaction(function(b){T(b,d,"SELECT key FROM "+d.storeName,[],function(b,c){for(var d=[],e=0;e<c.rows.length;e++)d.push(c.rows.item(e).key);a(d)},function(a,b){c(b)})})}).catch(c)});return h(c,a),c}function ba(a){return new va(function(b,c){a.transaction(function(d){d.executeSql("SELECT name FROM sqlite_master WHERE type='table' AND name <> '__WebKitDatabaseInfoTable__'",[],function(c,d){for(var e=[],f=0;f<d.rows.length;f++)e.push(d.rows.item(f).name);b({db:a,storeNames:e})},function(a,b){c(b)})},function(a){c(a)})})}function ca(a,b){b=k.apply(this,arguments);var c=this.config();a="function"!=typeof a&&a||{},a.name||(a.name=a.name||c.name,a.storeName=a.storeName||c.storeName);var d,e=this;return d=a.name?new va(function(b){var d;d=a.name===c.name?e._dbInfo.db:openDatabase(a.name,"","",0),b(a.storeName?{db:d,storeNames:[a.storeName]}:ba(d))}).then(function(a){return new va(function(b,c){a.db.transaction(function(d){function e(a){return new va(function(b,c){d.executeSql("DROP TABLE IF EXISTS "+a,[],function(){b()},function(a,b){c(b)})})}for(var f=[],g=0,h=a.storeNames.length;g<h;g++)f.push(e(a.storeNames[g]));va.all(f).then(function(){b()}).catch(function(a){c(a)})},function(a){c(a)})})}):va.reject("Invalid arguments"),h(d,b),d}function da(){try{return"undefined"!=typeof localStorage&&"setItem"in localStorage&&!!localStorage.setItem}catch(a){return!1}}function ea(a,b){var c=a.name+"/";return a.storeName!==b.storeName&&(c+=a.storeName+"/"),c}function fa(){var a="_localforage_support_test";try{return localStorage.setItem(a,!0),localStorage.removeItem(a),!1}catch(a){return!0}}function ga(){return!fa()||localStorage.length>0}function ha(a){var b=this,c={};if(a)for(var d in a)c[d]=a[d];return c.keyPrefix=ea(a,b._defaultConfig),ga()?(b._dbInfo=c,c.serializer=Va,va.resolve()):va.reject()}function ia(a){var b=this,c=b.ready().then(function(){for(var a=b._dbInfo.keyPrefix,c=localStorage.length-1;c>=0;c--){var d=localStorage.key(c);0===d.indexOf(a)&&localStorage.removeItem(d)}});return h(c,a),c}function ja(a,b){var c=this;a=j(a);var d=c.ready().then(function(){var b=c._dbInfo,d=localStorage.getItem(b.keyPrefix+a);return d&&(d=b.serializer.deserialize(d)),d});return h(d,b),d}function ka(a,b){var c=this,d=c.ready().then(function(){for(var b=c._dbInfo,d=b.keyPrefix,e=d.length,f=localStorage.length,g=1,h=0;h<f;h++){var i=localStorage.key(h);if(0===i.indexOf(d)){var j=localStorage.getItem(i);if(j&&(j=b.serializer.deserialize(j)),void 0!==(j=a(j,i.substring(e),g++)))return j}}});return h(d,b),d}function la(a,b){var c=this,d=c.ready().then(function(){var b,d=c._dbInfo;try{b=localStorage.key(a)}catch(a){b=null}return b&&(b=b.substring(d.keyPrefix.length)),b});return h(d,b),d}function ma(a){var b=this,c=b.ready().then(function(){for(var a=b._dbInfo,c=localStorage.length,d=[],e=0;e<c;e++){var f=localStorage.key(e);0===f.indexOf(a.keyPrefix)&&d.push(f.substring(a.keyPrefix.length))}return d});return h(c,a),c}function na(a){var b=this,c=b.keys().then(function(a){return a.length});return h(c,a),c}function oa(a,b){var c=this;a=j(a);var d=c.ready().then(function(){var b=c._dbInfo;localStorage.removeItem(b.keyPrefix+a)});return h(d,b),d}function pa(a,b,c){var d=this;a=j(a);var e=d.ready().then(function(){void 0===b&&(b=null);var c=b;return new va(function(e,f){var g=d._dbInfo;g.serializer.serialize(b,function(b,d){if(d)f(d);else try{localStorage.setItem(g.keyPrefix+a,b),e(c)}catch(a){"QuotaExceededError"!==a.name&&"NS_ERROR_DOM_QUOTA_REACHED"!==a.name||f(a),f(a)}})})});return h(e,c),e}function qa(a,b){if(b=k.apply(this,arguments),a="function"!=typeof a&&a||{},!a.name){var c=this.config();a.name=a.name||c.name,a.storeName=a.storeName||c.storeName}var d,e=this;return d=a.name?new va(function(b){b(a.storeName?ea(a,e._defaultConfig):a.name+"/")}).then(function(a){for(var b=localStorage.length-1;b>=0;b--){var c=localStorage.key(b);0===c.indexOf(a)&&localStorage.removeItem(c)}}):va.reject("Invalid arguments"),h(d,b),d}function ra(a,b){a[b]=function(){var c=arguments;return a.ready().then(function(){return a[b].apply(a,c)})}}function sa(){for(var a=1;a<arguments.length;a++){var b=arguments[a];if(b)for(var c in b)b.hasOwnProperty(c)&&($a(b[c])?arguments[0][c]=b[c].slice():arguments[0][c]=b[c])}return arguments[0]}var ta="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(a){return typeof a}:function(a){return a&&"function"==typeof Symbol&&a.constructor===Symbol&&a!==Symbol.prototype?"symbol":typeof a},ua=e();"undefined"==typeof Promise&&a(3);var va=Promise,wa="local-forage-detect-blob-support",xa=void 0,ya={},za=Object.prototype.toString,Aa="readonly",Ba="readwrite",Ca={_driver:"asyncStorage",_initStorage:C,_support:f(),iterate:E,getItem:D,setItem:F,removeItem:G,clear:H,length:I,key:J,keys:K,dropInstance:L},Da="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",Ea="~~local_forage_type~",Fa=/^~~local_forage_type~([^~]+)~/,Ga="__lfsc__:",Ha=Ga.length,Ia="arbf",Ja="blob",Ka="si08",La="ui08",Ma="uic8",Na="si16",Oa="si32",Pa="ur16",Qa="ui32",Ra="fl32",Sa="fl64",Ta=Ha+Ia.length,Ua=Object.prototype.toString,Va={serialize:P,deserialize:Q,stringToBuffer:N,bufferToString:O},Wa={_driver:"webSQLStorage",_initStorage:S,_support:M(),iterate:V,getItem:U,setItem:X,removeItem:Y,clear:Z,length:$,key:_,keys:aa,dropInstance:ca},Xa={_driver:"localStorageWrapper",_initStorage:ha,_support:da(),iterate:ka,getItem:ja,setItem:pa,removeItem:oa,clear:ia,length:na,key:la,keys:ma,dropInstance:qa},Ya=function(a,b){return a===b||"number"==typeof a&&"number"==typeof b&&isNaN(a)&&isNaN(b)},Za=function(a,b){for(var c=a.length,d=0;d<c;){if(Ya(a[d],b))return!0;d++}return!1},$a=Array.isArray||function(a){return"[object Array]"===Object.prototype.toString.call(a)},_a={},ab={},bb={INDEXEDDB:Ca,WEBSQL:Wa,LOCALSTORAGE:Xa},cb=[bb.INDEXEDDB._driver,bb.WEBSQL._driver,bb.LOCALSTORAGE._driver],db=["dropInstance"],eb=["clear","getItem","iterate","key","keys","length","removeItem","setItem"].concat(db),fb={description:"",driver:cb.slice(),name:"localforage",size:4980736,storeName:"keyvaluepairs",version:1},gb=function(){function a(b){d(this,a);for(var c in bb)if(bb.hasOwnProperty(c)){var e=bb[c],f=e._driver;this[c]=f,_a[f]||this.defineDriver(e)}this._defaultConfig=sa({},fb),this._config=sa({},this._defaultConfig,b),this._driverSet=null,this._initDriver=null,this._ready=!1,this._dbInfo=null,this._wrapLibraryMethodsWithReady(),this.setDriver(this._config.driver).catch(function(){})}return a.prototype.config=function(a){if("object"===(void 0===a?"undefined":ta(a))){if(this._ready)return new Error("Can't call config() after localforage has been used.");for(var b in a){if("storeName"===b&&(a[b]=a[b].replace(/\W/g,"_")),"version"===b&&"number"!=typeof a[b])return new Error("Database version must be a number.");this._config[b]=a[b]}return!("driver"in a&&a.driver)||this.setDriver(this._config.driver)}return"string"==typeof a?this._config[a]:this._config},a.prototype.defineDriver=function(a,b,c){var d=new va(function(b,c){try{var d=a._driver,e=new Error("Custom driver not compliant; see https://mozilla.github.io/localForage/#definedriver");if(!a._driver)return void c(e);for(var f=eb.concat("_initStorage"),g=0,i=f.length;g<i;g++){var j=f[g];if((!Za(db,j)||a[j])&&"function"!=typeof a[j])return void c(e)}(function(){for(var b=function(a){return function(){var b=new Error("Method "+a+" is not implemented by the current driver"),c=va.reject(b);return h(c,arguments[arguments.length-1]),c}},c=0,d=db.length;c<d;c++){var e=db[c];a[e]||(a[e]=b(e))}})();var k=function(c){_a[d]&&console.info("Redefining LocalForage driver: "+d),_a[d]=a,ab[d]=c,b()};"_support"in a?a._support&&"function"==typeof a._support?a._support().then(k,c):k(!!a._support):k(!0)}catch(a){c(a)}});return i(d,b,c),d},a.prototype.driver=function(){return this._driver||null},a.prototype.getDriver=function(a,b,c){var d=_a[a]?va.resolve(_a[a]):va.reject(new Error("Driver not found."));return i(d,b,c),d},a.prototype.getSerializer=function(a){var b=va.resolve(Va);return i(b,a),b},a.prototype.ready=function(a){var b=this,c=b._driverSet.then(function(){return null===b._ready&&(b._ready=b._initDriver()),b._ready});return i(c,a,a),c},a.prototype.setDriver=function(a,b,c){function d(){g._config.driver=g.driver()}function e(a){return g._extend(a),d(),g._ready=g._initStorage(g._config),g._ready}function f(a){return function(){function b(){for(;c<a.length;){var f=a[c];return c++,g._dbInfo=null,g._ready=null,g.getDriver(f).then(e).catch(b)}d();var h=new Error("No available storage method found.");return g._driverSet=va.reject(h),g._driverSet}var c=0;return b()}}var g=this;$a(a)||(a=[a]);var h=this._getSupportedDrivers(a),j=null!==this._driverSet?this._driverSet.catch(function(){return va.resolve()}):va.resolve();return this._driverSet=j.then(function(){var a=h[0];return g._dbInfo=null,g._ready=null,g.getDriver(a).then(function(a){g._driver=a._driver,d(),g._wrapLibraryMethodsWithReady(),g._initDriver=f(h)})}).catch(function(){d();var a=new Error("No available storage method found.");return g._driverSet=va.reject(a),g._driverSet}),i(this._driverSet,b,c),this._driverSet},a.prototype.supports=function(a){return!!ab[a]},a.prototype._extend=function(a){sa(this,a)},a.prototype._getSupportedDrivers=function(a){for(var b=[],c=0,d=a.length;c<d;c++){var e=a[c];this.supports(e)&&b.push(e)}return b},a.prototype._wrapLibraryMethodsWithReady=function(){for(var a=0,b=eb.length;a<b;a++)ra(this,eb[a])},a.prototype.createInstance=function(b){return new a(b)},a}(),hb=new gb;b.exports=hb},{3:3}]},{},[4])(4)});</script>
 <script data-offline="lucide">/* 精简版 lucide：只含本页面用到的 68 个图标，离线可用 */
 (function(){
-var ICONS = {"bed-double":[["path",{"d":"M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"}],["path",{"d":"M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"}],["path",{"d":"M12 4v6"}],["path",{"d":"M2 18h20"}]],"chevron-left":[["path",{"d":"m15 18-6-6 6-6"}]],"map-pin":[["path",{"d":"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"}],["circle",{"cx":"12","cy":"10","r":"3"}]],"refresh-cw":[["path",{"d":"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"}],["path",{"d":"M21 3v5h-5"}],["path",{"d":"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"}],["path",{"d":"M8 16H3v5"}]],"trash-2":[["path",{"d":"M10 11v6"}],["path",{"d":"M14 11v6"}],["path",{"d":"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"}],["path",{"d":"M3 6h18"}],["path",{"d":"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"}]],"chevron-right":[["path",{"d":"m9 18 6-6-6-6"}]],"image-down":[["path",{"d":"M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 21"}],["path",{"d":"m14 19 3 3v-5.5"}],["path",{"d":"m17 22 3-3"}],["circle",{"cx":"9","cy":"9","r":"2"}]],"hard-drive":[["path",{"d":"M10 16h.01"}],["path",{"d":"M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"}],["path",{"d":"M21.946 12.013H2.054"}],["path",{"d":"M6 16h.01"}]],"folder-cog":[["path",{"d":"M10.3 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.98a2 2 0 0 1 1.69.9l.66 1.2A2 2 0 0 0 12 6h8a2 2 0 0 1 2 2v3.3"}],["path",{"d":"m14.305 19.53.923-.382"}],["path",{"d":"m15.228 16.852-.923-.383"}],["path",{"d":"m16.852 15.228-.383-.923"}],["path",{"d":"m16.852 20.772-.383.924"}],["path",{"d":"m19.148 15.228.383-.923"}],["path",{"d":"m19.53 21.696-.382-.924"}],["path",{"d":"m20.772 16.852.924-.383"}],["path",{"d":"m20.772 19.148.924.383"}],["circle",{"cx":"18","cy":"18","r":"3"}]],"edit-2":[["path",{"d":"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"}]],"chevron-up":[["path",{"d":"m18 15-6-6-6 6"}]],"chevron-down":[["path",{"d":"m6 9 6 6 6-6"}]],"phone-missed":[["path",{"d":"m16 2 6 6"}],["path",{"d":"m22 2-6 6"}],["path",{"d":"M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"}]],"more-horizontal":[["circle",{"cx":"12","cy":"12","r":"1"}],["circle",{"cx":"19","cy":"12","r":"1"}],["circle",{"cx":"5","cy":"12","r":"1"}]],"arrow-up":[["path",{"d":"m5 12 7-7 7 7"}],["path",{"d":"M12 19V5"}]],"clipboard-list":[["rect",{"width":"8","height":"4","x":"8","y":"2","rx":"1","ry":"1"}],["path",{"d":"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"}],["path",{"d":"M12 11h4"}],["path",{"d":"M12 16h4"}],["path",{"d":"M8 11h.01"}],["path",{"d":"M8 16h.01"}]],"grid-3x3":[["rect",{"width":"18","height":"18","x":"3","y":"3","rx":"2"}],["path",{"d":"M3 9h18"}],["path",{"d":"M3 15h18"}],["path",{"d":"M9 3v18"}],["path",{"d":"M15 3v18"}]],"git-fork":[["circle",{"cx":"12","cy":"18","r":"3"}],["circle",{"cx":"6","cy":"6","r":"3"}],["circle",{"cx":"18","cy":"6","r":"3"}],["path",{"d":"M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"}],["path",{"d":"M12 12v3"}]],"list-music":[["path",{"d":"M16 5H3"}],["path",{"d":"M11 12H3"}],["path",{"d":"M11 19H3"}],["path",{"d":"M21 16V5"}],["circle",{"cx":"18","cy":"16","r":"3"}]],"disc-3":[["circle",{"cx":"12","cy":"12","r":"10"}],["path",{"d":"M6 12c0-1.7.7-3.2 1.8-4.2"}],["circle",{"cx":"12","cy":"12","r":"2"}],["path",{"d":"M18 12c0 1.7-.7 3.2-1.8 4.2"}]],"skip-back":[["path",{"d":"M17.971 4.285A2 2 0 0 1 21 6v12a2 2 0 0 1-3.029 1.715l-9.997-5.998a2 2 0 0 1-.003-3.432z"}],["path",{"d":"M3 20V4"}]],"skip-forward":[["path",{"d":"M21 4v16"}],["path",{"d":"M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"}]],"volume-2":[["path",{"d":"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"}],["path",{"d":"M16 9a5 5 0 0 1 0 6"}],["path",{"d":"M19.364 18.364a9 9 0 0 0 0-12.728"}]],"image-plus":[["path",{"d":"M16 5h6"}],["path",{"d":"M19 2v6"}],["path",{"d":"M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5"}],["path",{"d":"m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"}],["circle",{"cx":"9","cy":"9","r":"2"}]],"cloud-sun":[["path",{"d":"M12 2v2"}],["path",{"d":"m4.93 4.93 1.41 1.41"}],["path",{"d":"M20 12h2"}],["path",{"d":"m19.07 4.93-1.41 1.41"}],["path",{"d":"M15.947 12.65a4 4 0 0 0-5.925-4.128"}],["path",{"d":"M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"}]],"cloud-fog":[["path",{"d":"M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"}],["path",{"d":"M16 17H7"}],["path",{"d":"M17 21H9"}]],"cloud-drizzle":[["path",{"d":"M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"}],["path",{"d":"M8 19v1"}],["path",{"d":"M8 14v1"}],["path",{"d":"M16 19v1"}],["path",{"d":"M16 14v1"}],["path",{"d":"M12 21v1"}],["path",{"d":"M12 16v1"}]],"cloud-rain":[["path",{"d":"M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"}],["path",{"d":"M16 14v6"}],["path",{"d":"M8 14v6"}],["path",{"d":"M12 16v6"}]],"cloud-snow":[["path",{"d":"M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"}],["path",{"d":"M8 15h.01"}],["path",{"d":"M8 19h.01"}],["path",{"d":"M12 17h.01"}],["path",{"d":"M12 21h.01"}],["path",{"d":"M16 15h.01"}],["path",{"d":"M16 19h.01"}]],"cloud-lightning":[["path",{"d":"M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"}],["path",{"d":"m13 12-3 5h4l-3 5"}]],"pie-chart":[["path",{"d":"M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"}],["path",{"d":"M21.21 15.89A10 10 0 1 1 8 2.83"}]],"sliders-horizontal":[["path",{"d":"M10 5H3"}],["path",{"d":"M12 19H3"}],["path",{"d":"M14 3v4"}],["path",{"d":"M16 17v4"}],["path",{"d":"M21 12h-9"}],["path",{"d":"M21 19h-5"}],["path",{"d":"M21 5h-7"}],["path",{"d":"M8 10v4"}],["path",{"d":"M8 12H3"}]],"moon-star":[["path",{"d":"M18 5h4"}],["path",{"d":"M20 3v4"}],["path",{"d":"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"}]],"phone":[["path",{"d":"M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"}]],"x":[["path",{"d":"M18 6 6 18"}],["path",{"d":"m6 6 12 12"}]],"plus":[["path",{"d":"M5 12h14"}],["path",{"d":"M12 5v14"}]],"home":[["path",{"d":"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"}],["path",{"d":"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"}]],"music":[["path",{"d":"M21 16V3a1 1 0 0 0-1.28-.96l-10 2.917a1 1 0 0 0-.72.96V19"}],["circle",{"cx":"18","cy":"16","r":"3"}],["circle",{"cx":"6","cy":"19","r":"3"}]],"mail":[["path",{"d":"m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"}],["rect",{"x":"2","y":"4","width":"20","height":"16","rx":"2"}]],"image":[["rect",{"width":"18","height":"18","x":"3","y":"3","rx":"2","ry":"2"}],["circle",{"cx":"9","cy":"9","r":"2"}],["path",{"d":"m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"}]],"search":[["path",{"d":"m21 21-4.34-4.34"}],["circle",{"cx":"11","cy":"11","r":"8"}]],"camera":[["path",{"d":"M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"}],["circle",{"cx":"12","cy":"13","r":"3"}]],"cloud":[["path",{"d":"M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"}]],"sun":[["circle",{"cx":"12","cy":"12","r":"4"}],["path",{"d":"M12 2v2"}],["path",{"d":"M12 20v2"}],["path",{"d":"m4.93 4.93 1.41 1.41"}],["path",{"d":"m17.66 17.66 1.41 1.41"}],["path",{"d":"M2 12h2"}],["path",{"d":"M20 12h2"}],["path",{"d":"m6.34 17.66-1.41 1.41"}],["path",{"d":"m19.07 4.93-1.41 1.41"}]],"wind":[["path",{"d":"M12.8 19.6A2 2 0 1 0 14 16H2"}],["path",{"d":"M17.5 8a2.5 2.5 0 1 1 2 4H2"}],["path",{"d":"M9.8 4.4A2 2 0 1 1 11 8H2"}]],"droplet":[["path",{"d":"M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"}]],"droplets":[["path",{"d":"M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"}],["path",{"d":"M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"}]],"thermometer":[["path",{"d":"M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"}]],"navigation":[["polygon",{"points":"3 11 22 2 13 21 11 13 3 11"}]],"video":[["path",{"d":"m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"}],["rect",{"x":"2","y":"6","width":"14","height":"12","rx":"2"}]],"mic":[["path",{"d":"M12 19v3"}],["path",{"d":"M19 10v2a7 7 0 0 1-14 0v-2"}],["rect",{"x":"9","y":"2","width":"6","height":"13","rx":"3"}]],"play":[["path",{"d":"M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"}]],"radio":[["path",{"d":"M16.247 7.761a6 6 0 0 1 0 8.478"}],["path",{"d":"M19.075 4.933a10 10 0 0 1 0 14.134"}],["path",{"d":"M4.925 19.067a10 10 0 0 1 0-14.134"}],["path",{"d":"M7.753 16.239a6 6 0 0 1 0-8.478"}],["circle",{"cx":"12","cy":"12","r":"2"}]],"smile":[["path",{"d":"M15 10V9"}],["path",{"d":"M16.472 15a6 6 0 01-8.943 0"}],["path",{"d":"M9 10V9"}],["circle",{"cx":"12","cy":"12","r":"10"}]],"heart":[["path",{"d":"M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"}]],"gift":[["path",{"d":"M12 7v14"}],["path",{"d":"M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"}],["path",{"d":"M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"}],["rect",{"x":"3","y":"7","width":"18","height":"4","rx":"1"}]],"feather":[["path",{"d":"M14.086 18.412A2 2 0 0112.67 19H5v-7.672a2 2 0 01.586-1.414L11.75 3.75a6 6 0 118.49 8.49z"}],["path",{"d":"M16 8 2 22"}],["path",{"d":"M17.488 15H9"}]],"notebook":[["path",{"d":"M2 6h4"}],["path",{"d":"M2 10h4"}],["path",{"d":"M2 14h4"}],["path",{"d":"M2 18h4"}],["rect",{"width":"16","height":"20","x":"4","y":"2","rx":"2"}],["path",{"d":"M16 2v20"}]],"database":[["ellipse",{"cx":"12","cy":"5","rx":"9","ry":"3"}],["path",{"d":"M3 5V19A9 3 0 0 0 21 19V5"}],["path",{"d":"M3 12A9 3 0 0 0 21 12"}]],"download":[["path",{"d":"M12 15V3"}],["path",{"d":"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"}],["path",{"d":"m7 10 5 5 5-5"}]],"upload":[["path",{"d":"M12 3v12"}],["path",{"d":"m17 8-5-5-5 5"}],["path",{"d":"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"}]],"link":[["path",{"d":"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"}],["path",{"d":"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"}]],"copy":[["rect",{"width":"14","height":"14","x":"8","y":"8","rx":"2","ry":"2"}],["path",{"d":"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"}]],"flame":[["path",{"d":"M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"}]],"eraser":[["path",{"d":"M21 21H8a2 2 0 0 1-1.42-.587l-3.994-3.999a2 2 0 0 1 0-2.828l10-10a2 2 0 0 1 2.829 0l5.999 6a2 2 0 0 1 0 2.828L12.834 21"}],["path",{"d":"m5.082 11.09 8.828 8.828"}]],"library":[["path",{"d":"m16 6 4 14"}],["path",{"d":"M12 6v14"}],["path",{"d":"M8 8v12"}],["path",{"d":"M4 4v16"}]],"clapperboard":[["path",{"d":"m12.296 3.464 3.02 3.956"}],["path",{"d":"M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z"}],["path",{"d":"M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"}],["path",{"d":"m6.18 5.276 3.1 3.899"}]],"tv":[["path",{"d":"m17 2-5 5-5-5"}],["rect",{"width":"20","height":"15","x":"2","y":"7","rx":"2"}]],"smartphone":[["rect",{"width":"14","height":"20","x":"5","y":"2","rx":"2","ry":"2"}],["path",{"d":"M12 18h.01"}]]};
+var ICONS = {"shopping-bag":[["path",{"d":"M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"}],["path",{"d":"M3 6h18"}],["path",{"d":"M16 10a4 4 0 0 1-8 0"}]],"bed-double":[["path",{"d":"M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"}],["path",{"d":"M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"}],["path",{"d":"M12 4v6"}],["path",{"d":"M2 18h20"}]],"chevron-left":[["path",{"d":"m15 18-6-6 6-6"}]],"map-pin":[["path",{"d":"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"}],["circle",{"cx":"12","cy":"10","r":"3"}]],"refresh-cw":[["path",{"d":"M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"}],["path",{"d":"M21 3v5h-5"}],["path",{"d":"M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"}],["path",{"d":"M8 16H3v5"}]],"trash-2":[["path",{"d":"M10 11v6"}],["path",{"d":"M14 11v6"}],["path",{"d":"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"}],["path",{"d":"M3 6h18"}],["path",{"d":"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"}]],"chevron-right":[["path",{"d":"m9 18 6-6-6-6"}]],"image-down":[["path",{"d":"M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 21"}],["path",{"d":"m14 19 3 3v-5.5"}],["path",{"d":"m17 22 3-3"}],["circle",{"cx":"9","cy":"9","r":"2"}]],"hard-drive":[["path",{"d":"M10 16h.01"}],["path",{"d":"M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"}],["path",{"d":"M21.946 12.013H2.054"}],["path",{"d":"M6 16h.01"}]],"folder-cog":[["path",{"d":"M10.3 20H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.98a2 2 0 0 1 1.69.9l.66 1.2A2 2 0 0 0 12 6h8a2 2 0 0 1 2 2v3.3"}],["path",{"d":"m14.305 19.53.923-.382"}],["path",{"d":"m15.228 16.852-.923-.383"}],["path",{"d":"m16.852 15.228-.383-.923"}],["path",{"d":"m16.852 20.772-.383.924"}],["path",{"d":"m19.148 15.228.383-.923"}],["path",{"d":"m19.53 21.696-.382-.924"}],["path",{"d":"m20.772 16.852.924-.383"}],["path",{"d":"m20.772 19.148.924.383"}],["circle",{"cx":"18","cy":"18","r":"3"}]],"edit-2":[["path",{"d":"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"}]],"chevron-up":[["path",{"d":"m18 15-6-6-6 6"}]],"chevron-down":[["path",{"d":"m6 9 6 6 6-6"}]],"phone-missed":[["path",{"d":"m16 2 6 6"}],["path",{"d":"m22 2-6 6"}],["path",{"d":"M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"}]],"more-horizontal":[["circle",{"cx":"12","cy":"12","r":"1"}],["circle",{"cx":"19","cy":"12","r":"1"}],["circle",{"cx":"5","cy":"12","r":"1"}]],"arrow-up":[["path",{"d":"m5 12 7-7 7 7"}],["path",{"d":"M12 19V5"}]],"clipboard-list":[["rect",{"width":"8","height":"4","x":"8","y":"2","rx":"1","ry":"1"}],["path",{"d":"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"}],["path",{"d":"M12 11h4"}],["path",{"d":"M12 16h4"}],["path",{"d":"M8 11h.01"}],["path",{"d":"M8 16h.01"}]],"grid-3x3":[["rect",{"width":"18","height":"18","x":"3","y":"3","rx":"2"}],["path",{"d":"M3 9h18"}],["path",{"d":"M3 15h18"}],["path",{"d":"M9 3v18"}],["path",{"d":"M15 3v18"}]],"git-fork":[["circle",{"cx":"12","cy":"18","r":"3"}],["circle",{"cx":"6","cy":"6","r":"3"}],["circle",{"cx":"18","cy":"6","r":"3"}],["path",{"d":"M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"}],["path",{"d":"M12 12v3"}]],"list-music":[["path",{"d":"M16 5H3"}],["path",{"d":"M11 12H3"}],["path",{"d":"M11 19H3"}],["path",{"d":"M21 16V5"}],["circle",{"cx":"18","cy":"16","r":"3"}]],"disc-3":[["circle",{"cx":"12","cy":"12","r":"10"}],["path",{"d":"M6 12c0-1.7.7-3.2 1.8-4.2"}],["circle",{"cx":"12","cy":"12","r":"2"}],["path",{"d":"M18 12c0 1.7-.7 3.2-1.8 4.2"}]],"skip-back":[["path",{"d":"M17.971 4.285A2 2 0 0 1 21 6v12a2 2 0 0 1-3.029 1.715l-9.997-5.998a2 2 0 0 1-.003-3.432z"}],["path",{"d":"M3 20V4"}]],"skip-forward":[["path",{"d":"M21 4v16"}],["path",{"d":"M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"}]],"volume-2":[["path",{"d":"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"}],["path",{"d":"M16 9a5 5 0 0 1 0 6"}],["path",{"d":"M19.364 18.364a9 9 0 0 0 0-12.728"}]],"image-plus":[["path",{"d":"M16 5h6"}],["path",{"d":"M19 2v6"}],["path",{"d":"M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5"}],["path",{"d":"m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"}],["circle",{"cx":"9","cy":"9","r":"2"}]],"cloud-sun":[["path",{"d":"M12 2v2"}],["path",{"d":"m4.93 4.93 1.41 1.41"}],["path",{"d":"M20 12h2"}],["path",{"d":"m19.07 4.93-1.41 1.41"}],["path",{"d":"M15.947 12.65a4 4 0 0 0-5.925-4.128"}],["path",{"d":"M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"}]],"cloud-fog":[["path",{"d":"M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"}],["path",{"d":"M16 17H7"}],["path",{"d":"M17 21H9"}]],"cloud-drizzle":[["path",{"d":"M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"}],["path",{"d":"M8 19v1"}],["path",{"d":"M8 14v1"}],["path",{"d":"M16 19v1"}],["path",{"d":"M16 14v1"}],["path",{"d":"M12 21v1"}],["path",{"d":"M12 16v1"}]],"cloud-rain":[["path",{"d":"M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"}],["path",{"d":"M16 14v6"}],["path",{"d":"M8 14v6"}],["path",{"d":"M12 16v6"}]],"cloud-snow":[["path",{"d":"M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"}],["path",{"d":"M8 15h.01"}],["path",{"d":"M8 19h.01"}],["path",{"d":"M12 17h.01"}],["path",{"d":"M12 21h.01"}],["path",{"d":"M16 15h.01"}],["path",{"d":"M16 19h.01"}]],"cloud-lightning":[["path",{"d":"M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"}],["path",{"d":"m13 12-3 5h4l-3 5"}]],"pie-chart":[["path",{"d":"M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"}],["path",{"d":"M21.21 15.89A10 10 0 1 1 8 2.83"}]],"sliders-horizontal":[["path",{"d":"M10 5H3"}],["path",{"d":"M12 19H3"}],["path",{"d":"M14 3v4"}],["path",{"d":"M16 17v4"}],["path",{"d":"M21 12h-9"}],["path",{"d":"M21 19h-5"}],["path",{"d":"M21 5h-7"}],["path",{"d":"M8 10v4"}],["path",{"d":"M8 12H3"}]],"moon-star":[["path",{"d":"M18 5h4"}],["path",{"d":"M20 3v4"}],["path",{"d":"M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"}]],"phone":[["path",{"d":"M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"}]],"x":[["path",{"d":"M18 6 6 18"}],["path",{"d":"m6 6 12 12"}]],"plus":[["path",{"d":"M5 12h14"}],["path",{"d":"M12 5v14"}]],"home":[["path",{"d":"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"}],["path",{"d":"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"}]],"music":[["path",{"d":"M21 16V3a1 1 0 0 0-1.28-.96l-10 2.917a1 1 0 0 0-.72.96V19"}],["circle",{"cx":"18","cy":"16","r":"3"}],["circle",{"cx":"6","cy":"19","r":"3"}]],"mail":[["path",{"d":"m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"}],["rect",{"x":"2","y":"4","width":"20","height":"16","rx":"2"}]],"image":[["rect",{"width":"18","height":"18","x":"3","y":"3","rx":"2","ry":"2"}],["circle",{"cx":"9","cy":"9","r":"2"}],["path",{"d":"m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"}]],"search":[["path",{"d":"m21 21-4.34-4.34"}],["circle",{"cx":"11","cy":"11","r":"8"}]],"camera":[["path",{"d":"M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"}],["circle",{"cx":"12","cy":"13","r":"3"}]],"cloud":[["path",{"d":"M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"}]],"sun":[["circle",{"cx":"12","cy":"12","r":"4"}],["path",{"d":"M12 2v2"}],["path",{"d":"M12 20v2"}],["path",{"d":"m4.93 4.93 1.41 1.41"}],["path",{"d":"m17.66 17.66 1.41 1.41"}],["path",{"d":"M2 12h2"}],["path",{"d":"M20 12h2"}],["path",{"d":"m6.34 17.66-1.41 1.41"}],["path",{"d":"m19.07 4.93-1.41 1.41"}]],"wind":[["path",{"d":"M12.8 19.6A2 2 0 1 0 14 16H2"}],["path",{"d":"M17.5 8a2.5 2.5 0 1 1 2 4H2"}],["path",{"d":"M9.8 4.4A2 2 0 1 1 11 8H2"}]],"droplet":[["path",{"d":"M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"}]],"droplets":[["path",{"d":"M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"}],["path",{"d":"M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"}]],"thermometer":[["path",{"d":"M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"}]],"navigation":[["polygon",{"points":"3 11 22 2 13 21 11 13 3 11"}]],"video":[["path",{"d":"m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"}],["rect",{"x":"2","y":"6","width":"14","height":"12","rx":"2"}]],"mic":[["path",{"d":"M12 19v3"}],["path",{"d":"M19 10v2a7 7 0 0 1-14 0v-2"}],["rect",{"x":"9","y":"2","width":"6","height":"13","rx":"3"}]],"play":[["path",{"d":"M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"}]],"radio":[["path",{"d":"M16.247 7.761a6 6 0 0 1 0 8.478"}],["path",{"d":"M19.075 4.933a10 10 0 0 1 0 14.134"}],["path",{"d":"M4.925 19.067a10 10 0 0 1 0-14.134"}],["path",{"d":"M7.753 16.239a6 6 0 0 1 0-8.478"}],["circle",{"cx":"12","cy":"12","r":"2"}]],"smile":[["path",{"d":"M15 10V9"}],["path",{"d":"M16.472 15a6 6 0 01-8.943 0"}],["path",{"d":"M9 10V9"}],["circle",{"cx":"12","cy":"12","r":"10"}]],"heart":[["path",{"d":"M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"}]],"gift":[["path",{"d":"M12 7v14"}],["path",{"d":"M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"}],["path",{"d":"M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"}],["rect",{"x":"3","y":"7","width":"18","height":"4","rx":"1"}]],"feather":[["path",{"d":"M14.086 18.412A2 2 0 0112.67 19H5v-7.672a2 2 0 01.586-1.414L11.75 3.75a6 6 0 118.49 8.49z"}],["path",{"d":"M16 8 2 22"}],["path",{"d":"M17.488 15H9"}]],"notebook":[["path",{"d":"M2 6h4"}],["path",{"d":"M2 10h4"}],["path",{"d":"M2 14h4"}],["path",{"d":"M2 18h4"}],["rect",{"width":"16","height":"20","x":"4","y":"2","rx":"2"}],["path",{"d":"M16 2v20"}]],"database":[["ellipse",{"cx":"12","cy":"5","rx":"9","ry":"3"}],["path",{"d":"M3 5V19A9 3 0 0 0 21 19V5"}],["path",{"d":"M3 12A9 3 0 0 0 21 12"}]],"download":[["path",{"d":"M12 15V3"}],["path",{"d":"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"}],["path",{"d":"m7 10 5 5 5-5"}]],"upload":[["path",{"d":"M12 3v12"}],["path",{"d":"m17 8-5-5-5 5"}],["path",{"d":"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"}]],"link":[["path",{"d":"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"}],["path",{"d":"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"}]],"copy":[["rect",{"width":"14","height":"14","x":"8","y":"8","rx":"2","ry":"2"}],["path",{"d":"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"}]],"flame":[["path",{"d":"M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"}]],"eraser":[["path",{"d":"M21 21H8a2 2 0 0 1-1.42-.587l-3.994-3.999a2 2 0 0 1 0-2.828l10-10a2 2 0 0 1 2.829 0l5.999 6a2 2 0 0 1 0 2.828L12.834 21"}],["path",{"d":"m5.082 11.09 8.828 8.828"}]],"library":[["path",{"d":"m16 6 4 14"}],["path",{"d":"M12 6v14"}],["path",{"d":"M8 8v12"}],["path",{"d":"M4 4v16"}]],"clapperboard":[["path",{"d":"m12.296 3.464 3.02 3.956"}],["path",{"d":"M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z"}],["path",{"d":"M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"}],["path",{"d":"m6.18 5.276 3.1 3.899"}]],"tv":[["path",{"d":"m17 2-5 5-5-5"}],["rect",{"width":"20","height":"15","x":"2","y":"7","rx":"2"}]],"smartphone":[["rect",{"width":"14","height":"20","x":"5","y":"2","rx":"2","ry":"2"}],["path",{"d":"M12 18h.01"}]]};
 function toPascal(s){ return s.replace(/(^|-)([a-z0-9])/g, function(_,a,c){ return c.toUpperCase(); }); }
 function build(name, i){
   var nodes = ICONS[name] || ICONS[toPascal(name)];
@@ -1629,6 +1629,159 @@ body { background-color:#d1d5db; font-family:"PingFang SC","Microsoft YaHei",sys
 /* 【修复】原写法 max-height:190px + overflow-y:auto 让列表面板成为嵌套滚动容器。
    手指落在面板上时滚动被内层吃掉，内层滚不动又传不回外层(main)，表现为"整个页面滑不动"。
    改为随页面一起滚动，彻底消除嵌套滚动。 */
+/* ===== 商场：日常 / 服装 / 吃的 / 限定 / 两个世界 ===== */
+.shop-page { background:var(--color-bg); }
+.shop-head { display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:13px 16px; border-bottom:1px solid var(--color-border); }
+.shop-head .shop-h-title { font-size:13px; letter-spacing:.16em; color:var(--color-text); }
+.shop-head .shop-h-btn { font-size:11px; padding:6px 11px; border-radius:999px; cursor:pointer;
+      border:1px solid var(--color-border); color:var(--color-text); background:var(--color-surface); }
+.shop-wallet { margin:14px 16px 0; padding:13px 15px; border-radius:16px;
+      border:1px solid var(--color-border); background:var(--color-surface);
+      display:flex; align-items:center; gap:10px; }
+.shop-wallet .w-l { flex:1; min-width:0; }
+.shop-wallet .w-t { font-size:10px; color:var(--color-muted); letter-spacing:.08em; }
+.shop-wallet .w-n { font-size:21px; color:var(--color-text); font-family:'Noto Serif SC','Noto Serif SC Offline',serif; margin-top:2px; }
+.shop-wallet .w-edit { font-size:10.5px; padding:6px 10px; border-radius:999px; cursor:pointer;
+      border:1px solid var(--color-border); color:var(--color-muted); background:transparent; white-space:nowrap; }
+.shop-wallet .w-edit:active { background:var(--color-bg); }
+.shop-tabs { display:flex; gap:7px; padding:14px 16px 6px; overflow-x:auto; scrollbar-width:none; }
+.shop-tabs::-webkit-scrollbar { display:none; }
+.shop-tabs span { flex:none; font-size:11px; padding:6px 12px; border-radius:999px; cursor:pointer;
+      border:1px solid var(--color-border); color:var(--color-muted); background:transparent; white-space:nowrap; }
+.shop-tabs span.on { color:var(--color-bg); background:var(--color-accent); border-color:var(--color-accent); }
+.shop-search { margin:6px 16px 0; display:flex; align-items:center; gap:8px; padding:8px 12px;
+      border-radius:12px; border:1px solid var(--color-border); background:var(--color-surface); }
+.shop-search input { flex:1; min-width:0; border:none; outline:none; background:transparent;
+      color:var(--color-text); font-size:12px; }
+.shop-search input::placeholder { color:var(--color-muted); opacity:.8; }
+.shop-hint { font-size:10px; color:var(--color-muted); line-height:1.6; padding:10px 18px 0; }
+.shop-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:12px 16px 0; }
+.shop-item { border:1px solid var(--color-border); background:var(--color-surface); border-radius:16px;
+      padding:12px 11px 10px; display:flex; flex-direction:column; gap:6px; position:relative; }
+.shop-item.free { border-style:dashed; }
+.shop-i-top { display:flex; align-items:flex-start; gap:8px; }
+.shop-i-art { width:36px; height:36px; flex:none; color:var(--color-text); }
+.shop-i-art svg, .sp-msg-art svg, .shop-detail-art svg, .c-e svg, .o-e svg { width:100%; height:100%; display:block; }
+.shop-art-fallback { font-size:24px; line-height:1; }
+.shop-i-name { font-size:12px; color:var(--color-text); line-height:1.45; flex:1; min-width:0; }
+.shop-i-cat { font-size:9px; color:var(--color-muted); letter-spacing:.06em; }
+.shop-i-price { font-size:12.5px; color:var(--color-text); font-family:'Noto Serif SC','Noto Serif SC Offline',serif; }
+.shop-i-price.zero { color:var(--color-muted); font-size:11px; }
+.shop-i-acts { display:flex; gap:5px; margin-top:2px; }
+.shop-i-acts button { flex:1; min-width:0; font-size:10px; padding:6px 0; border-radius:9px; cursor:pointer;
+      border:1px solid var(--color-border); color:var(--color-text); background:transparent; white-space:nowrap; }
+.shop-i-acts button.main { color:var(--color-bg); background:var(--color-accent); border-color:var(--color-accent); }
+.shop-i-acts button:active { opacity:.72; }
+.shop-i-acts button.wish { color:var(--color-muted); }
+.shop-empty { grid-column:1/-1; text-align:center; font-size:11px; color:var(--color-muted); padding:26px 0; line-height:1.7; }
+.shop-sec { margin:18px 16px 0; padding:13px 14px; border-radius:16px;
+      border:1px solid var(--color-border); background:var(--color-surface); }
+.shop-sec-h { display:flex; align-items:center; justify-content:space-between; gap:8px;
+      font-size:11.5px; color:var(--color-text); letter-spacing:.06em; }
+.shop-sec-h button { font-size:10px; padding:5px 9px; border-radius:999px; cursor:pointer;
+      border:1px solid var(--color-border); background:transparent; color:var(--color-muted); }
+.shop-cart-item { display:flex; align-items:center; gap:8px; padding:9px 0; border-top:1px solid var(--color-border); margin-top:9px; }
+.shop-cart-item .c-e { width:22px; height:22px; flex:none; color:var(--color-text); }
+.shop-cart-item .c-n { flex:1; min-width:0; font-size:11px; color:var(--color-text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.shop-cart-item .c-p { font-size:10.5px; color:var(--color-muted); }
+.shop-cart-item .c-q { display:flex; align-items:center; gap:7px; font-size:11px; color:var(--color-text); }
+.shop-cart-item .c-q button { width:22px; height:22px; border-radius:7px; cursor:pointer;
+      border:1px solid var(--color-border); background:transparent; color:var(--color-text); line-height:1; }
+.shop-cart-total { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:12px; }
+.shop-cart-total .t-n { font-size:13px; color:var(--color-text); }
+.shop-big-btn { width:100%; padding:11px 0; border-radius:12px; cursor:pointer; font-size:12px;
+      color:var(--color-bg); background:var(--color-accent); border:1px solid var(--color-accent); letter-spacing:.06em; }
+.shop-big-btn.ghost { color:var(--color-text); background:transparent; border-color:var(--color-border); }
+.shop-big-btn:disabled { opacity:.45; }
+.shop-order { display:flex; align-items:center; gap:8px; font-size:10.5px; color:var(--color-muted);
+      padding:6px 0; border-top:1px solid var(--color-border); margin-top:6px; }
+.shop-order .o-e { width:20px; height:20px; flex:none; color:var(--color-text); }
+.shop-order .o-n { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.shop-foot { padding:18px 16px 36px; display:flex; flex-direction:column; gap:9px; }
+.shop-note { font-size:10px; color:var(--color-muted); line-height:1.7; text-align:center; }
+/* 商场弹窗：改零钱 / 结算去向 / 商品详情 */
+.shop-modal-mask { position:fixed; inset:0; z-index:60; display:flex; align-items:center; justify-content:center;
+      background:rgba(0,0,0,.5); padding:22px; backdrop-filter:blur(4px); }
+.shop-modal { width:100%; max-width:340px; border-radius:20px; padding:19px;
+      background:var(--color-surface); border:1px solid var(--color-border); }
+.shop-modal h3 { font-size:14px; font-weight:500; color:var(--color-text); margin-bottom:12px; }
+.shop-modal p { font-size:11px; color:var(--color-muted); line-height:1.7; margin:10px 0; }
+.shop-modal input[type=number], .shop-modal input[type=text] { width:100%; padding:10px 12px; border-radius:11px;
+      border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text);
+      font-size:14px; outline:none; box-sizing:border-box; }
+.shop-modal-btns { display:flex; gap:9px; margin-top:15px; }
+.shop-modal-btns button { flex:1; padding:10px 0; border-radius:11px; font-size:12px; cursor:pointer;
+      border:1px solid var(--color-border); background:transparent; color:var(--color-text); }
+.shop-modal-btns button.main { color:var(--color-bg); background:var(--color-accent); border-color:var(--color-accent); }
+.shop-detail-art { width:84px; height:84px; margin:4px auto 8px; color:var(--color-text); }
+.shop-detail-n { text-align:center; font-size:15px; color:var(--color-text); }
+.shop-detail-p { text-align:center; font-size:12px; color:var(--color-muted); margin-top:5px; }
+.shop-detail-note { margin:15px 0 4px; padding:11px 12px; border-radius:12px; font-size:11.5px;
+      line-height:1.75; color:var(--color-text); background:var(--color-bg); }
+/* ===== 聊天里的礼物 / 想要卡片 ===== */
+.sp-msg-card { width:min(268px,72vw); border-radius:16px; padding:12px 13px 11px;
+      border:1px solid var(--color-border); background:var(--color-surface); }
+.sp-msg-head { display:flex; align-items:center; gap:6px; font-size:10px; color:var(--color-muted); letter-spacing:.08em; }
+.sp-msg-head i { width:5px; height:5px; border-radius:50%; background:var(--color-accent); }
+.sp-msg-head .sp-tag { margin-left:auto; font-style:normal; font-size:9px; padding:2px 7px;
+      border-radius:999px; border:1px solid var(--color-border); }
+.sp-msg-main { display:flex; align-items:center; gap:10px; margin:11px 0 9px; }
+.sp-msg-art { width:48px; height:48px; flex:none; border-radius:13px; display:flex; align-items:center; justify-content:center;
+      padding:6px; box-sizing:border-box; color:var(--color-text); background:var(--color-bg); border:1px solid var(--color-border); }
+.sp-msg-art .shop-art-fallback { font-size:24px; }
+.sp-msg-info { flex:1; min-width:0; }
+.sp-msg-name { font-size:13px; color:var(--color-text); line-height:1.4; }
+.sp-msg-price { font-size:10px; color:var(--color-muted); margin-top:3px; }
+.sp-msg-line { font-size:11px; color:var(--color-text); line-height:1.6; }
+.sp-msg-line b { font-weight:600; }
+.sp-msg-note { margin-top:9px; padding:10px 11px; border-radius:11px; font-size:11.5px; line-height:1.75;
+      color:var(--color-text); background:var(--color-bg); white-space:pre-wrap; }
+.sp-msg-note:before { content:'「'; color:var(--color-muted); }
+.sp-msg-note:after { content:'」'; color:var(--color-muted); }
+.sp-msg-acts { display:flex; gap:7px; margin-top:10px; }
+.sp-msg-acts div { flex:1; text-align:center; font-size:10.5px; padding:7px 0; border-radius:9px; cursor:pointer;
+      border:1px solid var(--color-border); color:var(--color-text); }
+.sp-msg-acts div.main { color:var(--color-bg); background:var(--color-accent); border-color:var(--color-accent); }
+.sp-msg-state { font-size:10px; color:var(--color-muted); margin-top:8px; line-height:1.6; }
+.sp-msg-wait { font-size:10px; color:var(--color-muted); margin-top:8px; }
+
+/* ===== 音乐：磁带 / 歌词 两种模式 ===== */
+.ms-mode-seg { display:flex; align-items:center; gap:2px; padding:2px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.06); }
+.ms-mode-seg span { font-size:10px; line-height:1; padding:6px 9px; border-radius:999px;
+      color:rgba(255,255,255,.55); cursor:pointer; letter-spacing:.06em; transition:all .2s; white-space:nowrap; }
+.ms-mode-seg span.on { color:#fff; background:rgba(255,255,255,.20); }
+.lyric-stage { position:relative; width:100%; height:230px; flex-shrink:0; margin-top:2px;
+      display:flex; flex-direction:column; }
+.lyric-head { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 4px 6px; }
+.lyric-head > span { font-size:9.5px; color:rgba(255,255,255,.46); line-height:1.4; flex:1; min-width:0; }
+.lyric-acts { display:flex; gap:5px; flex:none; }
+.lyric-acts button { font-size:9.5px; padding:5px 8px; border-radius:999px; cursor:pointer;
+      border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.07); color:rgba(255,255,255,.8); }
+.lyric-acts button:active { background:rgba(255,255,255,.20); }
+.lyric-acts button:disabled { opacity:.45; }
+.lyric-scroll { position:relative; flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain;
+      scrollbar-width:none; -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 18%,#000 82%,transparent 100%);
+      mask-image:linear-gradient(to bottom,transparent 0,#000 18%,#000 82%,transparent 100%); }
+.lyric-scroll::-webkit-scrollbar { display:none; }
+.lyric-pad { height:74px; }
+.lyric-line { text-align:center; font-size:12.5px; line-height:1.55; padding:6px 16px;
+      color:rgba(255,255,255,.38); cursor:pointer; transition:color .3s, font-size .3s, opacity .3s;
+      font-family:'Noto Serif SC','Noto Serif SC Offline',serif; letter-spacing:.02em; word-break:break-word; }
+.lyric-line.dim { opacity:.55; }
+.lyric-line.on { color:#fff; font-size:15px; font-weight:500;
+      text-shadow:0 0 16px rgba(255,255,255,.5); }
+.lyric-line:active { color:#fff; }
+.lyric-empty { height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:8px; text-align:center; font-size:11.5px; color:rgba(255,255,255,.55); line-height:1.7; padding:0 24px; }
+.lyric-empty span { font-size:10px; color:rgba(255,255,255,.36); }
+.lyric-back { position:absolute; left:50%; bottom:4px; transform:translateX(-50%); z-index:3;
+      font-size:10px; padding:5px 12px; border-radius:999px; cursor:pointer;
+      border:1px solid rgba(255,255,255,.3); background:rgba(20,20,26,.82); color:#fff; }
+.lrc-editor-area { width:100%; min-height:170px; resize:vertical; border-radius:12px; padding:10px 12px;
+      border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text);
+      font-size:12px; line-height:1.7; outline:none; font-family:ui-monospace,monospace; }
 /* ===== 搜歌：公开免密钥曲库 ===== */
 .ms-wrap { padding:14px 16px 0; }
 .ms-bar { display:flex; align-items:center; gap:8px; padding:7px 8px 7px 12px;
@@ -2942,6 +3095,8 @@ html.dark[class*="theme-"] span.hp-pick { color:var(--hp-ink) !important; }
 .hp-grid4 { gap:18px 0 !important; }
   /* 第 9 个格子单独一行，跟上面几行左对齐（第三行第一格） */
   .hp-grid4 .hp-cell:nth-child(9) { grid-column: 1 / span 1; justify-self: stretch; }
+  /* 第 10 个（商场）紧跟睡眠，第三行第二格，不居中 */
+  .hp-grid4 .hp-cell:nth-child(10) { grid-column: 2 / span 1; justify-self: stretch; }
 
 /* ---- 第二面：两个可写字的美化块 ---- */
 .hp-note2 { display:flex; gap:12px; flex-shrink:0; margin-top:6px; }
@@ -3818,18 +3973,29 @@ html, body { overscroll-behavior-y: none; }
                             <button @click="settings.tarotRate = Math.min(100, (settings.tarotRate || 0) + 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
                         </div>
                     </div>
-                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：他回你消息时，有这个概率会自己抽一张塔罗发给你。</span>
+                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：8% 大约聊十来条冒一张。塔罗、推歌和送礼共用一次抽取，一轮最多一张、两分钟内不会连着推，所以不会反复冒卡片。塔罗页「发到聊天」不受限制。</span>
                 </div>
                 <div class="p-3.5 flex flex-col gap-2 border-t border-border">
                     <div class="flex items-center justify-between">
                         <span>他推歌的概率</span>
                         <div class="flex items-center gap-3">
-                            <button @click="settings.songRate = Math.max(0, (settings.songRate == null ? 12 : settings.songRate) - 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">−</button>
-                            <span class="w-10 text-center font-mono font-medium">{{ settings.songRate == null ? 12 : settings.songRate }}%</span>
-                            <button @click="settings.songRate = Math.min(100, (settings.songRate == null ? 12 : settings.songRate) + 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
+                            <button @click="settings.songRate = Math.max(0, (settings.songRate == null ? 8 : settings.songRate) - 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">−</button>
+                            <span class="w-10 text-center font-mono font-medium">{{ settings.songRate == null ? 8 : settings.songRate }}%</span>
+                            <button @click="settings.songRate = Math.min(100, (settings.songRate == null ? 8 : settings.songRate) + 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
                         </div>
                     </div>
-                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：他回你消息时，有这个概率自己搜一首、或从你歌单里挑一首，在主聊天发一张卡片给你；点「现在听」就播，点「等会再听」先留着。音乐页里也能直接让他推一首。</span>
+                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：概率按你发的每条消息算，8% 大约聊十来条冒一张。和塔罗、送礼共用一次抽取，一轮最多一张、两分钟内不会连着推。他自己搜一首、或从你歌单里挑一首，在主聊天发一张卡片给你；点「现在听」就播，点「等会再听」先留着。音乐页「让他推一首」不受限制。</span>
+                </div>
+                <div class="p-3.5 flex flex-col gap-2 border-t border-border">
+                    <div class="flex items-center justify-between">
+                        <span>他主动送礼的概率</span>
+                        <div class="flex items-center gap-3">
+                            <button @click="settings.giftRate = Math.max(0, (settings.giftRate == null ? 0 : settings.giftRate) - 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">−</button>
+                            <span class="w-10 text-center font-mono font-medium">{{ settings.giftRate == null ? 0 : settings.giftRate }}%</span>
+                            <button @click="settings.giftRate = Math.min(100, (settings.giftRate == null ? 0 : settings.giftRate) + 5)" class="w-7 h-7 rounded-lg bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
+                        </div>
+                    </div>
+                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：默认 0，不自动送，免得老冒卡片。想偶尔收到惊喜可以调高；和塔罗、推歌共用一次抽取，一轮最多一张、两分钟内不会连着推。商场里「让他挑一件送我」、点「想要」发给他的卡片都不受这个限制，他买下时都会带一句只属于那样东西的话。</span>
                 </div>
                 <div class="p-3.5 flex flex-col gap-2 border-t border-border">
                     <div class="flex items-center justify-between">
@@ -4396,6 +4562,46 @@ html, body { overscroll-behavior-y: none; }
                             <div class="slp-msg-sub">以前点的 · 去睡眠页一起听</div>
                         </div>
 
+                        <!-- 商场：他买给你 / 我买给他 / 我发过去的「想要」 -->
+                        <div v-else-if="msg.type === 'gift'" class="sp-msg-card" @click.stop>
+                            <div class="sp-msg-head"><i></i>{{ msg.sender === 'them' ? '送给你' : '我买给你的' }}<span class="sp-tag">{{ msg.item.catName }}</span></div>
+                            <div class="sp-msg-main">
+                                <div class="sp-msg-art" v-html="shopArt(msg.item.id)"></div>
+                                <div class="sp-msg-info">
+                                    <div class="sp-msg-name">{{ msg.item.name }}</div>
+                                    <div class="sp-msg-price">{{ msg.item.price ? '¥' + msg.item.price : '不花钱' }}</div>
+                                </div>
+                            </div>
+                            <div class="sp-msg-line"><b>{{ profiles[msg.sender].name }}</b> 买给你了</div>
+                            <div v-if="msg.note" class="sp-msg-note">{{ msg.note }}</div>
+                            <div v-if="msg.content && msg.sender === 'me'" class="sp-msg-state">{{ msg.content }}</div>
+                            <div v-if="msg.sender === 'them' && msg.state !== 'accepted'" class="sp-msg-acts">
+                                <div class="main" @click.stop="shopAccept(msg)">收下 ♡</div>
+                            </div>
+                            <div v-else-if="msg.sender === 'them'" class="sp-msg-state">已经收好 ♡</div>
+                        </div>
+
+                        <div v-else-if="msg.type === 'wish'" class="sp-msg-card" @click.stop>
+                            <div class="sp-msg-head"><i></i>想要<span class="sp-tag">{{ msg.item.catName }}</span></div>
+                            <div class="sp-msg-main">
+                                <div class="sp-msg-art" v-html="shopArt(msg.item.id)"></div>
+                                <div class="sp-msg-info">
+                                    <div class="sp-msg-name">{{ msg.item.name }}</div>
+                                    <div class="sp-msg-price">{{ msg.item.price ? '¥' + msg.item.price : '不花钱' }}</div>
+                                </div>
+                            </div>
+                            <div class="sp-msg-line"><b>我</b> 想要这个，能不能买给我呀</div>
+                            <div v-if="msg.state === 'waiting'" class="sp-msg-wait">他看见了，正在挑…</div>
+                            <template v-else>
+                                <div class="sp-msg-line"><b>{{ profiles.them.name }}</b> 买给你了</div>
+                                <div v-if="msg.note" class="sp-msg-note">{{ msg.note }}</div>
+                                <div v-if="msg.state !== 'accepted'" class="sp-msg-acts">
+                                    <div class="main" @click.stop="shopAccept(msg)">收下 ♡</div>
+                                </div>
+                                <div v-else class="sp-msg-state">已经收好 ♡</div>
+                            </template>
+                        </div>
+
                         <div v-else-if="msg.type === 'redpacket'" class="rp-msg-card" @click="openedRP = msg">
                             <div class="rp-msg-cover" :style="msg.cover ? { backgroundImage: 'url(' + msg.cover + ')' } : {}">
                                 <span v-if="!msg.cover" class="rp-msg-cover-icon">🧧</span>
@@ -4712,11 +4918,17 @@ html, body { overscroll-behavior-y: none; }
 <!-- ===== [MOD-08] 音乐 · 黑胶播放器 ===== -->
 <div v-else-if="currentView === 'music'" key="music" class="absolute inset-0 flex flex-col z-20">
     <header class="h-14 flex items-center justify-between px-4 border-b border-white/10 shrink-0" style="background:rgba(10,10,12,.82); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);">
-        <button @click="switchView('home')" class="p-2 -ml-2 text-white/85"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-        <span class="text-[13px] font-medium tracking-widest serif-text" style="color:#fff;">音乐</span>
-        <button class="p-2 -mr-2 text-white/70" @click="vinylShowList = !vinylShowList" title="播放列表">
-            <i data-lucide="list-music" class="w-5 h-5"></i>
-        </button>
+        <button @click="switchView('home')" class="p-2 -ml-2 text-white/85 flex-none"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+        <span class="flex-1 text-center text-[13px] font-medium tracking-widest serif-text" style="color:#fff;">音乐</span>
+        <div class="flex-none flex items-center gap-2">
+            <div class="ms-mode-seg">
+                <span :class="{ on: settings.musicMode !== 'lyric' }" @click="settings.musicMode = 'tape'">磁带</span>
+                <span :class="{ on: settings.musicMode === 'lyric' }" @click="settings.musicMode = 'lyric'">歌词</span>
+            </div>
+            <button class="p-2 text-white/70" @click="vinylShowList = !vinylShowList" title="播放列表">
+                <i data-lucide="list-music" class="w-5 h-5"></i>
+            </button>
+        </div>
     </header>
     <main class="flex-1 overflow-y-auto" style="background:radial-gradient(120% 80% at 50% -10%, rgba(80,70,110,.30) 0%, rgba(20,20,26,.92) 45%, #08080a 100%);">
         <!-- 搜歌：公开免密钥曲库，点结果试听，＋ 加入歌单 -->
@@ -4773,7 +4985,7 @@ html, body { overscroll-behavior-y: none; }
         </div>
         <div class="vinyl-deck">
             <!-- 黑胶唱片 -->
-            <div class="vinyl-shaft"
+            <div v-if="settings.musicMode !== 'lyric'" class="vinyl-shaft"
                  :class="{ 'drag-over': vinylDragging, 'dragging': vinylSwiping }"
                  @dragover.prevent="vinylDragging = true"
                  @dragleave="vinylDragging = false"
@@ -4823,6 +5035,32 @@ html, body { overscroll-behavior-y: none; }
                 <div class="vinyl-hole"></div>
                 <input ref="vinylCoverInput" type="file" accept="image/*" class="hidden" @change="onVinylCoverChange">
                 <div class="vinyl-drag-hint">松开以设置封面</div>
+            </div>
+
+            <!-- 歌词模式：跟着播放高亮，点一行跳到那一句 -->
+            <div v-else class="lyric-stage">
+                <div class="lyric-head">
+                    <span>{{ lyricHeadText }}</span>
+                    <div class="lyric-acts">
+                        <button @click="lyricSearch" :disabled="lyricLoading">{{ lyricLoading ? '找…' : '搜歌词' }}</button>
+                        <button @click="lyricOpenEditor">贴歌词</button>
+                        <button v-if="currentSong.lrc" @click="lyricClear">清空</button>
+                    </div>
+                </div>
+                <div class="lyric-scroll" ref="lyricScroll" @touchstart="lyricPauseFollow" @wheel="lyricPauseFollow">
+                    <div v-if="!lyricLines.length" class="lyric-empty">
+                        {{ lyricMsg || '这首歌还没有歌词' }}
+                        <span>点「搜歌词」自动找，或「贴歌词」把 LRC 贴进来</span>
+                    </div>
+                    <template v-else>
+                        <div class="lyric-pad"></div>
+                        <div v-for="(l, i) in lyricLines" :key="i" class="lyric-line"
+                             :class="{ on: i === lyricCur, dim: lyricCur >= 0 && i < lyricCur }"
+                             @click="seekLyric(l)">{{ l.text || '♪' }}</div>
+                        <div class="lyric-pad"></div>
+                    </template>
+                </div>
+                <button v-if="!lyricFollowing && lyricTimed" class="lyric-back" @click="lyricFollowNow">回到当前 ♪</button>
             </div>
 
             <!-- 歌曲信息 -->
@@ -4946,6 +5184,150 @@ html, body { overscroll-behavior-y: none; }
                 <button @click="addMp3ByUrl" class="flex-1 py-2.5 rounded-xl text-bg text-[13px] font-medium" style="background:var(--color-accent);">添加</button>
             </div>
             <p class="text-[10px] text-muted mt-3 leading-relaxed">支持任意可直链的 .mp3 文件。部分链接跨域会无法读取时长，但不影响播放。</p>
+        </div>
+    </div>
+
+    <!-- 贴歌词弹窗：LRC 带时间轴会跟着歌走，纯文本整首静态显示 -->
+    <div v-if="showLrcEditor" class="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-6" @click.self="showLrcEditor = false" style="backdrop-filter:blur(4px);">
+        <div class="w-full max-w-sm rounded-2xl p-5" style="background:var(--color-surface); border:1px solid var(--color-border);">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-[14px] font-medium text-text">贴歌词 · {{ currentSong.title || '未添加歌曲' }}</h3>
+                <button class="p-1 text-muted" @click="showLrcEditor = false"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+            <textarea v-model="lrcDraft" class="lrc-editor-area" placeholder="[00:12.00]第一句&#10;[00:18.50]第二句&#10;也可以直接贴纯文本，整首显示"></textarea>
+            <p class="text-[10px] text-muted mt-2 leading-relaxed">带 [分:秒] 的 LRC 会跟着播放高亮、点一行可跳过去；纯文本就静态显示。只存在本地，跟着歌单一起备份。</p>
+            <div class="flex gap-2 mt-3">
+                <button @click="showLrcEditor = false" class="flex-1 py-2.5 rounded-xl border border-border text-[13px] text-text">取消</button>
+                <button @click="lyricSave" class="flex-1 py-2.5 rounded-xl text-bg text-[13px] font-medium" style="background:var(--color-accent);">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ===== [MOD-08C] 商场 · 我买给 TA / TA 买给我 ===== -->
+<div v-else-if="currentView === 'shop'" key="shop" class="absolute inset-0 flex flex-col z-20 shop-page">
+    <header class="h-14 flex items-center justify-between px-4 border-b border-border shrink-0 bg-surface">
+        <button @click="switchView('home')" class="p-2 -ml-2 text-text"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+        <span class="text-[13px] font-medium tracking-widest serif-text">商场</span>
+        <button class="shop-h-btn" @click="shopCartOpen = !shopCartOpen">
+            购物车<span v-if="shopCartCount"> · {{ shopCartCount }}</span>
+        </button>
+    </header>
+    <main class="flex-1 overflow-y-auto">
+        <div class="shop-wallet">
+            <div class="w-l">
+                <div class="w-t">我的零钱 · 点右边可以自己设</div>
+                <div class="w-n">¥ {{ shopWallet }}</div>
+            </div>
+            <button class="w-edit" @click="shopOpenWallet">改一改</button>
+        </div>
+
+        <div class="shop-tabs">
+            <span v-for="c in shopCats" :key="c.k" :class="{ on: shopTab === c.k }" @click="shopTab = c.k">{{ c.n }}</span>
+        </div>
+        <div class="shop-search">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--color-muted);flex:none"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input v-model="shopQuery" type="search" placeholder="找一样东西">
+        </div>
+        <div class="shop-hint">{{ shopHint }}</div>
+
+        <div class="shop-grid">
+            <div v-for="it in shopShown" :key="it.id" class="shop-item" :class="{ free: it.price === 0 }" @click="shopDetail(it)">
+                <div class="shop-i-top">
+                    <span class="shop-i-art" v-html="shopArt(it.id)"></span>
+                    <div style="flex:1;min-width:0">
+                        <div class="shop-i-name">{{ it.name }}</div>
+                        <div class="shop-i-cat">{{ it.catName }}<span v-if="it.fest"> · {{ it.festName }}</span></div>
+                    </div>
+                </div>
+                <div class="shop-i-price" :class="{ zero: it.price === 0 }">{{ it.price ? '¥ ' + it.price : '不花钱 · 只收一句好话' }}</div>
+                <div class="shop-i-acts">
+                    <button class="main" @click.stop="shopBuy(it)">{{ it.price === 0 ? '收下' : '买下' }}</button>
+                    <button @click.stop="shopAddCart(it)" title="加入购物车">＋</button>
+                    <button class="wish" @click.stop="shopWish(it)" title="发给 TA 要">想要</button>
+                </div>
+            </div>
+            <div v-if="!shopShown.length" class="shop-empty">这一格暂时没找到东西<br>换个词，或者翻翻别的分类</div>
+        </div>
+
+        <div v-if="shopTab === 'festival'" class="shop-hint">
+            {{ shopFestivalAll ? '现在翻的是全年限定，平时也能买。' : '当前档期：' + shopFestivalNow.n + '。' }}
+            <button style="font-size:10px;padding:4px 9px;border-radius:999px;cursor:pointer;border:1px solid var(--color-border);background:transparent;color:var(--color-muted);margin-left:4px" @click="shopFestivalAll = !shopFestivalAll">
+                {{ shopFestivalAll ? '只看当前档期' : '看看全年限定' }}
+            </button>
+        </div>
+
+        <!-- 购物车 -->
+        <div v-if="shopCartOpen" class="shop-sec">
+            <div class="shop-sec-h"><span>购物车 · {{ shopCartCount }} 件</span><button v-if="shopCart.length" @click="shopClearCart">清空</button></div>
+            <div v-if="!shopCart.length" class="shop-note" style="padding:14px 0 2px">还空着。看到喜欢的点「＋」放进来，一起结算。</div>
+            <div v-for="c in shopCart" :key="c.id" class="shop-cart-item">
+                <span class="c-e" v-html="shopArt(c.item.id)"></span>
+                <span class="c-n">{{ c.item.name }}</span>
+                <span class="c-p">{{ c.item.price ? '¥' + c.item.price * c.qty : '不花钱' }}</span>
+                <span class="c-q">
+                    <button @click="shopQty(c.id, -1)">−</button>{{ c.qty }}<button @click="shopQty(c.id, 1)">＋</button>
+                </span>
+            </div>
+            <div class="shop-cart-total"><span class="t-n">合计 ¥ {{ shopCartTotal }}</span><button class="shop-big-btn" style="width:auto;padding:9px 20px" :disabled="!shopCart.length" @click="shopCheckoutOpen">结算</button></div>
+        </div>
+
+        <!-- 最近买过 / 送过 -->
+        <div class="shop-sec">
+            <div class="shop-sec-h"><span>最近的小东西</span><span style="font-size:10px;color:var(--color-muted)">最多留 30 条</span></div>
+            <div v-if="!shopOrders.length" class="shop-note" style="padding:14px 0 2px">还没有。买一件、或让他挑一件，就会留在这里。</div>
+            <div v-for="o in shopOrders.slice(0, 12)" :key="o.id" class="shop-order">
+                <span class="o-e" v-html="shopArt(o.item.id)"></span>
+                <span class="o-n">{{ o.item.name }}</span>
+                <span>{{ o.label }}</span>
+            </div>
+        </div>
+
+        <div class="shop-foot">
+            <button class="shop-big-btn" @click="themSendGift(true)">让他挑一件送我 ♡</button>
+            <div class="shop-note">他买给你时会带一句只属于那样东西的话。<br>「想要」会发到主聊天，他过一会儿就买来；不扣你的零钱。<br>两个世界那一格都不花钱，金额只是给别的东西看的。</div>
+        </div>
+    </main>
+
+    <!-- 改零钱 -->
+    <div v-if="shopWalletEdit" class="shop-modal-mask" @click.self="shopWalletEdit = false">
+        <div class="shop-modal">
+            <h3>我的零钱</h3>
+            <input type="number" min="0" step="1" v-model.number="shopWalletDraft" placeholder="想放多少就写多少">
+            <p>只记在你这边；他买给你的东西不扣这里的钱。</p>
+            <div class="shop-modal-btns">
+                <button @click="shopWalletEdit = false">取消</button>
+                <button class="main" @click="shopSaveWallet">存好</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 结算去向 -->
+    <div v-if="shopCheckout" class="shop-modal-mask" @click.self="shopCheckout = null">
+        <div class="shop-modal">
+            <h3>这一单 ¥ {{ shopCheckout.total }}</h3>
+            <p>{{ shopCheckout.items.length }} 件 · {{ shopCheckout.items.map(c => c.item.name + (c.qty > 1 ? ' ×' + c.qty : '')).join('、') }}</p>
+            <div class="shop-modal-btns" style="flex-direction:column">
+                <button class="main" @click="shopPay('them')">送给 TA（发到聊天）</button>
+                <button @click="shopPay('self')">我自己收着</button>
+                <button @click="shopCheckout = null">再想想</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 商品详情 -->
+    <div v-if="shopDetailItem" class="shop-modal-mask" @click.self="shopDetailItem = null">
+        <div class="shop-modal">
+            <div class="shop-detail-art" v-html="shopArt(shopDetailItem.id)"></div>
+            <div class="shop-detail-n">{{ shopDetailItem.name }}</div>
+            <div class="shop-detail-p">{{ shopDetailItem.catName }}<span v-if="shopDetailItem.fest"> · {{ shopDetailItem.festName }}</span> · {{ shopDetailItem.price ? '¥ ' + shopDetailItem.price : '不花钱' }}</div>
+            <p v-if="shopDetailItem.price === 0">两个世界的东西不标价。收下就好，不用还。</p>
+            <p v-else>买下之后可以送给他，也可以自己收着；他买给你时，会带一句只给这样东西的话。</p>
+            <div class="shop-modal-btns" style="flex-direction:column">
+                <button class="main" @click="shopBuy(shopDetailItem)">{{ shopDetailItem.price === 0 ? '收下' : '买下' }}</button>
+                <button @click="shopAddCart(shopDetailItem)">放进购物车</button>
+                <button @click="shopWish(shopDetailItem)">发给 TA 要</button>
+                <button @click="shopDetailItem = null">关掉</button>
+            </div>
         </div>
     </div>
 </div>
@@ -6434,7 +6816,7 @@ createApp({
         const profiles = reactive({ me: { name: '我', avatar: '' }, them: { name: '客', avatar: '' } });
         
         const settings = reactive({ 
-            darkMode: false, showAvatar: true, avatarRadius: 50, autoReply: true, soundEnabled: true, tarotRate: 15, sleepRate: 12, songRate: 12,
+            darkMode: false, showAvatar: true, avatarRadius: 50, autoReply: true, soundEnabled: true, tarotRate: 8, sleepRate: 12, songRate: 8, giftRate: 0, musicMode: 'tape',
             keepAlive: true,
             fontFamily: 'serif', fontSize: 14,
             learnRate: 30,
@@ -6598,7 +6980,8 @@ createApp({
             companion: { img: '', name: '陪伴', icon: 'heart', path: 'companion' },
             journal: { img: '', name: '手账', icon: 'notebook', path: 'journal' },
             tarot: { img: '', name: '塔罗', icon: 'moon-star', path: 'tarot' },
-            sleep: { img: '', name: '睡眠', icon: 'bed-double', path: 'sleep' }
+            sleep: { img: '', name: '睡眠', icon: 'bed-double', path: 'sleep' },
+            shop:  { img: '', name: '商场', icon: 'shopping-bag', path: 'shop' }
         });
 
         // 自定义图标数据读不出来时，不要留一个空方框：清掉坏图，回退到原 SVG 图标。
@@ -6850,6 +7233,503 @@ createApp({
         const currentSong = computed(() => syncPlaylist.value[syncState.index] || { title: '', artist: '', duration: '00:00' });
         const fmt = (sec) => { if (isNaN(sec) || !isFinite(sec) || sec < 0) return "00:00"; return Math.floor(sec/60).toString().padStart(2,'0') + ':' + Math.floor(sec%60).toString().padStart(2,'0'); };
         const fmtCallTime = (sec) => { if (!sec || isNaN(sec)) return '00:00'; return Math.floor(sec/60).toString().padStart(2,'0') + ':' + Math.floor(sec%60).toString().padStart(2,'0'); };
+
+        // ===== 歌词模式：LRC 解析 / 跟随高亮 / 公开曲库自动搜 / 手动粘贴 =====
+        // 歌词原文存在每首歌的 lrc 字段里，跟着歌单一起存进 IndexedDB、一起备份，
+        // 不单独占 localStorage 配额；断网时已存的歌词照常显示。
+        const lyricScroll = ref(null);
+        const lyricMsg = ref('');
+        const lyricLoading = ref(false);
+        const showLrcEditor = ref(false);
+        const lrcDraft = ref('');
+        const lyricFollowing = ref(true);
+        let lyricFollowTimer = null;
+
+        const parseLrc = (text) => {
+            const raw = String(text || '');
+            const tagRe = /\[(\d{1,3}):(\d{2})(?:[.:](\d{1,3}))?\]/g;
+            let offset = 0;
+            const om = raw.match(/\[offset:\s*([+-]?\d+)\s*\]/i);
+            if (om) offset = parseInt(om[1], 10) / 1000;
+            const out = [];
+            raw.split(/\r?\n/).forEach(line => {
+                const times = [];
+                let m; const re = new RegExp(tagRe.source, 'g');
+                while ((m = re.exec(line)) !== null) {
+                    const frac = m[3] ? parseFloat('0.' + m[3]) : 0;
+                    times.push(parseInt(m[1], 10) * 60 + parseInt(m[2], 10) + frac);
+                }
+                const txt = line.replace(new RegExp(tagRe.source, 'g'), '').trim();
+                if (!txt || /^\[(ti|ar|al|by|offset|length|re|ve|au)[:\]]/i.test(txt)) return;
+                if (times.length) times.forEach(t => out.push({ t: Math.max(0, t + offset), text: txt }));
+                else out.push({ t: -1, text: txt });          // 纯文本行
+            });
+            // 有时间轴时丢掉杂散的纯文本行（多半是元数据），否则整首静态显示
+            const timed = out.filter(x => x.t >= 0);
+            return (timed.length ? timed : out.filter(x => x.text)).sort((a, b) => a.t - b.t);
+        };
+        const lyricLines = computed(() => parseLrc(currentSong.value.lrc || ''));
+        const lyricTimed = computed(() => lyricLines.value.some(l => l.t >= 0));
+        const lyricCur = computed(() => {
+            if (!lyricTimed.value) return -1;
+            const t = syncState.currentTime || 0, ls = lyricLines.value;
+            let idx = -1;
+            for (let i = 0; i < ls.length; i++) {
+                if (ls[i].t <= t + 0.15) idx = i;
+                else break;
+            }
+            return idx;
+        });
+        const lyricHeadText = computed(() => {
+            if (!lyricLines.value.length) return '歌词 · 跟着歌走';
+            return lyricTimed.value ? '跟着歌走 · 点一行跳到那一句' : '这首没有时间轴 · 整首显示';
+        });
+
+        const scrollLyricToCur = async (force = false) => {
+            if (settings.musicMode !== 'lyric' || (!lyricFollowing.value && !force) || lyricCur.value < 0) return;
+            await nextTick();
+            const box = lyricScroll.value; if (!box) return;
+            const el = box.querySelector('.lyric-line.on'); if (!el) return;
+            const top = Math.max(0, el.offsetTop - box.clientHeight / 2 + el.clientHeight / 2);
+            try { box.scrollTo({ top, behavior: 'smooth' }); } catch (e) { box.scrollTop = top; }
+        };
+        const lyricPauseFollow = () => {
+            lyricFollowing.value = false;
+            if (lyricFollowTimer) clearTimeout(lyricFollowTimer);
+            lyricFollowTimer = setTimeout(() => { lyricFollowing.value = true; scrollLyricToCur(); }, 4000);
+        };
+        const lyricFollowNow = () => { lyricFollowing.value = true; scrollLyricToCur(true); };
+        watch([lyricCur, () => settings.musicMode], () => scrollLyricToCur());
+        watch(() => syncState.index, () => { lyricMsg.value = ''; lyricFollowing.value = true; scrollLyricToCur(); });
+
+        const seekLyric = (line) => {
+            if (!line || line.t < 0) return;
+            try { syncAudio.currentTime = line.t; } catch (e) {}
+            syncState.currentTime = line.t;
+            if (syncState.duration) syncState.progress = (line.t / syncState.duration) * 100;
+            lyricFollowNow();
+        };
+        const lyricOpenEditor = () => { lrcDraft.value = currentSong.value.lrc || ''; showLrcEditor.value = true; };
+        const lyricSave = () => {
+            const t = syncPlaylist.value[syncState.index];
+            if (!t) { showLrcEditor.value = false; return; }
+            t.lrc = String(lrcDraft.value || '').trim();
+            showLrcEditor.value = false;
+            lyricMsg.value = '';
+            lyricFollowing.value = true;
+            saveAll();
+            nextTick(() => scrollLyricToCur(true));
+        };
+        const lyricClear = () => {
+            const t = syncPlaylist.value[syncState.index];
+            if (!t) return;
+            t.lrc = ''; lyricMsg.value = ''; saveAll();
+        };
+        // 公开免密钥歌词源：LRCLIB（带时间轴优先）→ lyrics.ovh（纯文本兜底）
+        // 两个都连不上或没收录时只在页面里写一句，不弹框；断网直接提示手动贴。
+        const lyricSearch = async () => {
+            const t = syncPlaylist.value[syncState.index];
+            if (!t || !t.title || t.title === '未添加歌曲') { lyricMsg.value = '先给这首歌起个名字，再搜歌词'; return; }
+            if (navigator.onLine === false) { lyricMsg.value = '当前没连上，搜歌词需要联网；也可以点「贴歌词」自己贴一份'; return; }
+            lyricLoading.value = true; lyricMsg.value = '正在找歌词…';
+            const title = String(t.title || '').trim(), artist = String(t.artist || '').trim();
+            const norm = (v) => String(v || '').toLowerCase().replace(/[\s·・()（）\-_]/g, '');
+            let text = '', via = '';
+            try {
+                const d = await msGetJSON('https://lrclib.net/api/search?track_name=' + encodeURIComponent(title)
+                    + '&artist_name=' + encodeURIComponent(artist));
+                const arr = Array.isArray(d) ? d : [];
+                const hit = arr.find(x => norm(x.trackName) === norm(title) && x.syncedLyrics)
+                         || arr.find(x => norm(x.trackName) === norm(title) && x.plainLyrics)
+                         || arr.find(x => x.syncedLyrics) || arr.find(x => x.plainLyrics);
+                if (hit) { text = hit.syncedLyrics || hit.plainLyrics || ''; via = hit.syncedLyrics ? '带时间轴' : '静态'; }
+            } catch (e) {}
+            if (!text) {
+                try {
+                    const d2 = await msGetJSON('https://api.lyrics.ovh/v1/' + encodeURIComponent(artist) + '/' + encodeURIComponent(title));
+                    text = (d2 && d2.lyrics) || ''; via = '静态';
+                } catch (e) {}
+            }
+            lyricLoading.value = false;
+            if (text && text.trim()) {
+                t.lrc = text.trim();
+                lyricMsg.value = via === '静态' ? '找到啦 · 这首没有时间轴，整首显示' : '';
+                lyricFollowing.value = true;
+                saveAll();
+                nextTick(() => scrollLyricToCur(true));
+            } else {
+                lyricMsg.value = '没找到公开歌词，点「贴歌词」自己贴一份 LRC 或纯文本';
+            }
+        };
+
+        // ================= [MOD-08C] 商场 =================
+        // 商品全在代码里（emoji 当小图），不联网、不占图片存储；每件都有他买下时
+        // 专属的一句暖心话。两个世界那一格 price 全是 0。
+        const SHOP_CATS = [
+            { k: 'all', n: '全部' }, { k: 'daily', n: '日常' }, { k: 'wear', n: '服装' },
+            { k: 'food', n: '吃的' }, { k: 'festival', n: '限定' }, { k: 'world', n: '两个世界' }
+        ];
+        const SHOP_FESTS = [
+            { k: 'valentine', n: '情人节', from: '02-10', to: '02-16' },
+            { k: 'qixi',      n: '七夕',   from: '08-01', to: '08-22' },
+            { k: 'autumn',    n: '中秋 · 秋日', from: '09-15', to: '10-31' },
+            { k: 'double11',  n: '双十一', from: '11-01', to: '11-15' },
+            { k: 'christmas', n: '圣诞',   from: '12-01', to: '12-31' },
+            { k: 'newyear',   n: '新年 · 春节', from: '01-01', to: '02-09' },
+            { k: 'summer',    n: '夏日',   from: '06-01', to: '07-31' },
+            { k: 'spring',    n: '春日',   from: '03-01', to: '05-31' }
+        ];
+        const SHOP_ITEMS = [
+            // —— 日常用品 ——
+            { id:'d1',  cat:'daily', emoji:'🥛', name:'温牛奶杯',        price:12, note:'睡前那杯我给你温着，别急着喝完，先捧一会儿手。' },
+            { id:'d2',  cat:'daily', emoji:'🪥', name:'软毛牙刷',        price:9,  note:'早晚都替你记着，别嫌我啰嗦。' },
+            { id:'d3',  cat:'daily', emoji:'🧺', name:'蓬松毛巾',        price:26, note:'洗完头先擦干，别着凉。' },
+            { id:'d4',  cat:'daily', emoji:'🕯️', name:'香薰蜡烛',      price:32, note:'点着它的时候，屋里就慢慢静下来了。' },
+            { id:'d5',  cat:'daily', emoji:'🔥', name:'暖手宝',          price:39, note:'天冷了就握着，我顾不上的时候它替我。' },
+            { id:'d6',  cat:'daily', emoji:'💡', name:'小台灯',          price:45, note:'熬夜别开大灯，这一盏刚好够你看清字。' },
+            { id:'d7',  cat:'daily', emoji:'📒', name:'便签本',          price:8,  note:'想说的话写下来，我一张一张收着。' },
+            { id:'d8',  cat:'daily', emoji:'🖊️', name:'手写钢笔',      price:29, note:'你写字的样子，我想留久一点。' },
+            { id:'d9',  cat:'daily', emoji:'☂️', name:'一把雨伞',      price:36, note:'下雨别硬撑，这把够两个人。' },
+            { id:'d10', cat:'daily', emoji:'🫙', name:'保温杯',          price:42, note:'装热水，不装冰饮，听见没。' },
+            { id:'d11', cat:'daily', emoji:'🩴', name:'棉拖鞋',          price:28, note:'进门先换上，地板凉。' },
+            { id:'d12', cat:'daily', emoji:'😴', name:'遮光眼罩',        price:19, note:'困了就戴上，光我替你挡着。' },
+            { id:'d13', cat:'daily', emoji:'🧰', name:'小药箱',          price:55, note:'希望你用不上，但得放在够得着的地方。' },
+            { id:'d14', cat:'daily', emoji:'🛏️', name:'晒过太阳的被子',price:49, note:'今天有太阳，我替你收了一床暖。' },
+            // —— 服装 ——
+            { id:'w1',  cat:'wear', emoji:'🧣', name:'米白围巾',        price:68,  note:'绕两圈，风就钻不进来了。' },
+            { id:'w2',  cat:'wear', emoji:'👕', name:'宽宽的白卫衣',    price:129, note:'大一点才好，袖子能把手藏起来。' },
+            { id:'w3',  cat:'wear', emoji:'🧥', name:'羊毛开衫',        price:199, note:'降温那天穿它，别等我说第二遍。' },
+            { id:'w4',  cat:'wear', emoji:'👔', name:'亚麻衬衫',        price:158, note:'皱一点也没关系，本来就该松松的。' },
+            { id:'w5',  cat:'wear', emoji:'🧢', name:'针织帽',          price:59,  note:'耳朵别露在外面。' },
+            { id:'w6',  cat:'wear', emoji:'🧦', name:'堆堆袜',          price:26,  note:'脚踝最怕冷，这个我记着。' },
+            { id:'w7',  cat:'wear', emoji:'👟', name:'帆布鞋',          price:169, note:'路慢慢走，鞋舒服才走得远。' },
+            { id:'w8',  cat:'wear', emoji:'🥾', name:'小雨靴',          price:139, note:'踩水也没事，反正我给你备了袜子。' },
+            { id:'w9',  cat:'wear', emoji:'🎀', name:'丝质发带',        price:22,  note:'头发别总散着，我给你拢一下。' },
+            { id:'w10', cat:'wear', emoji:'🧤', name:'一副手套',        price:46,  note:'牵不到的时候，先让它们替我。' },
+            { id:'w11', cat:'wear', emoji:'👗', name:'长裙',            price:189, note:'转一圈给我看看，就一圈。' },
+            { id:'w12', cat:'wear', emoji:'🥼', name:'旧牛皮外套',      price:268, note:'穿旧了也别扔，越旧越像有人陪着。' },
+            // —— 食物小吃 ——
+            { id:'f1',  cat:'food', emoji:'☕', name:'热可可',          price:18, note:'先捧着暖手，再慢慢喝。' },
+            { id:'f2',  cat:'food', emoji:'🍠', name:'烤红薯',          price:12, note:'挑最甜的那个给你，烫，慢点。' },
+            { id:'f3',  cat:'food', emoji:'🍰', name:'草莓蛋糕',        price:38, note:'第一口留给你，奶油别省。' },
+            { id:'f4',  cat:'food', emoji:'🌰', name:'糖炒栗子',        price:22, note:'剥好了，趁热。' },
+            { id:'f5',  cat:'food', emoji:'🍢', name:'关东煮',          price:26, note:'萝卜煮得软，你喜欢的那个。' },
+            { id:'f6',  cat:'food', emoji:'🍡', name:'桂花糕',          price:16, note:'一口一个，别急着说话。' },
+            { id:'f7',  cat:'food', emoji:'🍉', name:'冰镇西瓜',        price:15, note:'最中间那块，籽我挑掉了。' },
+            { id:'f8',  cat:'food', emoji:'🧋', name:'三分糖奶茶',      price:24, note:'去冰，我记住了。' },
+            { id:'f9',  cat:'food', emoji:'🥟', name:'小笼包',          price:28, note:'小心汤汁，先咬一小口。' },
+            { id:'f10', cat:'food', emoji:'☁️', name:'棉花糖',        price:9,  note:'不甜也没关系，样子好看就够了。' },
+            { id:'f11', cat:'food', emoji:'🍪', name:'海盐饼干',        price:14, note:'配茶，别空着肚子。' },
+            { id:'f12', cat:'food', emoji:'🍜', name:'热汤面',          price:32, note:'卧了个蛋，趁热吃。' },
+            { id:'f13', cat:'food', emoji:'🍊', name:'一只橘子',        price:8,  note:'剥的时候满手香，慢点剥。' },
+            { id:'f14', cat:'food', emoji:'🍫', name:'黑巧克力',        price:21, note:'苦一点的那种，你上次说喜欢。' },
+            { id:'f15', cat:'food', emoji:'🍿', name:'爆米花',          price:19, note:'看电影的时候别抢，管够。' },
+            { id:'f16', cat:'food', emoji:'🍯', name:'蜂蜜柚子茶',      price:25, note:'嗓子不舒服就冲一杯。' },
+            // —— 节假日限定 ——
+            { id:'h1',  cat:'festival', fest:'double11',  festName:'双十一', emoji:'🛒', name:'囤货小推车',   price:66, note:'你说要囤点什么，我陪你一样一样挑。' },
+            { id:'h2',  cat:'festival', fest:'double11',  festName:'双十一', emoji:'⌨️', name:'双人暖桌垫', price:88, note:'手放上来，我们各占一半。' },
+            { id:'h3',  cat:'festival', fest:'christmas', festName:'圣诞',   emoji:'🎄', name:'圣诞小袜',     price:32, note:'挂好了，明早记得摸一下。' },
+            { id:'h4',  cat:'festival', fest:'christmas', festName:'圣诞',   emoji:'🏠', name:'歪掉的姜饼屋', price:45, note:'歪了也别修，歪的才像我们搭的。' },
+            { id:'h5',  cat:'festival', fest:'christmas', festName:'圣诞',   emoji:'❄️', name:'雪花玻璃球', price:58, note:'摇一下，就当这里下过雪。' },
+            { id:'h6',  cat:'festival', fest:'newyear',   festName:'新年',   emoji:'🏮', name:'红纸小灯笼',   price:36, note:'挂在门边，回来时好认。' },
+            { id:'h7',  cat:'festival', fest:'newyear',   festName:'新年',   emoji:'🧧', name:'手写春联',     price:28, note:'字不好看，但每一笔都是我写的。' },
+            { id:'h8',  cat:'festival', fest:'newyear',   festName:'新年',   emoji:'🧧', name:'压岁小红包',   price:88, note:'不许说不要，收着。' },
+            { id:'h9',  cat:'festival', fest:'valentine', festName:'情人节', emoji:'🌹', name:'不凋的玫瑰',   price:99, note:'不用换水，也不会谢。' },
+            { id:'h10', cat:'festival', fest:'valentine', festName:'情人节', emoji:'🎟️', name:'双人电影票', price:76, note:'位置挑好了，靠边那两个。' },
+            { id:'h11', cat:'festival', fest:'qixi',      festName:'七夕',   emoji:'🌌', name:'银河小灯',     price:68, note:'今晚不用出门，屋里也有星星。' },
+            { id:'h12', cat:'festival', fest:'qixi',      festName:'七夕',   emoji:'🪢', name:'同心结',       price:26, note:'绕了两圈，解不开才好。' },
+            { id:'h13', cat:'festival', fest:'autumn',    festName:'中秋',   emoji:'🥮', name:'双人份月饼',   price:42, note:'切开一人一半，别抢蛋黄。' },
+            { id:'h14', cat:'festival', fest:'autumn',    festName:'中秋',   emoji:'🍶', name:'桂花小酿',     price:52, note:'就一小杯，月亮底下慢慢喝。' },
+            // —— 两个世界（不花钱）——
+            { id:'s1',  cat:'world', emoji:'🫂', name:'一个拥抱',        price:0, note:'过来，不说话也行，就一会儿。' },
+            { id:'s2',  cat:'world', emoji:'🌇', name:'一起看日落',      price:0, note:'今天云很好，我等你抬头。' },
+            { id:'s3',  cat:'world', emoji:'🚶', name:'并肩走一段',      price:0, note:'不赶路，走到你不想走为止。' },
+            { id:'s4',  cat:'world', emoji:'🕯️', name:'替你留一盏灯',  price:0, note:'晚回来也没关系，灯不关。' },
+            { id:'s5',  cat:'world', emoji:'🤫', name:'十分钟的安静',    price:0, note:'什么都不用回，我在。' },
+            { id:'s6',  cat:'world', emoji:'🫳', name:'摸摸头',          price:0, note:'今天辛苦了，不用解释。' },
+            { id:'s7',  cat:'world', emoji:'🌧️', name:'一起听一场雨',  price:0, note:'别关窗，雨声我分你一半。' },
+            { id:'s8',  cat:'world', emoji:'✨', name:'数星星',          price:0, note:'数错了也不重来，反正数不完。' },
+            { id:'s9',  cat:'world', emoji:'🌙', name:'把噩梦拿走',      price:0, note:'换我收着，你只管睡。' },
+            { id:'s10', cat:'world', emoji:'💬', name:'一句「我在」',    price:0, note:'随叫随到，这句不设有效期。' },
+            { id:'s11', cat:'world', emoji:'📖', name:'替你记着今天',    price:0, note:'你忘了也没关系，我替你记。' },
+            { id:'s12', cat:'world', emoji:'🤝', name:'下次见面的约定',  price:0, note:'先欠着，但一定兑现。' }
+        ];
+        // 一套统一的手绘线描贴纸：细线 + 极淡主题色圆底，随九套配色/深色自动变色。
+        // 不依赖系统 emoji 字体，跨手机长得一样，也不会冒出高饱和彩色块。
+        const SHOP_ART = {
+            d1: '<path d="M14 18h20l-2.2 20H16.2z"/><path d="M15 23h18"/><path d="M20 13c0-2 3-2.4 3-4.5"/><path d="M27 13c0-2 3-2.4 3-4.5"/>',
+            d2: '<path d="M24 38V18"/><path d="M17 12h14v6H17z"/><path d="M19 12V8M24 12V8M29 12V8"/><path d="M21 38h6"/>',
+            d3: '<path d="M12 20h24v17H12z"/><path d="M12 26h24"/><path d="M15 16h18v4H15z"/><path d="M17 12h14v4H17z"/>',
+            d4: '<path d="M17 20h14v18H17z"/><path d="M17 24h14"/><path d="M24 8c3 3 3 6 0 9-3-3-3-6 0-9z"/><path d="M14 15a12 12 0 0 1 3-5M34 15a12 12 0 0 0-3-5"/>',
+            d5: '<rect x="13" y="13" width="22" height="22" rx="7"/><path d="M24 31s-6-4-6-8a3.5 3.5 0 0 1 6-2 3.5 3.5 0 0 1 6 2c0 4-6 8-6 8z"/>',
+            d6: '<path d="M14 11h20l4 9H10z"/><path d="M24 20v14"/><path d="M17 36h14"/><path d="M11 25l-3 3M37 25l3 3"/>',
+            d7: '<path d="M13 12h22v24H13z"/><path d="M30 12v6h5"/><path d="M18 24h12M18 29h9"/>',
+            d8: '<path d="M14 36 30 11l5 3-16 25-5 1z"/><path d="M13 41c6 2 11 0 15-3"/>',
+            d9: '<path d="M8 25c0-9 7-15 16-15s16 6 16 15z"/><path d="M24 10v15"/><path d="M24 25v9a4 4 0 0 0 8 0"/><path d="M12 31v3M36 31v3"/>',
+            d10: '<path d="M17 14h14v24H17z"/><path d="M18 10h12v4H18z"/><path d="M17 22h14"/><path d="M20 7h8"/>',
+            d11: '<path d="M10 22c0-4 3-7 6-7s5 3 5 7v7H10z"/><path d="M10 31h11v3H10z"/><path d="M27 24c0-4 3-7 6-7s5 3 5 7v7H27z"/><path d="M27 33h11v3H27z"/>',
+            d12: '<path d="M10 20c6-4 22-4 28 0v10c-6 4-22 4-28 0z"/><path d="M10 20c-4 0-4 6 0 8M38 20c4 0 4 6 0 8"/><path d="M17 25c2-1 4-1 6 0M25 25c2-1 4-1 6 0"/>',
+            d13: '<path d="M11 19h26v19H11z"/><path d="M19 19v-4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"/><path d="M24 24v9M19.5 28.5h9"/>',
+            d14: '<path d="M10 24h28v14H10z"/><path d="M10 30h28"/><path d="M14 19h20v5H14z"/><circle cx="36" cy="12" r="4"/><path d="M36 5v2M43 12h-2M41 7l-1.5 1.5"/>',
+            w1: '<path d="M16 12c0 7 16 7 16 0"/><path d="M16 12c-2 6-1 14 2 22M32 12c2 6 1 14-2 22"/><path d="M15 34h6M27 34h6"/><path d="M16 36v3M20 36v3M28 36v3M32 36v3"/>',
+            w2: '<path d="M17 13l7 5 7-5 8 5-3 8-3-2v14H15V24l-3 2-3-8z"/><path d="M17 13c2 5 12 5 14 0"/><path d="M19 30h10v6H19z"/>',
+            w3: '<path d="M18 12l6 4 6-4 8 4-3 9-3-2v16H16V23l-3 2-3-9z"/><path d="M24 16v25"/><circle cx="24" cy="24" r="1"/><circle cx="24" cy="30" r="1"/><circle cx="24" cy="36" r="1"/>',
+            w4: '<path d="M18 11l6 5 6-5 8 4-3 9-3-2v17H16V22l-3 2-3-9z"/><path d="M18 11l6 5-6 4M30 11l-6 5 6 4"/>',
+            w5: '<path d="M13 28c0-9 5-15 11-15s11 6 11 15z"/><path d="M11 28h26v4H11z"/><circle cx="24" cy="10" r="3"/><path d="M19 16v11M24 14v13M29 16v11"/>',
+            w6: '<path d="M14 14h9v18l-5 6h-9v-9z"/><path d="M14 20h9M14 25h9"/><path d="M27 17h8v16l-4 5h-8v-8z"/><path d="M27 23h8M27 28h8"/>',
+            w7: '<path d="M9 30c4-1 7-6 9-11h8l4 7c5 2 9 3 9 6v3H9z"/><path d="M12 35h27"/><path d="M20 22l6 3M18 26l6 3"/>',
+            w8: '<path d="M16 11h11v19c0 3 3 4 7 4h3v4H16z"/><path d="M16 23h11"/><path d="M16 38h21"/>',
+            w9: '<path d="M12 26c4-10 20-10 24 0"/><path d="M24 24c-5-6-9-2-7 2s7 2 7-2c0 4 5 6 7 2s-2-8-7-2z"/><path d="M24 26v10"/>',
+            w10: '<path d="M16 13h12v17c0 3-3 6-6 6s-6-3-6-6z"/><path d="M16 20c-4 0-5 2-5 5s2 5 5 5"/><path d="M16 13v-2M20 13v-2M24 13v-2M28 13v-2"/>',
+            w11: '<path d="M19 11l5 4 5-4 3 4-2 8 6 20H12l6-20-2-8z"/><path d="M19 11c2 4 8 4 10 0"/><path d="M15 38c4 2 14 2 18 0"/>',
+            w12: '<path d="M18 11l6 5 6-5 8 5-3 9-3-2v17H16V23l-3 2-3-9z"/><path d="M18 11l6 8-5 4M30 11l-6 8 5 4"/><path d="M18 30h5v5h-5M25 30h5v5h-5"/>',
+            f1: '<path d="M13 19h22l-3 19H16z"/><path d="M14 24h20"/><circle cx="20" cy="21" r="2.5"/><circle cx="27" cy="21" r="2.5"/><path d="M20 14c0-2 3-2 3-4M27 14c0-2 3-2 3-4"/>',
+            f2: '<path d="M10 29c0-7 6-12 14-12s14 5 14 12-6 9-14 9-14-2-14-9z"/><path d="M20 22c3 3 6 3 9 1"/><path d="M22 13c0-2 3-2 3-4"/>',
+            f3: '<path d="M12 36l4-16h16l4 16z"/><path d="M16 20c3-3 5 2 8-1s5 2 8 1"/><circle cx="24" cy="15" r="3"/><path d="M22 12l2-2 2 2"/><path d="M12 36h24"/>',
+            f4: '<path d="M12 30c0-5 3-9 7-9s7 4 7 9-3 7-7 7-7-2-7-7z"/><path d="M14 24c3 2 7 2 10 0"/><path d="M29 33c0-4 2-7 5-7s5 3 5 7-2 6-5 6-5-2-5-6z"/><path d="M30 28c2 1 5 1 8 0"/>',
+            f5: '<path d="M11 27h26l-3 12H14z"/><path d="M17 27v-9M24 27v-11M31 27v-8"/><circle cx="17" cy="16" r="2.5"/><circle cx="24" cy="14" r="2.5"/><circle cx="31" cy="17" r="2.5"/>',
+            f6: '<path d="M13 18h22v20H13z"/><path d="M13 25h22"/><circle cx="19" cy="21" r="1"/><circle cx="24" cy="21" r="1"/><circle cx="29" cy="21" r="1"/><circle cx="21" cy="31" r="1"/><circle cx="27" cy="31" r="1"/>',
+            f7: '<path d="M9 34c2-14 10-22 30-22-2 14-10 22-30 22z"/><path d="M11 31c3-11 10-17 26-17"/><circle cx="22" cy="25" r="1"/><circle cx="28" cy="22" r="1"/><circle cx="18" cy="29" r="1"/>',
+            f8: '<path d="M15 18h18l-2 21H17z"/><path d="M13 18h22"/><path d="M27 18l3-9"/><circle cx="20" cy="33" r="1.5"/><circle cx="25" cy="34" r="1.5"/><circle cx="29" cy="32" r="1.5"/>',
+            f9: '<path d="M10 28h28v10H10z"/><path d="M10 33h28"/><path d="M15 28c0-5 2-8 5-8s5 3 5 8M23 28c0-5 2-8 5-8s5 3 5 8"/><path d="M20 20v-3M28 20v-3"/>',
+            f10: '<path d="M15 24a6 6 0 0 1 2-11 7 7 0 0 1 13 2 5 5 0 0 1 2 9z"/><path d="M24 24v15"/>',
+            f11: '<rect x="12" y="16" width="16" height="16" rx="2"/><rect x="22" y="22" width="14" height="14" rx="2"/><circle cx="17" cy="21" r="1"/><circle cx="22" cy="26" r="1"/><circle cx="17" cy="27" r="1"/><circle cx="29" cy="29" r="1"/>',
+            f12: '<path d="M9 26h30c0 9-6 13-15 13S9 35 9 26z"/><path d="M15 23c3-3 6 3 9 0s6 3 9 0"/><circle cx="24" cy="21" r="3"/><path d="M18 15c0-2 3-2 3-4M27 15c0-2 3-2 3-4"/>',
+            f13: '<circle cx="24" cy="26" r="12"/><path d="M24 14v-3"/><path d="M24 12c3-5 8-4 9-2-2 4-6 5-9 2z"/><path d="M24 15v22M14 26h20"/>',
+            f14: '<rect x="11" y="15" width="26" height="20" rx="1"/><path d="M11 25h26M20 15v20M29 15v20"/>',
+            f15: '<path d="M14 24h20l-2 16H16z"/><path d="M14 29h20"/><path d="M14 24a5 5 0 0 1 3-8 6 6 0 0 1 11 0 5 5 0 0 1 3 8z"/>',
+            f16: '<path d="M13 19h22l-3 19H16z"/><circle cx="24" cy="25" r="5"/><path d="M24 20v10M19 25h10"/><path d="M34 16v16"/>',
+            h1: '<path d="M12 16h24l-3 16H15z"/><path d="M12 16l-3-6"/><path d="M18 32v4M30 32v4"/><circle cx="20" cy="38" r="2"/><circle cx="30" cy="38" r="2"/>',
+            h2: '<rect x="9" y="18" width="30" height="16" rx="3"/><circle cx="19" cy="26" r="3"/><circle cx="29" cy="26" r="3"/>',
+            h3: '<path d="M16 12h12v16c0 4 4 5 8 5v5H16z"/><path d="M16 17h12"/><path d="M22 9l1 2 2 .3-1.5 1.5.4 2-1.9-1-1.9 1 .4-2L19 11.3l2-.3z"/>',
+            h4: '<path d="M9 24l14-11 15 11"/><path d="M13 22v16h23V22"/><path d="M21 38V29h6v9"/><path d="M17 26h3v3h-3M29 26h3v3h-3"/>',
+            h5: '<circle cx="24" cy="21" r="12"/><path d="M15 34h18l2 6H13z"/><path d="M24 15v12M18 21h12M20 17l8 8M28 17l-8 8"/>',
+            h6: '<ellipse cx="24" cy="23" rx="11" ry="13"/><path d="M24 10v26M18 12c2 11 2 22 0 22M30 12c-2 11-2 22 0 22"/><path d="M20 36h8M24 36v5"/>',
+            h7: '<rect x="12" y="10" width="9" height="28" rx="1"/><rect x="27" y="10" width="9" height="28" rx="1"/><path d="M14 16h5M14 22h5M14 28h5M29 16h5M29 22h5M29 28h5"/>',
+            h8: '<rect x="13" y="12" width="22" height="27" rx="2"/><path d="M13 12l11 9 11-9"/><circle cx="24" cy="27" r="5"/><path d="M24 24v6M21 27h6"/>',
+            h9: '<path d="M18 20a6 6 0 1 1 12 0c0 4-4 6-6 6s-6-2-6-6z"/><path d="M24 12c4 2 5 6 3 9"/><path d="M24 26v13"/><path d="M24 33c-5 0-7-3-7-5 4-1 7 1 7 5zM24 33c5 0 7-3 7-5-4-1-7 1-7 5z"/>',
+            h10: '<path d="M9 18h30v13H9z"/><path d="M9 24h30"/><path d="M15 18v-3M24 18v-3M33 18v-3M15 31v3M24 31v3M33 31v3"/><path d="M22 21l1 2 2 .3-1.5 1.4.4 2-1.9-1-1.9 1 .4-2L19 23.3l2-.3z"/>',
+            h11: '<circle cx="24" cy="24" r="13"/><path d="M24 15l1 3 3 .4-2.2 2 .5 3-2.3-1.3-2.3 1.3.5-3-2.2-2 3-.4z"/><circle cx="17" cy="29" r="1"/><circle cx="31" cy="20" r="1"/>',
+            h12: '<circle cx="19" cy="24" r="8"/><circle cx="29" cy="24" r="8"/><path d="M24 16v16"/>',
+            h13: '<circle cx="24" cy="24" r="13"/><circle cx="24" cy="24" r="8"/><path d="M24 16v16M16 24h16"/><path d="M24 11v26"/>',
+            h14: '<path d="M12 22h16l2 14H10z"/><path d="M28 24c5 0 6 3 6 6s-2 5-6 4"/><path d="M16 22v-5h8v5"/><circle cx="34" cy="16" r="1"/><circle cx="38" cy="20" r="1"/><circle cx="33" cy="12" r="1"/>',
+            s1: '<circle cx="19" cy="16" r="3.5"/><circle cx="29" cy="16" r="3.5"/><path d="M14 36c0-8 2-13 5-13M34 36c0-8-2-13-5-13"/><path d="M13 25c5 4 17 4 22 0"/>',
+            s2: '<path d="M8 33h32"/><path d="M14 33a10 10 0 0 1 20 0"/><path d="M10 20h10M32 17h8"/><circle cx="18" cy="29" r="2"/><circle cx="28" cy="29" r="2"/><path d="M18 31v2M28 31v2"/>',
+            s3: '<path d="M10 38c6-8 12-12 14-16 2 4 8 8 14 16"/><circle cx="18" cy="18" r="3"/><circle cx="30" cy="18" r="3"/><path d="M18 21v6M30 21v6"/><circle cx="12" cy="36" r="1"/><circle cx="36" cy="36" r="1"/>',
+            s4: '<rect x="14" y="12" width="20" height="26" rx="1"/><path d="M24 12v26M14 25h20"/><path d="M24 18l-5 8h10z" fill="var(--color-accent)" fill-opacity=".45" stroke="none"/><path d="M10 32h4M34 32h4"/>',
+            s5: '<path d="M30 14a11 11 0 1 0 6 18 12 12 0 0 1-6-18z"/><circle cx="15" cy="16" r="1"/><circle cx="12" cy="22" r="1"/><circle cx="17" cy="26" r="1"/>',
+            s6: '<circle cx="24" cy="29" r="7"/><path d="M12 19c2-6 8-9 13-8 5 1 9 4 11 8"/><path d="M15 15v-4M21 12v-4M27 12v-4M33 15v-4"/>',
+            s7: '<rect x="12" y="12" width="24" height="26" rx="1"/><path d="M24 12v26M12 25h24"/><path d="M18 18a4 4 0 0 1 8 0 3 3 0 0 1 3 3"/><path d="M19 24l-1 3M26 24l-1 3M32 24l-1 3"/>',
+            s8: '<path d="M32 12a10 10 0 1 0 5 16 11 11 0 0 1-5-16z"/><path d="M14 16l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/><circle cx="24" cy="13" r="1"/><circle cx="11" cy="30" r="1"/>',
+            s9: '<path d="M12 24a5 5 0 0 1 5-5 6 6 0 0 1 11 1 4 4 0 0 1 2 8H14a4 4 0 0 1-2-4z"/><path d="M18 34h12l-1 7H19z"/><path d="M22 28l4 4M26 28l-4 4"/>',
+            s10: '<path d="M11 16h26v16H22l-6 5v-5h-5z"/><circle cx="19" cy="24" r="1"/><circle cx="24" cy="24" r="1"/><circle cx="29" cy="24" r="1"/>',
+            s11: '<path d="M13 11h22v27H13z"/><path d="M18 11v27"/><path d="M22 19h9M22 25h9M22 31h6"/><path d="M16 17l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z" fill="var(--color-accent)" fill-opacity=".5" stroke="none"/>',
+            s12: '<circle cx="13" cy="26" r="5"/><circle cx="35" cy="26" r="5"/><path d="M19 26h3M26 26h3M29 26h1"/><path d="M24 20c2-2 5-1 5 1 0 2-3 4-5 5-2-1-5-3-5-5 0-2 3-3 5-1z"/>'
+        };
+        const shopArt = (id) => {
+            const body = SHOP_ART[id];
+            if (!body) {
+                const it = shopFind(id);
+                return '<span class="shop-art-fallback">' + (it ? it.emoji : '✦') + '</span>';
+            }
+            return '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">' +
+                   '<circle cx="24" cy="24" r="21" fill="var(--color-accent)" opacity=".09"/>' +
+                   '<g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+                   body + '</g></svg>';
+        };
+        const shopCatName = (k) => { const c = SHOP_CATS.find(x => x.k === k); return c ? c.n : '小东西'; };
+        const shopFind = (id) => SHOP_ITEMS.find(x => x.id === id) || null;
+        const shopSnap = (it) => ({ id: it.id, name: it.name, emoji: it.emoji, price: it.price,
+            cat: it.cat, catName: it.catName || shopCatName(it.cat), note: it.note || '',
+            fest: it.fest || '', festName: it.festName || '' });
+        SHOP_ITEMS.forEach(it => { it.catName = shopCatName(it.cat); });
+
+        const shopWallet = ref(520);
+        const shopCart = ref([]);        // [{ id, qty, item: 快照 }]，存的是快照，改商品表也不影响旧单
+        const shopOrders = ref([]);
+        const shopTab = ref('all');
+        const shopQuery = ref('');
+        const shopCartOpen = ref(false);
+        const shopFestivalAll = ref(false);
+        const shopWalletEdit = ref(false);
+        const shopWalletDraft = ref(520);
+        const shopCheckout = ref(null);
+        const shopDetailItem = ref(null);
+        const shopFlash = ref('');
+        let shopFlashTimer = null, shopSaveTimer = null;
+        const shopSay = (t) => {
+            shopFlash.value = t;
+            if (shopFlashTimer) clearTimeout(shopFlashTimer);
+            shopFlashTimer = setTimeout(() => { shopFlash.value = ''; }, 3200);
+        };
+
+        const shopFestivalNow = computed(() => {
+            const d = new Date();
+            const md = String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+            return SHOP_FESTS.find(f => md >= f.from && md <= f.to) || { k: '', n: '平日', from: '', to: '' };
+        });
+        const shopCartCount = computed(() => shopCart.value.reduce((n, c) => n + (c.qty || 0), 0));
+        const shopCartTotal = computed(() => shopCart.value.reduce((n, c) => n + (c.item.price || 0) * (c.qty || 0), 0));
+        const shopShown = computed(() => {
+            const q = String(shopQuery.value || '').trim().toLowerCase();
+            const fk = shopFestivalNow.value.k;
+            return SHOP_ITEMS.filter(it => {
+                if (shopTab.value === 'festival') {
+                    if (it.cat !== 'festival') return false;
+                    if (!shopFestivalAll.value && fk && it.fest !== fk) return false;
+                } else if (shopTab.value !== 'all' && it.cat !== shopTab.value) return false;
+                return !q || it.name.toLowerCase().indexOf(q) >= 0 || (it.catName || '').indexOf(q) >= 0;
+            });
+        });
+        const shopHint = computed(() => {
+            if (shopFlash.value) return shopFlash.value;
+            if (shopTab.value === 'world') return '两个世界的东西都不花钱。收下就好，不用还。';
+            if (shopTab.value === 'festival') return '节假日限定的小东西，会按日子自己上架。';
+            return '点一下看详情，＋ 放进购物车，「想要」发到聊天让他买给你。';
+        });
+
+        const shopSave = () => {
+            if (shopSaveTimer) clearTimeout(shopSaveTimer);
+            shopSaveTimer = setTimeout(() => {
+                try { localforage.setItem('liubai_shop_wallet', Number(shopWallet.value) || 0); } catch (e) {}
+                try { localforage.setItem('liubai_shop_cart', JSON.parse(JSON.stringify(shopCart.value))); } catch (e) {}
+                try { localforage.setItem('liubai_shop_orders', JSON.parse(JSON.stringify(shopOrders.value.slice(0, 30)))); } catch (e) {}
+            }, 250);
+        };
+        const shopLoad = async () => {
+            try {
+                const w = await localforage.getItem('liubai_shop_wallet');
+                if (typeof w === 'number' && isFinite(w) && w >= 0) shopWallet.value = Math.floor(w);
+                const c = await localforage.getItem('liubai_shop_cart');
+                if (Array.isArray(c)) shopCart.value = c.filter(x => x && x.id && x.item && typeof x.qty === 'number');
+                const o = await localforage.getItem('liubai_shop_orders');
+                if (Array.isArray(o)) shopOrders.value = o.filter(x => x && x.item).slice(0, 30);
+            } catch (e) {}
+        };
+        const shopAddOrder = (item, label) => {
+            shopOrders.value.unshift({ id: genId(), item, label, at: Date.now() });
+            if (shopOrders.value.length > 30) shopOrders.value = shopOrders.value.slice(0, 30);
+            shopSave();
+        };
+
+        const shopOpenWallet = () => { shopWalletDraft.value = Number(shopWallet.value) || 0; shopWalletEdit.value = true; };
+        const shopSaveWallet = () => {
+            const v = Math.max(0, Math.floor(Number(shopWalletDraft.value) || 0));
+            if (!isFinite(v)) { shopSay('写个数字就好'); return; }
+            shopWallet.value = v; shopWalletEdit.value = false; shopSave();
+            shopSay('零钱改好啦，现在是 ¥ ' + v);
+        };
+        const shopAddCart = (it) => {
+            if (!it) return;
+            shopDetailItem.value = null;
+            const hit = shopCart.value.find(c => c.id === it.id);
+            if (hit) hit.qty = Math.min(99, hit.qty + 1);
+            else shopCart.value.push({ id: it.id, qty: 1, item: shopSnap(it) });
+            shopCartOpen.value = true; shopSave();
+            shopSay('「' + it.name + '」放进购物车了');
+        };
+        const shopQty = (id, d) => {
+            const hit = shopCart.value.find(c => c.id === id); if (!hit) return;
+            hit.qty += d;
+            if (hit.qty <= 0) shopCart.value = shopCart.value.filter(c => c.id !== id);
+            shopSave();
+        };
+        const shopClearCart = () => { shopCart.value = []; shopSave(); shopSay('购物车空了'); };
+        const shopBuy = (it) => {
+            if (!it) return;
+            shopDetailItem.value = null;
+            shopCheckout.value = { items: [{ id: it.id, qty: 1, item: shopSnap(it) }], total: Number(it.price) || 0 };
+        };
+        const shopCheckoutOpen = () => {
+            if (!shopCart.value.length) return;
+            shopCheckout.value = { items: JSON.parse(JSON.stringify(shopCart.value)), total: shopCartTotal.value };
+        };
+        const shopDetail = (it) => { shopDetailItem.value = it; };
+        const shopMyWords = ['给你挑的，收好。', '看见它就想到你了。', '不用回我，用着就好。', '这个你肯定喜欢。', '一点点小心意。'];
+        const shopPay = (dest) => {
+            const co = shopCheckout.value; if (!co) return;
+            const total = Number(co.total) || 0;
+            if (total > Number(shopWallet.value)) {
+                shopCheckout.value = null;
+                shopSay('零钱不太够，点右上角「改一改」，或者发「想要」让他买');
+                return;
+            }
+            shopWallet.value = Number(shopWallet.value) - total;
+            co.items.forEach(c => shopAddOrder(c.item, dest === 'them' ? '我 买给客' : '我 自己收着'));
+            if (dest === 'them') {
+                const it = co.items[0].item;
+                const msg = { id: genId(), sender: 'me', type: 'gift', item: it,
+                    note: '', state: 'new', content: shopMyWords[Math.floor(Math.random() * shopMyWords.length)],
+                    timestamp: Date.now() };
+                messages.value.push(msg);
+                try { saveAll(); } catch (e) {}
+                const thanks = ['收到啦，我收好了。', '怎么又给我买东西，我记着呢。', '放好了，下次换我。', '这个我很喜欢，谢谢。'];
+                setTimeout(() => {
+                    try {
+                        messages.value.push({ id: genId(), sender: 'them', type: 'text',
+                            content: thanks[Math.floor(Math.random() * thanks.length)], timestamp: Date.now() });
+                        saveAll();
+                    } catch (e) {}
+                }, 1800);
+            }
+            shopCart.value = []; shopCartOpen.value = false; shopCheckout.value = null;
+            shopSave(); saveAll();
+            shopSay(dest === 'them' ? '买好啦，已经送到聊天里' : '买好啦，自己收着');
+        };
+
+        const shopWish = (it) => {
+            if (!it) return;
+            shopDetailItem.value = null;
+            const msg = { id: genId(), sender: 'me', type: 'wish', item: shopSnap(it),
+                state: 'waiting', note: '', content: '想要《' + it.name + '》', timestamp: Date.now() };
+            messages.value.push(msg);
+            try { playTone('send'); } catch (e) {}
+            try { scrollToBottom(); } catch (e) {}
+            try { saveAll(); } catch (e) {}
+            shopSay('发到聊天啦，他一会儿就买来');
+            shopScheduleBuy(msg);
+        };
+        const shopWishTimers = new Set();
+        const shopScheduleBuy = (msg) => {
+            if (!msg || msg.type !== 'wish' || msg.state !== 'waiting' || shopWishTimers.has(msg.id)) return;
+            shopWishTimers.add(msg.id);
+            const delay = 3200 + Math.floor(Math.random() * 1600);
+            setTimeout(() => {
+                shopWishTimers.delete(msg.id);
+                const m = messages.value.find(x => x && x.id === msg.id);
+                if (!m || m.state !== 'waiting') return;
+                m.state = 'bought';
+                m.note = (m.item && m.item.note) || '拿着，别客气。';
+                shopAddOrder(m.item, '客 买给我');
+                if (currentView.value !== 'chat') shopSay('客 买给你《' + m.item.name + '》啦 · 去聊天看那句话');
+                try { playTone('recv'); } catch (e) {}
+                try { saveAll(); } catch (e) {}
+            }, delay);
+        };
+        const shopResumeWishes = () => {
+            try { messages.value.forEach(m => { if (m && m.type === 'wish' && m.state === 'waiting') shopScheduleBuy(m); }); } catch (e) {}
+        };
+        const shopAccept = (msg) => { if (msg) { msg.state = 'accepted'; try { saveAll(); } catch (e) {} } };
+
+        // 他买给你：挑一件，带那件东西专属的一句话。手动按钮不受概率/冷却限制。
+        const themSendGift = (manual = false) => {
+            const fk = shopFestivalNow.value.k;
+            let pool = SHOP_ITEMS.filter(it => it.cat !== 'festival');
+            const fest = SHOP_ITEMS.filter(it => it.fest === fk);
+            if (fest.length && Math.random() < 0.35) pool = pool.concat(fest);
+            if (!pool.length) return null;
+            const it = pool[Math.floor(Math.random() * pool.length)];
+            const snap = shopSnap(it);
+            const msg = { id: genId(), sender: 'them', type: 'gift', item: snap,
+                note: it.note || '拿着，别客气。', state: 'new',
+                content: '买给你《' + it.name + '》', timestamp: Date.now() };
+            messages.value.push(msg);
+            shopAddOrder(snap, '客 买给我');
+            try { playTone('recv'); } catch (e) {}
+            try { scrollToBottom(); } catch (e) {}
+            try { saveAll(); } catch (e) {}
+            return msg;
+        };
 
         const showAddMp3Url = ref(false);
         const newMp3Url = ref('');
@@ -8027,7 +8907,24 @@ createApp({
             { k:'brush',     name:'软刷',   paths:['M4 4h14v6H4z','M7 10v10','M11 10v10','M15 10v10'] },
             { k:'bubble',    name:'气泡水', paths:['M6 3h12l-1 18H7L6 3z','M9 9h.01','M12 13h.01','M15 8h.01','M10 17h.01'] },
             { k:'glass',     name:'玻璃碰', paths:['M8 3h8l-1 18H9L8 3z','M12 8v7','M8 8h8'] },
-            { k:'whisper',   name:'耳语',   paths:['M12 3a6 6 0 0 0-6 6v4a3 3 0 0 0 3 3','M18 8a6 6 0 0 0-3-5','M12 20v2','M8 20h8'] }
+            { k:'whisper',   name:'耳语',   paths:['M12 3a6 6 0 0 0-6 6v4a3 3 0 0 0 3 3','M18 8a6 6 0 0 0-3-5','M12 20v2','M8 20h8'] },
+            // 木质 / 木头汤：木勺在碗里搅、敲，温润不刺
+            { k:'woodsoup',  name:'木头汤', paths:['M3 11h18a9 9 0 0 1-18 0z','M12 2v7','M7 5l5 4','M17 5l-5 4','M3 11h18'] },
+            { k:'woodbowl',  name:'木碗',   paths:['M3 11h18a9 9 0 0 1-18 0z','M2 11h20','M8 20h8','M12 11v3'] },
+            { k:'woodstick', name:'木筷',   paths:['M7 3l7 18','M17 3L10 21','M6 3h3','M16 3h3'] },
+            { k:'woodbox',   name:'木盒',   paths:['M3 8h18v12H3z','M3 8l3-4h12l3 4','M12 8v12','M7 12h2'] },
+            // 各类敲击音
+            { k:'tapglass',  name:'敲玻璃', paths:['M7 3h10l-1 17H8L7 3z','M7 8h10','M12 12v5','M9 20h6'] },
+            { k:'tapceramic',name:'敲瓷碗', paths:['M3 10h18a9 9 0 0 1-18 0z','M2 10h20','M8 19h8','M12 3v3'] },
+            { k:'tapmetal',  name:'敲铁盒', paths:['M4 6h16v13H4z','M4 6l2-3h12l2 3','M8 11h8','M8 15h5'] },
+            { k:'tapstone',  name:'敲石头', paths:['M4 15l3-8 5-3 6 4 2 7-5 4H8z','m9 7 4 6 5-2','M4 15l5 4'] },
+            { k:'nailtap',   name:'指甲敲', paths:['M6 20V9a3 3 0 0 1 6 0v11','M6 13h6','M15 20V9a3 3 0 0 1 6 0v11','M15 13h6'] },
+            { k:'fingertap', name:'指腹敲', paths:['M5 18c0-4 2-6 4-8','M9 10V5a2 2 0 0 1 4 0v6','M13 11V6a2 2 0 0 1 4 0v6','M17 12V8a2 2 0 0 1 4 0v8c0 3-2 5-5 5H9'] },
+            // 挂麦 / 刮麦：麦克风网罩上的近距离触发音
+            { k:'micscratch',name:'刮麦',   paths:['M12 2a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z','M5 11a7 7 0 0 0 14 0','M12 18v4','M8 22h8','M6 5l2 2','M18 5l-2 2'] },
+            { k:'micbrush',  name:'刷麦',   paths:['M12 2a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z','M5 11a7 7 0 0 0 14 0','M12 18v4','M8 22h8','M3 4h6','M3 7h6'] },
+            { k:'mictap',    name:'敲麦',   paths:['M12 2a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z','M5 11a7 7 0 0 0 14 0','M12 18v4','M8 22h8','M18 3l2 2','M20 6l-3 3'] },
+            { k:'micrub',    name:'揉麦',   paths:['M12 2a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z','M5 11a7 7 0 0 0 14 0','M12 18v4','M8 22h8','M2 8c2-2 4 2 6 0','M16 8c2-2 4 2 6 0'] }
         ];
         const cpAllSounds = cpNoises.concat(cpMusics).concat(cpAsmr);
         const cpSoundName = (k) => { const n = cpAllSounds.find(x => x.k === k); return n ? n.name : k; };
@@ -8075,6 +8972,21 @@ createApp({
             'bubble':      4.72,  // 气泡水   asmr 实测 0.0030
             'glass':       2.67,  // 玻璃碰   asmr 实测 0.0053
             'whisper':     7.00,  // 耳语    asmr 实测 0.0018
+            // 新增 14 项：逐音实测峰值后反推增益，与原有 ASMR 同一响度带
+            'woodsoup':    2.83,  // 木头汤 asmr 实测 0.0070
+            'woodbowl':    2.86,  // 木碗 asmr 实测 0.0069
+            'woodstick':   6.75,  // 木筷 asmr 实测 0.0029
+            'woodbox':     3.58,  // 木盒 asmr 实测 0.0055
+            'tapglass':    3.79,  // 敲玻璃 asmr 实测 0.0052
+            'tapceramic':  3.84,  // 敲瓷碗 asmr 实测 0.0051
+            'tapmetal':    3.59,  // 敲铁盒 asmr 实测 0.0055
+            'tapstone':    4.08,  // 敲石头 asmr 实测 0.0048
+            'nailtap':     8.00,  // 指甲敲 asmr 实测 0.0013
+            'fingertap':   4.57,  // 指腹敲 asmr 实测 0.0043
+            'micscratch':  3.87,  // 刮麦 asmr 实测 0.0051
+            'micbrush':    8.00,  // 刷麦 asmr 实测 0.0018
+            'mictap':      4.10,  // 敲麦 asmr 实测 0.0048
+            'micrub':      4.50,  // 揉麦 asmr 实测 0.0044
         };
         // 叠得越多，每层自动轻一点，总响度不会越叠越炸（n=1 不衰减）
         const cpLayerGain = (n) => n <= 1 ? 1 : Math.pow(n, -0.35);
@@ -8221,7 +9133,49 @@ createApp({
             brush:     { ev:'brushswish',gain:0.8, base:{ src:'pink',  filters:[['lowpass',1400,0.8]], gain:0.075, lfo:{ f:0.13, depth:0.035 } } },
             bubble:    { ev:'bubble',    gain:0.9, base:{ src:'pink',  filters:[['lowpass',900,0.7]],  gain:0.030 } },
             glass:     { ev:'glass',     gain:0.9 },
-            whisper:   { ev:'whisper',   gain:0.7, base:{ src:'pink',  filters:[['bandpass',1100,0.7]],gain:0.045, lfo:{ f:0.20, depth:0.022 } } }
+            whisper:   { ev:'whisper',   gain:0.7, base:{ src:'pink',  filters:[['bandpass',1100,0.7]],gain:0.045, lfo:{ f:0.20, depth:0.022 } } },
+            // 木质 / 木头汤
+            woodsoup:  { ev:'woodsoup',  gain:0.9 },
+            woodbowl:  { ev:'woodbowl',  gain:0.9 },
+            woodstick: { ev:'woodstick', gain:0.9 },
+            woodbox:   { ev:'woodbox',   gain:0.9 },
+            // 各类敲击
+            tapglass:  { ev:'tapglass',  gain:0.9 },
+            tapceramic:{ ev:'tapceramic',gain:0.9 },
+            tapmetal:  { ev:'tapmetal',  gain:0.9 },
+            tapstone:  { ev:'tapstone',  gain:0.9 },
+            nailtap:   { ev:'nailtap',   gain:0.85 },
+            fingertap: { ev:'fingertap', gain:0.85 },
+            // 刮麦 / 刷麦 / 敲麦 / 揉麦：都带一层极轻的近距底噪
+            micscratch:{ ev:'micscratch',gain:0.8, base:{ src:'pink', filters:[['highpass',2600,0.7]], gain:0.020 } },
+            micbrush:  { ev:'micbrush',  gain:0.8, base:{ src:'pink', filters:[['bandpass',1800,0.6]], gain:0.024, lfo:{ f:0.11, depth:0.012 } } },
+            mictap:    { ev:'mictap',    gain:0.8, base:{ src:'pink', filters:[['lowpass',700,0.7]],  gain:0.018 } },
+            micrub:    { ev:'micrub',    gain:0.8, base:{ src:'pink', filters:[['lowpass',1200,0.7]], gain:0.028, lfo:{ f:0.17, depth:0.014 } } }
+        };
+
+        // 短促敲击的通用合成：一记带滤波的噪声敲击 + 可选的一记 tonal 共鸣
+        const cpTap = (ctx, t, o) => {
+            const g = t.evGain || 1;
+            cpHit(ctx, o.f + Math.random() * (o.fr || 0), o.q || 1.6,
+                  o.dur || 0.05, (o.amp || 0.08) * g, o.ft || 'bandpass', t);
+            if (o.tone) cpBlip(ctx, o.tone[0] + Math.random() * (o.tone[1] || 0),
+                o.tone[2] || null, o.tone[3] || 0.1, (o.tone[4] || 0.03) * g,
+                o.tone[5] || 'triangle', t, 0.002);
+        };
+        // 连击：n 记，间隔随机，像指甲/筷子连着敲
+        const cpTapRun = (ctx, t, o) => {
+            const n = (o.n || 3) + Math.floor(Math.random() * (o.nr || 2));
+            for (let i = 0; i < n; i++) {
+                const d = setTimeout(() => { if (cpTracks[t.k]) cpTap(ctx, t, o); }, i * (o.gap || 90) + Math.random() * (o.gapr || 70));
+                t.timers.push(d);
+            }
+        };
+        // 摩擦/刮擦：一段带起伏的中长噪声，比单记敲击柔和
+        const cpRasp = (ctx, t, o) => {
+            const g = t.evGain || 1;
+            const dur = (o.dur || 0.25) + Math.random() * (o.durr || 0.25);
+            cpHit(ctx, o.f + Math.random() * (o.fr || 0), o.q || 0.8, dur, (o.amp || 0.03) * g, o.ft || 'bandpass', t);
+            if (o.tone) cpBlip(ctx, o.tone[0], o.tone[1] || null, dur, (o.tone[2] || 0.012) * g, 'sine', t, 0.02);
         };
 
         const cpEventFns = {
@@ -8331,6 +9285,63 @@ createApp({
                 const g = t.evGain || 1;
                 cpHit(ctx, 900 + Math.random() * 700, 1.1, 0.3 + Math.random() * 0.3, 0.03 * g, 'bandpass', t);
             },
+            // ===== 新增：木头汤 / 各类敲击 / 刮麦 =====
+            woodsoup: (ctx, t) => {                              // 木头汤：木勺搅碗，两三下温润木叩 + 一点刮擦
+                cpTapRun(ctx, t, { n:2, nr:2, gap:170, gapr:140, f:260, fr:130, q:1.2,
+                    dur:0.07, amp:0.10, ft:'lowpass', tone:[150, 70, 100, 0.10, 0.045] });
+                cpRasp(ctx, t, { f:700, fr:500, q:1.6, dur:0.18, durr:0.18, amp:0.028, ft:'bandpass' });
+            },
+            woodbowl: (ctx, t) => {                              // 木碗：带空腔的短共鸣
+                cpTap(ctx, t, { f:330, fr:160, q:1.4, dur:0.09, amp:0.10, ft:'lowpass',
+                    tone:[290, 120, 210, 0.22, 0.055] });
+            },
+            woodstick:(ctx, t) => {                              // 木筷：两记清脆木质互敲
+                cpTapRun(ctx, t, { n:2, nr:1, gap:110, gapr:90, f:900, fr:500, q:2.4,
+                    dur:0.035, amp:0.075, ft:'bandpass', tone:[620, 200, 480, 0.07, 0.03] });
+            },
+            woodbox:  (ctx, t) => {                              // 木盒：闷、低频、箱体感
+                cpTap(ctx, t, { f:150, fr:90, q:1.1, dur:0.11, amp:0.13, ft:'lowpass',
+                    tone:[120, 40, 85, 0.14, 0.055] });
+            },
+            tapglass: (ctx, t) => {                              // 敲玻璃杯：清亮长 ping
+                cpBlip(ctx, 2600 + Math.random() * 1500, null, 0.45, 0.032 * (t.evGain||1), 'sine', t, 0.001);
+                cpHit(ctx, 4200 + Math.random() * 1800, 4, 0.02, 0.03 * (t.evGain||1), 'bandpass', t);
+            },
+            tapceramic:(ctx, t) => {                             // 敲瓷碗：中高频短共鸣
+                cpTap(ctx, t, { f:1500, fr:800, q:3.0, dur:0.05, amp:0.07, ft:'bandpass',
+                    tone:[1250, 400, 900, 0.16, 0.045] });
+            },
+            tapmetal: (ctx, t) => {                              // 敲铁盒：金属泛音，稍长
+                cpTap(ctx, t, { f:2100, fr:1100, q:4.0, dur:0.06, amp:0.06, ft:'bandpass',
+                    tone:[1800, 700, null, 0.34, 0.042] });
+            },
+            tapstone: (ctx, t) => {                              // 敲石头：又干又硬，极短
+                cpTapRun(ctx, t, { n:1, nr:2, gap:220, gapr:180, f:1100, fr:700, q:1.0,
+                    dur:0.022, amp:0.09, ft:'highpass' });
+            },
+            nailtap:  (ctx, t) => {                              // 指甲敲：细密高频连击
+                cpTapRun(ctx, t, { n:3, nr:3, gap:55, gapr:55, f:3400, fr:2200, q:3.2,
+                    dur:0.016, amp:0.055, ft:'bandpass' });
+            },
+            fingertap:(ctx, t) => {                              // 指腹敲：闷软的两下
+                cpTapRun(ctx, t, { n:2, nr:1, gap:200, gapr:160, f:230, fr:120, q:1.0,
+                    dur:0.09, amp:0.11, ft:'lowpass', tone:[170, 50, 120, 0.12, 0.035] });
+            },
+            micscratch:(ctx, t) => {                             // 刮麦：网罩上细密沙沙
+                cpTapRun(ctx, t, { n:4, nr:4, gap:60, gapr:80, f:2800, fr:2400, q:1.0,
+                    dur:0.10, amp:0.028, ft:'highpass' });
+            },
+            micbrush: (ctx, t) => {                              // 刷麦：软刷扫过，长起伏
+                cpRasp(ctx, t, { f:1300, fr:900, q:0.7, dur:0.45, durr:0.45, amp:0.030, ft:'bandpass' });
+            },
+            mictap:   (ctx, t) => {                              // 敲麦：近距闷「咚」
+                cpTapRun(ctx, t, { n:2, nr:2, gap:190, gapr:170, f:190, fr:110, q:0.9,
+                    dur:0.085, amp:0.10, ft:'lowpass', tone:[140, 50, 100, 0.13, 0.04] });
+            },
+            micrub:   (ctx, t) => {                              // 揉麦：低频摩擦
+                cpRasp(ctx, t, { f:420, fr:320, q:0.9, dur:0.35, durr:0.4, amp:0.034, ft:'lowpass',
+                    tone:[110, 70, 0.020] });
+            },
             thunder: (ctx, t) => {
                 const now = ctx.currentTime;
                 const sr = ctx.createBufferSource(); sr.buffer = cpNoiseBuf(ctx, 'brown');
@@ -8351,7 +9362,11 @@ createApp({
             ice:[900,3200], icecup:[1100,3600], icecrush:[700,2400],
             wood:[800,2800], woodspoon:[600,2000], woodblock:[1000,3200],
             paper:[1200,4000], crinkle:[900,3000], brushswish:[1600,5000],
-            bubble:[500,1800], glass:[2200,6500], whisper:[1800,5200]
+            bubble:[500,1800], glass:[2200,6500], whisper:[1800,5200],
+            woodsoup:[1100,3200], woodbowl:[1600,4600], woodstick:[900,2800], woodbox:[1800,5000],
+            tapglass:[2600,7000], tapceramic:[1500,4200], tapmetal:[2200,6000], tapstone:[1200,3600],
+            nailtap:[700,2200], fingertap:[1400,4000],
+            micscratch:[900,2600], micbrush:[1800,5200], mictap:[1300,3800], micrub:[1600,4600]
         };
         const cpEventLoop = (ctx, ev, t) => {
             if (!cpTracks[t.k]) return;
@@ -8656,6 +9671,8 @@ createApp({
                 const s = m.song || {};
                 return `[歌曲] ${s.title || ''}${s.artist ? ' - ' + s.artist : ''}${s.state === 'later' ? '（等会再听）' : ''}`;
             }
+            if (m.type === 'gift') return '[礼物] ' + ((m.item && m.item.name) || '') + (m.note ? ' · ' + m.note : '');
+            if (m.type === 'wish') return '[想要] ' + ((m.item && m.item.name) || '') + (m.state === 'bought' ? ' · 他买给我了' : '');
             if (m.type === 'redpacket') return '[红包]';
             if (m.type === 'call') return '[视频通话]';
             return m.content || '[消息]';
@@ -8987,7 +10004,8 @@ createApp({
             localforage.setItem('liubai_avatar_me', profiles.me.avatar || '').catch(() => {});
             // 【修复】原字段白名单里没有 cover，封面只存在于内存，刷新必丢。
             // 现在把封面一起写进 IndexedDB（配额几百 MB，存压缩后的封面完全够）。
-            const plFull = syncPlaylist.value.map(t => ({ id: t.id, title: t.title, artist: t.artist, src: t.src || null, duration: t.duration, cover: t.cover || '' }));
+            // lrc 只存进 IndexedDB（容量大）：localStorage 那份字符串副本是旧版降级用，不塞歌词免得顶配额
+        const plFull = syncPlaylist.value.map(t => ({ id: t.id, title: t.title, artist: t.artist, src: t.src || null, duration: t.duration, cover: t.cover || '', lrc: typeof t.lrc === 'string' ? t.lrc : '' }));
             localforage.setItem('liubai_playlist_db', JSON.parse(JSON.stringify(plFull))).catch(() => {
                 // 配额不足时降级：丢掉封面再存一次，至少保证歌曲列表不丢
                 localforage.setItem('liubai_playlist_db', JSON.parse(JSON.stringify(plFull.map(t => ({ ...t, cover: '' }))))).catch(() => {});
@@ -9007,7 +10025,10 @@ createApp({
         };
         
         watch([messages, profiles, settings, replyGroups, emojiList, replyMinDelay, replyMaxDelay, replyMinCount, replyMaxCount, stickers, letters, videoAutoCall, watchMessages], () => { saveAll(); }, { deep: true });
-        watch([syncPlaylist, syncState], saveAll, { deep: true });
+        // 只盯歌单，别盯 syncState：播放时 currentTime 每 250ms 变一次，
+        // deep watch 会把 saveAll 的 400ms 防抖无限重置，导致「边听边贴歌词/
+        // 改设置」迟迟不落盘。syncState 本来也没进 saveAllNow，不需要持久化。
+        watch(syncPlaylist, () => { saveAll(); }, { deep: true });
         
         const loadAll = async () => {
             isLoading = true;
@@ -9096,7 +10117,8 @@ createApp({
                 const plDb = await localforage.getItem('liubai_playlist_db');
                 if (Array.isArray(plDb) && plDb.length) {
                     // 兼容旧数据：没有 cover 字段的补空串，避免读到 undefined
-                    syncPlaylist.value = plDb.map(t => (t && typeof t === 'object') ? { ...t, cover: typeof t.cover === 'string' ? t.cover : '' } : t);
+                    syncPlaylist.value = plDb.map(t => (t && typeof t === 'object')
+                        ? { ...t, cover: typeof t.cover === 'string' ? t.cover : '', lrc: typeof t.lrc === 'string' ? t.lrc : '' } : t);
                 }
 
                 const pStr = localStorage.getItem('liubai_playlist_string');
@@ -9122,7 +10144,30 @@ createApp({
 
                 const t = syncPlaylist.value[syncState.index];
                 if (t) { const src = getTrackSrc(t); if (src) { syncAudio.src = src; msLoadedSrc = src; } }   // getTrackSrc 已统一升级为安全地址
-            } catch (e) { console.log('加载数据出错:', e); } finally { isLoading = false; }
+            } catch (e) { console.log('加载数据出错:', e); } finally {
+                isLoading = false;
+                // 等所有数据恢复完再做一次性迁移：推歌旧 12/15、塔罗旧 15
+                // 按「每条消息掷一次」算偏密，都落到 8%。只动这些旧档位，
+                // 用户自己调到任何其它值都不碰，之后也不再重复迁移。
+                try {
+                    let changed = false;
+                    if (!settings.__sgRateV2) {
+                        if (settings.songRate === 12 || settings.songRate === 15) settings.songRate = 8;
+                        settings.__sgRateV2 = true; changed = true;
+                    }
+                    if (!settings.__cardRateV3) {
+                        if (settings.tarotRate === 15) settings.tarotRate = 8;
+                        settings.__cardRateV3 = true; changed = true;
+                    }
+                    if (changed) {
+                        try { localStorage.setItem('liubai_sync_settings', JSON.stringify(settings)); } catch (e) {}
+                        try { saveAllNow(); } catch (e) {}
+                    }
+                } catch (e) {}
+                // 商场：零钱 / 购物车 / 订单；顺手把还没被买下的「想要」接上
+                try { await shopLoad(); } catch (e) {}
+                try { shopResumeWishes(); } catch (e) {}
+            }
         };
         
         // ================= [MOD-08B] 播放控制：切歌 / 暂停 / 循环模式 / 进度 =================
@@ -9591,7 +10636,7 @@ createApp({
                 lines.push(`localStorage 可写入: ${lsWritable ? '✅ 正常' : '❌ 已满/受限'}`);
                 lines.push('');
                 lines.push('--- localforage (IndexedDB，容量大) ---');
-                const lfKeys = ['liubai_messages_db','liubai_profiles_db','liubai_settings_db','liubai_letters_db','liubai_videoAutoCall_db','liubai_stickers_db','liubai_replyGroups_db','liubai_replySettings_db','liubai_avatar_them','liubai_avatar_me','liubai_anniversary_img','liubai_wallpaper_global','liubai_wallpaper_chat','liubai_watch_messages','liubai_video_image_string','liubai_playlist_db','liubai_companion_msgs','liubai_companion_recent','liubai_companion_custom_name'];
+                const lfKeys = ['liubai_messages_db','liubai_profiles_db','liubai_settings_db','liubai_letters_db','liubai_videoAutoCall_db','liubai_stickers_db','liubai_replyGroups_db','liubai_replySettings_db','liubai_avatar_them','liubai_avatar_me','liubai_anniversary_img','liubai_wallpaper_global','liubai_wallpaper_chat','liubai_watch_messages','liubai_video_image_string','liubai_playlist_db','liubai_companion_msgs','liubai_companion_recent','liubai_companion_custom_name','liubai_shop_wallet','liubai_shop_cart','liubai_shop_orders'];
                 for (const k of lfKeys) {
                     try {
                         const v = await localforage.getItem(k);
@@ -9627,7 +10672,8 @@ createApp({
                 'liubai_hp_note1', 'liubai_hp_note2', 'liubai_hp_note_sty',
                 'liubai_hp_top_main', 'liubai_hp_top_sub',
                 'liubai_sleep_mix', 'liubai_sleep_recipes', 'liubai_sleep_chat', 'liubai_sleep_vols',
-                'liubai_sleep_session', 'liubai_sleep_summary'
+                'liubai_sleep_session', 'liubai_sleep_summary',
+                'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders'
             ]);
             let removed = 0, freed = 0;
             try {
@@ -9640,7 +10686,7 @@ createApp({
                         removed++;
                     }
                 }
-                const lsKeep = new Set(['liubai_theme_dark','liubai_sync_profiles','liubai_sync_settings','liubai_sync_replyGroups','liubai_sync_emojiList','liubai_sync_letters','liubai_playlist_string','liubai_watch_string','liubai_waiting_letter','liubai_weather_data_v2']);
+                const lsKeep = new Set(['liubai_theme_dark','liubai_sync_profiles','liubai_sync_settings','liubai_sync_replyGroups','liubai_sync_emojiList','liubai_sync_letters','liubai_playlist_string','liubai_watch_string','liubai_waiting_letter','liubai_weather_data_v2','liubai_card_cd']);
                 for (let i = localStorage.length - 1; i >= 0; i--) {
                     const k = localStorage.key(i);
                     if (k && k.startsWith('liubai_') && !lsKeep.has(k)) {
@@ -9851,6 +10897,7 @@ createApp({
                     'liubai_custom_bubble', 'liubai_custom_font', 'liubai_home_icons', 'liubai_videoAutoCall_db',
                     'liubai_sleep_mix', 'liubai_sleep_recipes', 'liubai_sleep_chat', 'liubai_sleep_vols',
                     'liubai_sleep_session', 'liubai_sleep_summary',
+                    'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders',
                     'liubai_companion_custom_name', 'liubai_companion_msgs', 'liubai_companion_recent',
                     'liubai_menstrual_records', 'liubai_menstrual_cycle_avg', 'liubai_menstrual_duration_avg',
                 'liubai_hp_img1', 'liubai_hp_img2', 'liubai_hp_img3',
@@ -9873,7 +10920,7 @@ createApp({
                         const time = new Date(m.timestamp).toLocaleString();
                         const name = m.sender === 'me' ? '我' : profiles.them.name;
                         let content = '';
-                        if (m.type === 'image') content = '[图片]'; else if (m.type === 'sticker') content = '[表情包]'; else if (m.type === 'voice') content = `[语音 ${m.duration}"]`; else if (m.type === 'song') content = `[歌曲] ${(m.song && m.song.title) || ''}${(m.song && m.song.artist) ? ' - ' + m.song.artist : ''}${(m.song && m.song.state === 'later') ? '（等会再听）' : ''}`; else if (m.type === 'redpacket') content = `[红包] ${m.blessing}`; else if (m.type === 'survey') content = `[问卷] ${m.question}`; else if (m.type === 'dice') content = `[骰子 ${m.dice}]`; else if (m.type === 'call') content = `[视频通话]`; else if (m.type === 'sleep') content = `[助眠音] ${m.sleep ? m.sleep.title : ''}`; else content = m.content;
+                        if (m.type === 'image') content = '[图片]'; else if (m.type === 'sticker') content = '[表情包]'; else if (m.type === 'voice') content = `[语音 ${m.duration}"]`; else if (m.type === 'song') content = `[歌曲] ${(m.song && m.song.title) || ''}${(m.song && m.song.artist) ? ' - ' + m.song.artist : ''}${(m.song && m.song.state === 'later') ? '（等会再听）' : ''}`; else if (m.type === 'gift') content = `[礼物] ${(m.item && m.item.name) || ''}${m.note ? ' · ' + m.note : ''}`; else if (m.type === 'wish') content = `[想要] ${(m.item && m.item.name) || ''}${m.state === 'bought' ? ' · 他买给我了' : ''}`; else if (m.type === 'redpacket') content = `[红包] ${m.blessing}`; else if (m.type === 'survey') content = `[问卷] ${m.question}`; else if (m.type === 'dice') content = `[骰子 ${m.dice}]`; else if (m.type === 'call') content = `[视频通话]`; else if (m.type === 'sleep') content = `[助眠音] ${m.sleep ? m.sleep.title : ''}`; else content = m.content;
                         text += `[${time}] ${name}:\n${content}\n\n`;
                     });
                     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
@@ -9898,7 +10945,10 @@ createApp({
                     journal: await localforage.getItem('liubai_journal_db'),
                     tarot: await localforage.getItem('liubai_tarot_db'),
                     sleepRecipes: await localforage.getItem('liubai_sleep_recipes'), sleepChat: await localforage.getItem('liubai_sleep_chat'), sleepVols: await localforage.getItem('liubai_sleep_vols'),
-                    sleepSession: await localforage.getItem('liubai_sleep_session'), sleepSummary: await localforage.getItem('liubai_sleep_summary')
+                    sleepSession: await localforage.getItem('liubai_sleep_session'), sleepSummary: await localforage.getItem('liubai_sleep_summary'),
+                    shopWallet: await localforage.getItem('liubai_shop_wallet'),
+                    shopCart: await localforage.getItem('liubai_shop_cart'),
+                    shopOrders: await localforage.getItem('liubai_shop_orders')
                 };
                 const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
@@ -9939,6 +10989,9 @@ createApp({
                           if (data.sleepVols && typeof data.sleepVols === 'object') await localforage.setItem('liubai_sleep_vols', data.sleepVols);
                           if (data.sleepSession && typeof data.sleepSession === 'object') await localforage.setItem('liubai_sleep_session', data.sleepSession);
                           if (data.sleepSummary && typeof data.sleepSummary === 'object') await localforage.setItem('liubai_sleep_summary', data.sleepSummary);
+                          if (typeof data.shopWallet === 'number') await localforage.setItem('liubai_shop_wallet', data.shopWallet);
+                          if (Array.isArray(data.shopCart)) await localforage.setItem('liubai_shop_cart', data.shopCart);
+                          if (Array.isArray(data.shopOrders)) await localforage.setItem('liubai_shop_orders', data.shopOrders);
                         alert('全量备份导入成功，正在重新加载页面...'); window.location.reload();
                     } else alert('未知的文件格式。');
                 } catch (err) { alert('解析文件失败，请确认是合法的 JSON 备份文件。'); }
@@ -10023,7 +11076,7 @@ createApp({
         const toggleSelect = (id) => { if (!selectMode.value) return; const idx = selectedMsgs.value.indexOf(id); if (idx > -1) selectedMsgs.value.splice(idx, 1); else selectedMsgs.value.push(id); };
         const mergeAndSend = () => {
             if (selectedMsgs.value.length === 0) return;
-            const mergedContent = selectedMsgs.value.map(id => { const m = messages.value.find(x => x.id === id); if (!m) return ''; if (m.type === 'text') return m.content; if (m.type === 'image') return '[图片]'; if (m.type === 'voice') return '[语音]'; if (m.type === 'song') return '[歌曲] ' + ((m.song && m.song.title) || ''); return '[' + m.type + ']'; }).filter(x => x).join('\n');
+            const mergedContent = selectedMsgs.value.map(id => { const m = messages.value.find(x => x.id === id); if (!m) return ''; if (m.type === 'text') return m.content; if (m.type === 'gift' || m.type === 'wish') return '[礼物] ' + ((m.item && m.item.name) || ''); if (m.type === 'image') return '[图片]'; if (m.type === 'voice') return '[语音]'; if (m.type === 'song') return '[歌曲] ' + ((m.song && m.song.title) || ''); return '[' + m.type + ']'; }).filter(x => x).join('\n');
             messages.value.push({ id: genId(), sender: 'me', type: 'text', content: `【合并转发】\n${mergedContent}`, timestamp: Date.now() });
             exitSelectMode(); playTone('send'); scrollToBottom(); saveAll();
         };
@@ -10369,15 +11422,32 @@ createApp({
             finally { isTyping.value = false; if (settings.keepAlive) kaSave(null); saveAll(); }
         };
 
+        // 塔罗 / 推歌 / 送礼三类大卡片共用：一轮只掷一次、最多出一张，并且共享冷却。
+        // 以前两个独立 if 会叠加（15%+8% 实际约 28% 会冒卡），聊得密还会连着冒。
+        const CARD_CD_KEY = 'liubai_card_cd';
+        const CARD_CD_MS = 2 * 60 * 1000;   // 两分钟内最多一张
+        const cardCdRead = () => { try { return Number(localStorage.getItem(CARD_CD_KEY)) || 0; } catch (e) { return 0; } };
+        const cardCdWrite = (t) => { try { localStorage.setItem(CARD_CD_KEY, String(t)); } catch (e) {} };
+        const themMaybeSendCard = (delayTarot, delaySong) => {
+            const now = Date.now();
+            if (now - cardCdRead() < CARD_CD_MS) return;   // 冷却中：两类都不推
+            const pT = Math.max(0, Number(settings.tarotRate) || 0) / 100;
+            const pS = Math.max(0, Number(settings.songRate == null ? 8 : settings.songRate)) / 100;
+            const pG = Math.max(0, Number(settings.giftRate == null ? 0 : settings.giftRate)) / 100;
+            const r = Math.random();
+            if (r >= pT + pS + pG) return;                  // 这轮不出卡
+            cardCdWrite(now);                               // 先占住冷却，延时期间再发消息也不会重复命中
+            if (r < pT) setTimeout(() => themSendTarot(), delayTarot);
+            else if (r < pT + pS) setTimeout(() => themPushSong(), delaySong);
+            else setTimeout(() => themSendGift(), delaySong + 300);
+        };
+
         const triggerAutoReplies = () => {
             if (isTyping.value) return;
             if (settings.useAI && settings.apiKey && settings.apiUrl) {
                 requestAIReply();
                 // AI 模式下也按概率附一张（延后一点，等 AI 那条落地）
-                const r0 = (settings.tarotRate || 0) / 100;
-                if (Math.random() < r0) setTimeout(() => themSendTarot(), 3500);
-                const rS = (settings.songRate == null ? 12 : settings.songRate) / 100;
-                if (Math.random() < rS) setTimeout(() => themPushSong(), 4300);
+                themMaybeSendCard(3500, 4300);
                 return;
             }
             const total = Math.floor(Math.random() * (replyMaxCount.value - replyMinCount.value + 1)) + replyMinCount.value;
@@ -10385,7 +11455,7 @@ createApp({
             for (let i = 0; i < total; i++) { const randomDelay = Math.floor(Math.random() * (replyMaxDelay.value - replyMinDelay.value + 1)) + replyMinDelay.value; if (i === 0) elapsed = randomDelay * 1000; else elapsed += randomDelay * 1000; scheduled.push(elapsed); }
             const kaTok = kaNewToken();
             kaPlan('chat', total, scheduled[0] || 1000, kaTok);
-            scheduled.forEach((delay, i) => { setTimeout(() => { if (kaTok !== kaToken) return; if (i === scheduled.length - 1) isTyping.value = false; sendAutoReply(); kaTick('chat', scheduled[i + 1] || 0, kaTok); if (i === scheduled.length - 1) { const r = (settings.tarotRate || 0) / 100; if (Math.random() < r) setTimeout(() => themSendTarot(), 900); const rS = (settings.songRate == null ? 12 : settings.songRate) / 100; if (Math.random() < rS) setTimeout(() => themPushSong(), 1700); } }, delay); });
+            scheduled.forEach((delay, i) => { setTimeout(() => { if (kaTok !== kaToken) return; if (i === scheduled.length - 1) isTyping.value = false; sendAutoReply(); kaTick('chat', scheduled[i + 1] || 0, kaTok); if (i === scheduled.length - 1) themMaybeSendCard(900, 1700); }, delay); });
         };
         const sendAutoReply = () => {
             const useSticker = stickers.value.length > 0 && Math.random() < 0.35; let newMsg;
@@ -12459,7 +13529,7 @@ createApp({
         // 名字、图标全部沿用 homeIcons 里的原值，这里只做排版，不改任何显示名。
         const hpPage = ref(0);
         const hpFront = ref(1);                 // 哪张图在上面：1 或 2
-        const hpEight = ['music', 'mailbox', 'watch', 'weather', 'menstrual', 'companion', 'journal', 'tarot', 'sleep'];
+        const hpEight = ['music', 'mailbox', 'watch', 'weather', 'menstrual', 'companion', 'journal', 'tarot', 'sleep', 'shop'];
         const hpImg1 = ref(''), hpImg2 = ref(''), hpImg3 = ref(''), hpAnnivImg = ref('');
         const hpAnnivName = ref('');
         const hpAnnivDays = ref(0);
@@ -12591,6 +13661,7 @@ createApp({
             currentView.value = v;
             if (v !== 'music') msStop();
             if (v === 'sleep') sleepView.value = 'setup';
+            if (v === 'shop') shopResumeWishes();
             if (v === 'mailbox') { mailboxView.value = 'list'; if (unreadLetters.value > 0) mailTab.value = 'inbox'; }
             if (v === 'companion') { cpShowMore.value = false; cpShowSticker.value = false; }
             if (v === 'journal') { jbView.value = 'closed'; jbPanel.value = ''; jbSel.value = ''; jbWxOpen.value = false; jbWho.value = 'me'; }
@@ -12748,6 +13819,18 @@ createApp({
             showAddMp3Url, newMp3Url, newMp3Title, newMp3Artist, addMp3ByUrl,
             msQuery, msLoading, msResults, msMsg, msSource, msPlayId,
             msSearch, msPreview, msAdd, msClearResults, msCoverErr, msStop,
+            // 商场
+            SHOP_CATS, SHOP_ITEMS, shopCats: SHOP_CATS, shopWallet, shopCart, shopOrders,
+            shopTab, shopQuery, shopCartOpen, shopFestivalAll, shopWalletEdit, shopWalletDraft,
+            shopCheckout, shopDetailItem, shopFlash, shopFestivalNow,
+            shopCartCount, shopCartTotal, shopShown, shopHint, shopFind, shopSnap, shopArt,
+            shopOpenWallet, shopSaveWallet, shopAddCart, shopQty, shopClearCart,
+            shopBuy, shopCheckoutOpen, shopPay, shopDetail, shopWish, shopAccept,
+            shopResumeWishes, shopScheduleBuy, themSendGift,
+            // 歌词模式
+            lyricScroll, lyricMsg, lyricLoading, showLrcEditor, lrcDraft, lyricFollowing,
+            lyricLines, lyricTimed, lyricCur, lyricHeadText,
+            lyricSearch, lyricSave, lyricClear, lyricOpenEditor, lyricPauseFollow, lyricFollowNow, seekLyric, parseLrc,
             // 黑胶唱片
             vinylShowList, vinylBars, vinylDragging, vinylSwiping, vinylVolume, autoCoverLoading,
             vinylButterflies,
