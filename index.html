@@ -1569,8 +1569,8 @@ body { background-color:#d1d5db; font-family:"PingFang SC","Microsoft YaHei",sys
 .sticker-bubble img { width:100%; height:auto; display:block; border-radius:14px; }
 /* ============ 音乐页：白天白底黑字 / 夜里黑底白字 ============
    所有歌词、搜歌卡片的颜色都走 --vp-ink（墨水色三元值）。
-   唱片不再是死黑胶：换成柔和磨砂盘 + 极细同心线，白天浅灰白、夜里暖深灰，
-   跟着主题一起换，中间那张封面照片因此更显眼。 */
+   唱片是「高级灰黑」的磨砂盘：中性石墨灰，不偏紫也不偏棕，圆心略亮、外圈压深；
+   白天夜里都是同一块灰黑，只夜里略暗一点，配极细淡白同心线，中间那张封面更显眼。 */
 .music-page {
     --vp-ink: 26,26,26;
     --vp-bg: radial-gradient(120% 80% at 50% -10%, rgba(206,200,224,.48) 0%, rgba(248,248,250,.96) 45%, #f1f1f4 100%);
@@ -1584,14 +1584,16 @@ body { background-color:#d1d5db; font-family:"PingFang SC","Microsoft YaHei",sys
     --vp-pop-bg: var(--color-surface);
     --vp-card-bg: rgba(var(--vp-ink), .045);
     --vp-card-line: rgba(var(--vp-ink), .16);
-    --vp-disc-shadow: 0 14px 34px rgba(0,0,0,.13), 0 2px 8px rgba(0,0,0,.05);
-    --vp-disc-a: #ffffff;
-    --vp-disc-b: #ececf2;
-    --vp-disc-c: #dcdce6;
-    --vp-disc-line: rgba(var(--vp-ink), .055);
-    --vp-disc-edge: rgba(var(--vp-ink), .14);
+    --vp-disc-shadow: 0 14px 34px rgba(0,0,0,.16), 0 2px 8px rgba(0,0,0,.06);
+    /* 高级灰黑：中性石墨灰；圆心略亮像受了光，外圈压深。不随主题染色 */
+    --vp-disc-a: #414246;
+    --vp-disc-b: #313235;
+    --vp-disc-c: #242527;
+    --vp-disc-line: rgba(255,255,255,.055);
+    --vp-disc-edge: rgba(255,255,255,.13);
     --vp-disc-sheen: rgba(255,255,255,.55);
-    --vp-arm: rgba(var(--vp-ink), .35);
+    --vp-cover-ring: rgba(255,255,255,.10);
+    --vp-arm: rgba(120,120,126,.46);
     --vp-arm-dot: var(--color-accent);
     --vp-hole: rgba(var(--vp-ink), .30);
     --vp-cover-edge: rgba(var(--vp-ink), .17);
@@ -1612,13 +1614,14 @@ html.dark .music-page, .music-page.vp-dark {
     --vp-card-bg: rgba(var(--vp-ink), .06);
     --vp-card-line: rgba(var(--vp-ink), .18);
     --vp-disc-shadow: 0 14px 34px rgba(0,0,0,.42), 0 2px 8px rgba(0,0,0,.22);
-    --vp-disc-a: #3a3a45;
-    --vp-disc-b: #2b2b34;
-    --vp-disc-c: #202028;
-    --vp-disc-line: rgba(var(--vp-ink), .055);
-    --vp-disc-edge: rgba(var(--vp-ink), .14);
+    --vp-disc-a: #3b3c40;
+    --vp-disc-b: #2c2d30;
+    --vp-disc-c: #212225;
+    --vp-disc-line: rgba(255,255,255,.05);
+    --vp-disc-edge: rgba(255,255,255,.12);
     --vp-disc-sheen: rgba(255,255,255,.10);
-    --vp-arm: rgba(var(--vp-ink), .35);
+    --vp-cover-ring: rgba(255,255,255,.08);
+    --vp-arm: rgba(210,210,216,.38);
     --vp-arm-dot: var(--color-accent);
     --vp-hole: rgba(var(--vp-ink), .30);
     --vp-cover-edge: rgba(var(--vp-ink), .17);
@@ -1725,7 +1728,7 @@ html.dark.theme-xinghua .music-page {
     backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
 .music-page .music-head-ink { color:rgb(var(--vp-ink)); }
 .music-page .music-main { background:transparent; }
-/* 唱针跟着盘面走：浅盘用淡墨、深盘用淡白，始终只留一点影 */
+/* 唱针用中性灰：白底和灰黑盘上都能隐约看见，始终只留一点影 */
 .music-page .vinyl-tonearm circle:first-child { stroke:var(--vp-arm); stroke-width:1.1; }
 .music-page .vinyl-tonearm circle:nth-of-type(2) { fill:var(--vp-arm); }
 .music-page .vinyl-tonearm path { stroke:var(--vp-arm); stroke-width:1.3; }
@@ -1742,7 +1745,7 @@ html.dark.theme-xinghua .music-page {
 .vinyl-disc-layer { position:absolute; inset:0; will-change:transform; animation:vinylSlowSpin 20s linear infinite; animation-play-state:paused; }
 .vinyl-disc { position:absolute; inset:0; border-radius:50%; background:
   repeating-radial-gradient(circle at 50% 50%, transparent 0 7px, var(--vp-disc-line) 7px 8px),
-  radial-gradient(circle at 50% 50%, transparent 42%, rgba(var(--vp-ink), .045) 100%),
+  radial-gradient(circle at 50% 50%, transparent 42%, rgba(0,0,0,.10) 100%),
   radial-gradient(circle at 50% 50%, var(--vp-disc-a) 0%, var(--vp-disc-b) 68%, var(--vp-disc-c) 100%);
   box-shadow:var(--vp-disc-shadow), 0 0 0 1px var(--vp-disc-edge); }
 .vinyl-groove-glint { position:absolute; inset:6px; border-radius:50%; pointer-events:none;
@@ -1750,7 +1753,7 @@ html.dark.theme-xinghua .music-page {
 /* 【调整】封面从固定的 72px 改为按唱片直径的 66%，大屏自动更大。
    直径占比 34% → 66%，图片面积约为原来的 3.7 倍；外圈仍保留黑胶沟槽环。
    想更大就调这里的百分比（建议不要超过 78%，否则会盖住外圈沟槽失去唱片质感）。 */
-.vinyl-cover { position:absolute; left:17%; top:17%; width:66%; height:66%; border-radius:50%; overflow:hidden; background:var(--color-surface); border:1px solid var(--vp-cover-edge); box-shadow:0 0 0 4px rgba(var(--vp-ink), .035), 0 6px 18px rgba(0,0,0,.12); cursor:pointer; }
+.vinyl-cover { position:absolute; left:17%; top:17%; width:66%; height:66%; border-radius:50%; overflow:hidden; background:var(--color-surface); border:1px solid var(--vp-cover-edge); box-shadow:0 0 0 4px var(--vp-cover-ring), 0 6px 18px rgba(0,0,0,.12); cursor:pointer; }
 .vinyl-cover:active { transform:scale(.97); }
 .vinyl-cover img { width:100%; height:100%; object-fit:cover; display:block; }
 /* 高光不随盘转：真实唱片的反光来自环境，跟着转会有「光在动」的怪感。 */
@@ -1958,6 +1961,21 @@ html.dark.theme-xinghua .music-page {
   box-shadow:0 16px 44px rgba(0,0,0,.15), 0 2px 8px rgba(0,0,0,.05);
   animation:msgMenuPop .22s cubic-bezier(.2,1.15,.4,1) both; }
 @keyframes msgMenuPop { from { opacity:0; transform:translateY(9px) scale(.95); } to { opacity:1; transform:none; } }
+/* 【他的状态】消息下方小小的「已读 / 未读」，以及聊天页名字下的状态点 */
+.msg-read { display:inline-block; font-size:9px; letter-spacing:.08em; padding:1px 5px; border-radius:6px; line-height:1.5;
+  animation:msgReadIn .32s ease both; }
+@keyframes msgReadIn { from { opacity:0; transform:translateY(3px); } to { opacity:1; transform:none; } }
+.msg-read.is-read { color:var(--color-accent); background:var(--color-bg); }
+.msg-read.is-unread { color:var(--color-muted); background:transparent; }
+.chat-state { display:inline-flex; align-items:center; gap:4px; flex:none; white-space:nowrap;
+  font-size:9px; letter-spacing:.08em; line-height:1.4; color:var(--color-muted);
+  padding:2px 7px; border:1px solid var(--color-border); border-radius:999px;
+  background:var(--color-surface); animation:msgReadIn .3s ease both; }
+.chat-state i { width:5px; height:5px; border-radius:50%; display:block; flex:none; }
+.chat-state.online i { background:#7FB08A; }
+.chat-state.offline i { background:#A8A8AD; }
+.chat-typing { flex:none; white-space:nowrap; font-size:9px; letter-spacing:.06em;
+  color:var(--color-muted); opacity:.85; animation:msgReadIn .3s ease both; }
 .msg-menu-cap { display:flex; align-items:center; justify-content:space-between;
   padding:3px 7px 8px 9px; font-size:10px; letter-spacing:.14em; color:var(--color-muted); }
 .msg-menu-item { width:100%; display:flex; align-items:center; gap:10px; padding:11px 12px;
@@ -2177,7 +2195,7 @@ html.dark .qa-tag.sys { color:#BEE7CD !important; background:rgba(159,211,180,.1
 .vinyl-pl-del { width:22px; height:22px; display:flex; align-items:center; justify-content:center; color:rgba(var(--vp-ink),.3); cursor:pointer; flex-shrink:0; font-size:13px; border-radius:5px; }
 .vinyl-pl-del:hover { color:rgb(var(--vp-ink)); background:rgba(var(--vp-ink),.1); }
 .vinyl-pl-empty { text-align:center; font-size:11px; color:rgba(var(--vp-ink),.35); padding:18px 0; }
-.vinyl-drag-hint { position:absolute; inset:0; border-radius:50%; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; font-size:11px; color:rgb(var(--vp-ink)); opacity:0; transition:opacity .2s; pointer-events:none; z-index:20; text-align:center; line-height:1.5; }
+.vinyl-drag-hint { position:absolute; inset:0; border-radius:50%; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; font-size:11px; color:rgba(255,255,255,.92); opacity:0; transition:opacity .2s; pointer-events:none; z-index:20; text-align:center; line-height:1.5; }
 .vinyl-shaft.drag-over .vinyl-drag-hint { opacity:1; }
 /* 动画常驻、只切播放状态：暂停停在原角度，恢复从原角度继续，角度连续不跳变。 */
 .vinyl-disc-layer.spinning { animation-play-state:running; }
@@ -3606,6 +3624,193 @@ html.dark[class*="theme-"] span.hp-pick { color:var(--hp-ink) !important; }
   .hp-grid4 .hp-cell:nth-child(9) { grid-column: 1 / span 1; justify-self: stretch; }
   /* 第 10 个（商场）紧跟睡眠，第三行第二格，不居中 */
   .hp-grid4 .hp-cell:nth-child(10) { grid-column: 2 / span 1; justify-self: stretch; }
+  /* 第 11 个（寻他）排在商场后面，第三行第三格 */
+  .hp-grid4 .hp-cell:nth-child(11) { grid-column: 3 / span 1; justify-self: stretch; }
+
+/* ============ [MOD-20] 寻他 · 卜卦占星方位盘 ============
+   全部颜色走 --color-*，九套主题与昼夜自动跟随；盘面是象征推演，不排真实天象。 */
+.hr-page { --hr-ink:var(--color-text); --hr-soft:var(--color-muted); --hr-line:var(--color-border);
+  background:
+    radial-gradient(110% 60% at 50% -8%, color-mix(in srgb, var(--color-accent) 10%, transparent) 0%, transparent 62%),
+    var(--color-bg); }
+.hr-wrap { position:relative; z-index:1; flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0 18px 34px; }
+.hr-page > header { position:relative; z-index:2; }
+.hr-page > header::after { content:''; position:absolute; left:14%; right:14%; bottom:-1px; height:1px;
+  background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-accent) 42%, transparent), transparent); }
+
+/* ---- 四周装饰层：不挡点击、不随内容滚动，只把留白填出层次 ---- */
+.hr-deco { position:absolute; inset:56px 0 0; z-index:0; pointer-events:none; overflow:hidden; }
+.hr-deco-grid { position:absolute; inset:0;
+  background-image:radial-gradient(circle, color-mix(in srgb, var(--hr-ink) 13%, transparent) .7px, transparent 1px);
+  background-size:24px 24px; opacity:.8;
+  -webkit-mask-image:radial-gradient(ellipse 72% 58% at 50% 46%, transparent 34%, #000 88%);
+  mask-image:radial-gradient(ellipse 72% 58% at 50% 46%, transparent 34%, #000 88%); }
+.hr-deco-stars { position:absolute; inset:0; opacity:.26;
+  background-image:
+    radial-gradient(circle at 9% 12%,  var(--hr-ink) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 91% 17%, var(--hr-ink) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 6% 44%,  var(--hr-ink) 0 .8px, transparent 1.4px),
+    radial-gradient(circle at 95% 52%, var(--hr-ink) 0 .8px, transparent 1.4px),
+    radial-gradient(circle at 12% 78%, var(--hr-ink) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 88% 83%, var(--hr-ink) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 30% 6%,  var(--hr-ink) 0 .7px, transparent 1.3px),
+    radial-gradient(circle at 70% 94%, var(--hr-ink) 0 .7px, transparent 1.3px); }
+.hr-deco-ruler { position:absolute; top:7%; bottom:9%; width:7px; opacity:.55;
+  background:repeating-linear-gradient(to bottom,
+    color-mix(in srgb, var(--hr-ink) 30%, transparent) 0 1px, transparent 1px 11px); }
+.hr-deco-ruler.l { left:12px; }
+.hr-deco-ruler.r { right:12px; }
+.hr-deco-v { position:absolute; top:46%; writing-mode:vertical-rl; white-space:nowrap;
+  font-size:9px; letter-spacing:.3em; color:var(--hr-soft); opacity:.4; }
+.hr-deco-v.l { left:1px; transform:translateY(-50%); }
+.hr-deco-v.r { right:1px; transform:translateY(-50%); }
+.hr-deco-corner { position:absolute; width:13px; height:13px; opacity:.4; }
+.hr-deco-corner.tl { top:14px; left:14px; border-top:1px solid var(--hr-ink); border-left:1px solid var(--hr-ink); }
+.hr-deco-corner.tr { top:14px; right:14px; border-top:1px solid var(--hr-ink); border-right:1px solid var(--hr-ink); }
+.hr-deco-corner.bl { bottom:14px; left:14px; border-bottom:1px solid var(--hr-ink); border-left:1px solid var(--hr-ink); }
+.hr-deco-corner.br { bottom:14px; right:14px; border-bottom:1px solid var(--hr-ink); border-right:1px solid var(--hr-ink); }
+
+.hr-hero { text-align:center; padding:20px 0 8px; }
+.hr-hero-t { display:flex; align-items:center; justify-content:center; gap:15px;
+  font-size:21px; letter-spacing:.42em; text-indent:.42em; font-weight:400;
+  color:var(--hr-ink); font-family:'Noto Serif SC','Noto Serif SC Offline',serif; }
+.hr-hero-t i { position:relative; display:block; width:26px; height:1px; flex:none; background:var(--hr-line); }
+.hr-hero-t i::after { content:''; position:absolute; top:-2px; width:5px; height:5px;
+  background:var(--hr-soft); opacity:.6; transform:rotate(45deg); }
+.hr-hero-t i:first-child::after { right:-2px; }
+.hr-hero-t i:last-child::after { left:-2px; }
+.hr-hero-s { margin-top:9px; font-size:11px; line-height:1.9; letter-spacing:.06em; color:var(--hr-soft); }
+.hr-hero-rule { position:relative; width:34px; height:1px; margin:14px auto 0; background:var(--hr-line); }
+.hr-hero-rule::after { content:''; position:absolute; left:50%; top:-2px; width:5px; height:5px;
+  margin-left:-2.5px; border-radius:50%; background:var(--hr-soft); opacity:.55; }
+
+/* 顶部常驻：此刻的连结 */
+.hr-bond { position:relative; display:flex; align-items:center; gap:10px; margin:14px 0 4px; padding:11px 13px;
+  border-radius:14px; border:1px solid var(--hr-line); background:var(--color-surface); overflow:hidden; }
+.hr-bond::before { content:''; position:absolute; left:0; top:12px; bottom:12px; width:2px;
+  border-radius:2px; background:var(--hr-bond-c, var(--color-accent)); opacity:.7; }
+.hr-bond-dot { width:8px; height:8px; border-radius:50%; flex:none;
+  background:var(--hr-bond-c, #8aa88f); box-shadow:0 0 0 4px color-mix(in srgb, var(--hr-bond-c, #8aa88f) 16%, transparent); }
+.hr-bond-txt { flex:1; min-width:0; font-size:11.5px; letter-spacing:.04em; color:var(--hr-ink); line-height:1.6; }
+.hr-bond-lbl { display:block; font-size:9.5px; letter-spacing:.14em; color:var(--hr-soft); margin-bottom:2px; }
+.hr-state-pill { flex:none; font-size:9.5px; padding:4px 8px; border-radius:20px;
+  border:1px solid var(--hr-line); color:var(--hr-soft); white-space:nowrap; }
+.hr-state-pill.on { color:#6f9a78; border-color:#6f9a78; }
+html.dark .hr-state-pill.on, .dark .hr-state-pill.on { color:#a6c9ad; border-color:#a6c9ad; }
+
+/* 星盘 */
+.hr-chart { position:relative; width:min(348px, 90vw); margin:16px auto 6px; aspect-ratio:1;
+  border-radius:50%; background:radial-gradient(circle at 50% 50%,
+    color-mix(in srgb, var(--color-surface) 92%, transparent) 0%,
+    color-mix(in srgb, var(--color-surface) 62%, transparent) 58%, transparent 73%); }
+.hr-chart::after { content:''; position:absolute; inset:-7px; border-radius:50%; pointer-events:none;
+  border:1px dashed color-mix(in srgb, var(--hr-ink) 15%, transparent); }
+.hr-chart svg { position:relative; width:100%; height:100%; display:block; overflow:visible; }
+.hr-ring-outer { fill:none; stroke:var(--hr-ink); stroke-opacity:.28; stroke-width:1; }
+.hr-ring-inner { fill:none; stroke:var(--hr-ink); stroke-opacity:.18; stroke-width:1; }
+.hr-ring-mid { fill:none; stroke:var(--hr-ink); stroke-opacity:.09; stroke-width:1; }
+.hr-house-line { stroke:var(--hr-ink); stroke-opacity:.13; stroke-width:1; }
+.hr-tick { stroke:var(--hr-ink); stroke-opacity:.22; stroke-width:1; }
+.hr-tick.cardinal { stroke-opacity:.5; stroke-width:1.4; }
+.hr-cardinal-t { fill:var(--hr-soft); font-size:11px; letter-spacing:.1em; text-anchor:middle; dominant-baseline:middle; }
+/* 十二宫与行星全部用纯 SVG 几何线描：不用 Unicode 星座/行星字符，
+   否则手机上会被系统渲染成彩色圆底 emoji，跟整站细线气质冲突。 */
+.hr-zring { fill:none; stroke:var(--hr-ink); stroke-opacity:.2; stroke-width:1; }
+.hr-zmark { fill:none; stroke:var(--hr-ink); stroke-opacity:.52; stroke-width:1.3;
+  stroke-linecap:round; stroke-linejoin:round; }
+.hr-zdot { fill:var(--hr-ink); fill-opacity:.4; }
+.hr-aspect { stroke:var(--color-accent); stroke-opacity:.22; stroke-width:1; stroke-dasharray:2 3; }
+.hr-planet-ring { fill:none; stroke:var(--color-accent); stroke-opacity:.36; stroke-width:1.05; }
+.hr-ptick { fill:var(--color-accent); fill-opacity:.5; }
+.hr-pdot { fill:var(--color-accent); fill-opacity:.8; }
+.hr-pmark { fill:none; stroke:var(--color-accent); stroke-opacity:.9; stroke-width:1.35;
+  stroke-linecap:round; stroke-linejoin:round; }
+.hr-center { fill:var(--hr-ink); fill-opacity:.55; }
+.hr-needle { transform-origin:160px 160px; transform-box:view-box; transition:transform 2.2s cubic-bezier(.18,.72,.22,1); }
+.hr-needle line { stroke:var(--color-accent); stroke-width:1.6; stroke-linecap:round; }
+.hr-needle path { fill:var(--color-accent); }
+.hr-chart.spin .hr-disc { animation:hrDiscSpin 2.2s cubic-bezier(.3,.7,.3,1) both; }
+.hr-disc { transform-origin:160px 160px; transform-box:view-box; }
+@keyframes hrDiscSpin { from { transform:rotate(-26deg); } to { transform:rotate(0deg); } }
+.hr-chart-glow { position:absolute; inset:12%; border-radius:50%; pointer-events:none;
+  background:radial-gradient(circle, color-mix(in srgb,var(--color-accent) 9%,transparent) 0%, transparent 68%); }
+@media (prefers-reduced-motion: reduce) { .hr-needle { transition:none; } .hr-chart.spin .hr-disc { animation:none; } }
+
+/* 提问与按钮 */
+.hr-ask { position:relative; margin:14px 0 0; }
+.hr-ask::before, .hr-ask::after { content:''; position:absolute; top:50%; width:7px; height:1px;
+  background:var(--hr-line); }
+.hr-ask::before { left:-13px; } .hr-ask::after { right:-13px; }
+.hr-ask input { width:100%; padding:11px 13px; border-radius:12px; font-size:12px;
+  border:1px solid var(--hr-line); background:var(--color-surface); color:var(--hr-ink); outline:none; }
+.hr-ask input::placeholder { color:var(--hr-soft); opacity:.8; }
+.hr-btn { position:relative; display:block; width:100%; margin-top:12px; padding:13px 0; border-radius:14px;
+  border:1px solid var(--color-accent); background:var(--color-accent); color:var(--color-bg);
+  font-size:13px; letter-spacing:.24em; text-indent:.24em; cursor:pointer; transition:transform .15s, opacity .2s;
+  box-shadow:0 6px 18px color-mix(in srgb, var(--color-accent) 18%, transparent); overflow:hidden; }
+.hr-btn::before { content:''; position:absolute; left:14%; right:14%; top:0; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent); }
+.hr-btn:active { transform:scale(.98); }
+.hr-btn[disabled] { opacity:.5; pointer-events:none; }
+.hr-btn.ghost { background:transparent; color:var(--hr-ink); border-color:var(--hr-line); }
+
+/* 结果 */
+.hr-result { position:relative; margin-top:20px; padding:20px 17px 18px; border-radius:18px;
+  border:1px solid var(--hr-line); background:var(--color-surface);
+  box-shadow:0 8px 26px color-mix(in srgb, var(--hr-ink) 6%, transparent);
+  animation:hrFade .5s ease both; overflow:hidden; }
+.hr-result::before { content:''; position:absolute; top:0; left:18%; right:18%; height:1px;
+  background:linear-gradient(90deg, transparent, var(--hr-bond-c, var(--color-accent)), transparent); opacity:.55; }
+.hr-result::after { content:''; position:absolute; right:12px; top:12px; width:6px; height:6px;
+  border-top:1px solid var(--hr-line); border-right:1px solid var(--hr-line); }
+@keyframes hrFade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+.hr-res-top { text-align:center; }
+.hr-res-dir { font-size:25px; font-weight:400; letter-spacing:.16em; color:var(--hr-ink);
+  font-family:'Noto Serif SC','Noto Serif SC Offline',serif; }
+.hr-res-deg { margin-top:5px; font-size:11px; letter-spacing:.12em; color:var(--color-accent); font-variant-numeric:tabular-nums; }
+.hr-res-rule { width:26px; height:1px; margin:15px auto 0; background:var(--hr-line); }
+.hr-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:9px; margin-top:17px; }
+.hr-cell { padding:11px 12px; border-radius:12px; border:1px solid var(--hr-line); background:var(--color-bg);
+  display:flex; flex-direction:column; justify-content:center; }
+.hr-cell-l { font-size:9px; letter-spacing:.14em; color:var(--hr-soft); }
+.hr-cell-v { margin-top:5px; font-size:12px; line-height:1.6; color:var(--hr-ink); }
+.hr-cell.place { grid-column:1 / -1; }
+.hr-cell.place .hr-cell-v { font-size:11.5px; }
+.hr-eg { display:block; margin-top:3px; font-size:11px; letter-spacing:.03em; color:var(--color-accent); }
+.hr-ph { display:block; margin-top:4px; font-size:9.5px; line-height:1.6; letter-spacing:.03em; color:var(--hr-soft); }
+.hr-cell.src { grid-column:1 / -1; flex-direction:row; align-items:center; justify-content:space-between; gap:10px; padding:9px 12px; }
+.hr-cell.src .hr-cell-l { flex:none; }
+.hr-cell.src .hr-cell-v { margin-top:0; font-size:11px; text-align:right; }
+.hr-cell.bond { grid-column:1 / -1; border-color:color-mix(in srgb, var(--hr-bond-c,#8aa88f) 45%, var(--hr-line)); }
+.hr-cell.bond .hr-cell-v { color:var(--hr-bond-c,#7a9a80); }
+html.dark .hr-cell.bond .hr-cell-v, .dark .hr-cell.bond .hr-cell-v { color:var(--hr-bond-c,#a6c9ad); }
+.hr-line-txt { margin-top:15px; font-size:11.5px; line-height:2; letter-spacing:.04em;
+  color:var(--hr-soft); text-align:center; font-family:'Noto Serif SC','Noto Serif SC Offline',serif; }
+.hr-foot { position:relative; margin-top:22px; padding-top:18px; text-align:center;
+  font-size:9.5px; line-height:1.9; letter-spacing:.05em; color:var(--hr-soft); opacity:.85; }
+.hr-foot::before { content:''; position:absolute; top:0; left:50%; width:42px; height:1px;
+  margin-left:-21px; background:var(--hr-line); }
+.hr-foot::after { content:'✧'; position:absolute; top:-8px; left:50%; margin-left:-5px;
+  font-size:10px; color:var(--hr-soft); background:var(--color-bg); padding:0 3px; }
+.hr-today { display:flex; align-items:center; justify-content:center; gap:9px;
+  margin-top:14px; font-size:10px; color:var(--hr-soft); letter-spacing:.1em; }
+.hr-today::before, .hr-today::after { content:''; width:18px; height:1px; background:var(--hr-line); }
+
+/* 历史抽屉 */
+.hr-mask { position:absolute; inset:0; z-index:90; background:rgba(0,0,0,.42); display:flex; align-items:flex-end; }
+.hr-panel { width:100%; height:74%; display:flex; flex-direction:column; overflow:hidden;
+  background:var(--color-bg); border-top:1px solid var(--hr-line); border-radius:20px 20px 0 0; }
+.hr-panel-head { display:flex; align-items:center; gap:8px; flex:none; padding:13px 14px;
+  border-bottom:1px solid var(--hr-line); background:var(--color-surface); }
+.hr-panel-title { flex:1; text-align:center; font-size:12px; letter-spacing:.16em; color:var(--hr-ink); }
+.hr-panel-x { width:26px; border:0; background:none; color:var(--hr-soft); font-size:16px; cursor:pointer; }
+.hr-panel-body { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:14px 16px 26px; }
+.hr-hi { display:flex; align-items:center; gap:12px; padding:12px 13px; margin-bottom:10px;
+  border-radius:13px; border:1px solid var(--hr-line); background:var(--color-surface); }
+.hr-hi-d { min-width:66px; font-size:13px; letter-spacing:.08em; color:var(--hr-ink); }
+.hr-hi-r { flex:1; min-width:0; font-size:10px; line-height:1.7; color:var(--hr-soft); }
+.hr-hi-t { font-size:9px; color:var(--hr-soft); white-space:nowrap; }
+.hr-empty { text-align:center; padding:60px 0; font-size:11px; line-height:2; color:var(--hr-soft); }
 
 /* ---- 第二面：两个可写字的美化块 ---- */
 .hp-note2 { display:flex; gap:12px; flex-shrink:0; margin-top:6px; }
@@ -4664,8 +4869,56 @@ html, body { overscroll-behavior-y: none; }
                             <button @click="settings.sleepRate = Math.min(100, (settings.sleepRate || 0) + 5)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
                         </div>
                     </div>
-                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：只在「睡眠」页生效——开始睡眠时他自己先放一组，之后睡眠聊天里按这个概率再点，叠进来直接响，你不用点。主聊天和陪伴里不会自动点；陪伴里的音只能你自己选。</span>
+                    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：只在「睡眠」页生效——开始睡眠时他自己先放一组，之后睡眠聊天里按这个概率再点，叠进来直接响，你不用点。</span>
                 </div>
+            </div>
+        </section>
+        <section>
+            <h3 class="text-[11px] font-semibold text-muted tracking-widest px-2 mb-2">他的状态</h3>
+            <div class="bg-surface border border-border rounded-xl overflow-hidden text-[13px]">
+                <div class="flex items-center justify-between p-3.5 border-b border-border">
+                    <span>状态概率</span>
+                    <button @click="toggleStateMode" class="w-10 h-5 rounded-full relative" :class="settings.stateMode ? 'bg-text' : 'bg-border'"><div class="absolute top-1 left-1 w-3 h-3 bg-surface rounded-full transition-transform" :class="settings.stateMode ? 'translate-x-5' : 'translate-x-0'"></div></button>
+                </div>
+                <template v-if="settings.stateMode">
+                    <div class="flex items-center justify-between p-3.5 border-b border-border">
+                        <span>在线概率</span>
+                        <div class="flex items-center gap-3">
+                            <button @click="settings.stateOnlineRate = Math.max(0, (settings.stateOnlineRate == null ? 80 : settings.stateOnlineRate) - 5)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">−</button>
+                            <span class="w-10 text-center font-mono font-medium">{{ settings.stateOnlineRate == null ? 80 : settings.stateOnlineRate }}%</span>
+                            <button @click="settings.stateOnlineRate = Math.min(100, (settings.stateOnlineRate == null ? 80 : settings.stateOnlineRate) + 5)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-3.5 border-b border-border">
+                        <span>不在线（忙碌）概率</span>
+                        <span class="font-mono font-medium text-muted">{{ stateOfflineRate }}%</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3.5 border-b border-border">
+                        <span>不在线时回消息</span>
+                        <div class="flex items-center gap-3">
+                            <button @click="settings.stateOfflineReplyRate = Math.max(0, (settings.stateOfflineReplyRate == null ? 15 : settings.stateOfflineReplyRate) - 5)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">−</button>
+                            <span class="w-10 text-center font-mono font-medium">{{ settings.stateOfflineReplyRate == null ? 15 : settings.stateOfflineReplyRate }}%</span>
+                            <button @click="settings.stateOfflineReplyRate = Math.min(100, (settings.stateOfflineReplyRate == null ? 15 : settings.stateOfflineReplyRate) + 5)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-3.5 border-b border-border">
+                        <span>上线后回消息</span>
+                        <div class="flex items-center gap-3">
+                            <button @click="settings.stateOnlineReplyRate = Math.max(0, (settings.stateOnlineReplyRate == null ? 50 : settings.stateOnlineReplyRate) - 5)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">−</button>
+                            <span class="w-10 text-center font-mono font-medium">{{ settings.stateOnlineReplyRate == null ? 50 : settings.stateOnlineReplyRate }}%</span>
+                            <button @click="settings.stateOnlineReplyRate = Math.min(100, (settings.stateOnlineReplyRate == null ? 50 : settings.stateOnlineReplyRate) + 5)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-3.5 border-b border-border">
+                        <span>状态刷新间隔</span>
+                        <div class="flex items-center gap-3">
+                            <button @click="settings.stateRefreshMin = Math.max(5, (settings.stateRefreshMin || 30) - 5)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">−</button>
+                            <span class="w-10 text-center font-mono font-medium">{{ settings.stateRefreshMin || 30 }}分</span>
+                            <button @click="settings.stateRefreshMin = Math.min(120, (settings.stateRefreshMin || 30) + 5)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
+                        </div>
+                    </div>
+                </template>
+                <div class="p-3.5"><span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">打开后，他有个全局状态：每到一个刷新间隔就按概率重抽一次「在线 / 不在线（忙碌）」，聊天页名字后面能看见。文字、表情包、图片、语音、红包、卡片等所有你发出去的消息都带这个标记：在线时 1~5 秒内显示「已读」，回复照原来那套来；不在线时显示「未读」，只有设定概率才回你。等刷新抽到在线（他上线），之前攒下的未读会一起变成「已读」，再按概率决定回不回。手动点输入框旁边的「叫他回」不受状态限制。状态和下次刷新时刻都存在本机，刷新页面不会跳变、不会重复上线。</span></div>
             </div>
         </section>
         <section>
@@ -5130,9 +5383,12 @@ html, body { overscroll-behavior-y: none; }
                         <img v-if="profiles.them.avatar" :src="profiles.them.avatar" class="w-full h-full object-cover">
                         <span v-else class="text-xs text-muted serif-text">{{ profiles.them.name.charAt(0) }}</span>
                     </div>
-                    <div class="flex flex-col" @click.stop="editName('them')">
-                        <span class="text-[14px] font-medium tracking-widest hover:underline underline-offset-4">{{ profiles.them.name }}</span>
-                        <span v-if="isTyping" class="text-[9px] text-muted tracking-widest absolute top-10">落笔中...</span>
+                    <div class="flex flex-col min-w-0" @click.stop="editName('them')">
+                        <div class="flex items-center gap-2 min-w-0">
+                            <span class="text-[14px] font-medium tracking-widest hover:underline underline-offset-4 truncate min-w-0">{{ profiles.them.name }}</span>
+                            <span v-if="settings.stateMode" class="chat-state" :class="themStateNow"><i></i>{{ themStateLabel }}</span>
+                            <span v-if="isTyping" class="chat-typing">落笔中…</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -5355,6 +5611,7 @@ html, body { overscroll-behavior-y: none; }
 
                         <div class="flex items-center gap-2 mt-1 px-1">
                             <span class="text-[9px] text-muted/80 bg-surface/30 px-1 rounded">{{ formatTime(msg.timestamp) }}</span>
+                            <span v-if="msg.sender === 'me' && msg.readState" :key="msg.readState" class="msg-read" :class="msg.readState === 'read' ? 'is-read' : 'is-unread'">{{ msg.readState === 'read' ? '已读' : '未读' }}</span>
                         </div>
                     </div>
                 </div>
@@ -6090,6 +6347,134 @@ html, body { overscroll-behavior-y: none; }
             <div class="shop-modal-btns">
                 <button @click="shopCloseMake()">取消</button>
                 <button class="main" :disabled="shopMakeBusy" @click="shopSaveMake()">存好</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ===== [MOD-20] 寻他 · 卜卦占星：方位与连结 ===== -->
+<div v-else-if="currentView === 'horary'" key="horary" class="absolute inset-0 flex flex-col z-20 hr-page">
+    <header class="h-14 flex items-center justify-between px-4 border-b border-border shrink-0 bg-surface">
+        <button @click="hrExit" class="p-2 -ml-2 text-text">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span class="text-[13px] font-medium tracking-widest serif-text">寻 他</span>
+        <button @click="hrOpenHistory" class="p-2 -mr-2 text-text" aria-label="历史">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+        </button>
+    </header>
+
+    <div class="hr-deco" aria-hidden="true">
+        <span class="hr-deco-grid"></span>
+        <span class="hr-deco-stars"></span>
+        <span class="hr-deco-ruler l"></span>
+        <span class="hr-deco-ruler r"></span>
+        <span class="hr-deco-v l">此刻 · 十六向</span>
+        <span class="hr-deco-v r">以你为心 · 望向他</span>
+        <span class="hr-deco-corner tl"></span>
+        <span class="hr-deco-corner tr"></span>
+        <span class="hr-deco-corner bl"></span>
+        <span class="hr-deco-corner br"></span>
+    </div>
+
+    <div class="hr-wrap">
+        <div class="hr-bond" :style="{ '--hr-bond-c': hrBondNow.color }">
+            <span class="hr-bond-dot"></span>
+            <div class="hr-bond-txt">
+                <span class="hr-bond-lbl">此刻的连结</span>
+                {{ hrBondNow.text }}
+            </div>
+            <span class="hr-state-pill" :class="themStateNow">{{ themStateLabel }}</span>
+        </div>
+
+        <div class="hr-hero">
+            <div class="hr-hero-t"><i></i>卜 卦 占 星<i></i></div>
+            <div class="hr-hero-s">不问前程，只问一句<br>他此刻，在我的哪个方向</div>
+            <div class="hr-hero-rule"></div>
+        </div>
+
+        <div class="hr-chart" :class="{ spin: hrPhase === 'spinning' }">
+            <div class="hr-chart-glow"></div>
+            <svg viewBox="-16 -16 352 352" aria-hidden="true">
+                <g class="hr-disc">
+                    <circle class="hr-ring-outer" cx="160" cy="160" r="148"/>
+                    <circle class="hr-ring-mid" cx="160" cy="160" r="108"/>
+                    <circle class="hr-ring-inner" cx="160" cy="160" r="62"/>
+                    <line v-for="(l, i) in hrHouseLines" :key="'hh' + i" class="hr-house-line" :x1="l.x1" :y1="l.y1" :x2="l.x2" :y2="l.y2"/>
+                    <line v-for="(t, i) in hrTicks" :key="'ht' + i" class="hr-tick" :class="{ cardinal: t.cardinal }" :x1="t.x1" :y1="t.y1" :x2="t.x2" :y2="t.y2"/>
+                    <g v-for="(z, i) in hrZodiacs" :key="'hz' + i" :transform="'translate(' + z.x + ' ' + z.y + ')'">
+                        <circle class="hr-zring" r="13"/>
+                        <path class="hr-zmark" :d="z.d" transform="scale(1.45)" vector-effect="non-scaling-stroke"/>
+                        <circle class="hr-zdot" r="0.95"/>
+                    </g>
+                    <text v-for="(c, i) in hrCardinals" :key="'hc' + i" class="hr-cardinal-t" :x="c.x" :y="c.y">{{ c.t }}</text>
+                    <line v-for="(a, i) in hrAspects" :key="'ha' + i" class="hr-aspect" :x1="a.x1" :y1="a.y1" :x2="a.x2" :y2="a.y2"/>
+                    <g v-for="(p, i) in hrPlanets" :key="'hp' + i" :transform="'translate(' + p.x + ' ' + p.y + ')'">
+                        <circle class="hr-planet-ring" r="15"/>
+                        <circle class="hr-ptick" cx="0" cy="-15" r="1"/>
+                        <circle class="hr-ptick" cx="0" cy="15" r="1"/>
+                        <circle class="hr-ptick" cx="-15" cy="0" r="1"/>
+                        <circle class="hr-ptick" cx="15" cy="0" r="1"/>
+                        <path class="hr-pmark" :d="p.d" :transform="'scale(1.4) translate(0 ' + p.dy + ')'" vector-effect="non-scaling-stroke"/>
+                        <circle class="hr-pdot" r="1.1"/>
+                    </g>
+                </g>
+                <circle class="hr-center" cx="160" cy="160" r="3.2"/>
+                <g class="hr-needle" :style="{ transform: 'rotate(' + hrAngle + 'deg)' }">
+                    <line x1="160" y1="160" x2="160" y2="72"/>
+                    <path d="M160 58 L154 74 L166 74 Z"/>
+                </g>
+            </svg>
+        </div>
+
+        <div class="hr-ask">
+            <input v-model="hrQuestion" maxlength="40" placeholder="心里默念一句（可不填）" :disabled="hrPhase === 'spinning'">
+        </div>
+        <button class="hr-btn" :disabled="hrPhase === 'spinning'" @click="hrDraw">
+            {{ hrPhase === 'spinning' ? '盘 在 转…' : hrLast ? '再 起 一 卦' : '起 一 卦' }}
+        </button>
+        <div class="hr-today" v-if="hrTodayCount">今天第 {{ hrTodayCount }} 次望向他</div>
+
+        <div v-if="hrLast && hrPhase !== 'spinning'" class="hr-result" :style="{ '--hr-bond-c': hrLast.bond.color }">
+            <div class="hr-res-top">
+                <div class="hr-res-dir">{{ hrLast.dir }}</div>
+                <div class="hr-res-deg">{{ hrLast.angle }}° · {{ hrLast.short }}</div>
+                <div class="hr-res-rule"></div>
+            </div>
+            <div class="hr-grid">
+                <div class="hr-cell"><div class="hr-cell-l">远近</div><div class="hr-cell-v">{{ hrLast.distance }}</div></div>
+                <div class="hr-cell"><div class="hr-cell-l">动静</div><div class="hr-cell-v">{{ hrLast.motion }}</div></div>
+                <div class="hr-cell place">
+                    <div class="hr-cell-l">场所</div>
+                    <div class="hr-cell-v">
+                        {{ hrLast.placeKind || hrLast.place }}
+                        <span class="hr-eg" v-if="hrLast.placeEg">{{ hrLast.placeEg }}</span>
+                        <span class="hr-ph" v-if="hrLast.placeHint">{{ hrLast.placeHint }}</span>
+                    </div>
+                </div>
+                <div class="hr-cell src"><div class="hr-cell-l">盘上依据</div><div class="hr-cell-v">{{ hrLast.signWord }}</div></div>
+                <div class="hr-cell bond"><div class="hr-cell-l">我和他的连结</div><div class="hr-cell-v">{{ hrLast.bond.label }} · {{ hrLast.bond.text }}</div></div>
+            </div>
+            <div class="hr-line-txt">{{ hrLast.line }}</div>
+        </div>
+
+        <div class="hr-foot">
+            以你此刻所在为参照 · 象征推演，非真实天象<br>方位由指示星与宫位推得；连结随他的状态轻轻起伏
+        </div>
+    </div>
+
+    <div v-if="hrHistoryOpen" class="hr-mask" @click.self="hrCloseHistory">
+        <div class="hr-panel">
+            <div class="hr-panel-head">
+                <span class="hr-panel-title">望过他的方向</span>
+                <button class="hr-panel-x" @click="hrCloseHistory" aria-label="关闭">×</button>
+            </div>
+            <div class="hr-panel-body">
+                <div v-if="!hrHistory.length" class="hr-empty">还没有起过卦<br>每一卦都会收进这里</div>
+                <div v-for="h in hrHistory" :key="h.id" class="hr-hi">
+                    <span class="hr-hi-d">{{ h.dir }}</span>
+                    <span class="hr-hi-r">{{ h.angle }}° · {{ h.distance }} · {{ h.placeKind || h.place }}<span v-if="h.placeEg"> · {{ h.placeEg }}</span><br>{{ h.bond.label }}</span>
+                    <span class="hr-hi-t">{{ hrFmtTime(h.at) }}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -7647,6 +8032,14 @@ createApp({
         const settings = reactive({ 
             darkMode: false, showAvatar: true, avatarRadius: 50, autoReply: true, soundEnabled: true, tarotRate: 8, sleepRate: 12, songRate: 8, giftRate: 0, qaRate: 8, musicMode: 'tape',
             keepAlive: true,
+            // 【他的状态】两态：在线 / 不在线（＝忙碌）。全局状态每 N 分钟按概率重抽一次
+            stateMode: false,
+            stateOnlineRate: 80,                     // 在线 80%，不在线自动 = 20%
+            stateOfflineReplyRate: 15,               // 不在线（忙碌）时仍回消息的概率
+            stateOnlineReplyRate: 50,                // 上线后回消息的概率
+            stateRefreshMin: 30,                     // 多久重抽一次状态
+            stateCurrent: 'online',                  // 当前状态，存下来刷新页面不跳变
+            stateNextAt: 0,                          // 下次重抽的时刻
             fontFamily: 'serif', fontSize: 14,
             learnRate: 30,
             useAI: false, apiUrl: '', apiKey: '', apiModel: 'deepseek-chat',
@@ -7667,7 +8060,7 @@ createApp({
         // ② 别让代码自己先把记录砍掉 —— 以前一堆写死的 30/50/120/200/300 才是「存不下」的主因。
         const CAP = {
             watchHistory: 300,   qaBank: 2000,  shopOrders: 500, shopCustom: 1000,
-            watchMsgs: 1000, companionMsgs: 1000, sleepChat: 1000, sleepHistory: 300, tarot: 1000
+            watchMsgs: 1000, companionMsgs: 1000, sleepChat: 1000, sleepHistory: 300, tarot: 1000, horary: 1000
         };
         // 图片清晰度档：显示尺寸不变，只把源图留得更细；表情包仍是 WebP，比 JPEG 省地方
         const IMG = {
@@ -7880,7 +8273,8 @@ createApp({
             journal: { img: '', name: '手账', icon: 'notebook', path: 'journal' },
             tarot: { img: '', name: '塔罗', icon: 'moon-star', path: 'tarot' },
             sleep: { img: '', name: '睡眠', icon: 'bed-double', path: 'sleep' },
-            shop:  { img: '', name: '商场', icon: 'shopping-bag', path: 'shop' }
+            shop:  { img: '', name: '商场', icon: 'shopping-bag', path: 'shop' },
+            horary:{ img: '', name: '寻他', icon: 'navigation',    path: 'horary' }
         });
 
         // 自定义图标数据读不出来时，不要留一个空方框：清掉坏图，回退到原 SVG 图标。
@@ -13089,7 +13483,7 @@ createApp({
                     'liubai_custom_bubble', 'liubai_custom_font', 'liubai_home_icons', 'liubai_videoAutoCall_db',
                     'liubai_sleep_mix', 'liubai_sleep_recipes', 'liubai_sleep_chat', 'liubai_sleep_history', 'liubai_sleep_vols',
                     'liubai_sleep_session', 'liubai_sleep_summary',
-                    'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders', 'liubai_shop_custom_db', 'liubai_qa_bank_db',
+                    'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders', 'liubai_shop_custom_db', 'liubai_qa_bank_db', 'liubai_horary_db',
                     'liubai_companion_custom_name', 'liubai_companion_msgs', 'liubai_companion_recent',
                     'liubai_menstrual_records', 'liubai_menstrual_cycle_avg', 'liubai_menstrual_duration_avg',
                 'liubai_hp_img1', 'liubai_hp_img2', 'liubai_hp_img3',
@@ -13138,6 +13532,7 @@ createApp({
                     journalThemAuto: await localforage.getItem('liubai_journal_them_auto'),
                     journalThemPending: await localforage.getItem('liubai_journal_them_pending'),
                     tarot: await localforage.getItem('liubai_tarot_db'),
+                    horary: await localforage.getItem('liubai_horary_db'),
                     sleepRecipes: await localforage.getItem('liubai_sleep_recipes'), sleepChat: await localforage.getItem('liubai_sleep_chat'), sleepHistory: await localforage.getItem('liubai_sleep_history'), sleepVols: await localforage.getItem('liubai_sleep_vols'),
                     sleepSession: await localforage.getItem('liubai_sleep_session'), sleepSummary: await localforage.getItem('liubai_sleep_summary'),
                     shopWallet: await localforage.getItem('liubai_shop_wallet'),
@@ -13187,6 +13582,7 @@ createApp({
                         if (typeof data.journalThemAuto === 'boolean') await localforage.setItem('liubai_journal_them_auto', data.journalThemAuto);
                         if (Array.isArray(data.journalThemPending)) await localforage.setItem('liubai_journal_them_pending', data.journalThemPending.filter(x => x && typeof x.date === 'string' && typeof x.dueAt === 'number'));
                         if (Array.isArray(data.tarot)) await localforage.setItem('liubai_tarot_db', data.tarot);
+                        if (Array.isArray(data.horary)) await localforage.setItem('liubai_horary_db', data.horary.filter(h => h && typeof h.dir === 'string' && h.bond).slice(0, CAP.horary));
                         if (Array.isArray(data.sleepRecipes)) await localforage.setItem('liubai_sleep_recipes', data.sleepRecipes);
                           if (Array.isArray(data.sleepChat)) await localforage.setItem('liubai_sleep_chat', data.sleepChat);
                           if (Array.isArray(data.sleepHistory)) await localforage.setItem('liubai_sleep_history', data.sleepHistory.filter(x => x && Array.isArray(x.msgs)).slice(0, CAP.sleepHistory));
@@ -13606,9 +14002,109 @@ createApp({
             saveAll();
         };
 
+        // ================= [MOD] 他的状态 =================
+        // 两态：在线 / 不在线（＝忙碌）。全局状态每 stateRefreshMin 分钟按概率重抽一次。
+        // 所有我方消息（文字 / 表情 / 图片 / 语音 / 红包 / 卡片 / 通话…）统一带「已读 / 未读」：
+        //   在线   → 1~5 秒随机变「已读」，自动回复照原来那套来
+        //   不在线 → 保持「未读」，只有设定概率才放行自动回复
+        //   抽到在线（上线）→ 攒下的「未读」一起变「已读」，再按概率决定回一句
+        // 状态与下次刷新时刻都存在 settings 里，刷新页面不会跳变、不会重复上线。
+        const statePct = (v, d) => { const n = Number(v); return Number.isFinite(n) ? Math.max(0, Math.min(100, n)) : d; };
+        const themStateNow = ref('online');
+        const themStateLabel = computed(() => themStateNow.value === 'online' ? '在线' : '不在线');
+        const stateOfflineRate = computed(() => 100 - statePct(settings.stateOnlineRate, 80));
+        const stateRefreshMs = () => Math.max(1, Math.min(120, Number(settings.stateRefreshMin) || 30)) * 60 * 1000;
+        // 只给「打开开关／载入完成之后」的新消息挂标记，历史消息不补，免得整页突然冒出一片未读
+        let stateModeSince = Number.MAX_SAFE_INTEGER;
+        const stateSeen = new Set();
+        const stateMarkRead = (msgId) => {
+            const m = messages.value.find(x => x.id === msgId);
+            if (m) { m.readState = 'read'; saveAll(); }
+        };
+        // force: 刚打开开关的初始化；fromSend: 由发消息顺带触发的检查（避免和这条消息的回复撞车）
+        const stateRefresh = (force, fromSend) => {
+            const prev = themStateNow.value;
+            const on = statePct(settings.stateOnlineRate, 80);
+            const next = Math.random() * 100 < on ? 'online' : 'offline';
+            themStateNow.value = next;
+            settings.stateCurrent = next;
+            settings.stateNextAt = Date.now() + stateRefreshMs();
+            // 从「不在线」抽到「在线」＝他上线了：攒下的未读一起变成已读
+            if (!force && next === 'online' && prev === 'offline') {
+                let changed = false;
+                messages.value.forEach(m => { if (m.sender === 'me' && m.readState === 'unread') { m.readState = 'read'; changed = true; } });
+                if (changed) saveAll();
+                // 由发消息顺带触发的刷新，这条消息自己会走回复，就不额外再回一次
+                if (!fromSend && settings.autoReply && Math.random() * 100 < statePct(settings.stateOnlineReplyRate, 50) && !isTyping.value) {
+                    setTimeout(() => triggerAutoReplies({ bypass: true }), 300);
+                }
+            }
+            saveAll();
+        };
+        const stateScan = (fromSend) => {
+            if (!settings.stateMode) return;
+            if (!settings.stateNextAt || Date.now() >= Number(settings.stateNextAt)) stateRefresh(false, !!fromSend);
+        };
+        // 给单条新消息挂标记，并写下「这一条是否放行自动回复」的判定
+        const stateAttach = (msg) => {
+            if (!settings.stateMode || msg.sender !== 'me') return;
+            if (msg.timestamp < stateModeSince || msg.readState) return;
+            stateScan(true);                       // 到点了先刷新状态，再判这条
+            msg.readState = 'unread';
+            if (themStateNow.value === 'online') {
+                const delay = 1000 + Math.floor(Math.random() * 4000);   // 1~5 秒，不秒看
+                setTimeout(() => stateMarkRead(msg.id), delay);
+                msg.stateVerdict = 'reply';
+            } else {
+                const legacy = settings.stateOfflineReplyRate == null ? settings.stateBusyReplyRate : null;
+                const rate = settings.stateOfflineReplyRate == null ? (legacy == null ? 15 : legacy) : settings.stateOfflineReplyRate;
+                msg.stateVerdict = Math.random() * 100 < statePct(rate, 15) ? 'reply' : 'silent';
+            }
+            saveAll();
+        };
+        // 所有往 messages 里加我方消息的入口都会经过这里，不必逐个入口改。
+        // 用「消息 id 序列」而不是长度：删 N 条又加 N 条时长度不变，只看长度会漏掉。
+        watch(() => messages.value.map(m => m.id).join('|'), () => {
+            if (isLoading || !settings.stateMode) return;
+            messages.value.forEach(m => { if (!stateSeen.has(m.id)) { stateSeen.add(m.id); stateAttach(m); } });
+        });
+        const stateLastVerdict = () => {
+            for (let i = messages.value.length - 1; i >= 0; i--) {
+                const m = messages.value[i];
+                if (m.sender === 'me' && m.stateVerdict) return m.stateVerdict;
+            }
+            return 'reply';
+        };
+        let stateTickTimer = null;
+        const stateBoot = () => {
+            themStateNow.value = settings.stateCurrent === 'offline' ? 'offline' : 'online';
+            stateModeSince = Date.now();           // 载入完毕：这之后的新消息才带标记
+            if (settings.stateMode) {
+                stateScan();
+                if (!settings.stateNextAt) { settings.stateNextAt = Date.now() + stateRefreshMs(); saveAll(); }
+            }
+            if (stateTickTimer) clearInterval(stateTickTimer);
+            stateTickTimer = setInterval(() => stateScan(false), 10000);   // 后台回来也能补上过期刷新
+            try { document.addEventListener('visibilitychange', () => { if (!document.hidden) stateScan(false); }); } catch (e) {}
+        };
+        // 只在用户真的点开关时初始化，避免载入存档时 reactive 变化误触发一次重抽
+        const toggleStateMode = () => {
+            settings.stateMode = !settings.stateMode;
+            stateSeen.clear();
+            if (settings.stateMode) {
+                stateModeSince = Date.now();
+                settings.stateNextAt = 0;
+                stateRefresh(true, false);
+            } else {
+                messages.value.forEach(m => { if (m.readState) delete m.readState; if (m.stateVerdict) delete m.stateVerdict; });
+                saveAll();
+            }
+        };
+
         const handleSend = () => {
             const txt = inputText.value.trim(); if (!txt) return;
-            messages.value.push({ id: genId(), sender: 'me', type: 'text', content: txt, timestamp: Date.now(), quote: chatState.quoteMsg || null });
+            const newMsg = { id: genId(), sender: 'me', type: 'text', content: txt, timestamp: Date.now(), quote: chatState.quoteMsg || null };
+            messages.value.push(newMsg);
             inputText.value = ''; chatState.quoteMsg = null;
             playTone('send'); scrollToBottom();
             if (Math.random() * 100 < settings.learnRate) {
@@ -13688,8 +14184,11 @@ createApp({
             else setTimeout(() => themSendQa(), delaySong + 450);
         };
 
-        const triggerAutoReplies = () => {
+        const triggerAutoReplies = (opts) => {
             if (isTyping.value) return;
+            // 他不在线且这一条被判为「不回」时，整轮回复跳过；
+            // 手动「叫他回」和上线问候传 bypass，不受影响
+            if (settings.stateMode && !(opts && opts.bypass) && stateLastVerdict() === 'silent') return;
             if (settings.useAI && settings.apiKey && settings.apiUrl) {
                 requestAIReply();
                 // AI 模式下也按概率附一张（延后一点，等 AI 那条落地）
@@ -13710,7 +14209,7 @@ createApp({
             messages.value.push(newMsg); playTone('recv'); scrollToBottom(); saveAll();
         };
 
-        const forceReply = () => { if (!isTyping.value) triggerAutoReplies(); };
+        const forceReply = () => { if (!isTyping.value) triggerAutoReplies({ bypass: true }); };
         const scrollToBottom = () => { nextTick(() => { const el = document.getElementById('chat-container'); if (el) { const prev = el.style.scrollBehavior; el.style.scrollBehavior = 'auto'; el.scrollTop = el.scrollHeight; el.style.scrollBehavior = prev; } }); };
         const deleteMsg = (id) => { if (openedRP.value && openedRP.value.id === id) openedRP.value = null; messages.value = messages.value.filter(m => m.id !== id); saveAll(); };
         const formatTime = (ts) => { const d = new Date(ts); return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0'); };
@@ -14507,6 +15006,265 @@ createApp({
         const trSpreadKey = ref('');
         const trCards = ref([]);
         const trDeleted = ref(false);   // 这次抽牌已被从日记里删掉
+        // ================= [MOD-20] 寻他 · 卜卦占星（象征盘） =================
+        // 外观是十二宫圆盘 + 指示星 + 指针；判定借 Lilly《基督占星》的四元素配四正
+        //   （火→东、土→南、风→西、水→北）与宫位象限，合成十六向与具体角度；
+        //   角宫近 / 续宫中 / 果宫远，元素定场所，行星快慢与逆行定动静，相位定「连结」。
+        // 纯本地随机，不排真实天象，界面已标明「象征推演」。
+        const HR_KEY = 'liubai_horary_db';
+        const HR_DIRS = [
+            { n: '正北',     s: '北'   }, { n: '北偏东',   s: '北'   },
+            { n: '东北',     s: '东北' }, { n: '东北偏东', s: '东'   },
+            { n: '正东',     s: '东'   }, { n: '东南偏东', s: '东'   },
+            { n: '东南',     s: '东南' }, { n: '东南偏南', s: '南'   },
+            { n: '正南',     s: '南'   }, { n: '西南偏南', s: '南'   },
+            { n: '西南',     s: '西南' }, { n: '西南偏西', s: '西'   },
+            { n: '正西',     s: '西'   }, { n: '西北偏西', s: '西'   },
+            { n: '西北',     s: '西北' }, { n: '西北偏北', s: '北'   }
+        ];
+        // 纯几何标记：局部坐标以自身中心为原点，全部 1.5px 细线，不依赖字体/emoji
+        // 精密徽记：每个图形都严格轴对称 / 中心对称，沿圆周摆放不会显得歪；
+        // 一律以自身中心为原点，配外细环、内部几何与中心小点，线条 1.2~1.4px。
+        const HR_ZMARK_D = [
+            'M0 -6.2 A6.2 6.2 0 1 0 0 6.2 A6.2 6.2 0 1 0 0 -6.2 M0 -2.6 A2.6 2.6 0 1 0 0 2.6 A2.6 2.6 0 1 0 0 -2.6', // 同心双圆
+            'M0 -6.4 L5.6 3.2 L-5.6 3.2 Z M0 6.4 L5.6 -3.2 L-5.6 -3.2 Z',                                   // 六芒（中心对称）
+            'M-5 -5 H5 V5 H-5 Z M0 -5 L5 0 L0 5 L-5 0 Z',                                                   // 方中菱
+            'M0 -6.4 L5.4 0 L0 6.4 L-5.4 0 Z M-2.8 0 H2.8 M0 -2.8 V2.8',                                   // 菱中十字
+            'M-6.4 0 Q0 -6.4 6.4 0 Q0 6.4 -6.4 0 Z M-6.4 0 H6.4',                                           // 透镜 + 中轴
+            'M-3.6 -6 V6 M3.6 -6 V6 M-6 -6 H6 M-6 0 H6 M-6 6 H6',                                           // 三横双竖
+            'M0 -6.2 V6.2 M-6.2 0 H6.2 M-1.8 -6.2 H1.8 M-1.8 6.2 H1.8 M-6.2 -1.8 V1.8 M6.2 -1.8 V1.8',   // 刻度十字
+            'M0 -6.4 V6.4 M-6.4 0 H6.4 M-4.5 -4.5 L4.5 4.5 M-4.5 4.5 L4.5 -4.5 M0 -2.2 A2.2 2.2 0 1 0 0 2.2 A2.2 2.2 0 1 0 0 -2.2', // 八芒 + 心圆
+            'M0 -6.4 L5.5 -3.2 L5.5 3.2 L0 6.4 L-5.5 3.2 L-5.5 -3.2 Z M0 -6.4 V6.4',                     // 六边形
+            'M-5.4 -5 H5.4 M-5.4 0 H5.4 M-5.4 5 H5.4 M0 -5 V5',                                             // 王字
+            'M-5 -5 H5 V5 H-5 Z M0 -3.2 A3.2 3.2 0 1 0 0 3.2 A3.2 3.2 0 1 0 0 -3.2',                     // 方中圆
+            'M-6 3 A6 6 0 0 1 6 3 M-6 3 H6 M0 -3 V3'                                                        // 拱 + 底 + 中轴
+        ];
+        const HR_PMARK_D = [
+            'M0 -4.6 A4.6 4.6 0 1 0 0 4.6 A4.6 4.6 0 1 0 0 -4.6 M0 -8 V-6 M0 6 V8 M-8 0 H-6 M6 0 H8 M-5.7 -5.7 L-4.3 -4.3 M4.3 4.3 L5.7 5.7 M-5.7 5.7 L-4.3 4.3 M4.3 -4.3 L5.7 -5.7', // 太阳
+            'M-7 -2.6 Q0 -9 7 -2.6 M-7 2.6 Q0 9 7 2.6 M0 -6 V6 M-7 0 H7',                                  // 月相双弧
+            'M0 -5.2 A4.2 4.2 0 1 0 0 3.2 A4.2 4.2 0 1 0 0 -5.2 M-3.6 -5.2 Q-3.6 -8 -1.4 -8 M3.6 -5.2 Q3.6 -8 1.4 -8 M0 3.2 V8 M-2.8 6 H2.8', // 水星
+            'M0 -6.4 A4.4 4.4 0 1 0 0 2.4 A4.4 4.4 0 1 0 0 -6.4 M0 2.4 V8 M-2.8 5.6 H2.8',              // 金星
+            'M0 -3.2 A4.2 4.2 0 1 0 0 5.2 A4.2 4.2 0 1 0 0 -3.2 M0 -8 L3.2 -4.4 H-3.2 Z M0 -4.4 V-3.2', // 火星（朝上，不歪）
+            'M-5 -2.5 A5 5 0 0 1 5 -2.5 M0 -7.5 V8 M-3 1.5 H3 M-3 4.8 H3',                                 // 木星
+            'M-4.6 -2 A4.6 4.6 0 0 1 4.6 -2 M-5.5 -2 H5.5 M0 -2 V8 M-3 5.5 H3'                            // 土星
+        ];
+        const HR_PMARK_DY = [0, 0, 0, -0.8, 1.4, -0.25, -0.7];
+        const HR_SIGNS = [
+            { name: '白羊', el: 'fire'  }, { name: '金牛', el: 'earth' },
+            { name: '双子', el: 'air'   }, { name: '巨蟹', el: 'water' },
+            { name: '狮子', el: 'fire'  }, { name: '处女', el: 'earth' },
+            { name: '天秤', el: 'air'   }, { name: '天蝎', el: 'water' },
+            { name: '射手', el: 'fire'  }, { name: '摩羯', el: 'earth' },
+            { name: '水瓶', el: 'air'   }, { name: '双鱼', el: 'water' }
+        ];
+        const HR_EL = { fire: { base: 90 }, earth: { base: 180 }, air: { base: 270 }, water: { base: 0 } };
+        // 场所分三层：先说「这类场地大概什么样」，再给一个「具体是哪儿」，
+        // 例子从对应远近的池子里挑（近/中/远），并挂上这一卦的方向，跟结果连得上。
+        // 只收「正常人真会去」的现代日常地点：小区、街边店、商场、地铁、公园、学校…
+        // 水库、渡口、晒谷场、料场、城郊驿站、旧码头这类一律不要。近 / 中 / 远
+        // 只是同一类地方的不同半径，远档也仍是「坐几站地铁就到」的常见公共场所。
+        const HR_PLACES = {
+            fire: [
+                { kind: '亮堂、开阔的场地',   near: ['便利店', '小区广场', '地铁口'],           mid: ['商场中庭', '亮着灯的球场', '超市门口'],       far: ['大商场', '市民广场', '地铁站厅'] },
+                { kind: '热闹、有人气的地方', near: ['楼下奶茶店', '早餐店', '街口'],           mid: ['小吃街', '火锅店', '电影院'],                 far: ['商业街', '游乐场', '动车站候车厅'] },
+                { kind: '有灯火或热源的屋子', near: ['亮着灯的厨房', '楼道口', '自习室'],       mid: ['咖啡店', '烘焙店', '健身房'],                 far: ['连锁书店', '写字楼大堂', '图书馆'] }
+            ],
+            earth: [
+                { kind: '低处、安静的老地方', near: ['楼道口', '单元门口', '楼下花坛边'],       mid: ['旧书店', '一楼门厅', '地下车库'],             far: ['社区活动室', '区图书馆', '医院走廊'] },
+                { kind: '堆着东西、踏实的平地', near: ['快递柜旁', '储物间', '自行车棚'],       mid: ['超市后场', '停车场', '菜市场'],               far: ['家居卖场', '大超市', '物流取件点'] },
+                { kind: '贴着地面的角落',     near: ['台阶下', '树池边', '单元门旁'],             mid: ['花店门口', '打印店', '水果摊'],               far: ['药店', '洗衣店', '快递点'] }
+            ],
+            air: [
+                { kind: '空旷、能望远的场地', near: ['小区空地', '楼顶平台', '街心花园'],       mid: ['天台', '操场', '广场中央'],                   far: ['市民公园', '体育公园', '大学操场'] },
+                { kind: '高处、通风的地方',   near: ['窗边', '楼梯转角', '阳台'],               mid: ['连廊', '人行天桥', '高层走廊'],               far: ['观光电梯', '写字楼露台', '看台'] },
+                { kind: '开阔、有风的通道',   near: ['巷口', '楼间过道', '共享单车点'],         mid: ['长街中段', '扶梯旁', '露天座位'],             far: ['滨江步道', '奥体中心', '植物园'] }
+            ],
+            water: [
+                { kind: '靠水、潮润的地方',   near: ['小区水景边', '雨后巷口', '喷泉旁'],       mid: ['河滨步道', '湖边长椅', '游泳馆'],             far: ['滨江公园', '公园湖边', '水族馆'] },
+                { kind: '背阴、安静的低洼处', near: ['地下通道口', '树荫下', '雨棚下'],         mid: ['天桥下', '背阴小巷', '地下车库入口'],         far: ['地铁通道', '商场地下层', '室内停车场'] },
+                { kind: '水声很轻的边上',     near: ['雨棚下', '饮水机旁', '洗手台边'],           mid: ['雨水花园', '洗车店', '便利店冰柜旁'],         far: ['喷泉广场', '游泳馆看台', '滨水休息区'] }
+            ]
+        };
+        const HR_MOTION_HINT = {
+            '像是要绕回来':       '像在往回的那段路上',
+            '刚动过身，还没停稳': '脚步还没落定',
+            '停着没动，安静待着': '像是已经待了一会儿'
+        };
+        const HR_BOND_HINT = {
+            steady: '你们都熟的那一带', close: '离得比看上去近',
+            waver:  '人来人往，容易错过', thin: '不太起眼的一处'
+        };
+        const HR_PLANETS = [
+            { name: '太阳' }, { name: '月亮' }, { name: '水星' },
+            { name: '金星' }, { name: '火星' }, { name: '木星' },
+            { name: '土星' }
+        ];
+        const HR_BONDS = {
+            steady: { key: 'steady', label: '稳稳的',     color: '#7a9a80', text: '两头都还系着，没松过' },
+            close:  { key: 'close',  label: '在慢慢收拢', color: '#849fb8', text: '像有人把线轻轻往回捋' },
+            waver:  { key: 'waver',  label: '有点晃',     color: '#c2a06a', text: '不是断，是被什么拂了一下' },
+            thin:   { key: 'thin',   label: '淡淡的',     color: '#a99ab0', text: '细，但一直没断' }
+        };
+        const hrRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+        // 静态盘面几何：0° 指向正北，顺时针
+        const hrPolar = (r, deg) => {
+            const a = (deg - 90) * Math.PI / 180;
+            return { x: +(160 + r * Math.cos(a)).toFixed(2), y: +(160 + r * Math.sin(a)).toFixed(2) };
+        };
+        const hrHouseLines = Array.from({ length: 12 }, (_, i) => {
+            const a = hrPolar(108, i * 30), b = hrPolar(148, i * 30);
+            return { x1: a.x, y1: a.y, x2: b.x, y2: b.y };
+        });
+        const hrTicks = Array.from({ length: 16 }, (_, i) => {
+            const cardinal = i % 4 === 0;
+            const a = hrPolar(148, i * 22.5), b = hrPolar(cardinal ? 157 : 153, i * 22.5);
+            return { x1: a.x, y1: a.y, x2: b.x, y2: b.y, cardinal };
+        });
+        const hrZodiacs = Array.from({ length: 12 }, (_, i) => {
+            const p = hrPolar(124, i * 30 + 15);
+            return { x: p.x, y: p.y, d: HR_ZMARK_D[i] };
+        });
+        const hrCardinals = [
+            { x: 160, y: -2,  t: '北' }, { x: 322, y: 160, t: '东' },
+            { x: 160, y: 322, t: '南' }, { x: -2,  y: 160, t: '西' }
+        ];
+        const hrVisual = (selPlanetIdx, avoidDeg = 0) => {
+            // 七颗行星先按 360/7 均匀排好，只给 ±5° 的小呼吸；
+            // 然后整组一起旋转去找一个「全都避开指针」的角度——相对间距永远不变，
+            // 不会像从前那样把某一颗单独推 42°、正好挤到隔壁那颗身上。
+            const base = HR_PLANETS.map((_, i) => i * (360 / 7) + (Math.random() * 6 - 3));
+            const far = (d) => Math.abs(((d - avoidDeg + 540) % 360) - 180);
+            // 七颗之间只有约 51°，禁区半宽不能设到 28°（会无解、走兜底反被压住）。
+            // 按 22→18→14 逐级放宽、2° 细扫，一定有解，且最差也留 14° 净空。
+            let offset = 0, found = false;
+            for (const thr of [22, 18, 14]) {
+                for (let t = 0; t < 180; t++) {
+                    const cand = t * 2;
+                    if (base.every(d => far(d + cand) >= thr)) { offset = cand; found = true; break; }
+                }
+                if (found) break;
+            }
+            const planets = HR_PLANETS.map((p, i) => {
+                const deg = (base[i] + offset) % 360;
+                const pos = hrPolar(i === selPlanetIdx ? 85 : 83 + Math.random() * 6, deg);
+                return { x: pos.x, y: pos.y, d: HR_PMARK_D[i], dy: HR_PMARK_DY[i] };
+            });
+            const aspects = [];
+            for (let k = 0; k < 4; k++) {
+                const a = Math.floor(Math.random() * 7), b = (a + 2 + Math.floor(Math.random() * 4)) % 7;
+                aspects.push({ x1: planets[a].x, y1: planets[a].y, x2: planets[b].x, y2: planets[b].y });
+            }
+            return { planets, aspects };
+        };
+
+        const hrHistory = ref([]);
+        const hrPhase = ref('idle');                 // idle / spinning / result
+        const hrQuestion = ref('');
+        const hrHistoryOpen = ref(false);
+        const hrAngle = ref(0);                     // 指针累计角度（可超过 360，保证每次都转一圈）
+        const hrPlanets = ref(hrVisual(1, 0).planets);
+        const hrAspects = ref(hrVisual(1, 0).aspects);
+        const hrLast = computed(() => hrHistory.value[0] || null);
+        const hrTodayCount = computed(() => {
+            const d = new Date(); d.setHours(0, 0, 0, 0);
+            return hrHistory.value.filter(h => Number(h.at) >= d.getTime()).length;
+        });
+        // 常驻「此刻的连结」：占过就沿用那一卦的判读，并跟他在线/不在线轻轻联动；
+        // 没占过时按状态给一句，不冒充占卜结果。
+        const hrBondNow = computed(() => {
+            const last = hrLast.value;
+            if (last && last.bond) {
+                const b = last.bond;
+                if (themStateNow.value === 'online' && (b.key === 'waver' || b.key === 'thin'))
+                    return { ...b, text: b.text + ' · 他这会儿在线' };
+                return b;
+            }
+            return themStateNow.value === 'online'
+                ? { key: 'steady', label: '静静连着',   color: '#7a9a80', text: '没说什么，但两头都还在' }
+                : { key: 'thin',   label: '信号有点淡', color: '#a99ab0', text: '他不在，线也跟着松了些' };
+        });
+        const hrFmtTime = (ts) => {
+            const d = new Date(Number(ts) || Date.now());
+            return (d.getMonth() + 1) + '/' + d.getDate() + ' ' +
+                   String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+        };
+        const hrLoad = async () => {
+            try {
+                const v = await localforage.getItem(HR_KEY);
+                if (Array.isArray(v)) hrHistory.value = v.filter(h => h && typeof h.dir === 'string' && h.bond).slice(0, CAP.horary);
+                if (hrHistory.value[0]) hrAngle.value = Number(hrHistory.value[0].angle) || 0;
+            } catch (e) {}
+        };
+        const hrSave = async () => {
+            try { await localforage.setItem(HR_KEY, JSON.parse(JSON.stringify(hrHistory.value.slice(0, CAP.horary)))); } catch (e) {}
+        };
+        setTimeout(() => { try { hrLoad(); } catch (e) {} }, 1300);
+
+        const hrBuild = () => {
+            const signIdx = Math.floor(Math.random() * 12);
+            const sign = HR_SIGNS[signIdx];
+            const house = 1 + Math.floor(Math.random() * 12);      // 1..12，7 宫是「对方」但落宫随机
+            const planetIdx = Math.floor(Math.random() * 7);
+            const planet = HR_PLANETS[planetIdx];
+            const el = HR_EL[sign.el];
+            // 四正基准 + 宫位象限偏移 + 一点抖动 → 连续角度；再归到最近 22.5° 得十六向
+            // 宫位象限把四正各撑开 ±45°：四个元素刚好首尾相接，十六向全部可达、不偏科
+            const quad = ((house - 1) % 3 - 1) * 22.5;
+            const sector = (Math.floor((house - 1) / 3) - 1.5) * 15;
+            const jitter = Math.random() * 14 - 7;
+            const angle = Math.round((el.base + quad + sector + jitter + 720) % 360);
+            const idx = Math.round(angle / 22.5) % 16;
+            const D = HR_DIRS[idx];
+            const angular = [1, 4, 7, 10].includes(house), succedent = [2, 5, 8, 11].includes(house);
+            const distance = angular ? '不算远' : succedent ? '隔了几条街' : '有些远';
+            const P = hrRand(HR_PLACES[sign.el]);
+            const poolKey = angular ? 'near' : succedent ? 'mid' : 'far';
+            const spot = hrRand(P[poolKey]);
+            const placeKind = P.kind;                       // 这类场地大概什么样
+            const placeEg = `${D.n}一带的${spot}`;            // 用完整十六向，不退化成八方短词
+            const retro = Math.random() < 0.22;
+            const fast = Math.random() < 0.55;
+            const motion = retro ? '像是要绕回来' : fast ? '刚动过身，还没停稳' : '停着没动，安静待着';
+            const aspect = hrRand(['conjunct', 'trine', 'sextile', 'square', 'opposition', 'none']);
+            const bondKey = (aspect === 'conjunct' || aspect === 'trine') ? 'steady'
+                          : aspect === 'sextile' ? 'close'
+                          : (aspect === 'square' || aspect === 'opposition') ? 'waver' : 'thin';
+            const bond = { ...HR_BONDS[bondKey] };
+            const placeHint = `${HR_MOTION_HINT[motion]} · ${HR_BOND_HINT[bondKey]}`;
+            const place = placeKind;                        // 旧记录/历史列表的兼容字段
+            const line = `往${D.n}望过去就好，${distance}。${spot}附近，${HR_MOTION_HINT[motion]}。`;
+            return {
+                id: 'hr' + Date.now() + Math.floor(Math.random() * 1000),
+                at: Date.now(), angle, dir: D.n, short: D.s,
+                distance, place, placeKind, placeEg, placeHint, motion, bond, line,
+                signWord: `${planet.name} · 第 ${house} 宫 · ${sign.name}`,
+                question: String(hrQuestion.value || '').trim().slice(0, 40),
+                stateAt: themStateNow.value,
+                selPlanetIdx: planetIdx
+            };
+        };
+        const hrDraw = async () => {
+            if (hrPhase.value === 'spinning') return;
+            hrPhase.value = 'spinning';
+            hrHistoryOpen.value = false;
+            const rec = hrBuild();
+            const vis = hrVisual(rec.selPlanetIdx, rec.angle);
+            hrPlanets.value = vis.planets;
+            hrAspects.value = vis.aspects;
+            // 每次至少转满一圈再停到新方位，动感连贯
+            const cur = hrAngle.value;
+            hrAngle.value = cur + 360 + ((rec.angle - cur) % 360 + 360) % 360;
+            setTimeout(async () => {
+                hrHistory.value = [rec, ...hrHistory.value].slice(0, CAP.horary);
+                await hrSave();
+                hrPhase.value = 'result';
+            }, 2350);
+        };
+        const hrOpenHistory = () => { hrHistoryOpen.value = true; };
+        const hrCloseHistory = () => { hrHistoryOpen.value = false; };
+        const hrExit = () => { hrHistoryOpen.value = false; switchView('home'); };
+
         const trHistory = ref([]);
         const trDetail = ref(null);
         const trNoteOpen = ref(false);
@@ -15847,7 +16605,7 @@ createApp({
         // 名字、图标全部沿用 homeIcons 里的原值，这里只做排版，不改任何显示名。
         const hpPage = ref(0);
         const hpFront = ref(1);                 // 哪张图在上面：1 或 2
-        const hpEight = ['music', 'mailbox', 'watch', 'weather', 'menstrual', 'companion', 'journal', 'tarot', 'sleep', 'shop'];
+        const hpEight = ['music', 'mailbox', 'watch', 'weather', 'menstrual', 'companion', 'journal', 'tarot', 'sleep', 'shop', 'horary'];
         const hpImg1 = ref(''), hpImg2 = ref(''), hpImg3 = ref(''), hpAnnivImg = ref('');
         const hpAnnivName = ref('');
         const hpAnnivDays = ref(0);
@@ -15975,6 +16733,8 @@ createApp({
         const switchView = (v) => {
             showMorePanel.value = false; showStickerPanel.value = false; showSurveyPanel.value = false; showRedPacketModal.value = false; openedRP.value = null; watchShowMorePanel.value = false; watchShowStickerPanel.value = false;
             if (v !== 'sleep') { slpShowSticker.value = false; slpHistoryOpen.value = false; slpHistorySel.value = null; }
+            if (v !== 'horary') hrHistoryOpen.value = false;
+            if (v === 'horary') { hrPhase.value = 'idle'; hrQuestion.value = ''; }
             if (v !== 'watch') watchState.fullscreen = false;
             if (currentView.value === 'companion' && v !== 'companion' && v !== 'sleep') { cpStopTimer(); cpStopVitals(); cpRecordRecent(); if (!cpChatPlaying) cpNoiseStop(); companionView.value = 'home'; cpScene.value = ''; }
             currentView.value = v;
@@ -16040,6 +16800,7 @@ createApp({
             document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') saveAllNow(); });
 
             await loadAll();
+            stateBoot();         // 他的状态：恢复上次状态、补上过期的刷新
             kaResume();          // 上次没发完的话，这次打开接着发
             await loadWeatherData();
             checkOfflineLetter();
@@ -16121,6 +16882,7 @@ createApp({
             homeIcons, setHomeIcon, clearHomeIcon, hpIconErr, hpIconGuard,
             watchHistory, clearWatchHistory, playHistory,
             chatState, switchView, handleSend, forceReply, deleteMsg, editName, editAvatar, shouldShowAvatar, formatTime,
+            themStateNow, themStateLabel, stateOfflineRate, stateRefresh, stateScan, toggleStateMode,
             toggleSearch, executeSearch, jumpSearch, toggleDarkMode, toggleSound, clearChat, exportData, importData, diagnoseStorage, cleanOrphanKeys,
             storageInfo, boostStorage, requestPersist,
             statData, replyMinDelay, replyMaxDelay, replyMinCount, replyMaxCount,
@@ -16227,6 +16989,9 @@ createApp({
             snOverTitle, snOverSub, snDir, snTogglePause, snStart, snNewGame, snStartGame, snClose,
             snTouchStart, snTouchMove, snTouchEnd, snDraw, snResize, snSetupCanvas, snDirMe, snNextDirMe,
             hpPage, hpFront, hpEight, hpImg1, hpImg2, hpImg3, hpAnnivImg, hpAnnivName, hpAnnivDays,
+            hrHouseLines, hrTicks, hrZodiacs, hrCardinals, hrPlanets, hrAspects, hrAngle,
+            hrPhase, hrQuestion, hrHistory, hrHistoryOpen, hrLast, hrTodayCount, hrBondNow,
+            hrDraw, hrBuild, hrOpenHistory, hrCloseHistory, hrExit, hrFmtTime,
             themDrawTarot, themSendTarot,
             sgPlayingId, sgNote, sgLaterOpen, sgLaterList, sgCoverErr, sgNoNet, sgIsPlaying,
             sgPlayNow, sgLater, sgPlayLater, themPushSong, themSearchSong, themPickPlaylist,
