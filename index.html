@@ -1533,6 +1533,106 @@ body { background-color:#d1d5db; font-family:"PingFang SC","Microsoft YaHei",sys
 .more-panel-btn { width:60px; height:60px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; border-radius:12px; cursor:pointer; background:transparent; border:none; color:var(--color-text); font-size:11px; font-family:inherit; }
 .more-panel-btn:hover,.more-panel-btn:active { background:var(--color-bg); }
 .more-panel-btn svg { width:20px; height:20px; stroke-width:1.5; }
+
+/* ================= [MOD-25] 阅读室 ================= */
+.rd-wrap { padding:16px 16px 28px; }
+.rd-note { font-size:10.5px; line-height:1.85; color:var(--color-muted); padding:11px 13px;
+  border:1px dashed var(--color-border); border-radius:14px; background:var(--color-surface); margin-bottom:14px; }
+.rd-note b { color:var(--color-text); font-weight:600; }
+.rd-note-t { display:block; font-size:11px; letter-spacing:.14em; color:var(--color-text); margin-bottom:5px; }
+.rd-book { display:flex; gap:12px; align-items:center; padding:13px; border-radius:16px;
+  border:1px solid var(--color-border); background:var(--color-surface); margin-bottom:10px; cursor:pointer; }
+.rd-cover { width:46px; height:62px; flex:none; border-radius:4px 8px 8px 4px; background:var(--color-bg);
+  border:1px solid var(--color-border); border-left:3px solid var(--color-accent);
+  display:flex; align-items:center; justify-content:center; overflow:hidden; padding:5px 3px; }
+.rd-cover span { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:10.5px; line-height:1.4;
+  color:var(--color-text); writing-mode:vertical-rl; letter-spacing:.06em; max-height:100%; overflow:hidden; }
+.rd-binfo { flex:1; min-width:0; }
+.rd-btitle { font-size:13.5px; font-weight:600; color:var(--color-text); letter-spacing:.03em;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rd-bsub { font-size:10.5px; color:var(--color-muted); margin-top:4px; }
+.rd-bprog { height:3px; border-radius:2px; background:var(--color-border); margin-top:9px; overflow:hidden; }
+.rd-bprog i { display:block; height:100%; background:var(--color-accent); opacity:.55; }
+.rd-bdel { width:26px; height:26px; flex:none; border-radius:8px; border:1px solid var(--color-border);
+  background:var(--color-bg); color:var(--color-muted); display:flex; align-items:center; justify-content:center; font-size:14px; }
+.rd-empty { text-align:center; padding:46px 10px; color:var(--color-muted); font-size:11.5px; line-height:2; letter-spacing:.06em; }
+.rd-meta { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+.rd-meta-l { min-width:0; }
+.rd-meta-t { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:14px; color:var(--color-text);
+  letter-spacing:.06em; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rd-meta-s { font-size:10px; color:var(--color-muted); margin-top:3px; }
+.rd-together { display:inline-flex; align-items:center; gap:6px; font-size:10.5px; color:var(--color-muted); white-space:nowrap; }
+.rd-together i { width:6px; height:6px; border-radius:50%; background:#30a46c; }
+.rd-together.off i { background:var(--color-border); }
+.rd-chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+.rd-chip { padding:5px 11px; border-radius:14px; font-size:10.5px; border:1px solid var(--color-border);
+  background:var(--color-surface); color:var(--color-muted); cursor:pointer; }
+.rd-chip.on { background:var(--color-text); color:var(--color-surface); border-color:var(--color-text); }
+.rd-chip-speed { border-color:var(--color-accent); color:var(--color-accent); }
+.rd-chip-speed.off { border-color:var(--color-border); color:var(--color-muted); opacity:.6; }
+.rd-paper { position:relative; border-radius:18px; border:1px solid var(--color-border);
+  background:var(--color-surface); padding:22px 20px 18px; min-height:330px; overflow:hidden;
+  box-shadow:0 6px 24px rgba(0,0,0,.05); }
+.rd-paper::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--color-accent); opacity:.13; }
+.rd-text { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:14.5px; line-height:2.05;
+  color:var(--color-text); white-space:pre-wrap; word-break:break-word; letter-spacing:.02em; }
+.rd-pageno { text-align:center; font-size:10px; color:var(--color-muted); margin-top:15px; letter-spacing:.16em; }
+.rd-danmu-layer { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:5; }
+.rd-danmu { position:absolute; left:100%; white-space:nowrap; max-width:84%; overflow:hidden; text-overflow:ellipsis;
+  font-size:11px; line-height:1.5; padding:5px 11px; border-radius:999px; border:1px solid var(--color-border);
+  background:var(--color-surface); color:var(--color-text); box-shadow:0 3px 12px rgba(0,0,0,.08);
+  animation:rdFloat 8s linear forwards; }
+.rd-danmu em { font-style:normal; color:var(--color-muted); margin-right:6px; font-size:10px; }
+@keyframes rdFloat { 0%{left:100%;opacity:0} 8%{opacity:.96} 88%{opacity:.96} 100%{left:-90%;opacity:0} }
+/* 弹幕固定在可视区，不跟着长书页滚走 */
+.rd-danmu-fixed { position:absolute; left:0; right:0; top:56px; bottom:112px; z-index:15; }
+.rd-foot { flex:none; padding:11px 16px 18px; background:var(--color-surface); border-top:1px solid var(--color-border); }
+.rd-foot .rd-pager { margin-top:0; }
+.rd-foot .rd-invite { margin-top:9px; padding:9px 0; font-size:11.5px; }
+.rd-import-btn { width:100%; padding:11px 0; border-radius:12px; border:1px solid var(--color-accent);
+  background:var(--color-accent); color:var(--color-bg); font-size:13.5px; font-weight:500; cursor:pointer; }
+.rd-pager { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:14px; }
+.rd-pbtn { flex:1; padding:11px 0; border-radius:12px; border:1px solid var(--color-border);
+  background:var(--color-surface); color:var(--color-text); font-size:12.5px; letter-spacing:.08em; cursor:pointer; }
+.rd-pbtn:disabled { opacity:.35; cursor:default; }
+.rd-pnum { min-width:78px; text-align:center; font-size:11px; color:var(--color-muted); font-family:monospace; }
+.rd-invite { width:100%; margin-top:12px; padding:11px 0; border-radius:12px; border:1px solid var(--color-accent);
+  background:var(--color-accent); color:var(--color-bg); font-size:12.5px; letter-spacing:.08em; cursor:pointer; }
+.rd-toast { position:absolute; left:50%; bottom:136px; padding:7px 14px; border-radius:999px;
+  background:var(--color-text); color:var(--color-bg); font-size:11px; z-index:30; white-space:nowrap;
+  animation:rdToast 2.8s ease forwards; pointer-events:none; }
+@keyframes rdToast { 0%{opacity:0;transform:translate(-50%,8px)} 12%,78%{opacity:.94;transform:translate(-50%,0)} 100%{opacity:0} }
+/* 聊天里的邀请卡 */
+.rd-msg-card { position:relative; z-index:20; width:min(268px,76vw); border-radius:16px; padding:12px 13px 11px;
+  border:1px solid var(--color-border); background:var(--color-surface); cursor:pointer; }
+.rd-msg-head { display:flex; align-items:center; gap:6px; font-size:10px; color:var(--color-muted); letter-spacing:.08em; }
+.rd-msg-head i { width:5px; height:5px; border-radius:50%; background:var(--color-accent); }
+.rd-msg-head .rd-msg-tag { margin-left:auto; font-style:normal; font-size:9px; padding:2px 7px; border-radius:8px; border:1px solid var(--color-border); color:var(--color-muted); }
+.rd-msg-title { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:14px; color:var(--color-text); margin-top:10px; letter-spacing:.04em; }
+.rd-msg-sub { font-size:10.5px; color:var(--color-muted); margin-top:5px; line-height:1.7; }
+.rd-msg-go { margin-top:10px; padding-top:9px; border-top:1px solid var(--color-border); font-size:11px; color:var(--color-accent); letter-spacing:.06em; }
+/* 导入弹窗 */
+.rd-modal { background:var(--color-surface); width:100%; max-width:360px; border-radius:20px; padding:18px;
+  border:1px solid var(--color-border); box-shadow:0 12px 40px rgba(0,0,0,.22); max-height:86vh; display:flex; flex-direction:column; }
+.rd-modal h3 { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:15px; color:var(--color-text); letter-spacing:.1em; margin-bottom:12px; }
+.rd-tabs { display:flex; gap:6px; margin-bottom:12px; }
+.rd-tab { flex:1; padding:7px 0; text-align:center; border-radius:10px; font-size:11.5px; cursor:pointer;
+  border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-muted); }
+.rd-tab.on { background:var(--color-text); color:var(--color-surface); border-color:var(--color-text); }
+.rd-inp { width:100%; box-sizing:border-box; padding:10px 12px; border-radius:11px; border:1px solid var(--color-border);
+  background:var(--color-bg); color:var(--color-text); font-size:12.5px; outline:none; margin-bottom:9px; }
+.rd-ta { width:100%; box-sizing:border-box; min-height:150px; max-height:34vh; padding:11px 12px; border-radius:11px;
+  border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text); font-size:12.5px;
+  line-height:1.8; outline:none; resize:vertical; margin-bottom:9px; }
+.rd-file { display:block; width:100%; box-sizing:border-box; padding:16px 12px; border-radius:12px;
+  border:1px dashed var(--color-border); background:var(--color-bg); color:var(--color-text); font-size:12px; text-align:center; cursor:pointer; }
+.rd-hint { font-size:10px; line-height:1.85; color:var(--color-muted); margin:2px 0 10px; }
+.rd-err { font-size:10.5px; line-height:1.7; color:#e5484d; margin-bottom:9px; }
+.rd-acts { display:flex; gap:8px; margin-top:4px; }
+.rd-btn { flex:1; padding:10px 0; border-radius:11px; font-size:12.5px; cursor:pointer; text-align:center;
+  border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text); }
+.rd-btn.main { background:var(--color-accent); color:var(--color-bg); border-color:var(--color-accent); }
+.rd-btn:disabled { opacity:.45; cursor:default; }
 .sticker-panel { position:absolute; left:0; right:0; bottom:0; height:58%; background:var(--color-bg); border-top:1px solid var(--color-border); z-index:50; display:flex; flex-direction:column; border-radius:20px 20px 0 0; animation:slideUp .25s; }
 @keyframes slideUp { from{transform:translateY(100%);} to{transform:translateY(0);} }
 .sticker-header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:1px solid var(--color-border); flex-shrink:0; }
@@ -1898,6 +1998,33 @@ html.dark.theme-xinghua .music-page {
    注意：祖先是 pan-y，若子条再设 pan-x，两者取交集后横竖都动不了 ——
    所以筛选条的横滚改由下面的 hsMove 手动驱动，这里只保留纵向滚动。 */
 .settings-swipe-root { touch-action: pan-y; }
+
+/* ================= [MOD-26] 语料库 · 词典 / 拼字卡 ================= */
+.dict-wrap { padding:2px 0 70px; }
+.dict-panel { border:1px solid var(--color-border); border-radius:14px;
+  background:var(--color-surface); padding:12px; margin-bottom:12px; }
+.dict-panel .qa-rate-row { margin-bottom:8px; }
+.dict-line { display:flex; align-items:center; justify-content:space-between; gap:8px;
+  font-size:11.5px; color:var(--color-muted); margin-bottom:9px; flex-wrap:wrap; }
+.dict-mini { display:flex; gap:5px; flex-wrap:wrap; }
+.dict-mini span { padding:4px 10px; border-radius:12px; font-size:10.5px;
+  border:1px solid var(--color-border); background:var(--color-bg);
+  color:var(--color-muted); cursor:pointer; white-space:nowrap; }
+.dict-mini span.on { background:var(--color-text); color:var(--color-surface); border-color:var(--color-text); }
+.dict-card-hint { font-size:10px; color:var(--color-muted); padding:0 4px 9px; }
+.dict-count { font-size:10px; color:var(--color-muted); white-space:nowrap; align-self:center; }
+.dict-filters { display:flex; flex-wrap:wrap; gap:6px; padding-bottom:4px; margin-bottom:10px; }
+.dict-card { display:flex; align-items:center; gap:10px; padding:10px 12px; margin-bottom:7px;
+  border-radius:12px; border:1px solid var(--color-border); background:var(--color-surface); cursor:pointer; }
+.dict-card:active { opacity:.75; }
+.dict-word { flex:1; min-width:0; font-size:13.5px; color:var(--color-text); letter-spacing:.04em; word-break:break-all; }
+.dict-tag { font-size:10px; padding:2px 8px; border-radius:9px; white-space:nowrap;
+  border:1px solid var(--color-border); color:var(--color-muted); background:var(--color-bg); }
+.dict-tag.mine { border-color:var(--color-accent); color:var(--color-accent); }
+.dict-del { width:22px; height:22px; flex:none; border-radius:7px; font-size:14px; line-height:1;
+  border:1px solid var(--color-border); background:var(--color-bg); color:#e5484d; }
+.dict-panel .off { opacity:.42; }
+.dict-empty { text-align:center; padding:36px 10px; color:var(--color-muted); font-size:11.5px; line-height:2; }
 .qa-wrap { padding:14px 0 60px; }
 .qa-tools { display:flex; gap:8px; margin-bottom:10px; }
 .qa-search { flex:1; min-width:0; padding:9px 12px; border:1px solid var(--color-border); border-radius:11px;
@@ -3106,7 +3233,17 @@ html.dark textarea, html.dark input { color: #ffffff !important; caret-color: #f
 
 /* ================= [MOD-20] 五子棋 ================= */
 /* 面板：两排网格，往下滑能看见第二排 */
-.more-panel.gm-two { display:grid; grid-template-columns:repeat(4,1fr); gap:2px 0; overflow-x:visible; overflow-y:auto; max-height:190px; white-space:normal; }
+.more-panel.gm-two { display:grid; grid-template-columns:repeat(4,1fr); gap:2px 0; overflow-x:visible; overflow-y:auto; max-height:230px; white-space:normal; }
+
+/* ================= [MOD-22] 拍一拍：居中灰字 / 字卡 ================= */
+/* 三个点面板 4 列，第 9 个「拍一拍」正好落在第三行第一列，面板放宽到能露出三行 */
+.msg-row.pat-row { justify-content:center; }
+.pat-tip { max-width:85%; margin:0 auto; padding:5px 13px; border:1px solid var(--color-border);
+  border-radius:999px; background:var(--color-surface); color:var(--color-muted);
+  font-size:11px; line-height:1.7; letter-spacing:.03em; text-align:center;
+  word-break:break-word; box-shadow:0 2px 10px rgba(0,0,0,.04); }
+.pat-tip b { color:var(--color-text); font-weight:600; }
+.pat-line { font-size:10.5px; color:var(--color-muted); line-height:1.7; }
 .more-panel.gm-two .more-panel-btn { width:100%; }
 
 /* 全屏棋盘 */
@@ -3626,6 +3763,8 @@ html.dark[class*="theme-"] span.hp-pick { color:var(--hp-ink) !important; }
   .hp-grid4 .hp-cell:nth-child(10) { grid-column: 2 / span 1; justify-self: stretch; }
   /* 第 11 个（寻他）排在商场后面，第三行第三格 */
   .hp-grid4 .hp-cell:nth-child(11) { grid-column: 3 / span 1; justify-self: stretch; }
+  /* 第 12 个（阅读室）补齐第三行最后一格 */
+  .hp-grid4 .hp-cell:nth-child(12) { grid-column: 4 / span 1; justify-self: stretch; }
 
 /* ============ [MOD-20] 寻他 · 卜卦占星方位盘 ============
    全部颜色走 --color-*，九套主题与昼夜自动跟随；盘面是象征推演，不排真实天象。 */
@@ -4943,6 +5082,17 @@ html, body { overscroll-behavior-y: none; }
     </div>
     <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">功能说明：新增角色概率，将用户说过的话添加至字卡库，并且会创造独立分组的功能，可以自行选择删除或者是修改。</span>
 </div>
+<div class="p-3.5 flex flex-col gap-2 border-t border-border">
+    <div class="flex items-center justify-between">
+        <span>他带 Emoji 的概率</span>
+        <div class="flex items-center gap-3">
+            <button @click="settings.emojiRate = Math.max(0, (settings.emojiRate == null ? 45 : settings.emojiRate) - 10)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">−</button>
+            <span class="w-10 text-center font-mono font-medium">{{ settings.emojiRate == null ? 45 : settings.emojiRate }}%</span>
+            <button @click="settings.emojiRate = Math.min(100, (settings.emojiRate == null ? 45 : settings.emojiRate) + 10)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
+        </div>
+    </div>
+    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">他回你时，按这个概率把「语料库 → Emoji」里的表情拼进文字字卡（如「想你了 🌙」），或单独发一条纯 Emoji 小字卡。AI 模式下会贴在 AI 回复末尾或另发一条。设为 0 就只发原来的字卡；库里没表情时也不生效。</span>
+</div>
             </div>
         </section>
         <section>
@@ -5195,13 +5345,15 @@ html, body { overscroll-behavior-y: none; }
         <div class="w-9"></div>
     </header>
 
-    <div class="flex px-4 pt-4 pb-3 gap-2 shrink-0">
-        <button @click="libraryTab = 'cards'" class="flex-1 py-2 rounded-full text-[13px] font-medium transition-colors" :class="libraryTab === 'cards' ? 'bg-accent text-bg' : 'bg-surface text-muted border border-border'">主字卡</button>
-        <button @click="libraryTab = 'emoji'" class="flex-1 py-2 rounded-full text-[13px] font-medium transition-colors" :class="libraryTab === 'emoji' ? 'bg-accent text-bg' : 'bg-surface text-muted border border-border'">Emoji</button>
-        <button @click="libraryTab = 'qabank'" class="flex-1 py-2 rounded-full text-[13px] font-medium transition-colors" :class="libraryTab === 'qabank' ? 'bg-accent text-bg' : 'bg-surface text-muted border border-border'">问卷库</button>
+    <div class="flex px-4 pt-4 pb-3 gap-1.5 shrink-0">
+        <button @click="libraryTab = 'cards'" class="flex-1 py-2 rounded-full text-[12px] font-medium transition-colors" :class="libraryTab === 'cards' ? 'bg-accent text-bg' : 'bg-surface text-muted border border-border'">主字卡</button>
+        <button @click="libraryTab = 'emoji'" class="flex-1 py-2 rounded-full text-[12px] font-medium transition-colors" :class="libraryTab === 'emoji' ? 'bg-accent text-bg' : 'bg-surface text-muted border border-border'">Emoji</button>
+        <button @click="libraryTab = 'qabank'" class="flex-1 py-2 rounded-full text-[12px] font-medium transition-colors" :class="libraryTab === 'qabank' ? 'bg-accent text-bg' : 'bg-surface text-muted border border-border'">问卷库</button>
+        <button @click="libraryTab = 'pat'" class="flex-1 py-2 rounded-full text-[12px] font-medium transition-colors" :class="libraryTab === 'pat' ? 'bg-accent text-bg' : 'bg-surface text-muted border border-border'">拍一拍</button>
+        <button @click="libraryTab = 'dict'" class="flex-1 py-2 rounded-full text-[12px] font-medium transition-colors" :class="libraryTab === 'dict' ? 'bg-accent text-bg' : 'bg-surface text-muted border border-border'">词典</button>
     </div>
 
-    <div v-if="libraryTab !== 'qabank'" class="flex items-center gap-2 px-4 py-3 shrink-0">
+    <div v-if="libraryTab !== 'qabank' && libraryTab !== 'pat' && libraryTab !== 'dict'" class="flex items-center gap-2 px-4 py-3 shrink-0">
         <div class="flex-1 flex items-center bg-surface border border-border rounded-lg px-2 h-8">
             <i data-lucide="search" class="w-3.5 h-3.5 text-muted"></i>
             <input v-model="searchQuery" type="text" placeholder="搜索..." class="bg-transparent border-none outline-none text-[12px] ml-2 w-full" :style="{ color: settings.darkMode ? '#ffffff' : '#000000' }" :placeholder="'搜索...'">
@@ -5224,6 +5376,29 @@ html, body { overscroll-behavior-y: none; }
     </div>
 
     <main class="flex-1 overflow-y-auto px-4 pb-24 space-y-3">
+        <template v-if="libraryTab === 'pat'">
+            <div class="text-[10px] text-muted/80 leading-relaxed px-1 pb-1">
+                仿微信的居中小灰字。<br>
+                他拍你：xx【干了什么】你 ／ 你拍他：你【干了什么】xx<br>
+                xx＝{{ profiles.them.name }}。点字卡＝他拍你；聊天页三个点 →「拍一拍」＝你拍他。
+            </div>
+            <div v-for="a in patAll" :key="a.id" class="rounded-xl p-3 flex flex-col gap-2 border" :style="{ backgroundColor: settings.darkMode ? '#171719' : '#ffffff', borderColor: settings.darkMode ? '#2a2a2a' : '#e2e2e2' }">
+                <div class="flex items-start justify-between gap-2">
+                    <div class="flex-1 cursor-pointer" style="min-width:0" @click="patPickFromLibrary(a.text)">
+                        <div class="text-[14px] leading-relaxed whitespace-pre-wrap" :style="{ color: settings.darkMode ? '#ffffff' : '#000000' }">{{ a.builtin ? '对方拍了拍你' : a.text }}</div>
+                        <div class="pat-line mt-1.5">他拍你 · {{ patFormat(a.text, 'them') }}</div>
+                        <div class="pat-line">你拍他 · {{ patFormat(a.text, 'me') }}</div>
+                    </div>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-bg border border-border text-muted">{{ a.builtin ? '默认' : '自定义' }}</span>
+                        <button v-if="!a.builtin" @click="patDelete(a.id)" class="p-1.5 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </template>
+
         <template v-if="libraryTab === 'cards'">
             <div v-for="card in filteredCards" :key="card.id" class="rounded-xl p-3 flex flex-col gap-2 border" :style="{ backgroundColor: settings.darkMode ? '#171719' : '#ffffff', borderColor: settings.darkMode ? '#2a2a2a' : '#e2e2e2' }">
                 <div class="text-[14px] leading-relaxed whitespace-pre-wrap" :style="{ color: settings.darkMode ? '#ffffff' : '#000000' }">{{ card.text }}</div>
@@ -5250,9 +5425,13 @@ html, body { overscroll-behavior-y: none; }
         </template>
 
         <template v-if="libraryTab === 'emoji'">
+            <div class="text-[10px] text-muted/80 leading-relaxed px-1 pb-1">点格子＝插进输入框跟文字一起打；点左上 ↗＝单独发一条。<br>他回复时会按「他带 Emoji 的概率」把表情混进字卡，或单独发出来。</div>
             <div class="grid grid-cols-4 gap-2">
                 <div v-for="e in filteredCards" :key="e.id" class="bg-surface border border-border rounded-xl aspect-square flex flex-col items-center justify-center relative group cursor-pointer" @click="pickEmojiToSend(e)">
                     <span class="text-3xl emoji-safe">{{ e.text }}</span>
+                    <button @click.stop="sendEmojiAsCard(e)" title="单独发一条" class="absolute top-1 left-1 w-5 h-5 rounded-full text-white flex items-center justify-center" style="background:rgba(0,0,0,.45);opacity:.75">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+                    </button>
                     <button @click="deleteCard(e)" class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-red-500 p-0.5"><i data-lucide="x" class="w-4 h-4"></i></button>
                 </div>
             </div>
@@ -5314,13 +5493,67 @@ html, body { overscroll-behavior-y: none; }
                 </div>
             </div>
         </template>
+
+        <template v-if="libraryTab === 'dict'">
+            <div class="dict-wrap">
+                <!-- 开关就在这一页最顶上 -->
+                <div class="qa-rate-row">
+                    <span>拼字卡模式</span>
+                    <button @click="settings.dictMode = !settings.dictMode" class="w-10 h-5 rounded-full relative" :class="settings.dictMode ? 'bg-text' : 'bg-border'"><div class="absolute top-1 left-1 w-3 h-3 bg-surface rounded-full transition-transform" :class="settings.dictMode ? 'translate-x-5' : 'translate-x-0'"></div></button>
+                </div>
+                <div class="qa-hint">开着时，<b>他</b>回你会按下面的概率，每次随机挑 1～4 个词拼成一句话发过来（不用选几个）；关掉就只发原来的字卡。点下面的词条＝让他拿这个词拼一句发过来。词典只放词语、人称、动作这些，不放成语；人称只留「你我他」和「爱人」这类，没收亲属称呼。</div>
+
+                <div class="dict-panel">
+                    <div :class="{ off: !settings.dictMode }">
+                    <div class="qa-rate-row">
+                        <span>他拼句的概率</span>
+                        <div class="qa-rate-ctl">
+                            <button @click="settings.dictRate = Math.max(0, (settings.dictRate == null ? 20 : settings.dictRate) - 10)">−</button>
+                            <span>{{ settings.dictRate == null ? 20 : settings.dictRate }}%</span>
+                            <button @click="settings.dictRate = Math.min(100, (settings.dictRate == null ? 20 : settings.dictRate) + 10)">＋</button>
+                        </div>
+                    </div>
+                    <div class="dict-line" style="margin-bottom:0">
+                        <span>每次随机 1～4 个词 · 不用选，全随缘</span>
+                    </div>
+                    </div>
+                    <button class="qa-ask-btn" style="margin-bottom:0" @click="dictHeSend">让他现在拼一句 ♡</button>
+                </div>
+
+                <div class="qa-tools">
+                    <input v-model="dictQuery" class="qa-search" placeholder="搜一搜词…">
+                    <span class="dict-count">共 {{ dictAll.length }} 词</span>
+                </div>
+                <div class="dict-card-hint">点一个词，他就用这个词拼一句发过来 ↓</div>
+                <div class="dict-filters" data-hscroll>
+                    <button class="qa-chip" :class="{on: dictCat === 'all'}" @click="dictCat = 'all'">全部 {{ dictAll.length }}</button>
+                    <button v-for="c in dictCats" :key="c" class="qa-chip" :class="{on: dictCat === c}" @click="dictCat = c">{{ c }}</button>
+                    <button class="qa-chip" :class="{on: dictCat === 'mine'}" @click="dictCat = 'mine'">自建 {{ dictCustom.length }}</button>
+                </div>
+
+                <div v-for="w in dictShown" :key="w.id" class="dict-card" @click="dictHeSendWord(w)">
+                    <span class="dict-word">{{ w.t }}</span>
+                    <span class="dict-tag" :class="{ mine: w.mine }">{{ w.mine ? '自建' : w.c }}</span>
+                    <button v-if="w.mine" class="dict-del" @click.stop="dictDel(w.id)" title="删掉这个词">×</button>
+                </div>
+                <button v-if="!dictQuery.trim() && dictShown.length < dictFilteredCount" class="qa-ask-btn" @click="dictLimit += 400">再显示 400 个 · 还有 {{ dictFilteredCount - dictShown.length }} 个</button>
+                <div v-if="dictShown.length === 0" class="dict-empty">没找到这个词<br>换个字搜搜，或自己加一个</div>
+            </div>
+            <div v-if="dictToast" class="rd-toast">{{ dictToast }}</div>
+        </template>
     </main>
 
     <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-bg via-bg to-transparent flex gap-3">
-        <button v-if="libraryTab !== 'qabank'" @click="openCardEditor(null, activeGroupFilter !== 'all' && activeGroupFilter !== 'ungrouped' ? activeGroupFilter : '')" class="flex-1 py-3 bg-accent text-bg font-medium rounded-xl text-[14px] shadow-sm">
+        <button v-if="libraryTab === 'pat'" @click="patOpenEditor" class="flex-1 py-3 bg-accent text-bg font-medium rounded-xl text-[14px] shadow-sm">
+            + 新增拍一拍文案
+        </button>
+        <button v-else-if="libraryTab === 'cards' || libraryTab === 'emoji'" @click="openCardEditor(null, activeGroupFilter !== 'all' && activeGroupFilter !== 'ungrouped' ? activeGroupFilter : '')" class="flex-1 py-3 bg-accent text-bg font-medium rounded-xl text-[14px] shadow-sm">
             + 新增{{ libraryTab === 'cards' ? '字卡' : 'Emoji' }}
         </button>
-        <button @click="switchView('home')" :class="libraryTab === 'qabank' ? 'flex-1' : 'px-6'" class="py-3 bg-surface border border-border text-text rounded-xl text-[14px]">关闭</button>
+        <button v-else-if="libraryTab === 'dict'" @click="dictOpenAdd" class="flex-1 py-3 bg-accent text-bg font-medium rounded-xl text-[14px] shadow-sm">
+            + 自己加个词
+        </button>
+        <button @click="switchView('home')" :class="(libraryTab === 'qabank' || libraryTab === 'pat' || libraryTab === 'dict') ? 'flex-1' : 'px-6'" class="py-3 bg-surface border border-border text-text rounded-xl text-[14px]">关闭</button>
     </div>
 
     <div v-if="showCardEditor" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
@@ -5347,6 +5580,22 @@ html, body { overscroll-behavior-y: none; }
         </div>
     </div>
 
+    <div v-if="dictAddOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" @click.self="dictAddOpen = false">
+        <div class="bg-surface w-full max-w-sm rounded-2xl p-5 border border-border shadow-xl">
+            <h3 class="text-text text-[15px] font-medium mb-1">加进词典</h3>
+            <p class="text-[10px] text-muted leading-relaxed mb-3">一行一个词，可以一次贴好几个。别放成语，放词语、人称、动作、小物件都行。</p>
+            <textarea v-model="dictAddText" class="w-full bg-bg text-text text-[14px] rounded-xl p-3 outline-none border border-border mb-3 resize-none" style="min-height:96px" placeholder="比如：晚风&#10;比如：靠过来"></textarea>
+            <label class="block text-[12px] text-muted mb-2">归到哪一类</label>
+            <select v-model="dictAddCat" class="w-full bg-bg text-text text-[13px] rounded-lg p-2.5 outline-none border border-border mb-4">
+                <option v-for="c in dictCats" :key="c" :value="c">{{ c }}</option>
+            </select>
+            <div class="flex gap-2">
+                <button @click="dictAddOpen = false" class="flex-1 py-2.5 bg-bg border border-border text-text rounded-lg text-[13px]">取消</button>
+                <button @click="dictSaveAdd" class="flex-1 py-2.5 bg-accent text-bg rounded-lg text-[13px] font-medium">存好</button>
+            </div>
+        </div>
+    </div>
+
     <div v-if="showGroupManager" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
         <div class="bg-surface w-full max-w-sm rounded-2xl p-5 border border-border shadow-xl max-h-[80vh] flex flex-col">
             <h3 class="text-text text-[15px] font-medium mb-4 flex items-center gap-2"><i data-lucide="folder-cog" class="w-4 h-4 text-accent"></i> 分组管理</h3>
@@ -5369,6 +5618,18 @@ html, body { overscroll-behavior-y: none; }
 
             <button @click="addNewGroup" class="w-full py-2.5 bg-bg border border-border text-text rounded-lg text-[13px] mb-2 hover:bg-border/50">+ 新建分组</button>
             <button @click="showGroupManager = false" class="w-full py-2.5 bg-accent text-bg rounded-lg text-[13px] font-medium">关闭</button>
+        </div>
+    </div>
+
+    <div v-if="patEditorOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div class="bg-surface w-full max-w-sm rounded-2xl p-5 border border-border shadow-xl">
+            <h3 class="text-text text-[15px] font-medium mb-3">新增拍一拍文案</h3>
+            <p class="text-[10px] text-muted/80 leading-relaxed mb-3">只写「干了什么」：他发 xx＋动作＋你；你发 你＋动作＋xx，xx 自动换成他的名字。<br>例如：摸了摸头、轻轻抱了抱、戳了戳脸</p>
+            <input v-model="patDraft" @keyup.enter="patSaveCard" type="text" maxlength="30" class="w-full bg-bg text-text text-[14px] rounded-xl p-3 outline-none border border-border mb-4" placeholder="例如：摸了摸头">
+            <div class="flex gap-2">
+                <button @click="patEditorOpen = false" class="flex-1 py-2.5 bg-bg border border-border text-text rounded-lg text-[13px]">取消</button>
+                <button @click="patSaveCard" class="flex-1 py-2.5 bg-accent text-bg rounded-lg text-[13px] font-medium">保存</button>
+            </div>
         </div>
     </div>
 </div>
@@ -5414,8 +5675,9 @@ html, body { overscroll-behavior-y: none; }
     </div>
     <main id="chat-container" class="flex-1 min-h-0 overflow-y-auto px-4 py-6" :style="chatWallpaper ? { backgroundImage: 'url(' + chatWallpaper + ')', backgroundSize: 'cover', backgroundPosition: 'center' } : {}">
         <div class="pb-10">
-            <div v-for="(msg, index) in messages" :key="msg.id" :id="'msg-'+msg.id" class="mb-5 relative group flex msg-row" :class="msg.sender === 'me' ? 'justify-end' : 'justify-start'">
-                <div class="flex max-w-[85%] gap-2" :class="msg.sender === 'me' ? 'flex-row-reverse' : 'flex-row'">
+            <div v-for="(msg, index) in messages" :key="msg.id" :id="'msg-'+msg.id" class="mb-5 relative group flex msg-row" :class="[msg.sender === 'me' ? 'justify-end' : 'justify-start', msg.type === 'pat' ? 'pat-row' : '']">
+                <div v-if="msg.type === 'pat'" class="pat-tip">{{ msg.content }}</div>
+                <div v-else class="flex max-w-[85%] gap-2" :class="msg.sender === 'me' ? 'flex-row-reverse' : 'flex-row'">
                     <div v-if="settings.showAvatar" class="shrink-0 w-10 h-10 mt-1 cursor-pointer" :class="{'opacity-0': !shouldShowAvatar(index)}" @click="editAvatar(msg.sender)">
                         <div class="w-full h-full bg-surface border border-border/50 flex items-center justify-center overflow-hidden" :style="{ borderRadius: settings.avatarRadius + '%' }">
                             <img v-if="profiles[msg.sender].avatar" :src="profiles[msg.sender].avatar" class="w-full h-full object-cover">
@@ -5597,6 +5859,12 @@ html, body { overscroll-behavior-y: none; }
                             <i :data-lucide="msg.status === 'missed' ? 'phone-missed' : 'phone'"></i>
                             <span>{{ msg.status === 'missed' ? '未接视频通话' : '视频通话 ' + msg.duration }}</span>
                         </div>
+                        <div v-else-if="msg.type === 'readinvite'" class="rd-msg-card" @click="rdOpenFromInvite(msg)">
+                            <div class="rd-msg-head"><i></i>一起读书<span class="rd-msg-tag">阅读室</span></div>
+                            <div class="rd-msg-title">{{ msg.title }}</div>
+                            <div class="rd-msg-sub">{{ msg.author || '佚名' }} · 共 {{ msg.pages }} 页<br>{{ msg.sender === 'me' ? '你' : profiles.them.name }} 想和你一页一页慢慢读</div>
+                            <div class="rd-msg-go">翻开这本书 →</div>
+                        </div>
 
                         <div v-else class="flex flex-col" :class="msg.sender === 'me' ? 'items-end' : 'items-start'">
                             <div v-if="msg.quote && !msg.recalled" class="quote-box">
@@ -5605,7 +5873,8 @@ html, body { overscroll-behavior-y: none; }
                             </div>
                             <div v-if="msg.recalled" class="msg-bubble italic text-muted" :style="{ fontSize: settings.fontSize + 'px' }">你撤回了一条消息</div>
                             <div v-else class="msg-bubble" :class="settings.fontFamily === 'serif' ? 'serif-text' : 'sans-text'" :style="{ fontSize: settings.fontSize + 'px' }">
-                                {{ msg.content }}
+                                <span v-if="msg.emojiOnly" class="emoji-safe">{{ msg.content }}</span>
+                                <template v-else>{{ msg.content }}</template>
                             </div>
                         </div>
 
@@ -5648,6 +5917,8 @@ html, body { overscroll-behavior-y: none; }
             <button class="more-panel-btn" @click="startVideoCall"><i data-lucide="video"></i><span>视频</span></button>
             <button class="more-panel-btn" @click="gmStartGame(); showMorePanel = false"><i data-lucide="grid-3x3"></i><span>五子棋</span></button>
             <button class="more-panel-btn" @click="snStartGame(); showMorePanel = false"><i data-lucide="git-fork"></i><span>贪吃蛇</span></button>
+            <button class="more-panel-btn" @click="patOpenPicker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0"/><path d="M14 10V4a2 2 0 0 0-4 0v2"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 0 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.4l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/></svg><span>拍一拍</span></button>
+            <button class="more-panel-btn" @click="rdInviteFromChat"><i data-lucide="book-open"></i><span>一起读</span></button>
         </div>
 
         <transition name="fade">
@@ -5679,6 +5950,25 @@ html, body { overscroll-behavior-y: none; }
         </transition>
 
     </footer>
+    <transition name="fade">
+        <div v-if="patPickerOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" @click.self="patPickerOpen = false">
+            <div class="bg-surface w-full max-w-sm rounded-2xl p-5 border border-border shadow-xl max-h-[80vh] flex flex-col">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-text text-[15px] font-medium tracking-widest serif-text">拍一拍</h3>
+                    <button @click="patPickerOpen = false" class="p-1 text-muted hover:text-text"><i data-lucide="x" class="w-4 h-4"></i></button>
+                </div>
+                <p class="text-[10px] text-muted/80 leading-relaxed mb-3">选一句，聊天里留下一条小灰字：你【干了什么】xx（xx＝{{ profiles.them.name }}）</p>
+                <div class="flex-1 overflow-y-auto space-y-2 pr-1 mb-3">
+                    <button v-for="a in patAll" :key="a.id" @click="patPickFromChat(a.text)" class="w-full text-left p-3 rounded-xl border border-border bg-bg">
+                        <span class="block text-[13px] text-text">{{ patFormat(a.text, 'me') }}</span>
+                        <span class="block text-[10px] text-muted mt-1">{{ a.builtin ? '默认 · 拍了拍' : '自定义 · ' + a.text }}</span>
+                    </button>
+                </div>
+                <button @click="patGoManage" class="w-full py-2.5 bg-bg border border-border text-text rounded-lg text-[13px] mb-2">＋ 去语料库添加文案</button>
+                <button @click="patPickerOpen = false" class="w-full py-2.5 bg-accent text-bg rounded-lg text-[13px] font-medium">取消</button>
+            </div>
+        </div>
+    </transition>
 <transition name="fade">
     <div v-if="showMsgMenu" class="msg-menu-mask" @click.self="showMsgMenu = false">
         <div class="msg-menu-card" :style="msgMenuPos">
@@ -7848,6 +8138,123 @@ html, body { overscroll-behavior-y: none; }
 </div>
 
 
+<!-- ===== [MOD-25] 阅读室 ===== -->
+<div v-if="currentView === 'reading'" key="reading" class="absolute inset-0 flex flex-col z-20 rd-page">
+    <header class="h-14 flex items-center justify-between px-4 shrink-0 bg-surface border-b border-border">
+        <button @click="rdBack" class="p-2 -ml-2 text-text"><i data-lucide="chevron-left" class="w-5 h-5 stroke-[1.5]"></i></button>
+        <span class="text-[13px] font-medium tracking-widest serif-text">{{ rdView === 'read' ? '阅读室' : '阅读室 · 书架' }}</span>
+        <button @click="rdView === 'read' ? rdBackToShelf() : rdOpenImport()" class="p-2 -mr-2 text-text"><i :data-lucide="rdView === 'read' ? 'library' : 'plus'" class="w-5 h-5 stroke-[1.5]"></i></button>
+    </header>
+
+    <main ref="rdMain" class="flex-1 overflow-y-auto">
+        <!-- ========== 书架 ========== -->
+        <div v-if="rdView === 'shelf'" class="rd-wrap">
+            <div class="rd-note">
+                <span class="rd-note-t">怎么把书放进来</span>
+                <b>① 传文件</b>：.txt / .md / .epub，本机直接读，不上传。<br>
+                <b>② 粘贴正文</b>：从网页、备忘录复制一段，填个书名就行。<br>
+                <b>③ 续贴</b>：长篇分几次贴，往已有书后面接着加。<br>
+                书只存在这台设备的本机存储里；PDF / 带 DRM 的加密书读不了，建议先另存为 .txt。
+            </div>
+            <div v-for="b in rdBooks" :key="b.id" class="rd-book" @click="rdOpenBook(b.id)">
+                <div class="rd-cover"><span>{{ b.title }}</span></div>
+                <div class="rd-binfo">
+                    <div class="rd-btitle">{{ b.title }}</div>
+                    <div class="rd-bsub">{{ b.author || '佚名' }} · {{ rdFmtNum(b.raw.length) }} 字 · {{ rdBookPages(b).length }} 页</div>
+                    <div class="rd-bprog"><i :style="{ width: rdBookPct(b) + '%' }"></i></div>
+                </div>
+                <button class="rd-bdel" @click.stop="rdDeleteBook(b.id)" title="从书架移除">×</button>
+            </div>
+            <div v-if="!rdBooks.length" class="rd-empty">书架还是空的<br>点下面的按钮，放第一本书进来</div>
+        </div>
+
+        <!-- ========== 阅读 ========== -->
+        <div v-else class="rd-wrap">
+            <div class="rd-meta">
+                <div class="rd-meta-l">
+                    <div class="rd-meta-t">{{ rdBook ? rdBook.title : '' }}</div>
+                    <div class="rd-meta-s">{{ rdBook ? (rdBook.author || '佚名') : '' }} · 一页一页读，不跳页</div>
+                </div>
+                <span class="rd-together" :class="{ off: !rdTogether }"><i></i>{{ rdTogether ? profiles.them.name + ' 在一起读' : '一个人读' }}</span>
+            </div>
+
+            <div class="rd-chips">
+                <span class="rd-chip" :class="{ on: rdDanmuOn }" @click="rdDanmuOn = !rdDanmuOn">弹幕 {{ rdDanmuOn ? '开' : '关' }}</span>
+                <span class="rd-chip rd-chip-speed" :class="{ off: !rdDanmuOn }" @click="rdCycleDanmuSpeed">节奏 · {{ rdSpeedLabel }}</span>
+                <span v-for="m in ['mix','builtin','mine']" :key="m" class="rd-chip" :class="{ on: rdLineMode === m }" @click="rdLineMode = m">{{ m === 'mix' ? '混合' : (m === 'builtin' ? '内置' : '我的字卡') }}</span>
+            </div>
+
+            <div class="rd-paper">
+                <div class="rd-text">{{ rdPageText }}</div>
+                <div class="rd-pageno">· {{ rdPage + 1 }} ·</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 弹幕浮在可视区，长书页滚动时也看得见 -->
+    <div v-if="rdView === 'read'" class="rd-danmu-layer rd-danmu-fixed">
+        <div v-for="d in rdDanmus" :key="d.id" class="rd-danmu" :style="{ top: d.top + '%' }"><em v-if="d.who">{{ d.who }} ·</em>{{ d.text }}</div>
+    </div>
+
+    <div class="rd-foot">
+        <template v-if="rdView === 'read'">
+            <div class="rd-pager">
+                <button class="rd-pbtn" :disabled="rdPage <= 0" @click="rdTurn(-1)">← 上一页</button>
+                <span class="rd-pnum">{{ rdPage + 1 }} / {{ rdPageCount }}</span>
+                <button class="rd-pbtn" :disabled="rdPage >= rdPageCount - 1" @click="rdTurn(1)">下一页 →</button>
+            </div>
+            <button class="rd-invite" @click="rdInvite">{{ rdTogether ? '再发一张邀请卡' : '发张卡片，邀 ' + profiles.them.name + ' 一起读' }}</button>
+        </template>
+        <button v-else @click="rdOpenImport" class="rd-import-btn">＋ 导入书籍</button>
+    </div>
+
+    <div v-if="rdToast" class="rd-toast">{{ rdToast }}</div>
+
+    <!-- 导入弹窗 -->
+    <transition name="fade">
+        <div v-if="rdImportOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" @click.self="rdImportOpen = false">
+            <div class="rd-modal">
+                <h3>导入书籍</h3>
+                <div class="rd-tabs">
+                    <div class="rd-tab" :class="{ on: rdImportTab === 'file' }" @click="rdImportTab = 'file'">传文件</div>
+                    <div class="rd-tab" :class="{ on: rdImportTab === 'paste' }" @click="rdImportTab = 'paste'">粘贴正文</div>
+                    <div class="rd-tab" :class="{ on: rdImportTab === 'append' }" @click="rdImportTab = 'append'">续贴</div>
+                </div>
+
+                <template v-if="rdImportTab === 'file'">
+                    <label class="rd-file">选择 .txt / .md / .epub 文件
+                        <input type="file" accept=".txt,.md,.markdown,.epub,text/plain,application/epub+zip" @change="rdOnFile" style="display:none">
+                    </label>
+                    <div class="rd-hint">txt 自动识别 UTF-8 / GBK；epub 在本机解包后按目录顺序读章节。文件不会上传到任何地方。大书稍等一两秒。</div>
+                </template>
+
+                <template v-else-if="rdImportTab === 'paste'">
+                    <input v-model="rdImportTitle" class="rd-inp" placeholder="书名（必填）" maxlength="40">
+                    <input v-model="rdImportAuthor" class="rd-inp" placeholder="作者（可不填）" maxlength="24">
+                    <textarea v-model="rdImportText" class="rd-ta" placeholder="把正文粘贴在这里…&#10;空行会当成段落，导入后自动分页"></textarea>
+                </template>
+
+                <template v-else>
+                    <select v-model="rdAppendId" class="rd-inp">
+                        <option value="">选一本已有书…</option>
+                        <option v-for="b in rdBooks" :key="b.id" :value="b.id">{{ b.title }}</option>
+                    </select>
+                    <textarea v-model="rdImportText" class="rd-ta" placeholder="接着上一章往下贴…"></textarea>
+                    <div class="rd-hint">续贴的内容会接在原文后面，分页会重新排一次。</div>
+                </template>
+
+                <div v-if="rdErr" class="rd-err">{{ rdErr }}</div>
+                <div v-if="rdBusy" class="rd-hint">正在读书，请稍等…</div>
+                <div class="rd-acts">
+                    <div class="rd-btn" @click="rdImportOpen = false">取消</div>
+                    <div v-if="rdImportTab !== 'file'" class="rd-btn main" :class="{ 'opacity-45': rdBusy }" @click="rdSaveText">{{ rdImportTab === 'paste' ? '放进书架' : '接着写' }}</div>
+                </div>
+            </div>
+        </div>
+    </transition>
+</div>
+
+
 <!-- ===== [MOD-06B] 全屏观影 ===== -->
 <transition name="fade">
 <div v-if="watchState.fullscreen" class="watch-fullscreen">
@@ -8019,6 +8426,15 @@ const getWmoInfo = (code) => WMO_MAP[code] || { desc: '未知', icon: 'cloud' };
 
 createApp({
     setup() {
+        // 阅读室图标：离线精简图标库里没有 book-open，补一个，首页与三个点面板共用
+        try {
+            if (window.lucide && window.lucide.icons && !window.lucide.icons['book-open']) {
+                window.lucide.icons['book-open'] = [
+                    ['path', { d: 'M2 4h6a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H2z' }],
+                    ['path', { d: 'M22 4h-6a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h6z' }]
+                ];
+            }
+        } catch (e) {}
         let isLoading = true;
         // ================= [MOD-00] 全局应用状态 / 视图路由 =================
         const showIntro = ref(true);
@@ -8042,6 +8458,8 @@ createApp({
             stateNextAt: 0,                          // 下次重抽的时刻
             fontFamily: 'serif', fontSize: 14,
             learnRate: 30,
+            emojiRate: 45,
+            dictMode: true, dictRate: 20,
             useAI: false, apiUrl: '', apiKey: '', apiModel: 'deepseek-chat',
             characterDesc: '',
             relationship: 'lover', chatMode: 'online',
@@ -8158,9 +8576,20 @@ createApp({
         const forceImportant = (decls) => {
             return decls.replace(/([-\w]+\s*:\s*[^;{}]+)(;|$)/g, (m, decl, end) => {
                 if (/!\s*important/i.test(decl)) return decl + end;
+                // 字号例外：不加强制标记，否则会压过「排版 → 字重尺寸」滑块的 inline style
+                if (/^\s*font-size\s*:/i.test(decl)) return decl + end;
                 return decl.replace(/\s+$/, '') + ' !important' + end;
             });
         };
+        // 用户自带 / @media 里写死的 font-size !important 也要卸掉，
+        // 保证设置里的字号永远说了算；颜色、背景、圆角等其它样式不受影响。
+        const stripFontSizeImportant = (css) => css
+            // 显式 font-size
+            .replace(/(\bfont-size\s*:\s*[^;{}!]+?)\s*!\s*important\s*(;|$)/gi,
+                (m, decl, end) => decl.replace(/\s+$/, '') + end)
+            // font: 13px/1.5 serif 这类简写也会把字号一起锁死
+            .replace(/(\bfont\s*:\s*[^;{}!]+?)\s*!\s*important\s*(;|$)/gi,
+                (m, decl, end) => decl.replace(/\s+$/, '') + end);
 
         // 把各种气泡类名（MILK 画廊常见 .bubble / .msg / .message 等）统一映射到 .msg-bubble
         const mapBubbleSelectors = (css) => {
@@ -8222,7 +8651,7 @@ createApp({
                 // 纯声明（没有选择器）：自动包进 .msg-bubble
                 normalRules = '.msg-bubble{' + forceImportant(body) + '}';
             }
-            return ats.join('\n') + '\n' + normalRules;
+            return stripFontSizeImportant(ats.join('\n') + '\n' + normalRules);
         };
 
         // ===== 字体链接：支持 Google Fonts / 任意 CSS 字体链接 / @import 语句 =====
@@ -8274,7 +8703,8 @@ createApp({
             tarot: { img: '', name: '塔罗', icon: 'moon-star', path: 'tarot' },
             sleep: { img: '', name: '睡眠', icon: 'bed-double', path: 'sleep' },
             shop:  { img: '', name: '商场', icon: 'shopping-bag', path: 'shop' },
-            horary:{ img: '', name: '寻他', icon: 'navigation',    path: 'horary' }
+            horary:{ img: '', name: '寻他', icon: 'navigation',    path: 'horary' },
+            reading:{ img: '', name: '阅读', icon: 'book-open',     path: 'reading' }
         });
 
         // 自定义图标数据读不出来时，不要留一个空方框：清掉坏图，回退到原 SVG 图标。
@@ -8328,6 +8758,3145 @@ createApp({
         const showGroupManager = ref(false);
         const showCardEditor = ref(false);
         const editingCard = ref({ id: '', text: '', groupId: '' });
+
+        // ================= [MOD-22] 拍一拍文案（语料库单开一页 / 三个点入口） =================
+        // 自定义文案只存「干了什么」：他发 xx+动作+你，你发 你+动作+xx
+        const PAT_DB_KEY = 'liubai_pat_actions_db';
+        const patActions = ref([]);
+        const patEditorOpen = ref(false);
+        const patDraft = ref('');
+        const patPickerOpen = ref(false);
+        const patAll = computed(() => [
+            { id: '__pat_default__', text: '拍了拍', builtin: true },
+            ...patActions.value.map(a => ({ id: a.id, text: a.text, builtin: false }))
+        ]);
+        const patFormat = (action, by) => {
+            const act = String(action || '拍了拍').trim();
+            const who = profiles.them.name || '对方';
+            return by === 'them' ? who + act + '你' : '你' + act + who;
+        };
+        const patSaveDB = () => { try { localforage.setItem(PAT_DB_KEY, JSON.parse(JSON.stringify(patActions.value))); } catch (e) {} };
+        const patLoad = async () => {
+            try {
+                const v = await localforage.getItem(PAT_DB_KEY);
+                if (Array.isArray(v)) patActions.value = v
+                    .filter(a => a && typeof a.text === 'string' && a.text.trim())
+                    .slice(0, 100)
+                    .map(a => ({ id: String(a.id || genId()), text: a.text.trim().slice(0, 30) }));
+            } catch (e) {}
+        };
+        const patSend = (action, by) => {
+            const text = patFormat(action, by);
+            messages.value.push({ id: genId(), sender: by === 'them' ? 'them' : 'me', type: 'pat', content: text, timestamp: Date.now(), patAction: String(action || '').trim(), patBy: by });
+            try { playTone(by === 'them' ? 'recv' : 'send'); } catch (e) {}
+            scrollToBottom();
+            saveAll();
+        };
+        const patOpenEditor = () => { patDraft.value = ''; patEditorOpen.value = true; };
+        const patSaveCard = () => {
+            const t = (patDraft.value || '').trim().replace(/\s+/g, ' ').slice(0, 30);
+            if (!t) { patEditorOpen.value = false; return; }
+            if (t === '拍了拍' || patActions.value.some(a => a.text === t)) { alert('这条文案已经有了。'); return; }
+            patActions.value.push({ id: genId(), text: t });
+            patSaveDB(); patDraft.value = ''; patEditorOpen.value = false;
+            nextTick(() => { if (window.lucide) lucide.createIcons(); });
+        };
+        const patDelete = (id) => {
+            if (!confirm('删除这条拍一拍文案？')) return;
+            patActions.value = patActions.value.filter(a => a.id !== id);
+            patSaveDB();
+        };
+        const patPickFromLibrary = (action) => { patSend(action, 'them'); switchView('chat'); };
+        const patOpenPicker = () => { showMorePanel.value = false; patPickerOpen.value = true; };
+        const patPickFromChat = (action) => { patPickerOpen.value = false; patSend(action, 'me'); };
+        const patGoManage = () => { patPickerOpen.value = false; libraryTab.value = 'pat'; switchView('library'); };
+
+
+        // ================= [MOD-25] 阅读室：书架 / 导入 / 一页一页 / 弹幕 =================
+        const RD_BOOKS_KEY = 'liubai_reading_books_db';
+        const RD_STATE_KEY = 'liubai_reading_state_db';
+        const RD_BUILTIN = [
+            '这页写得真好', '别翻太快，我想再看一会儿', '你读到哪儿了', '这一段好像我们',
+            '困了就靠着我，书我给你翻', '慢慢读，我不急', '灯还亮着呢', '他悄悄把书角折了一下',
+            '风把窗帘吹起来了一点', '这一句我想抄下来', '要不要换我来翻', '刚走神了，再翻回去看看',
+            '读到这句忽然想起你', '先别说话，让我把这页看完'
+        ];
+        const RD_ACCEPT = ['好，我陪你读。', '来了，翻到哪页了？', '嗯，一页一页来。', '把灯调暗一点，慢慢看。'];
+        const rdBooks = ref([]);
+        const rdView = ref('shelf');
+        const rdBookId = ref('');
+        const rdPage = ref(0);
+        const rdTogether = ref(false);
+        const rdDanmuOn = ref(true);
+        // 默认「慢」：以前 7~18 秒一条太吵，现在一分钟左右才飘一句
+        const rdDanmuSpeed = ref('slow');
+        const RD_SPEED = {
+            slow:   { dMin: 40000, dMax: 80000, turn: 0.05, him: 0.12, hMin: 20000, hMax: 40000 },
+            normal: { dMin: 20000, dMax: 40000, turn: 0.12, him: 0.28, hMin: 14000, hMax: 28000 },
+            fast:   { dMin:  7000, dMax: 18000, turn: 0.22, him: 0.50, hMin: 11000, hMax: 25000 }
+        };
+        const rdSpeedNow = () => RD_SPEED[rdDanmuSpeed.value] || RD_SPEED.slow;
+        const rdSpeedLabel = computed(() => ({ slow: '慢', normal: '中', fast: '快' })[rdDanmuSpeed.value] || '慢');
+        const rdLineMode = ref('mix');
+        const rdDanmus = ref([]);
+        const rdImportOpen = ref(false);
+        const rdImportTab = ref('file');
+        const rdImportTitle = ref('');
+        const rdImportAuthor = ref('');
+        const rdImportText = ref('');
+        const rdAppendId = ref('');
+        const rdBusy = ref(false);
+        const rdErr = ref('');
+        const rdToast = ref('');
+        let rdToastTimer = null, rdDanmuTimer = null, rdHimTimer = null, rdDanmuSeq = 0;
+        const rdPagesCache = {}, rdLaneAt = {};
+
+        const rdUserLines = computed(() => {
+            const out = [];
+            replyGroups.value.forEach(g => g.replies.forEach(r => { if (r.enabled && r.text && String(r.text).trim()) out.push(String(r.text).trim()); }));
+            return out;
+        });
+        const rdNormText = (t) => String(t || '')
+            .replace(/\r\n?/g, '\n').replace(/\u00a0/g, ' ')
+            .replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+        const rdBuildPages = (raw) => {
+            const LIMIT = 460;
+            const paras = rdNormText(raw).split(/\n+/).map(p => p.trim()).filter(Boolean);
+            // 先把超长段落切成小块，再统一装页；短标题不许自己独占一页
+            const chunks = [];
+            for (const p of paras) {
+                if (p.length <= LIMIT) chunks.push(p);
+                else for (let i = 0; i < p.length; i += LIMIT) chunks.push(p.slice(i, i + LIMIT));
+            }
+            const pages = []; let cur = [], len = 0;
+            for (const c of chunks) {
+                if (cur.length && len + c.length > LIMIT && len > 80) { pages.push(cur.join('\n\n')); cur = []; len = 0; }
+                cur.push(c); len += c.length + 2;
+            }
+            if (cur.length) pages.push(cur.join('\n\n'));
+            return pages.length ? pages : ['（这本书还没有正文）'];
+        };
+        const rdBookPages = (b) => {
+            if (!b) return ['（还没有正文）'];
+            if (!rdPagesCache[b.id]) rdPagesCache[b.id] = rdBuildPages(b.raw);
+            return rdPagesCache[b.id];
+        };
+        const rdBook = computed(() => rdBooks.value.find(b => b.id === rdBookId.value) || null);
+        const rdPages = computed(() => rdBookPages(rdBook.value));
+        const rdPageCount = computed(() => rdPages.value.length);
+        const rdPageText = computed(() => rdPages.value[Math.min(rdPage.value, rdPages.value.length - 1)] || '');
+        const rdFmtNum = (n) => n >= 10000 ? (n / 10000).toFixed(1) + ' 万' : String(n);
+        const rdBookPct = (b) => { const n = rdBookPages(b).length; return n <= 1 ? 100 : Math.min(100, Math.round(((b.page || 0) + 1) / n * 100)); };
+
+        const rdSaveBooks = () => { try { localforage.setItem(RD_BOOKS_KEY, JSON.parse(JSON.stringify(rdBooks.value))); } catch (e) {} };
+        const rdSaveState = () => { try { localforage.setItem(RD_STATE_KEY, { bookId: rdBookId.value, together: rdTogether.value, danmuOn: rdDanmuOn.value, lineMode: rdLineMode.value, danmuSpeed: rdDanmuSpeed.value }); } catch (e) {} };
+        const rdLoad = async () => {
+            try {
+                const v = await localforage.getItem(RD_BOOKS_KEY);
+                if (Array.isArray(v)) rdBooks.value = v
+                    .filter(b => b && typeof b.id === 'string' && typeof b.raw === 'string')
+                    .slice(0, 60)
+                    .map(b => ({ id: b.id, title: String(b.title || '未命名').slice(0, 40), author: String(b.author || '').slice(0, 24), raw: b.raw.slice(0, 3000000), at: b.at || Date.now(), page: Math.max(0, Number(b.page) || 0) }));
+                const st = await localforage.getItem(RD_STATE_KEY);
+                if (st && typeof st === 'object') {
+                    rdBookId.value = typeof st.bookId === 'string' ? st.bookId : '';
+                    rdTogether.value = !!st.together;
+                    rdDanmuOn.value = st.danmuOn !== false;
+                    rdLineMode.value = ['mix', 'builtin', 'mine'].includes(st.lineMode) ? st.lineMode : 'mix';
+                    rdDanmuSpeed.value = ['slow', 'normal', 'fast'].includes(st.danmuSpeed) ? st.danmuSpeed : 'slow';
+                }
+                if (rdBookId.value && !rdBooks.value.some(b => b.id === rdBookId.value)) rdBookId.value = '';
+            } catch (e) {}
+        };
+
+        // ---- 翻页：只有 ±1，没有跳页 / 进度条 / 目录 ----
+        // 换页后一律回到这一页的最顶上，不用再从底下往回找开头
+        const rdMain = ref(null);
+        const rdScrollTop = () => {
+            nextTick(() => {
+                const el = rdMain.value; if (!el) return;
+                try {
+                    const prev = el.style.scrollBehavior;
+                    el.style.scrollBehavior = 'auto';   // 别让惯性/平滑滚动把人又带下去
+                    el.scrollTop = 0;
+                    el.style.scrollBehavior = prev;
+                } catch (e) { el.scrollTop = 0; }
+            });
+        };
+        const rdTurn = (dir) => {
+            const d = dir > 0 ? 1 : -1;
+            const np = rdPage.value + d;
+            if (np < 0 || np >= rdPageCount.value) return;
+            rdPage.value = np;
+            if (rdBook.value) rdBook.value.page = np;
+            rdSaveBooks(); rdSaveState(); rdScrollTop();
+            if (Math.random() < rdSpeedNow().turn) rdPushDanmu(rdPickLine(), '');
+        };
+        const rdOpenBook = (id) => {
+            const b = rdBooks.value.find(x => x.id === id); if (!b) return;
+            rdBookId.value = id;
+            rdPage.value = Math.min(Math.max(0, b.page || 0), rdBookPages(b).length - 1);
+            rdView.value = 'read'; rdDanmus.value = []; rdToast.value = ''; rdSaveState(); rdScrollTop();
+        };
+        const rdBackToShelf = () => { rdView.value = 'shelf'; rdTogether.value = false; rdDanmus.value = []; rdSaveState(); rdScrollTop(); };
+        const rdBack = () => { if (rdView.value === 'read') rdBackToShelf(); else switchView('home'); };
+
+        // ---- 弹幕字卡：内置 + 你自己添加的字卡 ----
+        const rdPickLine = () => {
+            const mine = rdUserLines.value;
+            let pool;
+            if (rdLineMode.value === 'builtin' || !mine.length) pool = RD_BUILTIN;
+            else if (rdLineMode.value === 'mine') pool = mine;
+            else pool = Math.random() < 0.5 ? RD_BUILTIN : mine;
+            return pool[Math.floor(Math.random() * pool.length)] || '……';
+        };
+        const rdPushDanmu = (text, who) => {
+            if (!rdDanmuOn.value || rdView.value !== 'read' || currentView.value !== 'reading') return;
+            // 五条轨道轮着用，2.6 秒内不重复，避免两条弹幕叠在一行
+            const now = Date.now(); let lane = -1, start = Math.floor(Math.random() * 5);
+            for (let i = 0; i < 5; i++) {
+                const l = (start + i) % 5;
+                if (now - (rdLaneAt[l] || 0) > 2600) { lane = l; break; }
+            }
+            if (lane < 0) lane = start;
+            rdLaneAt[lane] = now;
+            const id = 'rd' + (++rdDanmuSeq);
+            rdDanmus.value.push({ id, text: String(text || '').slice(0, 60), who: who || '', top: 12 + lane * 14 });
+            if (rdDanmus.value.length > 6) rdDanmus.value = rdDanmus.value.slice(-6);
+            setTimeout(() => { rdDanmus.value = rdDanmus.value.filter(d => d.id !== id); }, 8300);
+        };
+        const rdShowToast = (t) => { rdToast.value = t; clearTimeout(rdToastTimer); rdToastTimer = setTimeout(() => { rdToast.value = ''; }, 2800); };
+        const rdStopTimers = () => { clearTimeout(rdDanmuTimer); clearTimeout(rdHimTimer); rdDanmuTimer = null; rdHimTimer = null; };
+        const rdScheduleDanmu = () => {
+            clearTimeout(rdDanmuTimer);
+            if (!rdDanmuOn.value || rdView.value !== 'read' || currentView.value !== 'reading') return;
+            rdDanmuTimer = setTimeout(() => {
+                rdPushDanmu(rdPickLine(), (rdTogether.value && Math.random() < 0.55) ? profiles.them.name : '');
+                rdScheduleDanmu();
+            }, rdSpeedNow().dMin + Math.random() * (rdSpeedNow().dMax - rdSpeedNow().dMin));
+        };
+        // 他一起读：也只翻一页，前后各算一次，绝不连翻
+        const rdScheduleHim = () => {
+            clearTimeout(rdHimTimer);
+            if (!rdTogether.value || rdView.value !== 'read' || currentView.value !== 'reading') return;
+            rdHimTimer = setTimeout(() => {
+                if (rdTogether.value && rdView.value === 'read' && currentView.value === 'reading') {
+                    const n = rdPageCount.value;
+                    let d = Math.random() < 0.75 ? 1 : -1;
+                    if (rdPage.value + d < 0 || rdPage.value + d >= n) d = -d;
+                    const np = rdPage.value + d;
+                    if (np >= 0 && np < n) {
+                        rdPage.value = np;
+                        if (rdBook.value) rdBook.value.page = np;
+                        rdSaveBooks(); rdSaveState(); rdScrollTop();
+                        rdShowToast(profiles.them.name + (d > 0 ? ' 往后翻了一页' : ' 往回翻了一页'));
+                        if (Math.random() < rdSpeedNow().him) rdPushDanmu(rdPickLine(), profiles.them.name);
+                    }
+                }
+                rdScheduleHim();
+            }, rdSpeedNow().hMin + Math.random() * (rdSpeedNow().hMax - rdSpeedNow().hMin));
+        };
+        // 切换节奏立刻重排定时器，不用等当前这一轮走完
+        const rdCycleDanmuSpeed = () => {
+            if (!rdDanmuOn.value) { rdDanmuOn.value = true; return; }
+            const order = ['slow', 'normal', 'fast'];
+            rdDanmuSpeed.value = order[(order.indexOf(rdDanmuSpeed.value) + 1) % order.length];
+            rdShowToast('弹幕节奏 · ' + rdSpeedLabel.value);
+        };
+        watch([rdView, currentView, rdTogether, rdDanmuOn, rdDanmuSpeed], () => {
+            nextTick(() => {
+                rdStopTimers();
+                if (currentView.value !== 'reading') { rdDanmus.value = []; return; }
+                if (rdView.value === 'read') { rdScheduleDanmu(); rdScheduleHim(); }
+            });
+        });
+
+        watch([rdDanmuOn, rdLineMode, rdTogether, rdBookId, rdDanmuSpeed], () => { rdSaveState(); });
+
+        // ---- 邀请卡 ----
+        const rdMakeInvite = (b) => {
+            if (!b) return false;
+            messages.value.push({ id: genId(), sender: 'me', type: 'readinvite', bookId: b.id, title: b.title, author: b.author || '', pages: rdBookPages(b).length, content: '', timestamp: Date.now() });
+            try { playTone('send'); } catch (e) {}
+            scrollToBottom(); saveAll();
+            rdTogether.value = true; rdSaveState();
+            setTimeout(() => {
+                messages.value.push({ id: genId(), sender: 'them', type: 'text', content: RD_ACCEPT[Math.floor(Math.random() * RD_ACCEPT.length)], timestamp: Date.now() });
+                saveAll();
+            }, 1500);
+            return true;
+        };
+        const rdInvite = () => { if (rdMakeInvite(rdBook.value)) rdShowToast('邀请已发到聊天 · ' + profiles.them.name + ' 答应了'); };
+        const rdInviteFromChat = () => {
+            showMorePanel.value = false;
+            if (!rdBooks.value.length) { switchView('reading'); rdView.value = 'shelf'; rdOpenImport(); return; }
+            const b = rdBooks.value.find(x => x.id === rdBookId.value) || rdBooks.value[0];
+            rdMakeInvite(b);
+            rdShowToast('邀请已发到聊天 · 点卡片就能一起读');
+        };
+        const rdOpenFromInvite = (msg) => {
+            const b = rdBooks.value.find(x => x.id === msg.bookId);
+            if (!b) { rdShowToast('这本书已经不在书架上了'); return; }
+            rdBookId.value = b.id;
+            rdPage.value = Math.min(Math.max(0, b.page || 0), rdBookPages(b).length - 1);
+            rdView.value = 'read'; rdTogether.value = true;
+            switchView('reading'); rdSaveState(); rdScrollTop();
+            rdShowToast(profiles.them.name + ' 和你一起翻开了《' + b.title + '》');
+        };
+
+        // ---- 导入：txt / 粘贴 / 续贴 / epub ----
+        const rdOpenImport = () => {
+            rdImportTab.value = 'file'; rdImportTitle.value = ''; rdImportAuthor.value = '';
+            rdImportText.value = ''; rdAppendId.value = rdBooks.value[0] ? rdBooks.value[0].id : '';
+            rdErr.value = ''; rdImportOpen.value = true;
+        };
+        const rdAddBook = (title, author, raw) => {
+            const text = rdNormText(raw);
+            if (!text) { rdErr.value = '没有读到正文，换个文件，或直接用「粘贴正文」。'; return false; }
+            const b = { id: genId(), title: (String(title || '').trim().slice(0, 40) || '未命名'), author: String(author || '').trim().slice(0, 24), raw: text.slice(0, 3000000), at: Date.now(), page: 0 };
+            rdBooks.value.unshift(b); rdSaveBooks(); delete rdPagesCache[b.id];
+            rdImportOpen.value = false; rdImportText.value = ''; rdErr.value = '';
+            rdShowToast('《' + b.title + '》已放进书架 · 共 ' + rdBookPages(b).length + ' 页');
+            return true;
+        };
+        const rdSaveText = () => {
+            if (rdBusy.value) return;
+            if (rdImportTab.value === 'paste') {
+                if (!rdImportTitle.value.trim()) { rdErr.value = '给这本书起个名字吧。'; return; }
+                if (!rdImportText.value.trim()) { rdErr.value = '正文还是空的。'; return; }
+                rdAddBook(rdImportTitle.value, rdImportAuthor.value, rdImportText.value);
+            } else {
+                const b = rdBooks.value.find(x => x.id === rdAppendId.value);
+                if (!b) { rdErr.value = '先选一本要续贴的书。'; return; }
+                const t = rdNormText(rdImportText.value);
+                if (!t) { rdErr.value = '续贴的内容还是空的。'; return; }
+                b.raw = (b.raw + '\n\n' + t).slice(0, 3000000);
+                delete rdPagesCache[b.id]; rdSaveBooks();
+                rdImportOpen.value = false; rdImportText.value = ''; rdErr.value = '';
+                rdShowToast('接上了 · 《' + b.title + '》现在共 ' + rdBookPages(b).length + ' 页');
+            }
+        };
+        const rdDeleteBook = (id) => {
+            if (!confirm('从书架移除这本书？')) return;
+            rdBooks.value = rdBooks.value.filter(b => b.id !== id);
+            delete rdPagesCache[id];
+            if (rdBookId.value === id) rdBookId.value = '';
+            rdSaveBooks(); rdSaveState();
+        };
+        const rdDecode = (buf) => {
+            let t = new TextDecoder('utf-8').decode(buf);
+            const bad = (t.match(/\uFFFD/g) || []).length;
+            if (bad > 3) { try { t = new TextDecoder('gbk').decode(buf); } catch (e) {} }
+            return t.replace(/^\uFEFF/, '');
+        };
+        const rdHtmlToText = (h) => {
+            let x = String(h || '');
+            x = x.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '').replace(/<!--[\s\S]*?-->/g, '');
+            x = x.replace(/<h([1-3])[^>]*>([\s\S]*?)<\/h\1>/gi, (m, lv, inner) => {
+                const t = inner.replace(/<[^>]+>/g, '').trim();
+                return '\n\n' + (t ? '【' + t + '】' : '') + '\n';
+            });
+            x = x.replace(/<\/(p|div|li|tr|blockquote|section)>/gi, '\n')
+                 .replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '');
+            x = x.replace(/&nbsp;|&#160;/gi, ' ').replace(/&lt;/gi, '<').replace(/&gt;/gi, '>')
+                 .replace(/&quot;/gi, '"').replace(/&apos;|&#39;/gi, "'")
+                 .replace(/&mdash;/gi, '—').replace(/&hellip;/gi, '…').replace(/&amp;/gi, '&')
+                 .replace(/&#(\d+);/g, (m, d) => { try { return String.fromCodePoint(Number(d)); } catch (e) { return m; } });
+            return rdNormText(x);
+        };
+        // 纯前端解 epub：读 ZIP 中央目录 → container.xml → opf → 按 spine 顺序取章节
+        const rdUnzip = async (buf) => {
+            const u8 = new Uint8Array(buf), dv = new DataView(buf);
+            let eocd = -1;
+            for (let i = u8.length - 22; i >= Math.max(0, u8.length - 65558); i--) {
+                if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+            }
+            if (eocd < 0) throw new Error('不是有效的 epub / zip');
+            const count = dv.getUint16(eocd + 10, true);
+            let off = dv.getUint32(eocd + 16, true);
+            const files = {}, dec = new TextDecoder('utf-8');
+            for (let n = 0; n < count; n++) {
+                if (dv.getUint32(off, true) !== 0x02014b50) break;
+                const method = dv.getUint16(off + 10, true);
+                const csize = dv.getUint32(off + 20, true);
+                const fnLen = dv.getUint16(off + 28, true);
+                const exLen = dv.getUint16(off + 30, true);
+                const cmLen = dv.getUint16(off + 32, true);
+                const lho = dv.getUint32(off + 42, true);
+                const name = dec.decode(u8.subarray(off + 46, off + 46 + fnLen));
+                files[name] = { method, csize, lho };
+                off += 46 + fnLen + exLen + cmLen;
+            }
+            const read = async (name) => {
+                const ent = files[name]; if (!ent) return '';
+                const lo = ent.lho;
+                const lfn = dv.getUint16(lo + 26, true), lex = dv.getUint16(lo + 28, true);
+                const start = lo + 30 + lfn + lex;
+                const data = u8.subarray(start, start + ent.csize);
+                if (ent.method === 0) return dec.decode(data);
+                if (ent.method === 8) {
+                    if (typeof DecompressionStream === 'undefined') throw new Error('这个浏览器解不了 epub，请另存为 .txt');
+                    const ds = new DecompressionStream('deflate-raw');
+                    const stream = new Blob([data]).stream().pipeThrough(ds);
+                    return dec.decode(await new Response(stream).arrayBuffer());
+                }
+                throw new Error('epub 用了不支持的压缩方式，请另存为 .txt');
+            };
+            return { files, read };
+        };
+        const rdParseEpub = async (buf) => {
+            const z = await rdUnzip(buf);
+            const container = await z.read('META-INF/container.xml');
+            if (!container) throw new Error('epub 里找不到 container.xml');
+            const m = container.match(/full-path\s*=\s*["']([^"']+)["']/i);
+            const opfPath = m ? m[1] : Object.keys(z.files).find(k => /\.opf$/i.test(k));
+            if (!opfPath) throw new Error('epub 里找不到目录文件');
+            const base = opfPath.includes('/') ? opfPath.slice(0, opfPath.lastIndexOf('/') + 1) : '';
+            const opf = await z.read(opfPath);
+            let title = '', author = '';
+            const tm = opf.match(/<dc:title[^>]*>([\s\S]*?)<\/dc:title>/i);
+            if (tm) title = tm[1].replace(/<[^>]+>/g, '').trim();
+            const am = opf.match(/<dc:creator[^>]*>([\s\S]*?)<\/dc:creator>/i);
+            if (am) author = am[1].replace(/<[^>]+>/g, '').trim();
+            const manifest = {};
+            opf.replace(/<item\b[^>]*>/gi, tag => {
+                const id = (tag.match(/\bid\s*=\s*["']([^"']+)["']/i) || [])[1];
+                const href = (tag.match(/\bhref\s*=\s*["']([^"']+)["']/i) || [])[1];
+                if (id && href) manifest[id] = decodeURIComponent(href.split('#')[0]);
+                return tag;
+            });
+            const spine = [];
+            const sm = opf.match(/<spine[\s\S]*?<\/spine>/i);
+            if (sm) sm[0].replace(/<itemref\b[^>]*>/gi, tag => {
+                const id = (tag.match(/\bidref\s*=\s*["']([^"']+)["']/i) || [])[1];
+                if (id && manifest[id]) spine.push(manifest[id]);
+                return tag;
+            });
+            if (!spine.length) Object.keys(z.files).filter(k => /\.(x?html|htm)$/i.test(k) && !/^META-INF/i.test(k)).sort().forEach(k => spine.push(k));
+            const parts = [];
+            for (const href of spine.slice(0, 1200)) {
+                const key = z.files[base + href] ? base + href : (z.files[href] ? href : Object.keys(z.files).find(k => k === href || k.endsWith('/' + href)));
+                if (!key) continue;
+                try { const t = rdHtmlToText(await z.read(key)); if (t) parts.push(t); } catch (e) {}
+            }
+            if (!parts.length) throw new Error('章节都没读出来，建议另存为 .txt');
+            return { title, author, raw: parts.join('\n\n') };
+        };
+        const rdOnFile = async (e) => {
+            const file = e.target.files && e.target.files[0];
+            e.target.value = '';
+            if (!file) return;
+            rdErr.value = ''; rdBusy.value = true;
+            try {
+                const buf = await file.arrayBuffer();
+                const name = file.name || '';
+                let title = name.replace(/\.(txt|md|markdown|epub|html?|text)$/i, '').trim() || '未命名';
+                let author = '', raw = '';
+                if (/\.epub$/i.test(name)) {
+                    const r = await rdParseEpub(buf);
+                    title = r.title || title; author = r.author || ''; raw = r.raw;
+                } else {
+                    raw = rdDecode(buf);
+                    if (/\.html?$/i.test(name)) raw = rdHtmlToText(raw);
+                }
+                rdAddBook(title, author, raw);
+            } catch (err) {
+                rdErr.value = '没读出来：' + (err && err.message ? err.message : err) + '。可以改用「粘贴正文」。';
+            } finally { rdBusy.value = false; }
+        };
+
+
+        // ================= [MOD-26] 词典 · 拼字卡模式 =================
+        // 只收词语 / 人称 / 动作 / 小物件 / 语气，不放成语；按槽位拼 1~4 个词成一句。
+        const DICT_KEY = 'liubai_dict_custom_db';
+        const dictCats = ['人称', '时间', '动作', '心情', '名词', '语气', '连接'];
+        const DICT_BUILTIN = {
+    "人称": [
+        "我",
+        "你",
+        "他",
+        "她",
+        "它",
+        "我们",
+        "你们",
+        "他们",
+        "她们",
+        "咱",
+        "咱们",
+        "大家",
+        "谁",
+        "自己",
+        "彼此",
+        "对方",
+        "有人",
+        "没人",
+        "某人",
+        "别人",
+        "咱俩",
+        "我俩",
+        "你俩",
+        "他俩",
+        "咱们俩",
+        "两个人",
+        "一个人",
+        "所有人",
+        "每个人",
+        "你和我",
+        "我和你",
+        "他和我",
+        "她和你",
+        "爱人",
+        "心上人",
+        "意中人",
+        "伴侣",
+        "知己",
+        "身边人",
+        "想念的人",
+        "等的人",
+        "梦里的人",
+        "那个人",
+        "这人",
+        "那人",
+        "你那边",
+        "我这头",
+        "后来的我们",
+        "从前的你",
+        "现在的我",
+        "梦里的你",
+        "另一个自己"
+    ],
+    "时间": [
+        "今天",
+        "明天",
+        "昨天",
+        "前天",
+        "后天",
+        "今晚",
+        "今夜",
+        "昨晚",
+        "昨夜",
+        "明早",
+        "明晚",
+        "清晨",
+        "清早",
+        "早晨",
+        "早上",
+        "上午",
+        "中午",
+        "正午",
+        "午后",
+        "下午",
+        "傍晚",
+        "黄昏",
+        "入夜",
+        "夜里",
+        "深夜",
+        "半夜",
+        "凌晨",
+        "此刻",
+        "刚刚",
+        "刚才",
+        "方才",
+        "从前",
+        "以前",
+        "后来",
+        "以后",
+        "有一天",
+        "某一天",
+        "那天",
+        "这天",
+        "那年",
+        "今年",
+        "去年",
+        "明年",
+        "前年",
+        "来年",
+        "开春",
+        "初夏",
+        "入秋",
+        "深冬",
+        "年末",
+        "月初",
+        "月底",
+        "周末",
+        "周中",
+        "星期一",
+        "星期五",
+        "星期天",
+        "节假日",
+        "节日里",
+        "过年时",
+        "生日那天",
+        "放假时",
+        "下班后",
+        "放学后",
+        "散场后",
+        "熄灯后",
+        "天亮前",
+        "天黑前",
+        "天黑之后",
+        "天还没亮",
+        "太阳落山前",
+        "起风的夜里",
+        "下雪那天",
+        "下雨天",
+        "雨天",
+        "雪天",
+        "晴天",
+        "阴天",
+        "放晴以后",
+        "雨停以后",
+        "风起时",
+        "灯亮时",
+        "钟响时",
+        "门开时",
+        "你走以后",
+        "你回来以前",
+        "我到家时",
+        "快到家时",
+        "回家的路上",
+        "上班路上",
+        "等车时",
+        "临出门前",
+        "临睡前",
+        "刚醒来",
+        "睡醒时",
+        "半梦半醒",
+        "一转身",
+        "一抬头",
+        "一眨眼",
+        "等会儿",
+        "过会儿",
+        "待会儿",
+        "趁现在",
+        "趁天还亮",
+        "趁雨没下",
+        "这会儿",
+        "这阵子",
+        "那阵子",
+        "那段时间",
+        "这些年",
+        "那些年",
+        "年年",
+        "月月",
+        "天天",
+        "偶尔",
+        "时常",
+        "常常",
+        "总是",
+        "一直",
+        "一向",
+        "从来",
+        "好久以前",
+        "很久以后",
+        "不久前",
+        "没过多久",
+        "隔了很久",
+        "每隔几天",
+        "每隔一会儿",
+        "下一秒",
+        "下一站",
+        "这一刻",
+        "这一瞬间",
+        "当时",
+        "当时啊",
+        "后来啊",
+        "最后",
+        "起初",
+        "开头",
+        "临了",
+        "收尾时",
+        "说这话时",
+        "写到这儿",
+        "念到一半",
+        "翻到那一页",
+        "唱到副歌",
+        "天亮以后",
+        "入睡前",
+        "午睡醒来",
+        "三点钟",
+        "午后三点",
+        "半夜三点",
+        "清晨六点",
+        "黄昏六点",
+        "零点",
+        "跨年那晚",
+        "除夕",
+        "中秋",
+        "端午",
+        "立春",
+        "立秋",
+        "第一场雪",
+        "最后一场雨",
+        "开学那天",
+        "毕业那天",
+        "搬家那天",
+        "第一次见面",
+        "最后一次告别",
+        "很久很久以前",
+        "往后",
+        "往后的日子",
+        "余下的时间",
+        "剩下的半晚",
+        "整夜",
+        "一整夜",
+        "大半天",
+        "小半天",
+        "片刻",
+        "半晌",
+        "一会儿",
+        "好一会儿",
+        "老半天",
+        "这半生",
+        "下辈子",
+        "来日",
+        "往日",
+        "旧日",
+        "近日",
+        "连日",
+        "整日",
+        "隔天",
+        "隔年",
+        "隔夜",
+        "转天",
+        "次日",
+        "春天里",
+        "夏天末尾",
+        "秋天刚到",
+        "冬天快完",
+        "梅雨季",
+        "三伏天",
+        "数九天",
+        "开学季",
+        "毕业季",
+        "换季时",
+        "起雾的清早",
+        "出太阳的午后",
+        "月亮刚上来",
+        "星星全出来",
+        "路灯刚亮",
+        "最后一班车的点",
+        "首班车之前",
+        "灯还亮着的那会儿",
+        "话说到一半",
+        "歌放到一半",
+        "茶还热着",
+        "雨刚停",
+        "雪刚化",
+        "风刚起",
+        "门刚关上",
+        "电话刚响",
+        "消息刚发出去",
+        "刚按下发送",
+        "还没撤回",
+        "等红灯的几十秒",
+        "泡一杯茶的时间",
+        "一首歌的时间",
+        "一集剧的时间",
+        "一页书的工夫",
+        "一炷香",
+        "一眨眼的工夫",
+        "半支烟的工夫",
+        "一顿饭的工夫",
+        "走完那条巷子",
+        "绕完那一圈",
+        "数到十之前",
+        "数到一百之后",
+        "钟敲第三下",
+        "闹钟响之前",
+        "天光一点点淡下去",
+        "夜一点点沉下来"
+    ],
+    "动作": [
+        "想起",
+        "想到",
+        "念着",
+        "惦着",
+        "记着",
+        "记得",
+        "记起",
+        "忘了",
+        "忘掉",
+        "没忘",
+        "等着",
+        "等一等",
+        "等下去",
+        "守着",
+        "候着",
+        "看着",
+        "望着",
+        "盯着",
+        "瞥见",
+        "瞄了一眼",
+        "又看了一眼",
+        "看了一眼",
+        "回头",
+        "回过头",
+        "抬起头",
+        "低下头",
+        "偏过头",
+        "转过身",
+        "侧过身",
+        "背过身",
+        "闭上眼",
+        "睁开眼",
+        "眨了眨眼",
+        "笑了",
+        "笑了一下",
+        "没忍住笑",
+        "抿嘴",
+        "咧嘴",
+        "叹气",
+        "叹了口气",
+        "吸了口气",
+        "松了口气",
+        "发呆",
+        "走神",
+        "愣住",
+        "愣了一下",
+        "出神",
+        "回过神",
+        "听见",
+        "听清",
+        "没听清",
+        "听见了",
+        "听了一半",
+        "说起",
+        "提到",
+        "念出声",
+        "写下",
+        "写了一半",
+        "划掉",
+        "涂掉",
+        "补上一句",
+        "添了一行",
+        "抄下来",
+        "记下来",
+        "翻开",
+        "合上",
+        "合上书",
+        "折了个角",
+        "压平",
+        "抚平",
+        "擦干",
+        "擦掉",
+        "抹掉",
+        "收好",
+        "藏好",
+        "放好",
+        "摆好",
+        "叠好",
+        "卷好",
+        "摊开",
+        "铺开",
+        "挂起",
+        "摘下",
+        "捡起",
+        "拾起",
+        "放下",
+        "拿起",
+        "递过来",
+        "接过去",
+        "塞进口袋",
+        "揣着",
+        "捧着",
+        "抱着",
+        "抱住",
+        "搂住",
+        "靠过来",
+        "靠着",
+        "挨着",
+        "贴着",
+        "坐近一点",
+        "挪近一点",
+        "让开一点",
+        "挪开",
+        "挪了挪",
+        "坐下",
+        "站起来",
+        "站住",
+        "靠在门边",
+        "倚着窗",
+        "趴在桌上",
+        "蜷起来",
+        "伸出手",
+        "收回手",
+        "握住",
+        "松开",
+        "捏了捏",
+        "拍了拍",
+        "摸了摸",
+        "碰了碰",
+        "戳了戳",
+        "指了指",
+        "招手",
+        "挥手",
+        "点头",
+        "摇头",
+        "摆手",
+        "比了个手势",
+        "做了个鬼脸",
+        "努了努嘴",
+        "走过",
+        "路过",
+        "路过你",
+        "绕远路",
+        "绕回来",
+        "折回来",
+        "走回来",
+        "赶过去",
+        "跑过去",
+        "追上去",
+        "跟上来",
+        "跟着",
+        "跟着走",
+        "慢慢走",
+        "慢慢挪",
+        "停下来",
+        "停住",
+        "站定",
+        "顿了顿",
+        "犹豫了一下",
+        "转了两圈",
+        "绕了一圈",
+        "拐进巷子",
+        "穿过街",
+        "上了楼",
+        "下了楼",
+        "推开门",
+        "推开窗",
+        "关上",
+        "关上窗",
+        "关灯",
+        "亮着",
+        "开着灯",
+        "点灯",
+        "吹灭",
+        "点上",
+        "泡茶",
+        "倒水",
+        "续上水",
+        "端过来",
+        "抿了一口",
+        "喝了一口",
+        "尝了尝",
+        "掰了一半",
+        "留了一半",
+        "分给你",
+        "让给你",
+        "寄出",
+        "寄来",
+        "收到",
+        "拆开",
+        "拆信",
+        "读了一遍",
+        "念了一遍",
+        "又念一遍",
+        "哼着",
+        "唱到一半",
+        "停下笔",
+        "搁下笔",
+        "按下暂停",
+        "调暗",
+        "调亮",
+        "调小声",
+        "放大声",
+        "戴上耳机",
+        "摘下耳机",
+        "数着",
+        "数了数",
+        "算了算",
+        "答应",
+        "应了一声",
+        "没应",
+        "没说话",
+        "没吭声",
+        "没敢说",
+        "说了半句",
+        "咽回去",
+        "改口",
+        "补了句",
+        "接了句",
+        "打了个岔",
+        "岔开话题",
+        "装作没看见",
+        "假装",
+        "装睡",
+        "装忙",
+        "躲开",
+        "躲起来",
+        "闪开",
+        "让路",
+        "凑过来",
+        "探过头",
+        "探头",
+        "缩回去",
+        "伸了个懒腰",
+        "打了个哈欠",
+        "揉了揉眼",
+        "挠了挠头",
+        "整了整衣领",
+        "拢了拢头发",
+        "理了理袖口",
+        "拽了拽衣角",
+        "抖了抖雨伞",
+        "收了伞",
+        "撑伞",
+        "撑开伞",
+        "淋着雨",
+        "踩了水坑",
+        "踢了踢石子",
+        "捡了片叶子",
+        "夹进书里",
+        "贴在墙上",
+        "别在衣襟",
+        "写在手心",
+        "画了个圈",
+        "画了道线",
+        "圈出来",
+        "划了条线",
+        "打个勾",
+        "写个记号",
+        "留了张条",
+        "留了盏灯",
+        "留了门",
+        "留了位置",
+        "占了座",
+        "空着",
+        "腾出来",
+        "铺了张纸",
+        "摊开本子",
+        "翻开本子",
+        "撕下一页",
+        "折成纸鹤",
+        "卷成筒",
+        "系了个结",
+        "解开",
+        "缠上",
+        "松开手",
+        "放开手",
+        "没松手",
+        "攥着",
+        "握紧",
+        "捂住",
+        "盖住",
+        "蒙上",
+        "掀开",
+        "揭开",
+        "掀了一角",
+        "露出",
+        "露出半张脸",
+        "探出身子",
+        "缩回手",
+        "把手伸过来",
+        "把手藏起来",
+        "指给你看",
+        "带你去看",
+        "领着你走",
+        "送你到门口",
+        "站在原地",
+        "留在原地",
+        "没动",
+        "动了动",
+        "晃了晃",
+        "摇了摇",
+        "点了点",
+        "敲了敲",
+        "叩了两下",
+        "按了门铃",
+        "拨了号",
+        "挂了电话",
+        "发了一条",
+        "删了又打",
+        "打了又删",
+        "按下发送",
+        "撤回",
+        "重发",
+        "存好",
+        "截图",
+        "收藏",
+        "置顶",
+        "标了星",
+        "翻回去",
+        "再翻一页",
+        "往前翻",
+        "往回翻",
+        "合上眼",
+        "睡过去",
+        "醒过来",
+        "醒得很早",
+        "赖了会儿床",
+        "爬起来",
+        "坐起来",
+        "披上外套",
+        "套上毛衣",
+        "蹬上鞋",
+        "拎起包",
+        "带上门",
+        "锁好门",
+        "回头看了一眼",
+        "又回头",
+        "把手拢在袖子里",
+        "用指尖描了一遍",
+        "顺着字迹念下去",
+        "沿着屋檐走",
+        "隔着窗看你",
+        "绕过那摊水",
+        "把椅子挪过来",
+        "把灯调暗一点",
+        "把书翻回上一页",
+        "把名字写在边角",
+        "把那句话圈起来",
+        "把伞往你那边偏了偏",
+        "把半块糖推过来",
+        "把位置空出来"
+    ],
+    "心情": [
+        "轻轻",
+        "轻轻地",
+        "慢慢",
+        "慢慢地",
+        "悄悄",
+        "悄悄地",
+        "偷偷地",
+        "偷偷",
+        "忽然",
+        "忽然间",
+        "猛地",
+        "一下子",
+        "冷不丁",
+        "有点",
+        "有点儿",
+        "有些",
+        "稍微",
+        "略微",
+        "好像",
+        "似乎",
+        "也许",
+        "大概",
+        "说不定",
+        "偏偏",
+        "恰巧",
+        "刚好",
+        "刚刚好",
+        "正好",
+        "终于",
+        "总算",
+        "迟迟",
+        "早早",
+        "早早地",
+        "赶早",
+        "末了",
+        "静静地",
+        "静静",
+        "安安静静",
+        "安安稳稳",
+        "稳稳地",
+        "缓缓地",
+        "急急地",
+        "匆匆地",
+        "慌张地",
+        "慌慌地",
+        "安心地",
+        "放心地",
+        "踏实地",
+        "定定地",
+        "愣愣地",
+        "呆呆地",
+        "怔怔地",
+        "笑眯眯",
+        "笑盈盈",
+        "乐呵呵",
+        "闷闷的",
+        "闷闷地",
+        "懒懒的",
+        "懒懒地",
+        "软软的",
+        "软软地",
+        "温温的",
+        "暖暖的",
+        "凉凉的",
+        "亮亮的",
+        "暗暗的",
+        "旧旧的",
+        "新新的",
+        "远远地",
+        "远远",
+        "近一点",
+        "再近一点",
+        "轻轻的",
+        "轻轻一下",
+        "一遍遍",
+        "一遍又一遍",
+        "一回回",
+        "一次次",
+        "反反复复",
+        "来来回回",
+        "断断续续",
+        "慢慢吞吞",
+        "一不小心",
+        "不小心",
+        "没留神",
+        "没留意",
+        "没在意",
+        "故意",
+        "成心",
+        "特地",
+        "特意",
+        "专门",
+        "顺手",
+        "顺路",
+        "顺便",
+        "随手",
+        "随口",
+        "随口一说",
+        "认认真真",
+        "仔仔细细",
+        "草草",
+        "草草地",
+        "潦草地",
+        "工工整整",
+        "歪歪扭扭",
+        "一笔一画",
+        "一字一句",
+        "一字一顿",
+        "小声地",
+        "大声地",
+        "轻声",
+        "轻声地",
+        "低声",
+        "低声地",
+        "没出声",
+        "不出声",
+        "半认真半玩笑",
+        "出了神",
+        "走了神",
+        "回不过神",
+        "心里一软",
+        "心里一紧",
+        "心里一空",
+        "心里一暖",
+        "鼻子一酸",
+        "眼圈一红",
+        "耳根一热",
+        "手心一热",
+        "愣了半秒",
+        "停了一拍",
+        "慢了半拍",
+        "快了半拍",
+        "差一点",
+        "差一点点",
+        "差点儿",
+        "几乎",
+        "险些",
+        "勉强",
+        "硬是",
+        "到底是",
+        "终究",
+        "终究还是",
+        "还是",
+        "仍旧",
+        "仍然",
+        "依旧",
+        "依然",
+        "照旧",
+        "照常",
+        "照例",
+        "本来",
+        "原本",
+        "原先",
+        "其实",
+        "说到底",
+        "说真的",
+        "老实说",
+        "说不上",
+        "说不清",
+        "说不明白",
+        "不大敢",
+        "不太敢",
+        "舍不得",
+        "放不下",
+        "忘不掉",
+        "记不清",
+        "想不起",
+        "说不出",
+        "舍不得走",
+        "不想走",
+        "不想停",
+        "不想说",
+        "不想问",
+        "不愿",
+        "不肯",
+        "不敢",
+        "不急",
+        "不着急",
+        "不慌",
+        "不忙",
+        "不吵",
+        "不闹",
+        "不争",
+        "不抢",
+        "不躲",
+        "不闪",
+        "不回头",
+        "不解释",
+        "不追问",
+        "不打断",
+        "不声张",
+        "不打扰",
+        "安安静静地",
+        "认认真真地",
+        "笑着没说话",
+        "笑着摇了摇头",
+        "没忍住",
+        "忍不住",
+        "又忍不住",
+        "忽然就想",
+        "忽然又不想",
+        "越想越",
+        "越走越慢",
+        "越说越小声",
+        "说着说着",
+        "走着走着",
+        "看着看着",
+        "想着想着",
+        "等着等着",
+        "念着念着",
+        "翻着翻着",
+        "听着听着",
+        "半梦半醒地",
+        "迷迷糊糊地",
+        "清清楚楚地",
+        "隐隐约约地",
+        "模模糊糊地",
+        "没来由",
+        "不由得",
+        "忍不住又",
+        "索性",
+        "干脆",
+        "干脆就",
+        "索性不",
+        "干脆别",
+        "干脆算了",
+        "反正",
+        "反正也",
+        "横竖",
+        "好歹",
+        "到底还是",
+        "到头来",
+        "偏偏又",
+        "恰好又",
+        "刚好没",
+        "差一点就",
+        "差一点没",
+        "几乎要",
+        "险些没",
+        "忽而",
+        "时而",
+        "一轻一重",
+        "一前一后",
+        "一慢一快"
+    ],
+    "名词": [
+        "窗台",
+        "书页",
+        "灯",
+        "台灯",
+        "路灯",
+        "小夜灯",
+        "雨",
+        "风",
+        "晚风",
+        "月亮",
+        "月光",
+        "云",
+        "星",
+        "星星",
+        "天",
+        "天空",
+        "街角",
+        "巷子",
+        "旧书店",
+        "一封信",
+        "信",
+        "信封",
+        "邮票",
+        "杯子",
+        "马克杯",
+        "猫",
+        "影子",
+        "耳机",
+        "被角",
+        "车票",
+        "伞",
+        "纸",
+        "笔",
+        "钢笔",
+        "铅笔",
+        "便利贴",
+        "便签",
+        "本子",
+        "笔记本",
+        "梦",
+        "白日梦",
+        "夜色",
+        "路口",
+        "电话",
+        "手机",
+        "照片",
+        "相片",
+        "相框",
+        "被窝",
+        "台阶",
+        "花",
+        "干花",
+        "茶",
+        "热茶",
+        "热水",
+        "钟",
+        "老钟",
+        "门",
+        "门缝",
+        "椅子",
+        "长椅",
+        "手心",
+        "手掌",
+        "肩膀",
+        "发梢",
+        "头发",
+        "名字",
+        "季节",
+        "光",
+        "光斑",
+        "车站",
+        "便利店",
+        "天台",
+        "窗帘",
+        "枕头",
+        "口袋",
+        "糖",
+        "半颗糖",
+        "书",
+        "半页书",
+        "一行字",
+        "小字条",
+        "归途",
+        "屋檐",
+        "袖口",
+        "指尖",
+        "眼底",
+        "心里",
+        "半句话",
+        "老地方",
+        "回头路",
+        "沉默",
+        "空白",
+        "余温",
+        "小声的话",
+        "一封没寄的信",
+        "窗外的光",
+        "刚泡的茶",
+        "旧毛衣",
+        "外套",
+        "围巾",
+        "手套",
+        "帽子",
+        "鞋带",
+        "衣角",
+        "纽扣",
+        "拉链",
+        "书包",
+        "帆布包",
+        "钥匙",
+        "门铃",
+        "门牌",
+        "信箱",
+        "邮箱",
+        "抽屉",
+        "柜子",
+        "书架",
+        "书脊",
+        "书签",
+        "扉页",
+        "封底",
+        "折角",
+        "批注",
+        "涂鸦",
+        "草稿",
+        "便条",
+        "清单",
+        "日程",
+        "日历",
+        "台历",
+        "钟摆",
+        "秒针",
+        "时针",
+        "雨声",
+        "雨点",
+        "雨伞",
+        "水坑",
+        "水痕",
+        "窗玻璃",
+        "雾气",
+        "哈气",
+        "玻璃上的字",
+        "风铃",
+        "风声",
+        "蝉声",
+        "鸟叫",
+        "汽笛",
+        "脚步声",
+        "楼梯声",
+        "翻页声",
+        "笔尖声",
+        "键盘声",
+        "旧歌",
+        "副歌",
+        "前奏",
+        "间奏",
+        "播放键",
+        "暂停键",
+        "歌单",
+        "唱片",
+        "磁带",
+        "收音机",
+        "屏幕",
+        "消息",
+        "未读",
+        "聊天框",
+        "输入框",
+        "光标",
+        "省略号",
+        "句号",
+        "逗号",
+        "一个标点",
+        "表情",
+        "语音",
+        "语音条",
+        "通话",
+        "忙音",
+        "信号",
+        "电量",
+        "充电器",
+        "插座",
+        "开关",
+        "灯绳",
+        "灯罩",
+        "灯泡",
+        "蜡烛",
+        "火柴",
+        "烟火",
+        "烟",
+        "香气",
+        "饭菜香",
+        "烤红薯",
+        "热汤",
+        "汤面",
+        "一碗面",
+        "半碗饭",
+        "饭桌",
+        "碗筷",
+        "勺子",
+        "锅",
+        "水壶",
+        "灶台",
+        "冰箱",
+        "微波炉",
+        "洗衣篮",
+        "晾衣绳",
+        "衣架",
+        "被单",
+        "床单",
+        "枕套",
+        "毛毯",
+        "地毯",
+        "拖鞋",
+        "镜子",
+        "梳子",
+        "毛巾",
+        "牙刷",
+        "杯沿",
+        "杯底",
+        "茶渍",
+        "水印",
+        "指印",
+        "手印",
+        "脚印",
+        "雪",
+        "初雪",
+        "雪人",
+        "冰",
+        "霜",
+        "露水",
+        "叶子",
+        "落叶",
+        "银杏",
+        "树枝",
+        "树影",
+        "草",
+        "苔",
+        "花盆",
+        "种子",
+        "风筝",
+        "气球",
+        "纸鹤",
+        "纸船",
+        "纸飞机",
+        "折纸",
+        "橡皮",
+        "尺子",
+        "胶带",
+        "剪刀",
+        "线",
+        "绳",
+        "结",
+        "扣子",
+        "别针",
+        "回形针",
+        "图钉",
+        "磁贴",
+        "冰箱贴",
+        "明信片",
+        "贺卡",
+        "包装纸",
+        "丝带",
+        "礼盒",
+        "小礼物",
+        "蛋糕",
+        "生日",
+        "许愿",
+        "愿望",
+        "秘密",
+        "小秘密",
+        "约定",
+        "暗号",
+        "暗语",
+        "绰号",
+        "小名",
+        "称呼",
+        "语气",
+        "口音",
+        "尾音",
+        "停顿",
+        "半拍",
+        "呼吸",
+        "心跳",
+        "脉搏",
+        "体温",
+        "手温",
+        "呵欠",
+        "眼泪",
+        "鼻尖",
+        "睫毛",
+        "耳垂",
+        "后颈",
+        "下巴",
+        "侧脸",
+        "背影",
+        "脚步",
+        "路线",
+        "地图",
+        "路牌",
+        "站牌",
+        "站名",
+        "月台",
+        "车厢",
+        "座位",
+        "靠窗的座",
+        "扶手",
+        "车窗",
+        "车窗上的雾",
+        "后视镜",
+        "红绿灯",
+        "斑马线",
+        "天桥",
+        "地道",
+        "楼梯",
+        "电梯",
+        "走廊",
+        "过道",
+        "门口",
+        "门口的垫子",
+        "楼下的树",
+        "楼上的窗",
+        "对面的窗",
+        "隔壁的灯",
+        "巷口",
+        "拐角",
+        "转角",
+        "尽头",
+        "起点",
+        "终点",
+        "边界",
+        "边角",
+        "缝隙",
+        "角落",
+        "一隅",
+        "半边",
+        "另一半",
+        "这边",
+        "那边",
+        "里头",
+        "外头",
+        "上头",
+        "底下",
+        "跟前",
+        "身后",
+        "手边",
+        "眼前",
+        "心底",
+        "记忆",
+        "念头",
+        "心思",
+        "心思的一半",
+        "话题",
+        "话头",
+        "话尾",
+        "下文",
+        "上句",
+        "下句",
+        "答复",
+        "回音",
+        "回应",
+        "答案",
+        "问题",
+        "选择题",
+        "填空",
+        "空格",
+        "括号",
+        "备注",
+        "脚注",
+        "旁白",
+        "字幕",
+        "片尾",
+        "片头",
+        "结尾",
+        "中段",
+        "中场",
+        "散场",
+        "余票",
+        "票根",
+        "存根",
+        "收据",
+        "小票",
+        "找零",
+        "零钱",
+        "硬币",
+        "纸币",
+        "钱包",
+        "公交卡",
+        "门禁卡",
+        "便当",
+        "饭盒",
+        "保温杯",
+        "吸管",
+        "瓶盖",
+        "瓶身",
+        "标签",
+        "日期",
+        "保质期",
+        "说明书",
+        "保修卡",
+        "说明书最后一页",
+        "半杯水",
+        "一整晚的灯",
+        "没关的窗",
+        "没合上的书",
+        "没寄出的信",
+        "没说完的话",
+        "没撤回收的消息",
+        "亮着的那盏",
+        "空着的那把椅子",
+        "留着的那半边",
+        "写歪的那一行",
+        "门把手",
+        "门后",
+        "窗框",
+        "窗棂",
+        "玻璃",
+        "纱窗",
+        "窗轨",
+        "窗台边",
+        "阳台",
+        "晾衣杆",
+        "夹子",
+        "被褥",
+        "棉被",
+        "薄毯",
+        "枕巾",
+        "床沿",
+        "床头",
+        "床尾",
+        "床垫",
+        "席子",
+        "凉席",
+        "竹席",
+        "蚊帐",
+        "帐子",
+        "床头柜",
+        "抽屉里",
+        "柜门",
+        "衣柜",
+        "衣橱",
+        "鞋柜",
+        "鞋盒",
+        "棉拖",
+        "门垫",
+        "地垫",
+        "墙角",
+        "墙纸",
+        "墙皮",
+        "裂缝",
+        "挂钩",
+        "钉子",
+        "螺丝",
+        "插头",
+        "电线",
+        "充电线",
+        "数据线",
+        "电池",
+        "遥控器",
+        "电池盖",
+        "包装盒",
+        "纸箱",
+        "纸袋",
+        "塑料袋",
+        "保鲜袋",
+        "保鲜膜",
+        "锡纸",
+        "厨房纸",
+        "餐巾纸",
+        "抽纸",
+        "卷纸",
+        "纸巾",
+        "湿巾",
+        "锅盖",
+        "锅铲",
+        "铲子",
+        "汤勺",
+        "筷子",
+        "碗",
+        "碗底",
+        "碗沿",
+        "盘子",
+        "碟子",
+        "茶杯",
+        "杯盖",
+        "杯垫",
+        "茶壶",
+        "壶嘴",
+        "玻璃瓶",
+        "罐子",
+        "糖罐",
+        "盐罐",
+        "调味瓶",
+        "油瓶",
+        "醋瓶",
+        "砧板",
+        "菜刀",
+        "刀背",
+        "削皮刀",
+        "打蛋器",
+        "筛子",
+        "漏斗",
+        "保鲜盒",
+        "便当盒",
+        "饭团",
+        "米粒",
+        "米饭",
+        "白粥",
+        "粥",
+        "面条",
+        "清汤",
+        "面汤",
+        "油花",
+        "葱花",
+        "香菜",
+        "姜片",
+        "蒜瓣",
+        "辣椒",
+        "花椒",
+        "八角",
+        "冰糖",
+        "白糖",
+        "红糖",
+        "蜂蜜",
+        "果酱",
+        "黄油",
+        "奶油",
+        "面粉",
+        "面团",
+        "酵母",
+        "饼干",
+        "曲奇",
+        "面包",
+        "吐司",
+        "吐司边",
+        "馒头",
+        "包子",
+        "饺子",
+        "汤圆",
+        "粽子",
+        "月饼",
+        "糖葫芦",
+        "棉花糖",
+        "棒棒糖",
+        "薄荷糖",
+        "口香糖",
+        "巧克力",
+        "可可",
+        "咖啡",
+        "咖啡豆",
+        "咖啡渣",
+        "茶叶",
+        "茶包",
+        "茶香",
+        "奶茶",
+        "珍珠",
+        "冰块",
+        "冰水",
+        "汽水",
+        "气泡",
+        "果汁",
+        "柠檬片",
+        "柠檬",
+        "橘子",
+        "橘皮",
+        "苹果",
+        "苹果核",
+        "梨",
+        "桃子",
+        "桃核",
+        "西瓜",
+        "西瓜籽",
+        "葡萄",
+        "草莓",
+        "樱桃",
+        "蓝莓",
+        "香蕉",
+        "香蕉皮",
+        "柿子",
+        "石榴",
+        "栗子",
+        "红薯",
+        "玉米",
+        "爆米花",
+        "薯片",
+        "坚果",
+        "瓜子",
+        "花生",
+        "毛豆",
+        "自动铅笔",
+        "笔芯",
+        "橡皮屑",
+        "卷笔刀",
+        "削笔器",
+        "三角尺",
+        "量角器",
+        "圆规",
+        "墨水",
+        "墨囊",
+        "墨迹",
+        "中性笔",
+        "记号笔",
+        "荧光笔",
+        "彩笔",
+        "蜡笔",
+        "水彩",
+        "颜料",
+        "调色盘",
+        "画笔",
+        "画纸",
+        "素描本",
+        "速写本",
+        "手账",
+        "活页本",
+        "活页夹",
+        "线圈本",
+        "便签本",
+        "双面胶",
+        "胶水",
+        "固体胶",
+        "美工刀",
+        "裁纸刀",
+        "订书机",
+        "订书钉",
+        "长尾夹",
+        "大头针",
+        "封皮",
+        "版权页",
+        "目录",
+        "页码",
+        "页脚",
+        "页眉",
+        "下划线",
+        "草稿纸",
+        "算式",
+        "公式",
+        "笔记",
+        "字迹",
+        "笔迹",
+        "落款",
+        "签名",
+        "印章",
+        "印泥",
+        "邮戳",
+        "信纸",
+        "信笺",
+        "邀请卡",
+        "留言条",
+        "待办清单",
+        "发票",
+        "门票",
+        "电影票",
+        "登机牌",
+        "行李牌",
+        "行李箱",
+        "夹克",
+        "风衣",
+        "大衣",
+        "毛衣",
+        "针织衫",
+        "卫衣",
+        "帽衫",
+        "衬衫",
+        "衬衣",
+        "短袖",
+        "背心",
+        "裙子",
+        "裤脚",
+        "裤腿",
+        "牛仔裤",
+        "短裤",
+        "袜子",
+        "船袜",
+        "棉袜",
+        "披肩",
+        "棒球帽",
+        "毛线帽",
+        "草帽",
+        "兜帽",
+        "帽檐",
+        "衣领",
+        "领口",
+        "袖子",
+        "下摆",
+        "扣眼",
+        "拉链头",
+        "腰带",
+        "皮带",
+        "鞋底",
+        "鞋跟",
+        "鞋面",
+        "帆布鞋",
+        "运动鞋",
+        "雨靴",
+        "发绳",
+        "发圈",
+        "发夹",
+        "发卡",
+        "皮筋",
+        "头绳",
+        "耳环",
+        "耳钉",
+        "项链",
+        "吊坠",
+        "手链",
+        "手镯",
+        "戒指",
+        "手表",
+        "表带",
+        "表盘",
+        "眼镜",
+        "镜框",
+        "镜片",
+        "口罩",
+        "耳塞",
+        "耳机线",
+        "充电盒",
+        "手机壳",
+        "手机膜",
+        "挂绳",
+        "钥匙扣",
+        "钥匙串",
+        "门卡",
+        "地铁卡",
+        "会员卡",
+        "名片",
+        "零钱包",
+        "硬币上的年份",
+        "街",
+        "街道",
+        "巷尾",
+        "十字路口",
+        "绿灯",
+        "黄灯",
+        "红灯",
+        "人行道",
+        "盲道",
+        "路牙",
+        "路沿",
+        "井盖",
+        "下水道",
+        "排水口",
+        "水篦子",
+        "地下通道",
+        "阶梯",
+        "扶梯",
+        "电梯按钮",
+        "楼层",
+        "门牌号",
+        "站台",
+        "候车亭",
+        "公交车站",
+        "地铁站",
+        "闸机",
+        "售票机",
+        "自动贩卖机",
+        "橱窗",
+        "玻璃门",
+        "旋转门",
+        "卷帘门",
+        "招牌",
+        "灯箱",
+        "霓虹",
+        "霓虹灯",
+        "广告牌",
+        "海报",
+        "传单",
+        "涂鸦墙",
+        "电线杆",
+        "变压器",
+        "灯柱",
+        "灯影",
+        "树",
+        "树荫",
+        "行道树",
+        "梧桐",
+        "枫叶",
+        "枝丫",
+        "树皮",
+        "年轮",
+        "青苔",
+        "草丛",
+        "草坪",
+        "花坛",
+        "花架",
+        "栅栏",
+        "栏杆",
+        "围墙",
+        "墙根",
+        "屋檐下",
+        "瓦",
+        "瓦片",
+        "屋顶",
+        "烟囱",
+        "天线",
+        "滴下来的水",
+        "天色",
+        "云层",
+        "云影",
+        "云缝",
+        "晚霞",
+        "朝霞",
+        "霞光",
+        "夕阳",
+        "落日",
+        "日头",
+        "阳光",
+        "日光",
+        "光束",
+        "光点",
+        "光晕",
+        "逆光",
+        "侧光",
+        "阴影",
+        "倒影",
+        "投影",
+        "剪影",
+        "月",
+        "月牙",
+        "满月",
+        "月色",
+        "星光",
+        "银河",
+        "夜空",
+        "暮色",
+        "天光",
+        "微光",
+        "亮光",
+        "暗处",
+        "暗影",
+        "灯火",
+        "灯花",
+        "烛光",
+        "烛火",
+        "火苗",
+        "火星",
+        "青烟",
+        "雾",
+        "薄雾",
+        "水汽",
+        "露",
+        "白霜",
+        "薄冰",
+        "雪粒",
+        "雪花",
+        "雪片",
+        "积雪",
+        "雪痕",
+        "雨丝",
+        "雨线",
+        "雨帘",
+        "雨幕",
+        "雨滴",
+        "雨痕",
+        "水洼",
+        "水花",
+        "涟漪",
+        "波纹",
+        "水纹",
+        "微风",
+        "清风",
+        "凉风",
+        "风车",
+        "雷",
+        "雷声",
+        "闪电",
+        "多云",
+        "湿度",
+        "气温",
+        "节气",
+        "窗上的雾",
+        "玻璃上的雨",
+        "叶尖的水",
+        "檐下的冰",
+        "半融的雪",
+        "没干的水痕",
+        "声音",
+        "声响",
+        "动静",
+        "静",
+        "安静",
+        "寂静",
+        "气息",
+        "掌纹",
+        "指纹",
+        "指节",
+        "指甲",
+        "手背",
+        "手腕",
+        "胳膊",
+        "肩线",
+        "后背",
+        "脸颊",
+        "眉",
+        "眼角",
+        "耳廓",
+        "发丝",
+        "碎发",
+        "刘海",
+        "额头",
+        "嘴角",
+        "酒窝",
+        "呼吸声",
+        "侧影",
+        "身影",
+        "轮廓",
+        "距离",
+        "半步",
+        "一步",
+        "一臂",
+        "话音",
+        "余音",
+        "回响",
+        "回声",
+        "余味",
+        "余光",
+        "余韵",
+        "气味",
+        "香味",
+        "饭香",
+        "墨香",
+        "纸香",
+        "旧书味",
+        "雨味",
+        "雪味",
+        "草木味",
+        "洗衣粉味",
+        "晒过的被子味",
+        "阳光的味道",
+        "旧毛衣的味道",
+        "痕迹",
+        "印子",
+        "咖啡渍",
+        "墨点",
+        "污点",
+        "折痕",
+        "褶皱",
+        "皱褶",
+        "压痕",
+        "划痕",
+        "缺口",
+        "豁口",
+        "毛边",
+        "线头",
+        "脱线",
+        "起球",
+        "补丁",
+        "贴布",
+        "胶带痕",
+        "胶印",
+        "鞋印",
+        "轮印",
+        "车辙",
+        "卷边",
+        "泛黄",
+        "褪色",
+        "磨白",
+        "磨亮",
+        "包浆",
+        "旧痕",
+        "新痕",
+        "半旧",
+        "半新",
+        "未拆",
+        "没拆的封",
+        "没写完的字",
+        "没按下发送",
+        "没熄的灯",
+        "留着的半边",
+        "空着的座位",
+        "空出来的位置",
+        "多出来的一副碗筷",
+        "多摆的那把椅子",
+        "留的那盏灯",
+        "温着的茶",
+        "凉透的水",
+        "刚好的温度",
+        "半杯",
+        "半页",
+        "半行",
+        "半句",
+        "半晚",
+        "半天",
+        "半程",
+        "半路",
+        "中途",
+        "收尾",
+        "起头",
+        "第一页",
+        "最后一页",
+        "中间那页",
+        "夹缝",
+        "夹层",
+        "里层",
+        "背面",
+        "反面",
+        "正面",
+        "另一面",
+        "这一侧",
+        "那一侧",
+        "一半",
+        "一瞬",
+        "一刻",
+        "一阵",
+        "一场",
+        "一趟",
+        "一圈",
+        "一程",
+        "一段",
+        "一截",
+        "一页",
+        "一行",
+        "一字",
+        "一笔",
+        "一画",
+        "一点",
+        "一滴",
+        "一片",
+        "一瓣",
+        "一缕",
+        "一丝",
+        "一粒",
+        "一颗",
+        "一枚",
+        "一束",
+        "一捧",
+        "一把",
+        "一叠",
+        "一摞",
+        "一箱",
+        "一袋",
+        "一瓶",
+        "一罐",
+        "一盒",
+        "一杯",
+        "一碗",
+        "一勺",
+        "一口",
+        "一停",
+        "一望",
+        "一念",
+        "一梦",
+        "一声",
+        "一响",
+        "一叹",
+        "一笑",
+        "一愣",
+        "一怔",
+        "书店",
+        "图书馆",
+        "阅览室",
+        "自习室",
+        "咖啡馆",
+        "小馆子",
+        "面馆",
+        "早餐铺",
+        "包子铺",
+        "杂货铺",
+        "花店",
+        "花房",
+        "面包房",
+        "文具店",
+        "唱片店",
+        "照相馆",
+        "理发店",
+        "洗衣店",
+        "报摊",
+        "书摊",
+        "夜市",
+        "早市",
+        "菜市场",
+        "摊位",
+        "收银台",
+        "柜台",
+        "吧台",
+        "高脚凳",
+        "圆桌",
+        "方桌",
+        "桌角",
+        "桌面",
+        "桌布",
+        "桌腿",
+        "椅背",
+        "椅面",
+        "藤椅",
+        "沙发",
+        "靠垫",
+        "抱枕",
+        "坐垫",
+        "茶几",
+        "矮桌",
+        "靠窗位",
+        "角落那桌",
+        "门口那桌",
+        "老位置",
+        "常坐的位",
+        "空位",
+        "留座",
+        "占座",
+        "等位",
+        "排队",
+        "队伍",
+        "号牌",
+        "取号单",
+        "叫号",
+        "菜单",
+        "价签",
+        "价目表",
+        "手写菜单",
+        "今日推荐",
+        "黑板",
+        "粉笔",
+        "粉笔灰",
+        "板擦",
+        "打包盒",
+        "打包袋",
+        "牙签",
+        "糖包",
+        "搅拌棒",
+        "杯套",
+        "屏保",
+        "锁屏",
+        "壁纸",
+        "图标",
+        "文件夹",
+        "红点",
+        "正在输入",
+        "已读",
+        "提示",
+        "通知",
+        "推送",
+        "弹窗",
+        "弹幕",
+        "进度条",
+        "加载",
+        "转圈",
+        "低电量",
+        "一格电量",
+        "充电头",
+        "蓝牙",
+        "音量",
+        "静音",
+        "震动",
+        "铃声",
+        "闹钟",
+        "倒计时",
+        "计时器",
+        "秒表",
+        "提醒",
+        "备忘",
+        "星标",
+        "相册",
+        "九宫格",
+        "滤镜",
+        "贴纸",
+        "表情包",
+        "占线",
+        "挂断",
+        "接通",
+        "视频",
+        "小窗",
+        "像素",
+        "糊掉的照片",
+        "半格信号",
+        "最后一条消息",
+        "打了一半的字",
+        "删了又打的字",
+        "猫爪",
+        "猫尾巴",
+        "猫毛",
+        "猫碗",
+        "猫窝",
+        "狗绳",
+        "小狗",
+        "尾巴",
+        "麻雀",
+        "燕子",
+        "鸽子",
+        "鸟窝",
+        "羽毛",
+        "翅膀",
+        "萤火",
+        "萤火虫",
+        "蜻蜓",
+        "蝴蝶",
+        "飞蛾",
+        "蚂蚁",
+        "蝉蜕",
+        "知了",
+        "蜗牛",
+        "壳",
+        "蜘蛛",
+        "蛛网",
+        "金鱼",
+        "鱼缸",
+        "水草",
+        "乌龟",
+        "兔子",
+        "仓鼠",
+        "刺猬",
+        "松鼠",
+        "松果",
+        "鹿角",
+        "鲸",
+        "海",
+        "海浪",
+        "浪",
+        "浪花",
+        "潮汐",
+        "贝壳",
+        "沙",
+        "沙滩",
+        "沙粒",
+        "海风",
+        "海盐味",
+        "小船",
+        "帆",
+        "灯塔",
+        "码头",
+        "栈桥",
+        "缆绳",
+        "浮标",
+        "礁石",
+        "鹅卵石",
+        "石子",
+        "石子路",
+        "凉",
+        "凉意",
+        "暖",
+        "暖意",
+        "温",
+        "温度",
+        "热",
+        "热气",
+        "烫",
+        "冰凉",
+        "微凉",
+        "微温",
+        "温热",
+        "滚烫",
+        "凉透",
+        "捂热",
+        "捂暖",
+        "回温",
+        "白气",
+        "蒸汽",
+        "一口热气",
+        "指尖的凉",
+        "杯壁的水珠",
+        "杯沿的温度",
+        "被窝里的暖",
+        "刚出锅的热",
+        "化了一半的冰",
+        "没化开的糖",
+        "沉底的糖",
+        "浮着的茶叶",
+        "化开的奶",
+        "结块的粉"
+    ],
+    "语气": [
+        "吧",
+        "呀",
+        "呢",
+        "了",
+        "啊",
+        "哦",
+        "嘛",
+        "啦",
+        "喽",
+        "呗",
+        "呐",
+        "咦",
+        "唔",
+        "嗯",
+        "欸",
+        "诶",
+        "哼",
+        "嗨",
+        "喂",
+        "好吧",
+        "好呀",
+        "好啦",
+        "行吧",
+        "行呀",
+        "行不行",
+        "好不好",
+        "好不好呀",
+        "可以吗",
+        "可以吧",
+        "要不要",
+        "要不要嘛",
+        "要不要一起",
+        "能不能",
+        "会不会",
+        "是不是",
+        "对吧",
+        "对不对",
+        "是吗",
+        "是嘛",
+        "真的吗",
+        "真的呀",
+        "算了吧",
+        "算了",
+        "就这样",
+        "就这样吧",
+        "那就这样",
+        "说定了",
+        "说好了",
+        "不许忘",
+        "别忘了",
+        "记得吗",
+        "还记得吗",
+        "听见了吗",
+        "看到了吗",
+        "在吗",
+        "在不在",
+        "我在",
+        "我在呢",
+        "我在这儿",
+        "别急",
+        "别忙",
+        "别走",
+        "别怕",
+        "别慌",
+        "别躲",
+        "别哭",
+        "别想太多",
+        "别多想",
+        "别问了",
+        "别说",
+        "别声张",
+        "等等我",
+        "等一下",
+        "再等等",
+        "慢一点",
+        "慢点儿",
+        "快点儿",
+        "轻一点",
+        "小声点",
+        "大声点",
+        "靠近点",
+        "坐过来",
+        "过来嘛",
+        "走吧",
+        "出发吧",
+        "回去吧",
+        "回家吧",
+        "别送了",
+        "留下来",
+        "陪陪我",
+        "我陪你",
+        "一起吧",
+        "一起走",
+        "一块儿",
+        "搭个伴",
+        "没事",
+        "没事的",
+        "没关系",
+        "不要紧",
+        "不碍事",
+        "没关系呀",
+        "别在意",
+        "别放心上",
+        "抱歉",
+        "不好意思",
+        "谢谢",
+        "谢谢你",
+        "不客气",
+        "晚安",
+        "早安",
+        "午安",
+        "明天见",
+        "回头见",
+        "待会儿见",
+        "改天见",
+        "路上小心",
+        "到家说一声",
+        "到了告诉我",
+        "早点睡",
+        "别熬夜",
+        "盖好被子",
+        "喝点热水",
+        "吃点东西",
+        "慢点吃",
+        "别烫着",
+        "下雨带伞",
+        "加件衣服",
+        "记得带钥匙",
+        "想你了",
+        "有点想你",
+        "好想你",
+        "想见你",
+        "见到你真好",
+        "你在就好",
+        "有你在",
+        "在的",
+        "一直都在",
+        "嗯嗯",
+        "知道啦",
+        "明白",
+        "懂了",
+        "原来如此",
+        "这样啊",
+        "然后呢",
+        "后来呢",
+        "说下去",
+        "继续说",
+        "我在听",
+        "听着呢",
+        "讲讲嘛",
+        "再说一遍",
+        "再说一次",
+        "说给我听",
+        "写给我看",
+        "发给我",
+        "拍给我",
+        "留给我",
+        "给我留着",
+        "替我收着",
+        "帮我记着",
+        "别删",
+        "别丢",
+        "别弄丢",
+        "藏好了",
+        "收好了",
+        "放着吧",
+        "先放着",
+        "留到明天",
+        "留到下次",
+        "就现在",
+        "正合适",
+        "太好了",
+        "真好",
+        "好得很",
+        "不错嘛",
+        "可以呀",
+        "成",
+        "成啊",
+        "行",
+        "行啊",
+        "听你的",
+        "都依你",
+        "随你",
+        "随你便",
+        "你说了算",
+        "你定",
+        "你挑",
+        "你来",
+        "换你",
+        "轮到你",
+        "该你了",
+        "剩下的交给我",
+        "好嘛",
+        "好不好嘛",
+        "拜托",
+        "拜托啦",
+        "求你了",
+        "行行好",
+        "别说出去",
+        "别说破",
+        "别揭穿",
+        "别笑我",
+        "别看我",
+        "别跟着",
+        "别送",
+        "别等了",
+        "别找了",
+        "别等太久",
+        "别站外面",
+        "别淋着",
+        "别冻着",
+        "别饿着",
+        "别硬撑",
+        "我先说",
+        "我先走",
+        "我先挂",
+        "你先说",
+        "你先挑",
+        "你先坐",
+        "你先睡",
+        "我后说",
+        "我随后就到",
+        "我马上来",
+        "我这就来",
+        "我慢一步",
+        "你别急",
+        "我不催",
+        "慢慢来",
+        "不急不催",
+        "有空再说",
+        "回头再说",
+        "下次补上",
+        "改天补",
+        "先记着",
+        "先欠着",
+        "先存着",
+        "先留着",
+        "就这么着",
+        "说好了啊",
+        "拉钩",
+        "盖章"
+    ],
+    "连接": [
+        "和",
+        "跟",
+        "与",
+        "同",
+        "及",
+        "并",
+        "而",
+        "或",
+        "或者",
+        "在",
+        "把",
+        "将",
+        "给",
+        "为",
+        "替",
+        "对",
+        "向",
+        "朝",
+        "往",
+        "从",
+        "自",
+        "由",
+        "到",
+        "至",
+        "于",
+        "以",
+        "用",
+        "拿",
+        "按",
+        "照",
+        "顺着",
+        "沿着",
+        "隔着",
+        "围着",
+        "绕过",
+        "穿过",
+        "经过",
+        "趁着",
+        "赶在",
+        "比",
+        "像",
+        "如同",
+        "仿佛",
+        "让",
+        "叫",
+        "请",
+        "使",
+        "被",
+        "的",
+        "地",
+        "得",
+        "着",
+        "过",
+        "再",
+        "又",
+        "也",
+        "还",
+        "才",
+        "就",
+        "只",
+        "仅",
+        "都",
+        "全",
+        "皆",
+        "均",
+        "共",
+        "一起",
+        "一块",
+        "一并",
+        "一同",
+        "却",
+        "可",
+        "但",
+        "但是",
+        "不过",
+        "然而",
+        "只是",
+        "因为",
+        "由于",
+        "既然",
+        "如果",
+        "假如",
+        "要是",
+        "万一",
+        "就算",
+        "哪怕",
+        "只要",
+        "只有",
+        "除非",
+        "不管",
+        "无论",
+        "于是",
+        "然后",
+        "接着",
+        "随后",
+        "所以",
+        "因此",
+        "因而",
+        "可见",
+        "看来",
+        "实际上",
+        "说起来",
+        "话说",
+        "倒是",
+        "反倒",
+        "反而",
+        "明明",
+        "分明",
+        "居然",
+        "竟然",
+        "果然",
+        "毕竟",
+        "到底",
+        "究竟",
+        "难道",
+        "莫非",
+        "大约",
+        "或许",
+        "兴许",
+        "恐怕",
+        "差点",
+        "更",
+        "最",
+        "挺",
+        "蛮",
+        "很",
+        "太",
+        "极",
+        "非常",
+        "特别",
+        "格外",
+        "分外",
+        "比较",
+        "相对",
+        "越来越",
+        "越是",
+        "一边",
+        "一面",
+        "一会",
+        "先是",
+        "接着又",
+        "然后再",
+        "最后才",
+        "不都",
+        "都别",
+        "别再",
+        "别又",
+        "算起来",
+        "怎么说呢",
+        "这么着",
+        "那么",
+        "那",
+        "这",
+        "此",
+        "该",
+        "某",
+        "每",
+        "各",
+        "另",
+        "别的",
+        "其他",
+        "其余",
+        "剩下的",
+        "余下的",
+        "整个",
+        "半",
+        "整",
+        "满",
+        "全都",
+        "通通",
+        "一齐",
+        "只当",
+        "当作",
+        "算是",
+        "就当",
+        "权当",
+        "好比",
+        "比方",
+        "像是",
+        "好似",
+        "恰如",
+        "不比",
+        "不如",
+        "宁可",
+        "宁肯",
+        "情愿",
+        "说穿了",
+        "说开了",
+        "说回来",
+        "话说回来",
+        "这么一来",
+        "那么一来",
+        "这么一看",
+        "一想",
+        "再一想"
+    ]
+};
+        // 每种词数对应几套槽位，随机挑一套，逐格取词，连起来才像一句话
+        const DICT_TPL = {
+            1: [['语气'], ['名词'], ['动作'], ['人称'], ['时间'], ['心情']],
+            2: [['人称','动作'], ['时间','名词'], ['动作','名词'], ['名词','语气'], ['心情','动作'], ['人称','语气'], ['时间','动作'], ['人称','名词'], ['名词','动作'], ['心情','名词']],
+            3: [['人称','心情','动作'], ['时间','人称','动作'], ['人称','动作','名词'], ['人称','动作','语气'], ['时间','名词','语气'], ['心情','动作','名词'], ['时间','心情','名词'], ['时间','动作','名词'], ['名词','心情','动作'], ['人称','动作','动作'], ['时间','人称','语气']],
+            4: [['时间','人称','心情','动作'], ['人称','心情','动作','名词'], ['时间','人称','动作','语气'], ['人称','动作','名词','语气'], ['时间','人称','动作','名词'], ['人称','心情','动作','语气'], ['时间','心情','名词','语气'], ['时间','人称','心情','名词'], ['人称','心情','动作','动作'], ['时间','心情','动作','语气'], ['时间','动作','名词','语气'], ['心情','动作','名词','语气']]
+        };
+        const dictCustom = ref([]);
+        const dictQuery = ref(''), dictCat = ref('all');
+        const dictLimit = ref(160);   // 词库变大后分批渲染，别一次铺一千多个格子
+        watch([dictCat, dictQuery], () => { dictLimit.value = 160; });
+        const dictAddOpen = ref(false), dictAddText = ref(''), dictAddCat = ref('人称');
+        const dictToast = ref('');
+        let dictToastTimer = null;
+        const dictAll = computed(() => {
+            const out = [];
+            dictCats.forEach(c => (DICT_BUILTIN[c] || []).forEach((t, i) => out.push({ id: 'b_' + c + '_' + i, t, c, mine: false })));
+            dictCustom.value.forEach(w => { if (w && typeof w.t === 'string' && w.t.trim()) out.push({ id: w.id, t: w.t.trim(), c: dictCats.includes(w.c) ? w.c : '名词', mine: true }); });
+            return out;
+        });
+        const dictFilteredCount = computed(() => {
+            let arr = dictAll.value;
+            if (dictCat.value === 'mine') arr = arr.filter(w => w.mine);
+            else if (dictCat.value !== 'all') arr = arr.filter(w => w.c === dictCat.value);
+            const q = dictQuery.value.trim().toLowerCase();
+            if (q) arr = arr.filter(w => w.t.toLowerCase().includes(q));
+            return arr.length;
+        });
+        const dictShown = computed(() => {
+            let arr = dictAll.value;
+            if (dictCat.value === 'mine') arr = arr.filter(w => w.mine);
+            else if (dictCat.value !== 'all') arr = arr.filter(w => w.c === dictCat.value);
+            const q = dictQuery.value.trim().toLowerCase();
+            if (q) return arr.filter(w => w.t.toLowerCase().includes(q));  // 搜词就直接给全部结果
+            return arr.slice(0, dictLimit.value);
+        });
+        const dictSave = () => { try { localforage.setItem(DICT_KEY, JSON.parse(JSON.stringify(dictCustom.value))); } catch (e) {} };
+        const dictLoad = async () => {
+            try {
+                const v = await localforage.getItem(DICT_KEY);
+                if (Array.isArray(v)) dictCustom.value = v.filter(w => w && typeof w.t === 'string' && w.t.trim()).slice(0, 2000)
+                    .map(w => ({ id: String(w.id || genId()), t: w.t.trim().slice(0, 24), c: dictCats.includes(w.c) ? w.c : '名词' }));
+            } catch (e) {}
+        };
+        const dictSay = (t) => { dictToast.value = t; clearTimeout(dictToastTimer); dictToastTimer = setTimeout(() => { dictToast.value = ''; }, 1800); };
+        const dictOpenAdd = () => { dictAddText.value = ''; dictAddCat.value = dictCat.value !== 'all' && dictCat.value !== 'mine' ? dictCat.value : '人称'; dictAddOpen.value = true; };
+        const dictSaveAdd = () => {
+            const lines = (dictAddText.value || '').split('\n').map(x => x.trim()).filter(Boolean);
+            if (!lines.length) { dictAddOpen.value = false; return; }
+            const have = new Set(dictAll.value.map(w => w.t));
+            let added = 0;
+            [...new Set(lines)].forEach(t => {
+                if (t.length > 24 || have.has(t)) return;
+                dictCustom.value.unshift({ id: genId(), t, c: dictAddCat.value });
+                have.add(t); added++;
+            });
+            dictSave(); dictAddOpen.value = false; dictAddText.value = '';
+            dictQuery.value = ''; dictCat.value = 'all';
+            dictSay(added ? ('加进来 ' + added + ' 个词') : '这些词词典里已经有了');
+        };
+        const dictDel = (id) => {
+            if (!confirm('从词典里删掉这个自己加的词？')) return;
+            dictCustom.value = dictCustom.value.filter(w => w.id !== id);
+            dictSave();
+        };
+        // 词数不给固定档：每轮重新掷一次 1~4，纯粹随机
+        const dictCountNow = () => 1 + Math.floor(Math.random() * 4);
+        const dictRateNow = () => Math.max(0, Math.min(100, Number(settings.dictRate == null ? 20 : settings.dictRate)));
+        const dictPickCat = (c) => {
+            const pool = dictAll.value.filter(w => w.c === c);
+            return pool.length ? pool[Math.floor(Math.random() * pool.length)].t : '';
+        };
+        const dictMakeLine = (n) => {
+            const k = Math.max(1, Math.min(4, Number(n) || dictCountNow()));
+            const tpls = DICT_TPL[k] || DICT_TPL[2];
+            const slots = tpls[Math.floor(Math.random() * tpls.length)];
+            const line = slots.map(c => dictPickCat(c)).filter(Boolean).join('');
+            return line || '……';
+        };
+        // 拼字卡一律由「他」发，这边没有自己发消息的入口
+        const dictPushMsg = (line) => {
+            if (!line) return;
+            let content = line, mix = false;
+            try {
+                const deco = emojiCompose(line);
+                if (deco && !deco.emojiOnly) { content = deco.text; mix = true; }
+            } catch (e) {}
+            messages.value.push({ id: genId(), sender: 'them', type: 'text', content, timestamp: Date.now(), dictLine: true, emojiMix: mix });
+            playTone('recv');
+            saveAll();
+            if (currentView.value !== 'chat') switchView('chat');
+            nextTick(() => scrollToBottom());
+        };
+        const dictHeSend = () => dictPushMsg(dictMakeLine());
+        // 点词条：以这个词打头，再随机挂 1~3 个词，仍是整句由他发过来
+        const dictHeSendWord = (w) => {
+            const t = w && w.t ? w.t : '';
+            if (!t) return;
+            dictPushMsg(t + dictMakeLine(1 + Math.floor(Math.random() * 3)));
+        };
 
         const totalCardsCount = computed(() => { let count = 0; replyGroups.value.forEach(g => count += g.replies.length); return count; });
 
@@ -12670,6 +16239,9 @@ createApp({
                     if (emojiList.value.length !== emDb.length) console.warn('[emoji] 已自动剔除', emDb.length - emojiList.value.length, '条损坏的 emoji 数据');
                 }
                 const rgDb = await localforage.getItem('liubai_replyGroups_db'); if (Array.isArray(rgDb) && rgDb.length) replyGroups.value = rgDb;
+                await patLoad();
+                await rdLoad();
+                await dictLoad();
                 const rsDb = await localforage.getItem('liubai_replySettings_db');
                 if (rsDb) {
                     if (typeof rsDb.replyMinDelay === 'number') replyMinDelay.value = rsDb.replyMinDelay;
@@ -13255,7 +16827,7 @@ createApp({
         };
 
         const cleanOrphanKeys = async () => {
-            if (!confirm('将清理旧版遗留的废料缓存。\n\n会保留：聊天记录、手账、塔罗日记、字卡、表情包、头像、壁纸、播放列表、陪伴、生理期记录、问卷库、商场零钱与自制商品、天气城市。\n\n继续？')) return;
+            if (!confirm('将清理旧版遗留的废料缓存。\n\n会保留：聊天记录、手账、塔罗日记、字卡、表情包、书架上的书、头像、壁纸、播放列表、陪伴、生理期记录、问卷库、商场零钱与自制商品、天气城市。\n\n继续？')) return;
             const keep = new Set([
                 'liubai_messages_db', 'liubai_profiles_db', 'liubai_settings_db', 'liubai_letters_db', 'liubai_videoAutoCall_db',
                 'liubai_stickers_db', 'liubai_replyGroups_db', 'liubai_replySettings_db', 'liubai_playlist_db',
@@ -13272,7 +16844,8 @@ createApp({
                 'liubai_sleep_mix', 'liubai_sleep_recipes', 'liubai_sleep_chat', 'liubai_sleep_history', 'liubai_sleep_vols',
                 'liubai_sleep_session', 'liubai_sleep_summary',
                 'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders', 'liubai_shop_custom_db',
-                'liubai_qa_bank_db'
+                'liubai_qa_bank_db', 'liubai_pat_actions_db',
+                'liubai_reading_books_db', 'liubai_reading_state_db', 'liubai_dict_custom_db'
             ]);
             let removed = 0, freed = 0;
             try {
@@ -13483,7 +17056,8 @@ createApp({
                     'liubai_custom_bubble', 'liubai_custom_font', 'liubai_home_icons', 'liubai_videoAutoCall_db',
                     'liubai_sleep_mix', 'liubai_sleep_recipes', 'liubai_sleep_chat', 'liubai_sleep_history', 'liubai_sleep_vols',
                     'liubai_sleep_session', 'liubai_sleep_summary',
-                    'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders', 'liubai_shop_custom_db', 'liubai_qa_bank_db', 'liubai_horary_db',
+                    'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders', 'liubai_shop_custom_db', 'liubai_qa_bank_db', 'liubai_horary_db', 'liubai_pat_actions_db',
+                    'liubai_reading_books_db', 'liubai_reading_state_db', 'liubai_dict_custom_db',
                     'liubai_companion_custom_name', 'liubai_companion_msgs', 'liubai_companion_recent',
                     'liubai_menstrual_records', 'liubai_menstrual_cycle_avg', 'liubai_menstrual_duration_avg',
                 'liubai_hp_img1', 'liubai_hp_img2', 'liubai_hp_img3',
@@ -13506,7 +17080,7 @@ createApp({
                         const time = new Date(m.timestamp).toLocaleString();
                         const name = m.sender === 'me' ? '我' : profiles.them.name;
                         let content = '';
-                        if (m.type === 'image') content = '[图片]'; else if (m.type === 'sticker') content = '[表情包]'; else if (m.type === 'voice') content = `[语音 ${m.duration}"]`; else if (m.type === 'song') content = `[歌曲] ${(m.song && m.song.title) || ''}${(m.song && m.song.artist) ? ' - ' + m.song.artist : ''}${(m.song && m.song.state === 'later') ? '（等会再听）' : ''}`; else if (m.type === 'gift') content = `[礼物] ${(m.item && m.item.name) || ''}${m.note ? ' · ' + m.note : ''}`; else if (m.type === 'wish') content = `[想要] ${(m.item && m.item.name) || ''}${m.state === 'bought' ? ' · 他买给我了' : ''}`; else if (m.type === 'redpacket') content = `[红包] ${m.blessing}`; else if (m.type === 'survey') content = `[问卷] ${m.question}`; else if (m.type === 'qa') content = `[他问你] ${m.q}${(m.mine || m.picked) ? ' · 你回了：' + (m.mine || m.picked) : ''}${m.his ? ' · 他回了：' + m.his : ''}`; else if (m.type === 'dice') content = `[骰子 ${m.dice}]`; else if (m.type === 'call') content = `[视频通话]`; else if (m.type === 'sleep') content = `[助眠音] ${m.sleep ? m.sleep.title : ''}`; else content = m.content;
+                        if (m.type === 'pat') content = m.content; else if (m.type === 'readinvite') content = '[一起读书] 《' + m.title + '》'; else if (m.type === 'image') content = '[图片]'; else if (m.type === 'sticker') content = '[表情包]'; else if (m.type === 'voice') content = `[语音 ${m.duration}"]`; else if (m.type === 'song') content = `[歌曲] ${(m.song && m.song.title) || ''}${(m.song && m.song.artist) ? ' - ' + m.song.artist : ''}${(m.song && m.song.state === 'later') ? '（等会再听）' : ''}`; else if (m.type === 'gift') content = `[礼物] ${(m.item && m.item.name) || ''}${m.note ? ' · ' + m.note : ''}`; else if (m.type === 'wish') content = `[想要] ${(m.item && m.item.name) || ''}${m.state === 'bought' ? ' · 他买给我了' : ''}`; else if (m.type === 'redpacket') content = `[红包] ${m.blessing}`; else if (m.type === 'survey') content = `[问卷] ${m.question}`; else if (m.type === 'qa') content = `[他问你] ${m.q}${(m.mine || m.picked) ? ' · 你回了：' + (m.mine || m.picked) : ''}${m.his ? ' · 他回了：' + m.his : ''}`; else if (m.type === 'dice') content = `[骰子 ${m.dice}]`; else if (m.type === 'call') content = `[视频通话]`; else if (m.type === 'sleep') content = `[助眠音] ${m.sleep ? m.sleep.title : ''}`; else content = m.content;
                         text += `[${time}] ${name}:\n${content}\n\n`;
                     });
                     const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
@@ -13544,7 +17118,11 @@ createApp({
                     weatherRecentMy: localStorage.getItem('liubai_weather_recent_my'),
                     weatherSnapshot: localStorage.getItem(WEATHER_SNAP_KEY),
                     placeCache: localStorage.getItem(PLACE_CACHE_KEY),
-                    qaBank: await localforage.getItem('liubai_qa_bank_db')
+                    qaBank: await localforage.getItem('liubai_qa_bank_db'),
+                    patActions: await localforage.getItem('liubai_pat_actions_db'),
+                    readingBooks: await localforage.getItem('liubai_reading_books_db'),
+                    readingState: await localforage.getItem('liubai_reading_state_db'),
+                    dictCustom: await localforage.getItem('liubai_dict_custom_db')
                 };
                 const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
@@ -13599,6 +17177,10 @@ createApp({
                           if (typeof data.weatherSnapshot === 'string') localStorage.setItem(WEATHER_SNAP_KEY, data.weatherSnapshot);
                           if (typeof data.placeCache === 'string') localStorage.setItem(PLACE_CACHE_KEY, data.placeCache);
                           if (Array.isArray(data.qaBank)) await localforage.setItem('liubai_qa_bank_db', data.qaBank.filter(it => it && typeof it.q === 'string' && (Array.isArray(it.opts) || typeof it.a === 'string')));
+                          if (Array.isArray(data.patActions)) await localforage.setItem('liubai_pat_actions_db', data.patActions.filter(a => a && typeof a.text === 'string' && a.text.trim()).slice(0, 100));
+                          if (Array.isArray(data.readingBooks)) await localforage.setItem('liubai_reading_books_db', data.readingBooks.filter(b => b && typeof b.raw === 'string').slice(0, 60));
+                          if (data.readingState && typeof data.readingState === 'object') await localforage.setItem('liubai_reading_state_db', data.readingState);
+                          if (Array.isArray(data.dictCustom)) await localforage.setItem('liubai_dict_custom_db', data.dictCustom.filter(w => w && typeof w.t === 'string' && w.t.trim()).slice(0, 2000));
                         alert('全量备份导入成功，正在重新加载页面...'); window.location.reload();
                     } else alert('未知的文件格式。');
                 } catch (err) { alert('解析文件失败，请确认是合法的 JSON 备份文件。'); }
@@ -14148,9 +17730,23 @@ createApp({
                 const finalMessages = [{ role: 'system', content: systemPrompt }, ...contextMsgs, { role: 'system', content: '再次提醒：严格遵守上述角色设定和情绪指令，不要偏离。' }];
                 const res = await fetch(`${base}/chat/completions`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${settings.apiKey}` }, body: JSON.stringify({ model: settings.apiModel, messages: finalMessages, temperature: 0.8, max_tokens: 500 }) });
                 if (!res.ok) { const err = await res.json().catch(()=>({})); throw new Error(err.error?.message || `HTTP ${res.status}`); }
-                const data = await res.json(); const replyContent = data.choices?.[0]?.message?.content || '……';
-                messages.value.push({ id: genId(), sender: 'them', type: 'text', content: replyContent, timestamp: Date.now() });
+                const data = await res.json(); let replyContent = data.choices?.[0]?.message?.content || '……';
+                const aiEmoji = emojiCompose(replyContent);
+                messages.value.push({ id: genId(), sender: 'them', type: 'text', content: (aiEmoji && !aiEmoji.emojiOnly) ? aiEmoji.text : replyContent, timestamp: Date.now(), emojiMix: !!(aiEmoji && !aiEmoji.emojiOnly) });
+                if (aiEmoji && aiEmoji.emojiOnly) {
+                    setTimeout(() => {
+                        messages.value.push({ id: genId(), sender: 'them', type: 'text', content: aiEmoji.text, timestamp: Date.now(), emojiOnly: true });
+                        scrollToBottom(); saveAll();
+                    }, 650);
+                }
                 playTone('recv'); scrollToBottom();
+                // AI 模式下词典也按概率补一句，不改动 AI 原话
+                if (settings.dictMode && Math.random() * 100 < dictRateNow()) {
+                    setTimeout(() => {
+                        messages.value.push({ id: genId(), sender: 'them', type: 'text', content: dictMakeLine(), timestamp: Date.now(), dictLine: true });
+                        scrollToBottom(); saveAll();
+                    }, 1100);
+                }
             } catch (e) {
                 if (window.__isNetErr && window.__isNetErr(e)) {
                     // 没网 / 网太差：不留错误气泡，改用本地字卡回一句，陪伴感不断
@@ -14202,10 +17798,44 @@ createApp({
             kaPlan('chat', total, scheduled[0] || 1000, kaTok);
             scheduled.forEach((delay, i) => { setTimeout(() => { if (kaTok !== kaToken) return; if (i === scheduled.length - 1) isTyping.value = false; sendAutoReply(); kaTick('chat', scheduled[i + 1] || 0, kaTok); if (i === scheduled.length - 1) themMaybeSendCard(900, 1700); }, delay); });
         };
+        // ================= [MOD-23] Emoji 混用：跟文字字卡拼一起 / 单独成一条小字卡 =================
+        const emojiPoolNow = () => emojiList.value
+            .filter(e => e && typeof e.text === 'string' && e.text.trim())
+            .map(e => e.text.trim());
+        const emojiRateNow = () => Math.max(0, Math.min(100, Number(settings.emojiRate == null ? 45 : settings.emojiRate)));
+        const emojiCompose = (baseText) => {
+            const pool = emojiPoolNow();
+            if (!pool.length || Math.random() * 100 >= emojiRateNow()) return null;
+            const pick = () => pool[Math.floor(Math.random() * pool.length)];
+            let e = pick();
+            // 偶尔叠两个不同的表情，像随手多打了一个
+            if (pool.length > 1 && Math.random() < 0.22) {
+                const e2 = pick(); if (e2 !== e) e = e + e2;
+            }
+            // 约三成：不混文字，单独发一条纯 Emoji 小字卡
+            if (Math.random() < 0.3 || !baseText) return { text: e, emojiOnly: true, mixed: false };
+            const r = Math.random();
+            const text = r < 0.2 ? e + ' ' + baseText : (r < 0.6 ? baseText + ' ' + e : baseText + e);
+            return { text, emojiOnly: false, mixed: true };
+        };
+        const sendEmojiAsCard = (e) => {
+            const t = String((e && e.text) || '').trim(); if (!t) return;
+            messages.value.push({ id: genId(), sender: 'me', type: 'text', content: t, timestamp: Date.now(), emojiOnly: true });
+            playTone('send'); switchView('chat'); scrollToBottom(); saveAll();
+        };
         const sendAutoReply = () => {
-            const useSticker = stickers.value.length > 0 && Math.random() < 0.35; let newMsg;
-            if (useSticker) newMsg = { id: genId(), sender: 'them', type: 'sticker', sticker: stickers.value[Math.floor(Math.random() * stickers.value.length)], content: '', timestamp: Date.now() };
-            else { let pool = []; replyGroups.value.forEach(g => g.replies.forEach(r => { if (r.enabled && r.text.trim()) pool.push(r.text.trim()); })); newMsg = { id: genId(), sender: 'them', type: 'text', content: pool.length ? pool[Math.floor(Math.random() * pool.length)] : '……', timestamp: Date.now() }; }
+            let pool = []; replyGroups.value.forEach(g => g.replies.forEach(r => { if (r.enabled && r.text.trim()) pool.push(r.text.trim()); }));
+            const useDict = !!settings.dictMode && Math.random() * 100 < dictRateNow();
+            const base = useDict ? dictMakeLine() : (pool.length ? pool[Math.floor(Math.random() * pool.length)] : '……');
+            const deco = emojiCompose(base);
+            let newMsg;
+            if (deco) {
+                newMsg = { id: genId(), sender: 'them', type: 'text', content: deco.text, timestamp: Date.now(), emojiOnly: deco.emojiOnly, emojiMix: deco.mixed, dictLine: useDict };
+            } else if (stickers.value.length > 0 && Math.random() < 0.35) {
+                newMsg = { id: genId(), sender: 'them', type: 'sticker', sticker: stickers.value[Math.floor(Math.random() * stickers.value.length)], content: '', timestamp: Date.now() };
+            } else {
+                newMsg = { id: genId(), sender: 'them', type: 'text', content: base, timestamp: Date.now(), dictLine: useDict };
+            }
             messages.value.push(newMsg); playTone('recv'); scrollToBottom(); saveAll();
         };
 
@@ -16605,7 +20235,7 @@ createApp({
         // 名字、图标全部沿用 homeIcons 里的原值，这里只做排版，不改任何显示名。
         const hpPage = ref(0);
         const hpFront = ref(1);                 // 哪张图在上面：1 或 2
-        const hpEight = ['music', 'mailbox', 'watch', 'weather', 'menstrual', 'companion', 'journal', 'tarot', 'sleep', 'shop', 'horary'];
+        const hpEight = ['music', 'mailbox', 'watch', 'weather', 'menstrual', 'companion', 'journal', 'tarot', 'sleep', 'shop', 'horary', 'reading'];
         const hpImg1 = ref(''), hpImg2 = ref(''), hpImg3 = ref(''), hpAnnivImg = ref('');
         const hpAnnivName = ref('');
         const hpAnnivDays = ref(0);
@@ -16731,6 +20361,8 @@ createApp({
         };
         // ================= [MOD-00B] 视图切换路由 =================
         const switchView = (v) => {
+            if (v !== 'reading') { rdStopTimers(); rdImportOpen.value = false; }
+            patPickerOpen.value = false; patEditorOpen.value = false;
             showMorePanel.value = false; showStickerPanel.value = false; showSurveyPanel.value = false; showRedPacketModal.value = false; openedRP.value = null; watchShowMorePanel.value = false; watchShowStickerPanel.value = false;
             if (v !== 'sleep') { slpShowSticker.value = false; slpHistoryOpen.value = false; slpHistorySel.value = null; }
             if (v !== 'horary') hrHistoryOpen.value = false;
@@ -16870,13 +20502,15 @@ createApp({
         });
         
         onUnmounted(() => { 
-            stopVideoAutoTimer(); stopTimer();
+            stopVideoAutoTimer(); stopTimer(); rdStopTimers();
             window.removeEventListener('resize', ensureFloatInBounds);
             window.removeEventListener('orientationchange', ensureFloatInBounds);
         });
 
         return {
             showIntro, currentView, unreadCount, messages, inputText, isTyping, profiles, settings, replyGroups, emojiList, libraryTab, searchQuery, activeGroupFilter, showGroupManager, showCardEditor, editingCard, filteredCards,
+            patActions, patAll, patEditorOpen, patDraft, patPickerOpen, patFormat,
+            patOpenEditor, patSaveCard, patDelete, patPickFromLibrary, patOpenPicker, patPickFromChat, patGoManage, patSend,
             openCardEditor, saveCard, deleteCard, toggleCardEnable, addNewGroup, editGroupName, deleteGroup, setGroupColor, totalCardsCount,
             globalWallpaper, chatWallpaper, customBubbleCSS, customFontUrl, setWallpaper, clearWallpaper, applyBubbleCSS, applyFontUrl,
             homeIcons, setHomeIcon, clearHomeIcon, hpIconErr, hpIconGuard,
@@ -16995,12 +20629,18 @@ createApp({
             themDrawTarot, themSendTarot,
             sgPlayingId, sgNote, sgLaterOpen, sgLaterList, sgCoverErr, sgNoNet, sgIsPlaying,
             sgPlayNow, sgLater, sgPlayLater, themPushSong, themSearchSong, themPickPlaylist,
-            pickEmojiToSend, insertEmojiNow,
+            pickEmojiToSend, insertEmojiNow, sendEmojiAsCard, sendAutoReply, autoGrow,
             hpTopMain, hpTopSub, hpEditTop,
             hpNote1, hpNote2, hpNoteSty, hpNoteStyle, hpEditNote, hpNoteDown, hpNoteUp,
             hpAv1, hpAv2, hpFileAv1, hpFileAv2,
             hpFile1, hpFile2, hpFile3, hpFileAnniv, hpUpload, hpFlip, hpSetDays, hpGo, hpTs, hpTe,
             themeList, applyColorTheme,
+            dictCats, dictAll, dictShown, dictFilteredCount, dictLimit, dictCustom, dictQuery, dictCat, dictAddOpen, dictAddText, dictAddCat, dictToast,
+            dictDel, dictOpenAdd, dictSaveAdd, dictHeSend, dictHeSendWord, dictMakeLine, dictCountNow, dictLoad,
+            rdBooks, rdMain, rdView, rdBook, rdBookId, rdPage, rdPageCount, rdPageText, rdPages, rdTogether,
+            rdDanmuOn, rdDanmus, rdLineMode, rdDanmuSpeed, rdSpeedLabel, rdCycleDanmuSpeed, rdImportOpen, rdImportTab, rdImportTitle, rdImportAuthor, rdImportText, rdAppendId, rdBusy, rdErr, rdToast,
+            rdBookPages, rdBookPct, rdFmtNum, rdBack, rdBackToShelf, rdOpenBook, rdTurn, rdInvite, rdInviteFromChat, rdOpenFromInvite,
+            rdOpenImport, rdSaveText, rdOnFile, rdDeleteBook, rdPushDanmu, rdPickLine, rdSaveBooks, rdSaveState,
         };
     }
 }).mount('#app');
