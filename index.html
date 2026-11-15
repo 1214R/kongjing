@@ -1534,142 +1534,6 @@ body { background-color:#d1d5db; font-family:"PingFang SC","Microsoft YaHei",sys
 .more-panel-btn:hover,.more-panel-btn:active { background:var(--color-bg); }
 .more-panel-btn svg { width:20px; height:20px; stroke-width:1.5; }
 
-
-/* ================= [MOD-26] 刷视频 ================= */
-.vd-page { background:var(--color-bg); }
-.vd-head { flex:none; padding:10px 14px 9px; border-bottom:1px solid var(--color-border); }
-.vd-tabs { display:flex; gap:6px; justify-content:center; }
-.vd-tab { padding:6px 14px; border-radius:14px; font-size:11px; letter-spacing:.08em;
-  border:1px solid var(--color-border); background:var(--color-surface); color:var(--color-muted); cursor:pointer; }
-.vd-tab.on { background:var(--color-text); color:var(--color-surface); border-color:var(--color-text); }
-.vd-body { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
-
-/* ---- 推荐流：一次只挂一个播放器 ---- */
-
-/* ---- 推荐流：短视频式一屏一条，往上滑切下一条 ---- */
-.vd-body-lock { overflow:hidden !important; }
-.vd-feed-wrap { position:relative; height:100%; display:flex; flex-direction:column; }
-.vd-feed-t { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:12px;
-  letter-spacing:.14em; color:var(--color-text); }
-.vd-feed-n { font-size:10px; color:var(--color-muted); font-family:monospace; }
-.vd-snap-bar { flex:none; display:flex; align-items:center; justify-content:space-between; gap:8px;
-  padding:9px 16px 7px; border-bottom:1px solid var(--color-border); }
-.vd-snap { flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch;
-  scroll-snap-type:y mandatory; scrollbar-width:none; overscroll-behavior-y:contain; }
-.vd-snap::-webkit-scrollbar { display:none; }
-.vd-snap-item { height:100%; box-sizing:border-box; padding:10px 14px 14px;
-  scroll-snap-align:start; scroll-snap-stop:always; display:flex; }
-.vd-card { flex:1; min-height:0; display:flex; flex-direction:column;
-  border:1px solid var(--color-border); border-radius:18px; background:var(--color-surface);
-  overflow:hidden; box-shadow:0 6px 24px rgba(0,0,0,.06); }
-.vd-stage { position:relative; width:100%; aspect-ratio:16/9; flex:none; background:var(--color-bg); overflow:hidden; }
-.vd-cover { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:10px; padding:20px; text-align:center; cursor:pointer;
-  background:linear-gradient(150deg, color-mix(in srgb,var(--color-accent) 16%,var(--color-surface)) 0%, var(--color-surface) 68%); }
-.vd-cover-cat { font-size:9.5px; letter-spacing:.2em; color:var(--color-muted); }
-.vd-cover-t { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:17px; line-height:1.65;
-  letter-spacing:.04em; color:var(--color-text); max-width:90%; }
-.vd-cover-play { width:44px; height:44px; border-radius:50%; border:1px solid var(--color-border);
-  background:var(--color-surface); color:var(--color-text); display:flex; align-items:center; justify-content:center;
-  font-size:15px; box-shadow:0 2px 10px rgba(0,0,0,.08); }
-.vd-cover-hint { font-size:9.5px; color:var(--color-muted); letter-spacing:.06em; }
-.vd-player { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; background:#000; }
-.vd-info { flex:1; min-height:0; padding:15px 15px 14px; display:flex; flex-direction:column; }
-.vd-title { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:15px; line-height:1.7;
-  color:var(--color-text); letter-spacing:.02em; }
-.vd-sub { font-size:10.5px; color:var(--color-muted); margin-top:6px; }
-.vd-bvid { font-family:monospace; font-size:9px; opacity:.75; margin-left:6px; }
-.vd-acts { display:flex; flex-wrap:wrap; gap:7px; margin-top:13px; }
-.vd-btn { flex:1; min-width:88px; padding:9px 6px; border-radius:11px; font-size:11px; letter-spacing:.06em;
-  border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text); cursor:pointer; text-align:center; }
-.vd-btn.pri { background:var(--color-accent); border-color:var(--color-accent); color:var(--color-bg); }
-.vd-btn:disabled { opacity:.34; cursor:default; }
-.vd-btn.saved { border-color:var(--color-accent); color:var(--color-accent); }
-.vd-mid { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:6px; pointer-events:none; }
-.vd-mid-no { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:54px; line-height:1;
-  color:var(--color-text); opacity:.055; }
-.vd-mid-txt { font-size:10px; color:var(--color-muted); opacity:.6; letter-spacing:.14em; }
-.vd-swipe-hint { padding-top:14px; font-size:9.5px; line-height:1.9;
-  color:var(--color-muted); letter-spacing:.04em; }
-.vd-fab { position:absolute; right:14px; bottom:18px; z-index:12; display:flex; flex-direction:column; gap:8px; }
-.vd-fab button { width:38px; height:38px; border-radius:50%; border:1px solid var(--color-border);
-  background:var(--color-surface); color:var(--color-text); font-size:14px; cursor:pointer;
-  box-shadow:0 3px 12px rgba(0,0,0,.12); }
-.vd-fab button:disabled { opacity:.3; }
-.vd-tip { font-size:10px; line-height:1.8; color:var(--color-muted); margin-top:12px;
-  padding:10px 12px; border:1px dashed var(--color-border); border-radius:12px; }
-
-/* ---- 屏蔽词 / 频道 ---- */
-.vd-block-bar { display:flex; align-items:center; justify-content:space-between; gap:8px;
-  padding:9px 11px; margin-bottom:10px; border:1px dashed var(--color-border); border-radius:12px; }
-.vd-block-l { font-size:10.5px; color:var(--color-text); letter-spacing:.04em; }
-.vd-block-n { font-size:9.5px; color:var(--color-muted); }
-.vd-panel { border:1px solid var(--color-border); border-radius:13px; background:var(--color-surface);
-  padding:12px; margin-bottom:12px; }
-.vd-panel-t { font-size:10px; letter-spacing:.14em; color:var(--color-muted); margin-bottom:9px; }
-.vd-words { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
-.vd-word { display:inline-flex; align-items:center; gap:5px; padding:5px 9px; border-radius:12px;
-  font-size:10.5px; border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text); }
-.vd-none { font-size:10px; color:var(--color-muted); opacity:.8; padding:3px 2px; }
-.vd-word button { border:0; background:none; color:var(--color-muted); font-size:12px; cursor:pointer; padding:0 1px; }
-.vd-empty-cta { border:1px solid var(--color-border); border-radius:14px; background:var(--color-surface);
-  padding:18px 14px; text-align:center; }
-.vd-empty-cta-t { font-size:12px; color:var(--color-text); line-height:1.8; }
-.vd-empty-cta-s { font-size:10px; color:var(--color-muted); line-height:1.8; margin:6px 0 12px; }
-.vd-empty-acts { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; }
-.vd-empty-acts .vd-btn { flex:1 1 42%; min-width:0; }
-.vd-hot { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:4px; }
-.vd-hot .vd-chip { font-size:10px; }
-.vd-hot-lbl { font-size:9.5px; color:var(--color-muted); letter-spacing:.12em; margin:10px 0 7px; }
-.vd-chan { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
-.vd-chan .vd-chip { padding-right:7px; }
-.vd-chan .vd-chip button { border:0; background:none; color:inherit; font-size:11px; cursor:pointer; margin-left:3px; opacity:.65; padding:0; }
-
-/* ---- 搜索 ---- */
-.vd-search-wrap { padding:14px 14px 24px; }
-.vd-sbox { display:flex; gap:7px; margin-bottom:10px; }
-.vd-inp { flex:1; min-width:0; box-sizing:border-box; padding:11px 12px; border-radius:12px;
-  border:1px solid var(--color-border); background:var(--color-surface); color:var(--color-text);
-  font-size:12.5px; outline:none; }
-.vd-go { padding:0 16px; border-radius:12px; border:1px solid var(--color-accent);
-  background:var(--color-accent); color:var(--color-bg); font-size:12px; cursor:pointer; white-space:nowrap; }
-.vd-chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
-.vd-chip { padding:5px 11px; border-radius:14px; font-size:10.5px; border:1px solid var(--color-border);
-  background:var(--color-surface); color:var(--color-muted); cursor:pointer; }
-.vd-chip.on { background:var(--color-text); color:var(--color-surface); border-color:var(--color-text); }
-.vd-sec-t { font-size:10px; letter-spacing:.16em; color:var(--color-muted); margin:14px 0 8px; }
-.vd-net { display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;
-  margin:-2px 0 9px; font-size:9.5px; line-height:1.8; color:var(--color-muted); }
-.vd-net-state { flex:1; min-width:0; }
-.vd-net-all { flex:none; padding:5px 10px; border-radius:11px; font-size:10px;
-  border:1px solid var(--color-border); background:var(--color-surface); color:var(--color-text); cursor:pointer; }
-.vd-note { font-size:9.5px; line-height:1.85; color:var(--color-muted); margin:-4px 0 10px; }
-.vd-res { display:flex; gap:10px; align-items:center; padding:11px 12px; border-radius:13px;
-  border:1px solid var(--color-border); background:var(--color-surface); margin-bottom:8px; }
-.vd-res-main { flex:1; min-width:0; }
-.vd-res-t { font-size:12.5px; color:var(--color-text); line-height:1.55;
-  overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
-.vd-res-s { font-size:9.5px; color:var(--color-muted); margin-top:4px; }
-.vd-mini-btn { flex:none; padding:7px 10px; border-radius:10px; font-size:10.5px;
-  border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text); cursor:pointer; }
-.vd-mini-btn.pri { border-color:var(--color-accent); color:var(--color-accent); }
-.vd-empty { text-align:center; padding:36px 10px; color:var(--color-muted); font-size:11.5px; line-height:2; }
-.vd-fold { border:1px dashed var(--color-border); border-radius:12px; padding:11px 12px; margin-top:14px; }
-.vd-fold-t { font-size:10.5px; color:var(--color-text); cursor:pointer; letter-spacing:.06em; }
-.vd-fold-b { margin-top:9px; }
-.vd-hint { font-size:9.5px; line-height:1.8; color:var(--color-muted); margin-top:7px; }
-
-/* ---- 仓库 ---- */
-.vd-body .vd-search-wrap, .vd-body .vd-shelf { min-height:100%; }
-.vd-shelf { padding:14px 14px 24px; }
-.vd-shelf-item { display:flex; gap:10px; align-items:center; padding:11px 12px; border-radius:13px;
-  border:1px solid var(--color-border); background:var(--color-surface); margin-bottom:8px; }
-.vd-shelf-n { width:20px; flex:none; text-align:center; font-family:monospace; font-size:10px; color:var(--color-muted); }
-.vd-toast { position:absolute; left:50%; bottom:24px; transform:translateX(-50%); padding:8px 15px;
-  border-radius:999px; background:var(--color-text); color:var(--color-bg); font-size:11px; z-index:40;
-  white-space:nowrap; pointer-events:none; animation:vdToast 2.6s ease forwards; }
-@keyframes vdToast { 0%{opacity:0} 12%,76%{opacity:.95} 100%{opacity:0} }
 /* ================= [MOD-25] 阅读室 ================= */
 .rd-wrap { padding:16px 16px 28px; }
 /* 阅读记录：书架最上面的一个框，沿用原站圆角卡片与主题变量 */
@@ -3938,8 +3802,6 @@ html.dark[class*="theme-"] span.hp-pick { color:var(--hp-ink) !important; }
   .hp-grid4 .hp-cell:nth-child(11) { grid-column: 3 / span 1; justify-self: stretch; }
   /* 第 12 个（阅读室）补齐第三行最后一格 */
   .hp-grid4 .hp-cell:nth-child(12) { grid-column: 4 / span 1; justify-self: stretch; }
-  /* 第 13 个（刷视频）单独起第四行，左对齐 */
-  .hp-grid4 .hp-cell:nth-child(13) { grid-column: 1 / span 1; justify-self: stretch; }
 
 /* ============ [MOD-20] 寻他 · 卜卦占星方位盘 ============
    全部颜色走 --color-*，九套主题与昼夜自动跟随；盘面是象征推演，不排真实天象。 */
@@ -8328,178 +8190,6 @@ html, body { overscroll-behavior-y: none; }
 </div>
 
 
-
-<!-- ===== [MOD-26] 刷视频：点开就有推荐，可搜、可收进仓库 ===== -->
-<div v-if="currentView === 'video'" key="video" class="absolute inset-0 flex flex-col z-20 vd-page">
-    <header class="h-14 flex items-center justify-between px-4 shrink-0 bg-surface border-b border-border">
-        <button @click="switchView('home')" class="p-2 -ml-2 text-text"><i data-lucide="chevron-left" class="w-5 h-5 stroke-[1.5]"></i></button>
-        <span class="text-[13px] font-medium tracking-widest serif-text">刷视频</span>
-        <button @click="vdShuffle" class="p-2 -mr-2 text-text" title="换一批"><i data-lucide="shuffle" class="w-5 h-5 stroke-[1.5]"></i></button>
-    </header>
-
-    <div class="vd-head">
-        <div class="vd-tabs">
-            <span class="vd-tab" :class="{ on: vdTab === 'feed' }" @click="vdTab = 'feed'">推荐</span>
-            <span class="vd-tab" :class="{ on: vdTab === 'search' }" @click="vdTab = 'search'">搜一搜</span>
-            <span class="vd-tab" :class="{ on: vdTab === 'shelf' }" @click="vdTab = 'shelf'">我的仓库 {{ vdShelf.length ? '· ' + vdShelf.length : '' }}</span>
-        </div>
-    </div>
-
-    <div class="vd-body" :class="{ 'vd-body-lock': vdTab === 'feed' }">
-        <!-- ========== 推荐流：上下滑 / 按钮切，一次只挂一个播放器 ========== -->
-
-        <!-- ========== 推荐：短视频式一屏一条，往上滑切下一条 ========== -->
-        <div v-if="vdTab === 'feed'" class="vd-feed-wrap">
-            <div class="vd-snap-bar">
-                <span class="vd-feed-t">今天随便看看</span>
-                <span class="vd-feed-n">{{ vdIdx + 1 }} / {{ vdFeed.length }} · 已屏蔽 {{ vdBlockedCount }} 条</span>
-            </div>
-
-            <div class="vd-snap" ref="vdSnap" @scroll="vdOnScroll">
-                <div v-for="(v, i) in vdFeed" :key="v.bvid" class="vd-snap-item">
-                    <div class="vd-card">
-                        <div class="vd-stage">
-                            <div v-if="!(i === vdIdx && vdPlaying)" class="vd-cover" @click="vdPlayAt(i)">
-                                <span class="vd-cover-cat">{{ v.cat }}</span>
-                                <div class="vd-cover-t">{{ v.title }}</div>
-                                <span class="vd-cover-play">▶</span>
-                                <span class="vd-cover-hint">点一下播放 · 在下方往上滑换下一条</span>
-                            </div>
-                            <iframe v-else :key="v.bvid" class="vd-player" :src="vdPlayerUrl(v)"
-                                allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-                                allowfullscreen scrolling="no" frameborder="0" referrerpolicy="no-referrer"
-                                :title="v.title"></iframe>
-                        </div>
-                        <div class="vd-info">
-                            <div class="vd-title">{{ v.title }}</div>
-                            <div class="vd-sub">{{ v.up || '来自 B 站' }} · {{ v.cat }}<span class="vd-bvid">{{ v.bvid }}</span></div>
-                            <div class="vd-acts">
-                                <button class="vd-btn" :class="{ saved: vdInShelf(v.bvid) }" @click="vdToggleShelf(v)">{{ vdInShelf(v.bvid) ? '已收进仓库' : '＋ 收进仓库' }}</button>
-                                <button class="vd-btn" @click="vdOpenBili(v)">去 B 站看</button>
-                                <button class="vd-btn" @click="vdDanmaku = !vdDanmaku; vdPlaying = false">弹幕 {{ vdDanmaku ? '开' : '关' }}</button>
-                            </div>
-                            <div class="vd-mid">
-                                <span class="vd-mid-no">{{ String(i + 1).padStart(2, '0') }}</span>
-                                <span class="vd-mid-txt">往上滑，看下一条 ♡</span>
-                            </div>
-                            <div class="vd-swipe-hint">在这块文字上往上滑，就跳到下一条 ♡<br>播放器用 B 站官方外链，个别视频 UP 主没开站外播放时点「去 B 站看」就行。</div>
-                        </div>
-                    </div>
-                </div>
-                <div v-if="!vdFeed.length" class="vd-snap-item">
-                    <div class="vd-empty">这批都被屏蔽或刷完啦<br>去「搜一搜」调整屏蔽词，或点右上角换一批 ♡</div>
-                </div>
-            </div>
-
-            <div class="vd-fab">
-                <button :disabled="vdIdx <= 0" @click="vdTurn(-1)" title="上一条">↑</button>
-                <button :disabled="vdIdx >= vdFeed.length - 1" @click="vdTurn(1)" title="下一条">↓</button>
-            </div>
-        </div>
-
-        <!-- ========== 搜一搜 ========== -->
-        <div v-else-if="vdTab === 'search'" class="vd-search-wrap">
-            <div class="vd-sbox">
-                <input v-model="vdQuery" class="vd-inp" placeholder="搜标题 / UP 主 / 关键词 / BV 号" @keyup.enter="vdSearch">
-                <button class="vd-go" @click="vdSearch">搜索</button>
-            </div>
-
-            <div class="vd-hot-lbl">大家常搜 · 点一下就有结果</div>
-            <div class="vd-hot">
-                <span v-for="w in vdHotWords" :key="w" class="vd-chip" @click="vdQuery = w">{{ w }}</span>
-            </div>
-
-            <div v-if="vdChannels.length" class="vd-chan" style="margin-top:10px">
-                <span v-for="(c, i) in vdChannels" :key="c + i" class="vd-chip on" @click="vdUseChannel(c)">{{ c }}<button @click.stop="vdDelChannel(i)">×</button></span>
-            </div>
-
-            <div class="vd-chips" style="margin-top:10px">
-                <span class="vd-chip" :class="{ on: vdScope === 'all' }" @click="vdScope = 'all'">全部</span>
-                <span class="vd-chip" :class="{ on: vdScope === 'seed' }" @click="vdScope = 'seed'">推荐库</span>
-                <span class="vd-chip" :class="{ on: vdScope === 'shelf' }" @click="vdScope = 'shelf'">我的仓库</span>
-                <span class="vd-chip" :class="{ on: vdBlockOpen }" @click="vdBlockOpen = !vdBlockOpen">屏蔽词</span>
-                <span class="vd-chip" @click="vdSearch()">联网搜 ↻</span>
-                <span class="vd-chip" @click="vdSearchBili">去 B 站搜 ↗</span>
-            </div>
-            <div class="vd-note">点「搜索 / 联网搜」会去 B 站找公开视频，找到的能直接播、能收进仓库；个别时候连不上，就点「去 B 站搜 ↗」。</div>
-
-            <!-- 屏蔽词：默认规则写死在代码里，界面只管自己加的；精确子串匹配 -->
-            <div v-if="vdBlockOpen" class="vd-panel">
-                <div class="vd-panel-t">屏蔽关键词</div>
-                <div class="vd-words">
-                    <span v-for="(w, i) in vdBlocksCustom" :key="w + i" class="vd-word">{{ w }}<button @click="vdDelBlock(i)" title="删掉">×</button></span>
-                    <span v-if="!vdBlocksCustom.length" class="vd-none">还没加自己的屏蔽词</span>
-                </div>
-                <div class="vd-sbox" style="margin-bottom:0">
-                    <input v-model="vdBlockNew" class="vd-inp" placeholder="再加一个屏蔽词，一行一个也行" @keyup.enter="vdAddBlock">
-                    <button class="vd-go" @click="vdAddBlock">添加</button>
-                </div>
-                <div class="vd-hint">标题、UP 主、标签里含有屏蔽词就整条不显示（推荐、搜索、仓库都生效）。一行一个，点 × 删掉。</div>
-            </div>
-
-            <div class="vd-sec-t">{{ vdQuery.trim() ? '「' + vdQuery.trim() + '」的结果 · ' + vdResults.length + ' 条' : '推荐库里随便挑' }}</div>
-            <div class="vd-net">
-                <span class="vd-net-state">{{ vdNetState }}</span>
-                <button v-if="vdRemote.length" class="vd-net-all" @click="vdSaveRemoteAll">＋ 把联网结果全收进仓库</button>
-            </div>
-            <div v-for="(r, i) in vdResults" :key="r.bvid + i" class="vd-res">
-                <div class="vd-res-main">
-                    <div class="vd-res-t">{{ r.title }}</div>
-                    <div class="vd-res-s">{{ r.up || '来自 B 站' }}<template v-if="r.from !== 'web' && r.from !== 'direct' && r.cat"> · {{ r.cat }}</template><template v-if="r.from === 'web' || r.from === 'direct'"> · </template><span v-if="r.from === 'web'" class="vd-bvid">联网</span><span v-if="r.from === 'direct'" class="vd-bvid">BV 号</span><span class="vd-bvid">{{ r.bvid }}</span></div>
-                </div>
-                <button class="vd-mini-btn" @click="vdPlayFromResult(r)">▶ 播</button>
-                <button class="vd-mini-btn pri" :class="{ saved: vdInShelf(r.bvid) }" @click="vdToggleShelf(r)">{{ vdInShelf(r.bvid) ? '已收' : '＋ 收藏' }}</button>
-            </div>
-
-            <!-- 搜不出来时给明确出口，不再是一句空话 -->
-            <div v-if="!vdResults.length" class="vd-empty-cta">
-                <div class="vd-empty-cta-t">还没找到「{{ vdQuery.trim() || '这个词' }}」</div>
-                <div class="vd-empty-cta-s">联网这条路偶尔会被挡，不是视频不存在。<br>点「联网搜 ↻」再试一次，或直接去 B 站搜 / 把词存成频道 / 贴 BV 号。</div>
-                <div class="vd-empty-acts">
-                    <button class="vd-btn pri" @click="vdSearchBili">去 B 站搜 ↗</button>
-                    <button class="vd-btn" @click="vdAddChannel">存成我的频道 ♡</button>
-                </div>
-            </div>
-
-            <div class="vd-fold">
-                <div class="vd-fold-t" @click="vdFold = !vdFold">{{ vdFold ? '▾' : '▸' }} 想搜 B 站全网？接一个自己的接口（可选）</div>
-                <div v-if="vdFold" class="vd-fold-b">
-                    <input v-model="vdApi" class="vd-inp" placeholder="自己的接口（可不填），例如 https://xxx.workers.dev/search" @change="vdSaveApi">
-                    <div class="vd-hint">填了会优先试它：<code>?keyword=关键词</code>，返回 <code>[{bvid,title,up}]</code> 或 <code>{list:[...]}</code> 都行。不填也没关系，默认会自动试几个公共只读通道；它们不归本站管，偶尔会被限流，所以留这个口子给你放自己的中转。</div>
-                    <div class="vd-hint">也可以把 B 站链接 / BV 号贴一次加进仓库（以后都不用再贴）：</div>
-                    <div class="vd-sbox" style="margin-top:7px">
-                        <input v-model="vdPaste" class="vd-inp" placeholder="粘贴 B 站链接或 BV 号">
-                        <button class="vd-go" @click="vdAddPaste">收进来</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ========== 我的仓库 ========== -->
-        <div v-else class="vd-shelf">
-            <div class="vd-feed-top">
-                <span class="vd-feed-t">我收的视频</span>
-                <span class="vd-feed-n">{{ vdShelfShown.length }} 条<span v-if="vdShelf.length !== vdShelfShown.length"> · 屏蔽 {{ vdShelf.length - vdShelfShown.length }}</span></span>
-            </div>
-            <div v-for="(r, i) in vdShelfShown" :key="r.bvid + i" class="vd-shelf-item">
-                <span class="vd-shelf-n">{{ i + 1 }}</span>
-                <div class="vd-res-main">
-                    <div class="vd-res-t">{{ r.title }}</div>
-                    <div class="vd-res-s">{{ r.up || '来自 B 站' }} · {{ r.cat }}<span class="vd-bvid">{{ r.bvid }}</span></div>
-                </div>
-                <button class="vd-mini-btn" @click="vdPlayFromResult(r)">▶</button>
-                <button class="vd-mini-btn" @click="vdMoveShelf(r.bvid, -1)" :disabled="i === 0">↑</button>
-                <button class="vd-mini-btn" @click="vdDelShelf(r.bvid)">×</button>
-            </div>
-            <div v-if="!vdShelfShown.length" class="vd-empty">仓库还是空的<br>去「推荐」或「搜一搜」点收藏 ♡</div>
-            <button v-if="vdShelf.length" class="vd-btn" style="width:100%;margin-top:8px" @click="vdClearShelf">清空仓库</button>
-            <div class="vd-tip">仓库里的会混进推荐流一起刷；导出全量备份、导入、清理缓存都会带着它。</div>
-        </div>
-    </div>
-
-    <div v-if="vdToast" class="vd-toast">{{ vdToast }}</div>
-</div>
-
 <!-- ===== [MOD-25] 阅读室 ===== -->
 <div v-if="currentView === 'reading'" key="reading" class="absolute inset-0 flex flex-col z-20 rd-page">
     <header class="h-14 flex items-center justify-between px-4 shrink-0 bg-surface border-b border-border">
@@ -9087,8 +8777,7 @@ createApp({
             sleep: { img: '', name: '睡眠', icon: 'bed-double', path: 'sleep' },
             shop:  { img: '', name: '商场', icon: 'shopping-bag', path: 'shop' },
             horary:{ img: '', name: '寻他', icon: 'navigation',    path: 'horary' },
-            reading:{ img: '', name: '阅读', icon: 'book-open',     path: 'reading' },
-            video:  { img: '', name: '刷视频', icon: 'play',         path: 'video' }
+            reading:{ img: '', name: '阅读', icon: 'book-open',     path: 'reading' }
         });
 
         // 自定义图标数据读不出来时，不要留一个空方框：清掉坏图，回退到原 SVG 图标。
@@ -9194,362 +8883,6 @@ createApp({
         const patOpenPicker = () => { showMorePanel.value = false; patPickerOpen.value = true; };
         const patPickFromChat = (action) => { patPickerOpen.value = false; patSend(action, 'me'); };
         const patGoManage = () => { patPickerOpen.value = false; libraryTab.value = 'pat'; switchView('library'); };
-
-
-
-        // ================= [MOD-26] 刷视频 =================
-
-        // ================= [MOD-26] 刷视频 =================
-        // 起步推荐：一批真实公开的 B 站视频（只放 UGC 向，尽量避开版权/会员内容）。
-        // 点开就有，不用贴 BV 号；tags 给足同义词，搜「猫」「做饭」「历史」「游戏」都能出结果。
-        const VIDEO_SEED = [
-            { bvid:'BV1kZWX62ENY', title:'为什么是最后一期？影视飓风 1800 万粉丝 Q&A', up:'影视飓风', cat:'日常', tags:'聊天 幕后 摄影 相机 Q&A 影视飓风' },
-            { bvid:'BV1hrW367Emp', title:'辽阔的土地生不出狭隘的爱', up:'小王不爱干正事', cat:'日常', tags:'旅行 风景 生活 治愈 vlog 路上 大地' },
-            { bvid:'BV14gW16iEq8', title:'【烂奇迹】三毛：我的一生颠沛流离，活到现在算是个奇迹', up:'HA哈喽椰', cat:'知识', tags:'人物 传记 文学 读书 三毛 故事' },
-            { bvid:'BV1sEW16cEJN', title:'把旧发条装新身体上会发生什么？', up:'叶玲秋雨', cat:'手作', tags:'手工 机械 创意 DIY 修复 发条' },
-            { bvid:'BV1u6tPzSEWG', title:'AI 切下各种自然现象', up:'', cat:'自然', tags:'ASMR 解压 视觉 自然 冰川 海浪 火山 AI' },
-            { bvid:'BV1dStUznETg', title:'麦门单品好吃程度排行，从夯到拉', up:'', cat:'食物', tags:'测评 美食 日常 麦当劳 吃 排行' },
-            { bvid:'BV1pAapzaEJ5', title:'阅兵的意义是什么？走进新中国 18 次大阅兵', up:'', cat:'知识', tags:'历史 科普 阅兵 军事 九三' },
-            { bvid:'BV1EfaBzuETw', title:'一期视频带你看懂所有阅兵装备！', up:'', cat:'知识', tags:'科普 装备 阅兵 军事 武器' },
-            { bvid:'BV1nwauzREuU', title:'谁来谁没来？阅兵观礼台 2015 VS 2025，看世界格局的重塑', up:'', cat:'知识', tags:'历史 观察 阅兵 世界 格局' },
-            { bvid:'BV1dUhyzjEp2', title:'一个外卖员的现实版 mc 烧饭 × 猪排滑蛋饭', up:'', cat:'食物', tags:'做饭 治愈 mc 我的世界 料理 猪排 饭 外卖' },
-            { bvid:'BV1o3eYzXEj4', title:'一个外卖员的现实版 mc 烧饭', up:'', cat:'食物', tags:'做饭 日常 mc 我的世界 游戏 料理' },
-            { bvid:'BV1QWaRzTEqg', title:'人教版《作为小县城唯一玩过原神的人》', up:'', cat:'日常', tags:'朗读 幽默 原神 游戏 小县城 课文' },
-            { bvid:'BV11faGzVE45', title:'（朗诵）作为小县城唯一玩过原神的人', up:'', cat:'日常', tags:'朗诵 文学 原神 游戏 小县城' },
-            { bvid:'BV1aNWm6UEeC', title:'他真的太优雅了！灰太狼 & 红太狼【非凡之爱】', up:'可口的红糖', cat:'动画', tags:'二创 动画 喜羊羊 灰太狼 优雅' },
-            { bvid:'BV144nY6xELV', title:'陌生人拿着我的衣服牵苦根', up:'', cat:'日常', tags:'狗狗 狗 温暖 短片 失明狗 陌生人' },
-            { bvid:'BV1ECnv6pEqD', title:'怎么样才能回到从前', up:'', cat:'日常', tags:'独白 回忆 伤感 农活 方言 短片' },
-            { bvid:'BV1ZrnH6jE94', title:'黄昏与殿堂，跳舞与小丑', up:'', cat:'音乐', tags:'舞蹈 跳舞 光影 逆光 小丑 殿堂' },
-            { bvid:'BV1JBnh6gE1h', title:'功夫小霉猫', up:'', cat:'日常', tags:'猫 猫咪 猫猫 功夫 搞笑 短片' },
-            { bvid:'BV17rHA6tEcm', title:'头一回见，点份烤冷面，放一桶酱', up:'', cat:'食物', tags:'美食 搞笑 街边 小吃 烤冷面 酱 外卖' },
-            { bvid:'BV1TRJR6XEzf', title:'一个开了很久的汉堡店～', up:'', cat:'食物', tags:'小店 故事 手绘 汉堡 店 日常' },
-            { bvid:'BV1R4nr6tE7S', title:'「当我妈让我喊弟弟出来吃饭」', up:'安老大与小王八_', cat:'日常', tags:'姐弟 家庭 搞笑 妈妈 弟弟 吃饭' },
-            { bvid:'BV1CLnm6FEC6', title:'你还是下去通透吧', up:'', cat:'日常', tags:'钓鱼 蛇 贴纸 搞笑 短片' },
-            { bvid:'BV1bMni6KEkd', title:'空气呀空气，肺哥断不了情根', up:'', cat:'音乐', tags:'改编 翻唱 唱歌 器官 肺 情歌' },
-            { bvid:'BV1u5n66mE4J', title:'大阪城套了 3 层：底下埋着丰臣，顶上是带电梯的水泥楼', up:'', cat:'知识', tags:'历史 建筑 旅行 日本 大阪城 城' },
-            { bvid:'BV1hFnm63ESF', title:'爱你老鸡一会见', up:'', cat:'食物', tags:'美食 短片 鸡 菜 情话 治愈' },
-            { bvid:'BV18Knm6TEq6', title:'当栗子用她的 1 级中文和我交流', up:'', cat:'日常', tags:'语言 中文 可爱 栗子 交流 日常' },
-            { bvid:'BV1aknm6rEXW', title:'兄弟们，她竟然懂我……哈哈哈哈', up:'', cat:'日常', tags:'日常 搞笑 石头 情侣 闪回 短片' },
-            { bvid:'BV1Sfny6AEzY', title:'天塌了', up:'', cat:'日常', tags:'日常 短片 倒霉 录屏 搞笑' },
-            { bvid:'BV1cTnz6eENJ', title:'逐 渐 升 温', up:'', cat:'日常', tags:'情侣 问答 送命题 升温 日常' },
-            { bvid:'BV1ecJR6fE6N', title:'情侣', up:'', cat:'日常', tags:'猫 情侣 女友 上屏下屏 对照' },
-            { bvid:'BV1gHWg6GEqj', title:'《崩坏：星穹铁道》动画短片：「月下的欢快葬礼」', up:'崩坏星穹铁道', cat:'动画', tags:'游戏 星穹铁道 崩铁 动画 PV 短片' },
-            { bvid:'BV1bonb6JEAh', title:'我把躲空间斩做成了游戏', up:'', cat:'游戏', tags:'游戏 反应 搞笑 自制 小游戏' },
-            { bvid:'BV1sznz6rESc', title:'小猫地铁上聆听神爹音乐却被隔壁女孩搭讪，这下小猫可惨了。', up:'', cat:'日常', tags:'猫 猫咪 地铁 搞笑 音乐 短片' },
-            { bvid:'BV1sAvwzQEWT', title:'「LESSON」开始了，乔尼', up:'', cat:'动画', tags:'二创 JOJO 渲染大赛 动画 学车 老奶奶' },
-            { bvid:'BV1uv411q7Mv', title:'在 MC 中还原糖调小镇', up:'', cat:'游戏', tags:'MC 我的世界 建筑 还原 游戏 小镇' }
-        ];
-        // 内置屏蔽词：精确子串匹配。只藏这两个词本身，不藏「格瑞已女向」「格瑞乙女向」。
-        const VD_BUILTIN_BLOCKS = ['格瑞cp', '格瑞爱情向梦女'];
-        const VD_SHELF_KEY = 'liubai_video_shelf_db';
-        const VD_API_KEY = 'liubai_video_api_db';
-        const VD_BLOCK_KEY = 'liubai_video_block_db';
-        const VD_CHANNEL_KEY = 'liubai_video_channels_db';
-
-        const vdTab = ref('feed');
-        const vdShelf = ref([]);
-        const vdFeed = ref([]);
-        const vdIdx = ref(0);
-        const vdPlaying = ref(false);
-        const vdDanmaku = ref(false);
-        const vdQuery = ref('');
-        const vdScope = ref('all');
-        const vdFold = ref(false);
-        const vdBlockOpen = ref(false);
-        const vdBlockNew = ref('');
-        const vdBlocksCustom = ref([]);
-        const vdChannels = ref([]);
-        const vdApi = ref('');
-        const vdPaste = ref('');
-        const vdRemote = ref([]);
-        const vdToast = ref('');
-        const vdSnap = ref(null);
-        let vdToastTimer = null, vdScrollLockUntil = 0;
-
-        const vdShowToast = (t) => { vdToast.value = t; clearTimeout(vdToastTimer); vdToastTimer = setTimeout(() => { vdToast.value = ''; }, 2600); };
-        const vdShuffleArr = (arr) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-        const vdAllBlocks = computed(() => VD_BUILTIN_BLOCKS.concat(vdBlocksCustom.value));
-        // 标题 / UP 主 / 分类 / 标签 / BV 号里含有屏蔽词就整条不显示
-        const vdIsBlocked = (v) => {
-            if (!v) return false;
-            const hay = [v.title, v.up, v.cat, v.tags, v.bvid].map(x => String(x || '')).join(' ').toLowerCase();
-            return vdAllBlocks.value.some(w => { const k = String(w || '').trim().toLowerCase(); return k && hay.indexOf(k) >= 0; });
-        };
-        const vdBlockedCount = computed(() => {
-            const pool = vdShelf.value.concat(VIDEO_SEED);
-            return pool.filter(v => vdIsBlocked(v)).length;
-        });
-        const vdShelfShown = computed(() => vdShelf.value.filter(v => !vdIsBlocked(v)));
-        const vdHotWords = computed(() => {
-            const cnt = {};
-            VIDEO_SEED.forEach(v => String(v.tags || '').split(/\s+/).forEach(w => { if (w && w.length <= 6) cnt[w] = (cnt[w] || 0) + 1; }));
-            return Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]).slice(0, 14);
-        });
-
-        const vdBuildFeed = () => {
-            // 仓库优先，再接打乱后的起步推荐；去重 + 屏蔽
-            const seen = {}, out = [];
-            for (const v of vdShelf.value) { if (v && v.bvid && !seen[v.bvid] && !vdIsBlocked(v)) { seen[v.bvid] = 1; out.push(Object.assign({}, v, { cat: v.cat || '我收的' })); } }
-            for (const v of vdShuffleArr(VIDEO_SEED)) { if (!seen[v.bvid] && !vdIsBlocked(v)) { seen[v.bvid] = 1; out.push(Object.assign({}, v)); } }
-            vdFeed.value = out; vdIdx.value = 0; vdPlaying.value = false;
-            nextTick(() => { const el = vdSnap.value; if (el) el.scrollTop = 0; });
-        };
-        const vdCur = computed(() => vdFeed.value[vdIdx.value] || null);
-        const vdPlayerUrl = (v) => 'https://player.bilibili.com/player.html?bvid=' + encodeURIComponent(v.bvid)
-            + '&page=1&high_quality=1&danmaku=' + (vdDanmaku.value ? '1' : '0') + '&as_wide=1&autoplay=0';
-        const vdOpenBili = (v) => { try { window.open('https://www.bilibili.com/video/' + encodeURIComponent(v.bvid), '_blank', 'noopener'); } catch (e) {} };
-        const vdPlayAt = (i) => { vdIdx.value = i; vdPlaying.value = true; };
-        // 短视频式：一屏一条，scroll 到哪条就播哪条（点封面才挂播放器）
-        const vdOnScroll = (e) => {
-            const el = e && e.target; if (!el) return;
-            if (Date.now() < vdScrollLockUntil) return;
-            const n = Math.round(el.scrollTop / Math.max(1, el.clientHeight));
-            if (n >= 0 && n < vdFeed.value.length && n !== vdIdx.value) { vdIdx.value = n; vdPlaying.value = false; }
-        };
-        const vdScrollTo = (i) => {
-            const n = Math.max(0, Math.min(vdFeed.value.length - 1, i));
-            vdIdx.value = n; vdPlaying.value = false;
-            vdScrollLockUntil = Date.now() + 480;
-            nextTick(() => { const el = vdSnap.value || document.querySelector('.vd-snap'); if (el) el.scrollTo({ top: n * el.clientHeight, behavior: 'smooth' }); });
-        };
-        const vdTurn = (d) => vdScrollTo(vdIdx.value + d);
-        // 兼容老入口（手势/滚轮），统一走 scrollTo
-        const vdTs = () => {};
-        const vdTe = () => {};
-        const vdWheel = () => {};
-        watch(vdTab, (t) => {
-            if (t !== 'feed') return;
-            nextTick(() => { const el = vdSnap.value; if (el) el.scrollTop = vdIdx.value * el.clientHeight; });
-        });
-
-        const vdSaveShelf = () => { try { localforage.setItem(VD_SHELF_KEY, JSON.parse(JSON.stringify(vdShelf.value))); } catch (e) {} };
-        const vdSaveApi = () => { try { localforage.setItem(VD_API_KEY, String(vdApi.value || '').trim()); } catch (e) {} };
-        const vdSaveBlocks = () => { try { localforage.setItem(VD_BLOCK_KEY, JSON.parse(JSON.stringify(vdBlocksCustom.value))); } catch (e) {} };
-        const vdSaveChannels = () => { try { localforage.setItem(VD_CHANNEL_KEY, JSON.parse(JSON.stringify(vdChannels.value))); } catch (e) {} };
-        const vdLoad = async () => {
-            try {
-                const v = await localforage.getItem(VD_SHELF_KEY);
-                if (Array.isArray(v)) vdShelf.value = v.filter(x => x && typeof x.bvid === 'string').slice(0, 300)
-                    .map(x => ({ bvid: x.bvid, title: String(x.title || '我加的视频').slice(0, 90), up: String(x.up || '').slice(0, 30), cat: String(x.cat || '我收的').slice(0, 12), tags: String(x.tags || '').slice(0, 60), at: x.at || Date.now() }));
-                const a = await localforage.getItem(VD_API_KEY);
-                if (typeof a === 'string') vdApi.value = a;
-                const b = await localforage.getItem(VD_BLOCK_KEY);
-                if (Array.isArray(b)) vdBlocksCustom.value = b.filter(x => typeof x === 'string' && x.trim()).slice(0, 100).map(x => String(x).trim().slice(0, 30));
-                const c = await localforage.getItem(VD_CHANNEL_KEY);
-                if (Array.isArray(c)) vdChannels.value = c.filter(x => typeof x === 'string' && x.trim()).slice(0, 20).map(x => String(x).trim().slice(0, 24));
-            } catch (e) {}
-            vdBuildFeed();
-        };
-        const vdInShelf = (bvid) => vdShelf.value.some(x => x.bvid === bvid);
-        const vdToggleShelf = (v) => {
-            if (!v || !v.bvid) return;
-            const i = vdShelf.value.findIndex(x => x.bvid === v.bvid);
-            if (i >= 0) { vdShelf.value.splice(i, 1); vdShowToast('已从仓库移除'); }
-            else {
-                if (vdIsBlocked(v)) { vdShowToast('这条命中了屏蔽词，没收进来'); return; }
-                vdShelf.value.unshift({ bvid: v.bvid, title: String(v.title || '我加的视频').slice(0, 90), up: String(v.up || '').slice(0, 30), cat: String(v.cat || '我收的').slice(0, 12), tags: String(v.tags || '').slice(0, 60), at: Date.now() });
-                vdShowToast('收进仓库了 ♡');
-            }
-            vdSaveShelf(); vdBuildFeed();
-        };
-        const vdDelShelf = (bvid) => { const i = vdShelf.value.findIndex(x => x.bvid === bvid); if (i >= 0) { vdShelf.value.splice(i, 1); vdSaveShelf(); vdBuildFeed(); vdShowToast('移除了一条'); } };
-        const vdMoveShelf = (bvid, d) => { const i = vdShelf.value.findIndex(x => x.bvid === bvid); const j = i + d; if (i < 0 || j < 0 || j >= vdShelf.value.length) return; const t = vdShelf.value[i]; vdShelf.value[i] = vdShelf.value[j]; vdShelf.value[j] = t; vdSaveShelf(); vdBuildFeed(); };
-        const vdClearShelf = () => { if (!confirm('清空我的仓库？起步推荐还在，不会没得刷。')) return; vdShelf.value = []; vdSaveShelf(); vdBuildFeed(); vdShowToast('仓库清空了'); };
-        const vdPlayFromResult = (v) => {
-            let i = vdFeed.value.findIndex(x => x.bvid === v.bvid);
-            if (i < 0) { vdFeed.value.unshift(Object.assign({}, v, { cat: v.cat || '搜到的' })); i = 0; }
-            vdTab.value = 'feed'; vdIdx.value = i; vdPlaying.value = true;
-            nextTick(() => { const el = vdSnap.value; if (el) { vdScrollLockUntil = Date.now() + 300; el.scrollTop = i * el.clientHeight; } });
-        };
-
-        // ---- 屏蔽词管理 ----
-        const vdAddBlock = () => {
-            const raw = String(vdBlockNew.value || '').trim();
-            if (!raw) return;
-            const words = raw.split(/[\n,，、]+/).map(x => x.trim()).filter(Boolean);
-            let n = 0;
-            for (const w of words) {
-                const k = w.slice(0, 30);
-                if (!k || VD_BUILTIN_BLOCKS.indexOf(k) >= 0 || vdBlocksCustom.value.indexOf(k) >= 0) continue;
-                vdBlocksCustom.value.push(k); n++;
-            }
-            vdBlockNew.value = '';
-            vdSaveBlocks(); vdBuildFeed();
-            vdShowToast(n ? '加了 ' + n + ' 个屏蔽词' : '这个词已经在里面了');
-        };
-        const vdDelBlock = (i) => { vdBlocksCustom.value.splice(i, 1); vdSaveBlocks(); vdBuildFeed(); vdShowToast('删掉了一个屏蔽词'); };
-        // ---- 我的频道：搜不到的词存下来，下次一键再搜 ----
-        const vdAddChannel = () => {
-            const q = String(vdQuery.value || '').trim().slice(0, 24);
-            if (!q) { vdShowToast('先输入一个词'); return; }
-            if (vdChannels.value.indexOf(q) >= 0) { vdShowToast('这个频道已经在啦'); return; }
-            vdChannels.value.unshift(q); if (vdChannels.value.length > 20) vdChannels.value.pop();
-            vdSaveChannels(); vdShowToast('存成频道了 ♡');
-        };
-        const vdDelChannel = (i) => { vdChannels.value.splice(i, 1); vdSaveChannels(); };
-        const vdUseChannel = (c) => { vdQuery.value = c; vdSearch(); };
-
-        // ---- 联网搜 B 站：多通道挨个试，谁通就用谁；解析不依赖单一接口 ----
-        const vdNetState = ref('');
-        const vdNetBusy = ref(false);
-        const VD_BV_RE = /^BV[a-zA-Z0-9]{10}$/;
-        const vdCleanTxt = (t) => String(t || '')
-            .replace(/<[^>]*>/g, '').replace(/&quot;/g, '"').replace(/&amp;/g, '&')
-            .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#39;/g, "'")
-            .replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
-        const vdNormItem = (x) => {
-            if (!x) return null;
-            const bvid = String(x.bvid || x.aid && ('BV' + x.aid) || '');
-            if (!VD_BV_RE.test(bvid)) return null;
-            return {
-                bvid, title: (vdCleanTxt(x.title || x.name || x.arcurl || '') || '来自 B 站的视频').slice(0, 90),
-                up: vdCleanTxt(x.up || x.author || x.owner || x.mid || '').slice(0, 30),
-                cat: '联网', tags: vdCleanTxt(x.tag || x.tags || x.description || '').slice(0, 60), from: 'web'
-            };
-        };
-        // 兼容：数组 / {list} / B 站 {data:{result:[...]}} / 分组里的 data
-        const vdParseJson = (body) => {
-            let j = body;
-            if (typeof body === 'string') {
-                try { j = JSON.parse(body); }
-                catch (e) {
-                    const m = body.match(/```(?:json)?\s*([\s\S]*?)```/);
-                    if (m) { try { j = JSON.parse(m[1]); } catch (e2) { j = null; } } else j = null;
-                }
-            }
-            if (!j || typeof j !== 'object') return [];
-            let list = Array.isArray(j) ? j : (Array.isArray(j.list) ? j.list : []);
-            const d = j.data;
-            if (!list.length && d) {
-                if (Array.isArray(d.result)) {
-                    // search/all/v2 会把不同区分组，组里才是真视频
-                    for (const g of d.result) {
-                        if (Array.isArray(g && g.data)) list = list.concat(g.data);
-                        else if (g && g.bvid) list.push(g);
-                    }
-                } else if (Array.isArray(d.list)) list = d.list;
-                else if (Array.isArray(d)) list = d;
-            }
-            return list.map(vdNormItem).filter(Boolean);
-        };
-        // 页面文本兜底：markdown 链接 [标题](...BVxxx...) 或裸 BV 号
-        const vdParseText = (txt) => {
-            const t = String(txt || ''); if (!t) return [];
-            const out = [], seen = {};
-            const link = /\[([^\]\n]{2,90})\]\([^)]*?(BV[a-zA-Z0-9]{10})[^)]*\)/g;
-            let m;
-            while ((m = link.exec(t)) !== null) {
-                if (seen[m[2]]) continue; seen[m[2]] = 1;
-                out.push({ bvid: m[2], title: vdCleanTxt(m[1]).slice(0, 90) || '来自 B 站的视频', up: '', cat: '联网', tags: '', from: 'web' });
-            }
-            const bare = /(BV[a-zA-Z0-9]{10})/g;
-            while ((m = bare.exec(t)) !== null) {
-                if (seen[m[1]]) continue; seen[m[1]] = 1;
-                out.push({ bvid: m[1], title: '来自 B 站的视频', up: '', cat: '联网', tags: '', from: 'web' });
-            }
-            return out;
-        };
-        const vdFetch = async (url, ms) => {
-            const ctl = new AbortController();
-            const timer = setTimeout(() => ctl.abort(), ms || 6500);
-            try {
-                const r = await fetch(url, { method: 'GET', signal: ctl.signal });
-                if (!r.ok) return null;
-                return await r.text();
-            } catch (e) { return null; }
-            finally { clearTimeout(timer); }
-        };
-        const vdNetSearch = async (q) => {
-            const api = 'https://api.bilibili.com/x/web-interface/search/type?search_type=video&page=1&keyword=' + encodeURIComponent(q);
-            const own = String(vdApi.value || '').trim();
-            const eps = [];
-            if (own) eps.push({ json: true, url: own + (own.indexOf('?') >= 0 ? '&' : '?') + 'keyword=' + encodeURIComponent(q) });
-            eps.push({ json: true, url: 'https://r.jina.ai/' + api });
-            eps.push({ json: true, url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent(api) });
-            eps.push({ json: true, url: 'https://corsproxy.io/?url=' + encodeURIComponent(api) });
-            eps.push({ json: false, url: 'https://r.jina.ai/https://search.bilibili.com/all?keyword=' + encodeURIComponent(q) });
-            // 并行问所有通道：谁通就用谁，多个通就合并，等待时间约等于最慢的那一个
-            const batches = await Promise.all(eps.map(async (ep) => {
-                const txt = await vdFetch(ep.url, 6000);
-                if (!txt) return [];
-                try { return ep.json ? vdParseJson(txt) : vdParseText(txt); }
-                catch (e) { return []; }
-            }));
-            const all = [], seen = {};
-            for (const got of batches) {
-                for (const v of got) {
-                    if (!v || !VD_BV_RE.test(v.bvid) || seen[v.bvid]) continue;
-                    seen[v.bvid] = 1; all.push(v);
-                }
-            }
-            return all.slice(0, 60);
-        };
-
-        // 搜索：站内即时结果 + 联网结果，合并去重后一起显示
-        const vdLocalPool = computed(() => {
-            const out = [], seen = {};
-            const add = (v, from) => { if (v && v.bvid && !seen[v.bvid]) { seen[v.bvid] = 1; out.push(Object.assign({}, v, { from })); } };
-            if (vdScope.value !== 'seed') vdShelf.value.forEach(v => add(v, 'shelf'));
-            if (vdScope.value !== 'shelf') VIDEO_SEED.forEach(v => add(v, 'seed'));
-            vdRemote.value.forEach(v => add(v, 'web'));
-            return out;
-        });
-        const vdResults = computed(() => {
-            const raw = String(vdQuery.value || '').trim();
-            const q = raw.toLowerCase();
-            const pool = vdLocalPool.value.filter(v => !vdIsBlocked(v));
-            // 任何 BV 号 / B 站链接都能直接出一张可播卡片，不依赖网络
-            const m = raw.match(/(BV[a-zA-Z0-9]{10})/);
-            const direct = m ? [{ bvid: m[1], title: '直接打开这个视频', up: '', cat: 'BV 号', tags: raw, from: 'direct' }] : [];
-            let list;
-            if (!q) list = pool.slice(0, 24);
-            else list = pool.filter(v => (String(v.title || '') + ' ' + String(v.up || '') + ' ' + String(v.tags || '') + ' ' + String(v.cat || '') + ' ' + String(v.bvid || '')).toLowerCase().indexOf(q) >= 0).slice(0, 60);
-            const seen = {}; list.forEach(v => { seen[v.bvid] = 1; });
-            return direct.filter(v => !seen[v.bvid]).concat(list).slice(0, 60);
-        });
-        const vdSearch = async () => {
-            const q = String(vdQuery.value || '').trim();
-            if (!q) { vdRemote.value = []; vdNetState.value = ''; return; }
-            if (vdNetBusy.value) return;
-            vdNetBusy.value = true;
-            vdNetState.value = '正在联网找 B 站…';
-            try {
-                const got = await vdNetSearch(q);
-                const kept = got.filter(x => !vdIsBlocked(x));
-                vdRemote.value = kept;
-                const hidden = got.length - kept.length;
-                vdNetState.value = kept.length
-                    ? '联网找到 ' + kept.length + ' 条' + (hidden ? ' · 已屏蔽 ' + hidden + ' 条' : '')
-                    : '联网暂时没连上，先用站内结果';
-                vdShowToast(kept.length ? '联网找到 ' + kept.length + ' 条 ♡' : '联网没连上，可点「去 B 站搜 ↗」');
-            } catch (e) {
-                vdNetState.value = '联网暂时没连上，先用站内结果';
-            } finally { vdNetBusy.value = false; }
-        };
-        const vdSaveRemoteAll = () => {
-            let n = 0;
-            for (const v of vdRemote.value.slice().reverse()) {
-                if (!v || !VD_BV_RE.test(v.bvid) || vdInShelf(v.bvid) || vdIsBlocked(v)) continue;
-                vdShelf.value.unshift({ bvid: v.bvid, title: v.title, up: v.up, cat: '联网', tags: v.tags, at: Date.now() });
-                n++;
-            }
-            if (!n) { vdShowToast('这些都在仓库里了'); return; }
-            vdSaveShelf(); vdBuildFeed(); vdShowToast('收进仓库 ' + n + ' 条 ♡');
-        };
-        const vdSearchBili = () => {
-            const q = String(vdQuery.value || '').trim() || '治愈';
-            try { window.open('https://search.bilibili.com/all?keyword=' + encodeURIComponent(q), '_blank', 'noopener'); } catch (e) {}
-        };
-        const vdAddPaste = () => {
-            const t = String(vdPaste.value || '').trim();
-            const m = t.match(/BV([a-zA-Z0-9]{10})/);
-            if (!m) { vdShowToast('没认出 BV 号，贴 B 站链接或 BV 号就行'); return; }
-            const bvid = 'BV' + m[1];
-            if (vdInShelf(bvid)) { vdShowToast('仓库里已经有这条了'); vdPaste.value = ''; return; }
-            vdToggleShelf({ bvid, title: vdQuery.value.trim() ? vdQuery.value.trim() : '我加的视频', up: '', cat: '我收的', tags: vdQuery.value.trim() });
-            vdPaste.value = '';
-        };
-        vdLoad();
 
 
         // ================= [MOD-25] 阅读室：书架 / 导入 / 一页一页 / 弹幕 =================
@@ -17643,7 +16976,7 @@ createApp({
         };
 
         const cleanOrphanKeys = async () => {
-            if (!confirm('将清理旧版遗留的废料缓存。\n\n会保留：聊天记录、手账、塔罗日记、字卡、表情包、书架上的书、阅读记录、刷视频仓库与屏蔽词/频道、头像、壁纸、播放列表、陪伴、生理期记录、问卷库、商场零钱与自制商品、天气城市。\n\n继续？')) return;
+            if (!confirm('将清理旧版遗留的废料缓存。\n\n会保留：聊天记录、手账、塔罗日记、字卡、表情包、书架上的书、头像、壁纸、播放列表、陪伴、生理期记录、问卷库、商场零钱与自制商品、天气城市。\n\n继续？')) return;
             const keep = new Set([
                 'liubai_messages_db', 'liubai_profiles_db', 'liubai_settings_db', 'liubai_letters_db', 'liubai_videoAutoCall_db',
                 'liubai_stickers_db', 'liubai_replyGroups_db', 'liubai_replySettings_db', 'liubai_playlist_db',
@@ -17662,9 +16995,7 @@ createApp({
                 'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders', 'liubai_shop_custom_db',
                 'liubai_qa_bank_db', 'liubai_pat_actions_db',
                 'liubai_reading_books_db', 'liubai_reading_state_db', 'liubai_dict_custom_db',
-                'liubai_reading_stats_db', 'liubai_menstrual_care_shift',
-                'liubai_video_shelf_db', 'liubai_video_api_db',
-                'liubai_video_block_db', 'liubai_video_channels_db'
+                'liubai_reading_stats_db', 'liubai_menstrual_care_shift'
             ]);
             let removed = 0, freed = 0;
             try {
@@ -17877,8 +17208,6 @@ createApp({
                     'liubai_sleep_session', 'liubai_sleep_summary',
                     'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders', 'liubai_shop_custom_db', 'liubai_qa_bank_db', 'liubai_horary_db', 'liubai_pat_actions_db',
                     'liubai_reading_books_db', 'liubai_reading_state_db', 'liubai_dict_custom_db', 'liubai_reading_stats_db',
-                    'liubai_video_shelf_db', 'liubai_video_api_db',
-                    'liubai_video_block_db', 'liubai_video_channels_db',
                     'liubai_companion_custom_name', 'liubai_companion_msgs', 'liubai_companion_recent',
                     'liubai_menstrual_records', 'liubai_menstrual_cycle_avg', 'liubai_menstrual_duration_avg', 'liubai_menstrual_care_shift',
                 'liubai_hp_img1', 'liubai_hp_img2', 'liubai_hp_img3',
@@ -17944,9 +17273,6 @@ createApp({
                     readingBooks: await localforage.getItem('liubai_reading_books_db'),
                     readingState: await localforage.getItem('liubai_reading_state_db'),
                     readingStats: { totalSec: rdStats.totalSec, togetherSec: rdStats.togetherSec, opened: rdStats.opened.slice() },
-                    videoShelf: JSON.parse(JSON.stringify(vdShelf.value)), videoApi: String(vdApi.value || ''),
-                    videoBlocks: JSON.parse(JSON.stringify(vdBlocksCustom.value)),
-                    videoChannels: JSON.parse(JSON.stringify(vdChannels.value)),
                     dictCustom: await localforage.getItem('liubai_dict_custom_db'),
                     menstrualRecords: await localforage.getItem('liubai_menstrual_records'),
                     menstrualCycleAvg: await localforage.getItem('liubai_menstrual_cycle_avg'),
@@ -18009,29 +17335,6 @@ createApp({
                           if (Array.isArray(data.patActions)) await localforage.setItem('liubai_pat_actions_db', data.patActions.filter(a => a && typeof a.text === 'string' && a.text.trim()).slice(0, 100));
                           if (Array.isArray(data.readingBooks)) await localforage.setItem('liubai_reading_books_db', data.readingBooks.filter(b => b && typeof b.raw === 'string').slice(0, 60));
                           if (data.readingState && typeof data.readingState === 'object') await localforage.setItem('liubai_reading_state_db', data.readingState);
-                          if (Array.isArray(data.videoShelf)) {
-                              const _vs = data.videoShelf.filter(x => x && typeof x.bvid === 'string').slice(0, 300)
-                                  .map(x => ({ bvid: x.bvid, title: String(x.title || '我加的视频').slice(0, 90), up: String(x.up || '').slice(0, 30), cat: String(x.cat || '我收的').slice(0, 12), tags: String(x.tags || '').slice(0, 60), at: x.at || Date.now() }));
-                              await localforage.setItem(VD_SHELF_KEY, _vs);
-                              vdShelf.value = _vs;
-                          }
-                          if (typeof data.videoApi === 'string') {
-                              await localforage.setItem(VD_API_KEY, data.videoApi);
-                              vdApi.value = data.videoApi;
-                          }
-                          if (Array.isArray(data.videoBlocks)) {
-                              const _vb = data.videoBlocks.filter(x => typeof x === 'string' && x.trim()).slice(0, 100)
-                                  .map(x => String(x).trim().slice(0, 30));
-                              await localforage.setItem(VD_BLOCK_KEY, _vb);
-                              vdBlocksCustom.value = _vb;
-                          }
-                          if (Array.isArray(data.videoChannels)) {
-                              const _vc = data.videoChannels.filter(x => typeof x === 'string' && x.trim()).slice(0, 20)
-                                  .map(x => String(x).trim().slice(0, 24));
-                              await localforage.setItem(VD_CHANNEL_KEY, _vc);
-                              vdChannels.value = _vc;
-                          }
-                          vdBuildFeed();
                           if (data.readingStats && typeof data.readingStats === 'object') {
                               const _rs = data.readingStats;
                               const _clean = {
@@ -21103,7 +20406,7 @@ createApp({
         // 名字、图标全部沿用 homeIcons 里的原值，这里只做排版，不改任何显示名。
         const hpPage = ref(0);
         const hpFront = ref(1);                 // 哪张图在上面：1 或 2
-        const hpEight = ['music', 'mailbox', 'watch', 'weather', 'menstrual', 'companion', 'journal', 'tarot', 'sleep', 'shop', 'horary', 'reading', 'video'];
+        const hpEight = ['music', 'mailbox', 'watch', 'weather', 'menstrual', 'companion', 'journal', 'tarot', 'sleep', 'shop', 'horary', 'reading'];
         const hpImg1 = ref(''), hpImg2 = ref(''), hpImg3 = ref(''), hpAnnivImg = ref('');
         const hpAnnivName = ref('');
         const hpAnnivDays = ref(0);
@@ -21240,7 +20543,6 @@ createApp({
             currentView.value = v;
             if (v !== 'music') msStop();
             if (v === 'sleep') sleepView.value = 'setup';
-            if (v === 'video') { vdTab.value = 'feed'; vdBuildFeed(); }
             if (v === 'shop') shopResumeWishes();
             if (v === 'mailbox') { mailboxView.value = 'list'; if (unreadLetters.value > 0) mailTab.value = 'inbox'; }
             if (v === 'companion') { cpShowMore.value = false; cpShowSticker.value = false; }
@@ -21508,13 +20810,6 @@ mensFmtDate, mensHasRecord, mensToggleSymptom,
             themeList, applyColorTheme,
             dictCats, dictAll, dictShown, dictFilteredCount, dictLimit, dictCustom, dictQuery, dictCat, dictAddOpen, dictAddText, dictAddCat, dictToast,
             dictDel, dictOpenAdd, dictSaveAdd, dictHeSend, dictHeSendWord, dictMakeLine, dictCountNow, dictLoad,
-            vdTab, vdShelf, vdFeed, vdIdx, vdCur, vdPlaying, vdDanmaku, vdQuery, vdScope, vdFold, vdApi, vdPaste, vdRemote, vdToast, VIDEO_SEED,
-            vdSnap, vdBlockOpen, vdBlockNew, vdBlocksCustom, vdAllBlocks, vdChannels, VD_BUILTIN_BLOCKS,
-            vdIsBlocked, vdBlockedCount, vdShelfShown, vdHotWords, vdOnScroll, vdScrollTo, vdPlayAt,
-            vdAddBlock, vdDelBlock, vdAddChannel, vdDelChannel, vdUseChannel, vdDelShelf, vdMoveShelf,
-            vdNetState, vdNetBusy, vdSaveRemoteAll, vdNetSearch, vdParseJson, vdParseText,
-            vdResults, vdPlayerUrl, vdOpenBili, vdTurn, vdTs, vdTe, vdWheel, vdShuffle: vdBuildFeed, vdInShelf, vdToggleShelf,
-            vdClearShelf, vdPlayFromResult, vdSearch, vdSearchBili, vdAddPaste, vdSaveApi, vdLoad,
             rdBooks, rdMain, rdView, rdBook, rdBookId, rdPage, rdPageCount, rdPageText, rdPages, rdTogether,
             rdStats, rdFmtDur, rdSaveStats, rdMarkOpened,
             rdDanmuOn, rdDanmus, rdLineMode, rdDanmuSpeed, rdSpeedLabel, rdCycleDanmuSpeed, rdImportOpen, rdImportTab, rdImportTitle, rdImportAuthor, rdImportText, rdAppendId, rdBusy, rdErr, rdToast,
