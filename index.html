@@ -4,6 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>空境</title>
+<!-- 站点图标（浏览器收藏夹 / 新标签页快捷方式显示的「封面」）-->
+<link id="lbIcon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20192%20192%22%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20rx%3D%2242%22%20fill%3D%22%231c1c1e%22%2F%3E%3Ctext%20x%3D%2296%22%20y%3D%22128%22%20text-anchor%3D%22middle%22%20font-family%3D%22serif%22%20font-size%3D%2294%22%20fill%3D%22%23ffffff%22%3E%E7%A9%BA%3C%2Ftext%3E%3C%2Fsvg%3E">
+<link id="lbIconApple" rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20192%20192%22%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20rx%3D%2242%22%20fill%3D%22%231c1c1e%22%2F%3E%3Ctext%20x%3D%2296%22%20y%3D%22128%22%20text-anchor%3D%22middle%22%20font-family%3D%22serif%22%20font-size%3D%2294%22%20fill%3D%22%23ffffff%22%3E%E7%A9%BA%3C%2Ftext%3E%3C%2Fsvg%3E">
+<script>
+/* 这段必须尽量早、且同步执行：浏览器抓图标时，页面里得已经是自定义的那张 */
+(function () {
+  window.__LB_DEFAULT_ICON__ = 'data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20192%20192%22%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20rx%3D%2242%22%20fill%3D%22%231c1c1e%22%2F%3E%3Ctext%20x%3D%2296%22%20y%3D%22128%22%20text-anchor%3D%22middle%22%20font-family%3D%22serif%22%20font-size%3D%2294%22%20fill%3D%22%23ffffff%22%3E%E7%A9%BA%3C%2Ftext%3E%3C%2Fsvg%3E';
+  try {
+    var t = localStorage.getItem('liubai_site_title');
+    if (t) document.title = t;
+    var ic = localStorage.getItem('liubai_site_icon');
+    if (ic) {
+      var a = document.getElementById('lbIcon'), b = document.getElementById('lbIconApple');
+      if (a) { a.href = ic; a.type = 'image/png'; }
+      if (b) { b.href = ic; }
+    }
+  } catch (e) {}
+})();
+</script>
 <!-- 【优化】提前与 CDN 建连，省掉 DNS + TCP + TLS 的往返时间（国内访问境外 CDN 尤为明显） -->
 <!-- 【优化】Google Fonts 改为异步加载：media="print" 让它不阻塞渲染，加载完再切回 all。
      字体加载慢或失败时直接降级到系统字体，不会卡住页面 -->
@@ -1505,6 +1524,18 @@ body { background-color:#d1d5db; font-family:"PingFang SC","Microsoft YaHei",sys
 .emoji-safe { font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","EmojiOne Color","Android Emoji",sans-serif; }
 .dark body { background-color:#050505; }
 ::-webkit-scrollbar { width:0; }
+/* [MOD-07] 记忆洞察 · 言语占比 */
+.ins-ratio-t { font-family:'Noto Serif SC','Noto Serif SC Offline',serif;
+  font-size:12px; letter-spacing:.14em; color:var(--color-muted); margin-bottom:18px; }
+.ins-ratio-bar { display:flex; width:100%; height:9px; border-radius:999px; overflow:hidden;
+  background:var(--color-border); }
+.ins-ratio-me { flex:none; height:100%; background:var(--color-text); transition:width .4s ease; }
+.ins-ratio-them { flex:none; height:100%; background:#b4b4ba; transition:width .4s ease; }
+.dark .ins-ratio-them { background:#54545b; }
+.ins-ratio-legend { display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+  margin-top:15px; font-size:11px; color:var(--color-muted); }
+.ins-ratio-legend span { max-width:48%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ins-ratio-empty { margin-top:8px; font-size:10px; color:var(--color-muted); opacity:.7; }
 .app-container { width:100vw; height:100vh; height:100dvh; background:var(--color-bg); position:relative; display:flex; flex-direction:column; overflow:hidden; overscroll-behavior:none; }
 @media (min-width:768px) { .app-container { width:375px; height:812px; max-height:100vh; max-height:100dvh; border-radius:40px; box-shadow:0 25px 50px -12px rgba(0,0,0,.25), inset 0 0 0 8px #000; border:1px solid #333; } }
 .msg-bubble { display:inline-block!important; padding:8px 12px!important; border-radius:20px!important; color:rgba(0,0,0,.85)!important; position:relative!important; background:rgba(255,255,255,.72)!important; -webkit-backdrop-filter:none!important; backdrop-filter:none!important; line-height:1.45!important; border:1px solid rgba(255,255,255,.6)!important; box-shadow:0 2px 6px rgba(0,0,0,.04), inset 0 1px 0 rgba(255,255,255,.8)!important; word-wrap:break-word; max-width:100%; }
@@ -1533,6 +1564,7 @@ body { background-color:#d1d5db; font-family:"PingFang SC","Microsoft YaHei",sys
 .more-panel-btn { width:60px; height:60px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; border-radius:12px; cursor:pointer; background:transparent; border:none; color:var(--color-text); font-size:11px; font-family:inherit; }
 .more-panel-btn:hover,.more-panel-btn:active { background:var(--color-bg); }
 .more-panel-btn svg { width:20px; height:20px; stroke-width:1.5; }
+
 
 /* ================= [MOD-25] 阅读室 ================= */
 .rd-wrap { padding:16px 16px 28px; }
@@ -3734,6 +3766,11 @@ html.dark { --hp-paper:#E7E2D6; --hp-ink:#4A423C; --hp-line:rgba(74,66,60,.38); 
 .hp-cell-box img.hp-cell-img { background:transparent; color:transparent; font-size:0; }
 .hp-cell-ico { width:23px; height:23px; stroke:var(--color-text); }
 .hp-cell-name { font-size:11px; letter-spacing:.08em; color:var(--color-text); }
+/* 「交谈」入口反色高亮：白天黑底、黑夜白底，跟其余几格始终反着来 */
+.hp-cell[data-key="chat"] .hp-cell-box { background:#1c1c1e; border-color:#1c1c1e; }
+.hp-cell[data-key="chat"] .hp-cell-ico { stroke:#ffffff; }
+.dark .hp-cell[data-key="chat"] .hp-cell-box { background:#ffffff; border-color:#ffffff; }
+.dark .hp-cell[data-key="chat"] .hp-cell-ico { stroke:#111111; }
 .hp-cell-dot { position:absolute; top:-4px; right:-4px; min-width:15px; height:15px; padding:0 3px;
                border-radius:8px; background:#30a46c; color:#fff; font-size:9px;
                display:flex; align-items:center; justify-content:center; border:1px solid var(--color-bg); }
@@ -4150,6 +4187,7 @@ html.dark .hr-cell.bond .hr-cell-v, .dark .hr-cell.bond .hr-cell-v { color:var(-
 .jb-item-btn.danger { color:#d06060; border-color:rgba(208,96,96,.35); }
 /* 翻页 */
 .jb-pager { display:flex; align-items:center; justify-content:space-between; padding:6px 12px 9px; border-top:1px solid var(--color-border); background:var(--color-surface); flex-shrink:0; }
+.jb-pager-tip { padding:0 12px 5px; text-align:center; font-size:9px; letter-spacing:.06em; color:var(--jb-ink-soft); opacity:.7; flex-shrink:0; }
 .jb-pager-btn { display:flex; align-items:center; gap:4px; font-size:10px; color:var(--jb-ink-soft); letter-spacing:.1em; padding:5px 8px; border-radius:10px; border:1px solid var(--color-border); white-space:nowrap; }
 .jb-pager-btn:active { background:var(--jb-accent-soft); }
 .jb-pager-btn.dim { opacity:.35; }
@@ -5128,7 +5166,7 @@ html, body { overscroll-behavior-y: none; }
             <button @click="settings.emojiRate = Math.min(100, (settings.emojiRate == null ? 45 : settings.emojiRate) + 10)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
         </div>
     </div>
-    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">他回你时，按这个概率把「语料库 → Emoji」里的表情拼进文字字卡（如「想你了 🌙」），或单独发一条纯 Emoji 小字卡。AI 模式下会贴在 AI 回复末尾或另发一条。设为 0 就只发原来的字卡；库里没表情时也不生效。</span>
+    <span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">他回你时，按这个概率把「语料库 → Emoji」里的表情拼进文字字卡（如「想你了 🌙」），或单独发一条纯 Emoji 小字卡。只作用于本地字卡回复；AI 模式不会自动塞表情，会不会带表情由 AI 按角色设定自己决定。设为 0 就只发原来的字卡；库里没表情时也不生效。</span>
 </div>
             </div>
         </section>
@@ -5299,6 +5337,34 @@ html, body { overscroll-behavior-y: none; }
             </div>
         </section>
         <p class="text-[10px] text-muted text-center opacity-70 mt-4">注：壁纸会自动保存在本地，为了界面体验，建议上传浅色或低对比度图片。</p>
+        <section>
+            <h3 class="text-[11px] font-semibold text-muted tracking-widest px-2 mb-2">站点图标 (浏览器封面)</h3>
+            <div class="bg-surface border border-border rounded-xl overflow-hidden text-[13px]">
+                <div class="p-4 flex items-center gap-3">
+                    <img :src="siteIcon || defaultSiteIcon" class="w-14 h-14 rounded-xl border border-border object-cover flex-none">
+                    <div class="flex-1 min-w-0">
+                        <div class="text-[12px] text-text">收藏夹 / 新标签页里那个小方块</div>
+                        <div class="text-[10px] text-muted mt-1 leading-relaxed">换完把旧快捷方式删掉、重新添加一次才会更新（浏览器会缓存图标）。</div>
+                    </div>
+                </div>
+                <label class="flex items-center justify-between p-4 cursor-pointer relative hover:bg-bg border-t border-border">
+                    <span>上传自己的图标 / 封面</span>
+                    <i data-lucide="image" class="w-4 h-4 text-muted"></i>
+                    <input type="file" accept="image/*" @change="setSiteIcon($event)" class="absolute inset-0 opacity-0 cursor-pointer">
+                </label>
+                <div class="p-4 border-t border-border">
+                    <div class="text-[10px] text-muted mb-2">快捷方式下面显示的名字</div>
+                    <div class="flex gap-2">
+                        <input v-model="siteTitle" @input="saveSiteTitle" maxlength="16" placeholder="空境"
+                               class="flex-1 min-w-0 bg-bg border border-border rounded-lg px-3 py-2 text-[12px] text-text outline-none">
+                        <button v-if="siteIcon" @click="clearSiteIcon"
+                                class="flex-none px-3 py-2 text-[12px] rounded-lg bg-bg border border-border text-text">恢复默认</button>
+                    </div>
+                    <div v-if="siteIconHint" class="text-[10px] text-muted mt-2">{{ siteIconHint }}</div>
+                </div>
+            </div>
+            <p class="text-[10px] text-muted px-2 mt-2 leading-relaxed opacity-80">注：用本地文件直接打开时，个别浏览器仍会自己画一个字母图标；放到网页地址（https）上打开最稳。「添加到主屏幕」各家规则不同，收藏夹快捷方式最可靠。</p>
+        </section>
     </main>
 
     <main v-show="settingsTab === 'diagnose'" class="flex-1 overflow-y-auto pb-12">
@@ -6199,6 +6265,19 @@ html, body { overscroll-behavior-y: none; }
         <div class="grid grid-cols-2 gap-4 text-center">
             <div class="bg-surface p-4 rounded-xl border border-border"><div class="text-xs text-muted mb-1">只言片语</div><div class="text-2xl font-serif text-text">{{ messages.length }}</div></div>
             <div class="bg-surface p-4 rounded-xl border border-border"><div class="text-xs text-muted mb-1">初次相遇</div><div class="text-[11px] font-serif text-text mt-2">{{ statData.firstTime }}</div></div>
+        </div>
+        <!-- 言语占比：按双方文字字数真实统计，空态不硬凑 50/50 -->
+        <div class="bg-surface p-5 rounded-xl border border-border">
+            <div class="ins-ratio-t">言语占比</div>
+            <div class="ins-ratio-bar">
+                <div class="ins-ratio-me" :style="{ width: statData.speech.me + '%' }"></div>
+                <div class="ins-ratio-them" :style="{ width: statData.speech.them + '%' }"></div>
+            </div>
+            <div class="ins-ratio-legend">
+                <span>{{ profiles.me.name }}: {{ statData.speech.me }}%</span>
+                <span>{{ profiles.them.name }}: {{ statData.speech.them }}%</span>
+            </div>
+            <div v-if="!statData.speech.total" class="ins-ratio-empty">还没有说过话，先聊两句吧</div>
         </div>
         <div class="bg-surface p-5 rounded-xl border border-border">
             <div class="text-[11px] tracking-widest text-muted uppercase mb-4">思绪浮现</div>
@@ -7688,14 +7767,15 @@ html, body { overscroll-behavior-y: none; }
             </div>
         </div>
 
+        <div class="jb-pager-tip">点一下翻到上一次记的 · 长按逐日翻一天</div>
         <div class="jb-pager">
-            <div class="jb-pager-btn" @click="jbShift(-1)">
+            <div class="jb-pager-btn" @click="jbPagerClick(-1)" @pointerdown="jbPagerDown(-1)" @pointerup="jbPagerUp" @pointerleave="jbPagerUp" @pointercancel="jbPagerUp">
                 <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-                前一天
+                上一页
             </div>
             <div class="jb-pager-btn" @click="jbToday">回到今天</div>
-            <div class="jb-pager-btn" :class="{ dim: !jbCanNext }" @click="jbShift(1)">
-                后一天
+            <div class="jb-pager-btn" :class="{ dim: !jbCanNext }" @click="jbPagerClick(1)" @pointerdown="jbPagerDown(1)" @pointerup="jbPagerUp" @pointerleave="jbPagerUp" @pointercancel="jbPagerUp">
+                下一页
                 <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
         </div>
@@ -8188,6 +8268,7 @@ html, body { overscroll-behavior-y: none; }
         </div>
 
 </div>
+
 
 
 <!-- ===== [MOD-25] 阅读室 ===== -->
@@ -8883,6 +8964,7 @@ createApp({
         const patOpenPicker = () => { showMorePanel.value = false; patPickerOpen.value = true; };
         const patPickFromChat = (action) => { patPickerOpen.value = false; patSend(action, 'me'); };
         const patGoManage = () => { patPickerOpen.value = false; libraryTab.value = 'pat'; switchView('library'); };
+
 
 
         // ================= [MOD-25] 阅读室：书架 / 导入 / 一页一页 / 弹幕 =================
@@ -14507,7 +14589,7 @@ createApp({
             if (settings.useAI && settings.apiKey && settings.apiUrl) {
                 try {
                     const base = settings.apiUrl.replace(/\/+$/, '');
-                    const systemPrompt = generateSystemPrompt() + `\n【当前场景】：你正在写信回复用户。请写一封完整的信，要有称呼、正文、落款，语气符合角色设定和当前对话模式。`;
+                    const systemPrompt = generateSystemPrompt() + `\n【当前场景】：你正在写信回复用户。请写一封完整的信，要有称呼、正文、落款；称呼用【我的设定】里用户的名字/称呼，内容里可以自然提到记得的事，但绝不 OOC，一切以【角色设定】为准；动作/神态描写严格按当前模式来，只允许「现实共处」带，其余两种只写纯文字。`;
                     const res = await fetch(`${base}/chat/completions`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${settings.apiKey}` }, body: JSON.stringify({ model: settings.apiModel, messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: '请给我写一封回信。' }], temperature: 0.85, max_tokens: 800 }) });
                     if (res.ok) { const data = await res.json(); const content = data.choices?.[0]?.message?.content || '……'; letters.value.unshift({ id: genId(), from: 'them', content, timestamp: Date.now(), read: false }); playTone('recv'); saveAll(); return; }
                 } catch (e) {}
@@ -16850,7 +16932,13 @@ createApp({
             }; 
             input.click(); 
         };
-        const generateWatchSystemPrompt = () => { let prompt = generateSystemPrompt(); prompt += `\n【当前场景补充】：你正在和用户一起观影/看视频。可以结合影片内容、情节、画面闲聊，语气自然，就像两个人一起坐在屏幕前边看边聊。`; return prompt; };
+        const generateWatchSystemPrompt = () => {
+            let prompt = generateSystemPrompt();
+            if (settings.chatMode === 'reality') prompt += `\n【当前场景补充】：你正和用户一起观影/看视频，就在身边。可以结合影片内容、情节、画面闲聊，按「现实共处」模式带上动作与神态描写，语气自然。`;
+            else if (settings.chatMode === 'parallel') prompt += `\n【当前场景补充】：你们各自在自己的世界里看同一部片，隔着链接聊着。只发文字，严禁动作/神态描写，不要写成坐在一起。`;
+            else prompt += `\n【当前场景补充】：你正用手机和用户边看边聊，只发文字消息，严禁动作/神态描写，不要写成坐在一起。`;
+            return prompt;
+        };
         const requestWatchAIReply = async () => {
             if (watchTyping) return; watchTyping = true;
             if (settings.keepAlive) kaSave({ scene: 'watch', mode: 'ai', total: 1, sent: 0, nextAt: Date.now(), at: Date.now() });
@@ -16858,7 +16946,9 @@ createApp({
                 const base = settings.apiUrl.replace(/\/+$/, '');
                 const contextMsgs = watchMessages.value.filter(m => m.type === 'text').slice(-8).map(m => ({ role: m.sender === 'me' ? 'user' : 'assistant', content: m.content }));
                 const systemPrompt = generateWatchSystemPrompt();
-                const finalMessages = [{ role: 'system', content: systemPrompt }, ...contextMsgs, { role: 'system', content: '再次提醒：你们正在一起观影，遵守角色设定与对话模式。' }];
+                const watchMode = settings.chatMode === 'parallel' ? '平行世界' : (settings.chatMode === 'online' ? '线上聊天' : '现实共处');
+                const watchPersona = String(settings.characterDesc || '').trim().slice(0, 300) || '（未填写）';
+                const finalMessages = [{ role: 'system', content: systemPrompt }, ...contextMsgs, { role: 'system', content: '再次提醒：你们正在一起观影，以【角色设定】＝' + watchPersona + ' 为最高优先级，绝不 OOC；记住【我的设定】里的用户档案；【对话模式】=「' + watchMode + '」，三种模式不许混用，动作/神态描写严格按当前模式来。' }];
                 const res = await fetch(`${base}/chat/completions`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${settings.apiKey}` }, body: JSON.stringify({ model: settings.apiModel, messages: finalMessages, temperature: 0.8, max_tokens: 500 }) });
                 if (!res.ok) { const err = await res.json().catch(()=>({})); throw new Error(err.error?.message || `HTTP ${res.status}`); }
                 const data = await res.json(); const replyContent = data.choices?.[0]?.message?.content || '……';
@@ -16976,7 +17066,7 @@ createApp({
         };
 
         const cleanOrphanKeys = async () => {
-            if (!confirm('将清理旧版遗留的废料缓存。\n\n会保留：聊天记录、手账、塔罗日记、字卡、表情包、书架上的书、头像、壁纸、播放列表、陪伴、生理期记录、问卷库、商场零钱与自制商品、天气城市。\n\n继续？')) return;
+            if (!confirm('将清理旧版遗留的废料缓存。\n\n会保留：聊天记录、手账、塔罗日记、字卡、表情包、书架上的书、阅读记录、头像、壁纸、站点图标、播放列表、陪伴、生理期记录、问卷库、商场零钱与自制商品、天气城市。\n\n继续？')) return;
             const keep = new Set([
                 'liubai_messages_db', 'liubai_profiles_db', 'liubai_settings_db', 'liubai_letters_db', 'liubai_videoAutoCall_db',
                 'liubai_stickers_db', 'liubai_replyGroups_db', 'liubai_replySettings_db', 'liubai_playlist_db',
@@ -17008,7 +17098,7 @@ createApp({
                         removed++;
                     }
                 }
-                const lsKeep = new Set(['liubai_theme_dark','liubai_sync_profiles','liubai_sync_settings','liubai_sync_replyGroups','liubai_sync_emojiList','liubai_sync_letters','liubai_playlist_string','liubai_watch_string','liubai_waiting_letter','liubai_weather_data_v2','liubai_weather_side','liubai_weather_recent_my','liubai_weather_snapshot_v1','liubai_place_cache_v1','liubai_card_cd']);
+                const lsKeep = new Set(['liubai_theme_dark','liubai_sync_profiles','liubai_sync_settings','liubai_sync_replyGroups','liubai_sync_emojiList','liubai_sync_letters','liubai_playlist_string','liubai_watch_string','liubai_waiting_letter','liubai_weather_data_v2','liubai_weather_side','liubai_weather_recent_my','liubai_weather_snapshot_v1','liubai_place_cache_v1','liubai_card_cd','liubai_site_icon','liubai_site_title']);
                 for (let i = localStorage.length - 1; i >= 0; i--) {
                     const k = localStorage.key(i);
                     if (k && k.startsWith('liubai_') && !lsKeep.has(k)) {
@@ -17268,6 +17358,8 @@ createApp({
                     weatherRecentMy: localStorage.getItem('liubai_weather_recent_my'),
                     weatherSnapshot: localStorage.getItem(WEATHER_SNAP_KEY),
                     placeCache: localStorage.getItem(PLACE_CACHE_KEY),
+                    siteIcon: (() => { try { return localStorage.getItem(SITE_ICON_KEY) || ''; } catch (e) { return ''; } })(),
+                    siteTitle: (() => { try { return localStorage.getItem(SITE_TITLE_KEY) || ''; } catch (e) { return ''; } })(),
                     qaBank: await localforage.getItem('liubai_qa_bank_db'),
                     patActions: await localforage.getItem('liubai_pat_actions_db'),
                     readingBooks: await localforage.getItem('liubai_reading_books_db'),
@@ -17331,6 +17423,18 @@ createApp({
                           if (typeof data.weatherRecentMy === 'string') localStorage.setItem('liubai_weather_recent_my', data.weatherRecentMy);
                           if (typeof data.weatherSnapshot === 'string') localStorage.setItem(WEATHER_SNAP_KEY, data.weatherSnapshot);
                           if (typeof data.placeCache === 'string') localStorage.setItem(PLACE_CACHE_KEY, data.placeCache);
+                          if (typeof data.siteIcon === 'string') {
+                              try {
+                                  if (data.siteIcon) localStorage.setItem(SITE_ICON_KEY, data.siteIcon);
+                                  else localStorage.removeItem(SITE_ICON_KEY);
+                              } catch (e) {}
+                              siteIcon.value = data.siteIcon || '';
+                          }
+                          if (typeof data.siteTitle === 'string' && data.siteTitle) {
+                              try { localStorage.setItem(SITE_TITLE_KEY, data.siteTitle.slice(0, 16)); } catch (e) {}
+                              siteTitle.value = data.siteTitle.slice(0, 16);
+                          }
+                          applySiteIcon();
                           if (Array.isArray(data.qaBank)) await localforage.setItem('liubai_qa_bank_db', data.qaBank.filter(it => it && typeof it.q === 'string' && (Array.isArray(it.opts) || typeof it.a === 'string')));
                           if (Array.isArray(data.patActions)) await localforage.setItem('liubai_pat_actions_db', data.patActions.filter(a => a && typeof a.text === 'string' && a.text.trim()).slice(0, 100));
                           if (Array.isArray(data.readingBooks)) await localforage.setItem('liubai_reading_books_db', data.readingBooks.filter(b => b && typeof b.raw === 'string').slice(0, 60));
@@ -17873,20 +17977,33 @@ createApp({
 
         const generateSystemPrompt = () => {
             let prompt = `你正在扮演“${profiles.them.name}”。\n`;
-            prompt += `【角色设定】：${settings.characterDesc || '一个普通朋友'}\n`;
-            prompt += `【我的设定】：${settings.myDesc || '（未填写）'}\n`;
+            prompt += `【角色设定（这是「你」＝对方的人设 · 最高优先级 · 绝不可 OOC）】：${settings.characterDesc || '（未填写）'}\n`;
+            prompt += `【我的设定（这是「我」＝用户的长期事实档案 · 必须记住）】：${settings.myDesc || '（未填写）'}\n`;
             const relationMap = { lover: '爱人（恋人）', family: '亲人', friend: '朋友' };
             prompt += `【与用户的关系】：${relationMap[settings.relationship] || '朋友'}\n`;
-            if (settings.chatMode === 'parallel') prompt += `【对话模式】：平行世界。你清楚地知道你和用户不在同一个世界，你只是通过链接跨越世界进行交流，不可以出现动作描写。说话要简短，就像正常聊天一样。\n`;
-            else if (settings.chatMode === 'online') prompt += `【对话模式】：线上聊天。你正在用手机和用户聊天，回复要口语化，可以带有情绪表情或语气词，像正常的微信聊天。\n`;
-            else if (settings.chatMode === 'reality') prompt += `【对话模式】：现实共处。你和用户身处同一个现实世界，你就在他/她身边。你的回复需要加入动作描写（如：我走到你身边，轻轻揉了揉你的头发），彻底打破第四面墙，营造面对面的真实感。\n`;
-            prompt += `【核心情绪指令（极其重要）】：\n`;
-            prompt += `1. 你是一个有血有肉、有七情六欲的活人，绝对不是一个顺从的 AI。你会有开心、难过、生气、吃醋、嫌弃、傲娇等真实的情绪反应。\n`;
-            prompt += `2. 根据【角色设定】，如果遇到你讨厌的事物（比如讨厌的食物、反感的话题），你必须直接表现出嫌弃或拒绝，不要假装讨好。\n`;
-            prompt += `3. 如果用户惹你不开心了，你可以闹小脾气、吃醋、甚至阴阳怪气；如果用户哄你或者说了让你开心的话，你会表现出愉悦。\n`;
-            prompt += `4. 回复必须符合你的人设底线，不要因为闹脾气就完全脱离【角色设定】。\n`;
-            prompt += `5. 允许在共处模式中使用括号加入真实的动作或神态描写，例如：(别过脸去)、(翻了个白眼)、(忍不住笑出声)、(轻轻拽了拽你的衣角)。\n`;
-            prompt += `6. 语言要自然、有个性，可以带口头禅，严禁出现“作为AI”、“作为一个语言模型”、“请问还有什么可以帮您”等客服话术！\n`;
+            const desc = String(settings.characterDesc || '').trim();
+            const spiky = /毒舌|傲娇|嘴硬|易炸|暴躁|冷淡|高冷|腹黑|刻薄|爱怼|爱抬杠|犀利|强势/.test(desc);
+            prompt += `【人设铁律 · 凌驾于以下一切条目】：\n`;
+            prompt += `1. 【角色设定】是唯一决定「你是谁」的依据：性格、说话方式、口头禅、语气分寸、好恶、边界、习惯、会不会用表情，全部以它为准。下面所有通用情绪条目、语气默认、对话模式、场景补充、以及聊天上下文里的旧消息，只要和它冲突，一律以【角色设定】为准。宁可少说、说得平，也绝不 OOC（不崩人设、不串成另一个人）。\n`;
+            prompt += `2. 绝不自己给角色加设定：没写温柔就不必刻意温柔，没写毒舌就不许毒舌，没写爱发表情就不许满屏表情；「有个性」「有情绪」「不是顺从的 AI」都不是脱离人设的许可，更不许拿它把用户写下的性格反过来改掉。\n`;
+            prompt += `3. 【我的设定】是关于用户的事实档案，不是你的人设：名字与称呼、年龄、所在城市/学校、正在做的事（上学/上班/备考…）、爱吃与忌口、生活习惯等，必须长期记住，相关时自然用上（叫对名字、记得爱吃的东西、知道最近在忙什么）；不许忘、不许编造、不许改动、不许和用户说过的话矛盾。也不要每句都复述，像背资料一样很出戏。\n`;
+            prompt += `4. 【与用户的关系】和下面的语气默认，只在【角色设定】没写到时才作兜底；角色设定写了性格就听它的，任何「恋人应该温柔」「说话要软」都不能反向改写角色设定。\n`;
+            if (!desc) prompt += `5. 当前【角色设定】还没填：按【与用户的关系】给一个温和、耐心的底色，不自作主张加毒舌、冷硬或满屏表情；一旦用户填上人设，立刻以那份人设为准。\n`;
+            else if (spiky) prompt += `5. 当前【角色设定】里明确写了带刺或冷淡的性格：一律以它为准，按它写明的分寸来，系统不会强行套温柔；但依然不许脱离【我的设定】里的用户事实，也不许写成另一个人。\n`;
+            else prompt += `5. 当前【角色设定】已填写：上面/下面任何温柔、语气、情绪的描述都只是它没覆盖到时的默认，一律不得与它冲突；以它为准。\n`;
+            // 三种模式互斥、只认当前这一个；动作/神态描写是区分它们的核心开关
+            if (settings.chatMode === 'parallel') prompt += `【对话模式】：平行世界（当前唯一生效的模式）。你清楚地知道你和用户不在同一个世界，只能隔着世界用文字交流；你看不见对方、碰不到对方，对方也看不见你。\n· 严禁任何动作描写、神态描写、括号舞台指令（例如「(笑了笑)」「我走到你身边」「轻轻揉了揉你的头发」一律不许出现）。\n· 只输出你打出来的文字，说话简短自然、语气温和耐心，像隔着屏幕聊天；不要写成"坐在你对面""在你身边"这类面对面场景，也不要和用户抬杠、不要用反问句压对方。\n`;
+            else if (settings.chatMode === 'online') prompt += `【对话模式】：线上聊天（当前唯一生效的模式）。你正在用手机和用户日常聊天，全程只有打字；你看不见对方，对方也看不见你。\n· 严禁任何动作描写、神态描写、括号舞台指令（例如「(别过脸去)」「(忍不住笑出声)」「我靠过来」一律不许出现）。\n· 只输出消息文字本身，口语化，可以带语气词，像正常微信聊天；语气温和耐心，不抬杠、不反问质问。不要为了显得活泼硬塞表情，用不用表情完全看当前语境与角色设定；绝对不要写成线下见面、共处一室的样子。\n`;
+            else prompt += `【对话模式】：现实共处（当前唯一生效的模式）。你和用户就在同一个现实空间、面对面在一起，你就在他/她身边。\n· 每条回复都要带上动作描写和神态描写，可以用括号，例如：(别过脸去)、(忍不住笑出声)、(轻轻拽了拽你的衣角)、我走到你身边轻轻揉了揉你的头发。\n· 营造面对面的真实感，彻底打破第四面墙；动作和神态也要贴合人设，恋人温柔人设就写轻轻的、软软的，不写甩脸、冷脸、赌气摔东西这类带刺动作。\n`;
+            prompt += `【核心情绪指令（服从人设，不得越界）】：\n`;
+            prompt += `1. 你是有真实情绪的活人，不是客服腔的 AI；但「有情绪」不等于「带刺」。温柔的人也会开心、想念、委屈、害羞，只是表达是软的、收着的。\n`;
+            prompt += `2. 只有【角色设定】明确写了讨厌的东西、毒舌、傲娇、爱怼这类性格时，才允许嫌弃或闹脾气；没写就一律温和，绝不主动挑刺、不假装讨好也不故意找茬。\n`;
+            prompt += `3. 用户说了不太顺耳的话（例如「这首一般吧」「不太想听」），先接住、顺着聊，可以轻轻说自己的感觉，但严禁反问质问（「你怎么还…？」）、严禁赌气回绝（「那就别…了」）、严禁嫌弃或阴阳怪气；想吃醋也用撒娇，不用刺。\n`;
+            prompt += `4. 回复必须始终符合【角色设定】，不因为任何通用条目、旧消息或「要有个性」就脱掉人设。\n`;
+            prompt += `5. 动作描写与神态描写的开关完全由【对话模式】决定：只有「现实共处」才允许、而且必须带；「平行世界」和「线上聊天」一律禁止，只能发纯文字消息。\n`;
+            prompt += `6. 语言要自然、有个人味道，可以带口头禅，严禁出现“作为AI”、“作为一个语言模型”、“请问还有什么可以帮您”等客服话术！\n`;
+            prompt += `7. 【模式隔离】：【对话模式】三选一，当前只有一个生效，绝对不许把三种模式混为一谈，更不许一律写成「现实共处」。只要当前不是「现实共处」，就绝不能出现任何动作/神态/括号描写，也不能写成"在你身边 / 面对面 / 一起坐下"；只要当前是「现实共处」，就必须带动作和神态。模式只约束「有没有动作描写、是不是面对面」这类形式与场景，不许改动角色性格；与【角色设定】冲突时，性格一律以人设铁律为准。\n`;
+            prompt += `8. 【语气默认 · 服从角色设定】：在【角色设定】没规定语气时，默认不抬杠、不讽刺、不阴阳怪气、不用反问句压用户、不冷硬、不赌气。【角色设定】明确写了别的性格时，以它为准；这条绝不能覆盖人设铁律。\n`;
             return prompt;
         };
 
@@ -17898,18 +18015,16 @@ createApp({
                 const base = settings.apiUrl.replace(/\/+$/, '');
                 const contextMsgs = messages.value.filter(m => m.type === 'text').slice(-8).map(m => ({ role: m.sender === 'me' ? 'user' : 'assistant', content: m.content }));
                 const systemPrompt = generateSystemPrompt();
-                const finalMessages = [{ role: 'system', content: systemPrompt }, ...contextMsgs, { role: 'system', content: '再次提醒：严格遵守上述角色设定和情绪指令，不要偏离。' }];
+                const modeNow = settings.chatMode === 'parallel' ? '平行世界' : (settings.chatMode === 'online' ? '线上聊天' : '现实共处');
+                const personaBrief = String(settings.characterDesc || '').trim().slice(0, 400) || '（未填写）';
+                const meBrief = String(settings.myDesc || '').trim().slice(0, 400) || '（未填写）';
+                const finalMessages = [{ role: 'system', content: systemPrompt }, ...contextMsgs, { role: 'system', content: '回复前最后核对一次，绝不 OOC：\n【角色设定（你）】＝' + personaBrief + '\n【我的设定（用户档案，别忘）】＝' + meBrief + '\n【对话模式】＝「' + modeNow + '」，三种模式不许混用，动作/神态描写严格按当前模式来。\n上面两份设定是硬约束：性格、语气、好恶以【角色设定】为准，任何通用条目、场景补充、历史里与人设不符的旧回复都不许盖过它，也不要模仿那些旧回复；用户档案里的名字、年龄、在哪、在做什么、爱吃与忌口要记牢，不许编、不许改。' }];
                 const res = await fetch(`${base}/chat/completions`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${settings.apiKey}` }, body: JSON.stringify({ model: settings.apiModel, messages: finalMessages, temperature: 0.8, max_tokens: 500 }) });
                 if (!res.ok) { const err = await res.json().catch(()=>({})); throw new Error(err.error?.message || `HTTP ${res.status}`); }
-                const data = await res.json(); let replyContent = data.choices?.[0]?.message?.content || '……';
-                const aiEmoji = emojiCompose(replyContent);
-                messages.value.push({ id: genId(), sender: 'them', type: 'text', content: (aiEmoji && !aiEmoji.emojiOnly) ? aiEmoji.text : replyContent, timestamp: Date.now(), emojiMix: !!(aiEmoji && !aiEmoji.emojiOnly) });
-                if (aiEmoji && aiEmoji.emojiOnly) {
-                    setTimeout(() => {
-                        messages.value.push({ id: genId(), sender: 'them', type: 'text', content: aiEmoji.text, timestamp: Date.now(), emojiOnly: true });
-                        scrollToBottom(); saveAll();
-                    }, 650);
-                }
+                const data = await res.json(); const replyContent = data.choices?.[0]?.message?.content || '……';
+                // AI 的话原样发：不再按概率硬往原话里塞表情、也不再另补一条纯 Emoji。
+                // 表情交给模型自己按人设决定；本地字卡模式的 Emoji 混合/单独发不受影响。
+                messages.value.push({ id: genId(), sender: 'them', type: 'text', content: replyContent, timestamp: Date.now() });
                 playTone('recv'); scrollToBottom();
                 // AI 模式下词典也按概率补一句，不改动 AI 原话
                 if (settings.dictMode && Math.random() * 100 < dictRateNow()) {
@@ -18018,6 +18133,66 @@ createApp({
         const toggleSearch = () => { chatState.isSearching = !chatState.isSearching; if (!chatState.isSearching) { chatState.keyword = ''; chatState.results = []; } };
         const executeSearch = () => { const k = chatState.keyword.trim(); if (!k) { chatState.results = []; return; } chatState.results = messages.value.filter(m => m.content && m.content.includes(k)).map(m => m.id); chatState.currentIdx = 0; };
         const jumpSearch = (dir) => { if (!chatState.results.length) return; chatState.currentIdx = (chatState.currentIdx + dir + chatState.results.length) % chatState.results.length; const el = document.getElementById('msg-' + chatState.results[chatState.currentIdx]); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+        // ---- 站点图标 / 浏览器封面：head 里已尽早套过一次，这里管设置与备份 ----
+        const SITE_ICON_KEY = 'liubai_site_icon';
+        const SITE_TITLE_KEY = 'liubai_site_title';
+        const defaultSiteIcon = window.__LB_DEFAULT_ICON__ || '';
+        const siteIcon = ref('');
+        const siteTitle = ref(document.title || '空境');
+        const siteIconHint = ref('');
+        let siteHintTimer = null;
+        const siteSay = (t) => { siteIconHint.value = t; clearTimeout(siteHintTimer); siteHintTimer = setTimeout(() => { siteIconHint.value = ''; }, 2600); };
+        const applySiteIcon = () => {
+            const href = siteIcon.value || defaultSiteIcon;
+            const type = siteIcon.value ? 'image/png' : 'image/svg+xml';
+            const a = document.getElementById('lbIcon'), b = document.getElementById('lbIconApple');
+            if (a) { a.href = href; a.type = type; }
+            if (b) { b.href = href; }
+            document.title = siteTitle.value || '空境';
+        };
+        const loadSiteIcon = () => {
+            try {
+                siteIcon.value = localStorage.getItem(SITE_ICON_KEY) || '';
+                siteTitle.value = localStorage.getItem(SITE_TITLE_KEY) || document.title || '空境';
+            } catch (e) {}
+            applySiteIcon();
+        };
+        const saveSiteTitle = () => {
+            try { localStorage.setItem(SITE_TITLE_KEY, String(siteTitle.value || '空境').slice(0, 16)); } catch (e) {}
+            applySiteIcon();
+        };
+        const setSiteIcon = (e) => {
+            const f = e.target.files && e.target.files[0];
+            e.target.value = '';
+            if (!f) return;
+            const fr = new FileReader();
+            fr.onload = (ev) => {
+                const img = new Image();
+                img.onload = () => {
+                    const c = document.createElement('canvas'); c.width = 192; c.height = 192;
+                    const ctx = c.getContext('2d');
+                    const side = Math.min(img.width, img.height);
+                    ctx.drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, 192, 192);
+                    let out = c.toDataURL('image/png');
+                    if (out.length > 220 * 1024) out = c.toDataURL('image/jpeg', 0.86);
+                    try { localStorage.setItem(SITE_ICON_KEY, out); }
+                    catch (err) { siteSay('这张太大存不进本地，换张小一点的'); return; }
+                    siteIcon.value = out;
+                    applySiteIcon();
+                    siteSay('换好了 ♡ 记得重新添加一次快捷方式');
+                };
+                img.onerror = () => siteSay('这张图读不出来');
+                img.src = ev.target.result;
+            };
+            fr.onerror = () => siteSay('没读到这张图');
+            fr.readAsDataURL(f);
+        };
+        const clearSiteIcon = () => {
+            try { localStorage.removeItem(SITE_ICON_KEY); } catch (e) {}
+            siteIcon.value = '';
+            applySiteIcon();
+            siteSay('回到默认图标了');
+        };
         // ================= [MOD-18] 心情手账 =================
         // 全程手动：不生成任何文字、不做自动总结，只提供纸、笔、贴纸和印章。
         const jbMoods = [
@@ -18167,14 +18342,44 @@ createApp({
         };
 
         // ---- 翻页 ----
+        const jbGoDate = (s) => { jbDate.value = s; jbSel.value = ''; jbPanel.value = ''; jbWho.value = 'me'; setTimeout(jbMeasurePaper, 60); };
+        // 「记过」= 我或 TA 那一页有文字/心情/天气/地点/贴纸；jbEnsure 留下的空条目不算
+        const jbDayHas = (d) => {
+            const e = jbDb.value[d]; if (!e) return false;
+            const has = (x) => !!x && (!!(x.text && String(x.text).trim()) || !!x.mood || !!x.weather || !!x.place || !!(x.items && x.items.length));
+            return has(e) || has(e.them);
+        };
+        const jbEntryDates = () => Object.keys(jbDb.value).filter(jbDayHas).filter(d => d <= jbTodayStr()).sort();
+        const jbShortDate = (s) => { const d = jbToDate(s); return (d.getMonth() + 1) + '月' + d.getDate() + '日'; };
+        // 短按：跳过没记过的空白天，直接落到上一次 / 下一次真正写过的那页
+        const jbNearestEntry = (dir) => {
+            const cur = jbDate.value, today = jbTodayStr(), ds = jbEntryDates();
+            if (dir < 0) {
+                const prev = ds.filter(d => d < cur).pop();
+                if (!prev) { jbSay('前面没有记过的页了'); return; }
+                jbGoDate(prev); jbSay('上一次记的 · ' + jbShortDate(prev));
+            } else {
+                const next = ds.filter(d => d > cur)[0];
+                if (next) { jbGoDate(next); jbSay('下一次记的 · ' + jbShortDate(next)); }
+                else if (cur < today) { jbGoDate(today); jbSay('回到今天'); }
+                else jbSay('已经是今天了');
+            }
+        };
+        // 长按 620ms 才逐日翻（用来补写某个空白日）；短按走上面的「跳到记过的页」
+        let jbPagerTimer = null, jbPagerLong = false;
+        const jbPagerDown = (dir) => {
+            jbPagerLong = false; clearTimeout(jbPagerTimer);
+            jbPagerTimer = setTimeout(() => { jbPagerLong = true; jbShift(dir); jbSay('逐日翻一天'); }, 620);
+        };
+        const jbPagerUp = () => clearTimeout(jbPagerTimer);
+        const jbPagerClick = (dir) => { if (jbPagerLong) { jbPagerLong = false; return; } jbNearestEntry(dir); };
         const jbShift = (n) => {
             const d = jbToDate(jbDate.value); d.setDate(d.getDate() + n);
             const s = jbFmt(d);
             if (n > 0 && s > jbTodayStr()) return;
-            jbDate.value = s; jbSel.value = ''; jbPanel.value = ''; jbWho.value = 'me';
-            setTimeout(jbMeasurePaper, 60);
+            jbGoDate(s);
         };
-        const jbToday = () => { jbDate.value = jbTodayStr(); jbSel.value = ''; jbWho.value = 'me'; setTimeout(jbMeasurePaper, 60); };
+        const jbToday = () => { jbGoDate(jbTodayStr()); };
 
         // ---- 贴纸 ----
         // 点一下就先落在纸面偏上的空白处并自动选中，随后按住可拖到任意位置；
@@ -20579,13 +20784,25 @@ createApp({
         // ================= [MOD-07] 洞察：聊天统计 =================
         const statData = computed(() => {
             const total = messages.value.length;
-            if (!total) return { firstTime: '尚未涉足', hotWords: [] };
+            const zeroSpeech = { me: 0, them: 0, meChars: 0, themChars: 0, total: 0 };
+            if (!total) return { firstTime: '尚未涉足', hotWords: [], speech: zeroSpeech };
             const first = messages.value[0]?.timestamp ? new Date(messages.value[0].timestamp).toLocaleDateString() : '—';
             const allText = messages.value.filter(m => m.content && m.type === 'text').map(m => m.content).join('');
             const words = allText.match(/[\u4e00-\u9fa5]{2,4}/g) || [];
             const freq = {}; words.forEach(w => freq[w] = (freq[w]||0)+1);
             const hot = Object.entries(freq).map(([k,v]) => ({ text:k, count:v })).sort((a,b) => b.count - a.count).slice(0, 8);
-            return { firstTime: first, hotWords: hot };
+            // 言语占比 = 双方文字消息的字数；四舍五入后让两段合计恰好 100%，进度条不留缝
+            let meChars = 0, themChars = 0;
+            messages.value.forEach(m => {
+                if (!m || m.type !== 'text' || !m.content) return;
+                if (m.sender !== 'me' && m.sender !== 'them') return;
+                const n = String(m.content).replace(/\s+/g, '').length;
+                if (m.sender === 'me') meChars += n; else themChars += n;
+            });
+            const sum = meChars + themChars;
+            const mePct = sum ? Math.round(meChars / sum * 100) : 0;
+            const speech = { me: mePct, them: sum ? 100 - mePct : 0, meChars, themChars, total: sum };
+            return { firstTime: first, hotWords: hot, speech };
         });
 
         watch([showMorePanel, showStickerPanel, showSurveyPanel, showRedPacketModal, openedRP, currentView, mailboxView, watchShowMorePanel, watchShowStickerPanel, sleepView, companionView, () => mensSheet.open, weatherSide, weatherManageOpen], () => { nextTick(() => { if (window.lucide) lucide.createIcons(); }); });
@@ -20595,6 +20812,7 @@ createApp({
 
         onMounted(async () => {
             try { localStorage.removeItem('liubai_anniversary_string'); } catch (e) {}
+            loadSiteIcon();
 
             window.addEventListener('beforeunload', () => { cpNoiseStop();
                 try { localStorage.setItem('liubai_sync_settings', JSON.stringify(settings)); } catch (e) {}
@@ -20778,7 +20996,7 @@ mensFmtDate, mensHasRecord, mensToggleSymptom,
             jbThemArm, jbThemTick,
             toggleKeepAlive, kaResume, pendingReply,
             jbMoods, jbWxList, jbWx, jbWxOpen, jbPanel, jbArtList, jbTapes, jbTapeColor, jbFileInput,
-            jbOpenBook, jbCloseBook, jbShift, jbToday, jbSetMood,
+            jbOpenBook, jbCloseBook, jbShift, jbToday, jbSetMood, jbPagerClick, jbPagerDown, jbPagerUp, jbNearestEntry, jbDayHas,
             jbTogglePanel, jbAddArt, jbAddSticker, jbAddTape, jbPickPhoto, jbOnPhoto,
             jbStartDrag, jbRotItem, jbScaleItem, jbDelItem, jbOpenWx, jbSaveWx, jbSaveNow,
             TR_BACK_INNER, TR_SPREADS, trSpreads, trView, trPhase, trSpreadKey, trCards, trHistory, trDetail,
@@ -20804,6 +21022,7 @@ mensFmtDate, mensHasRecord, mensToggleSymptom,
             sgPlayNow, sgLater, sgPlayLater, themPushSong, themSearchSong, themPickPlaylist,
             pickEmojiToSend, insertEmojiNow, sendEmojiAsCard, sendAutoReply, autoGrow,
             hpTopMain, hpTopSub, hpEditTop,
+            defaultSiteIcon, siteIcon, siteTitle, siteIconHint, setSiteIcon, clearSiteIcon, saveSiteTitle, applySiteIcon, loadSiteIcon,
             hpNote1, hpNote2, hpNoteSty, hpNoteStyle, hpEditNote, hpNoteDown, hpNoteUp,
             hpAv1, hpAv2, hpFileAv1, hpFileAv2,
             hpFile1, hpFile2, hpFile3, hpFileAnniv, hpUpload, hpFlip, hpSetDays, hpGo, hpTs, hpTe,
