@@ -1534,8 +1534,159 @@ body { background-color:#d1d5db; font-family:"PingFang SC","Microsoft YaHei",sys
 .more-panel-btn:hover,.more-panel-btn:active { background:var(--color-bg); }
 .more-panel-btn svg { width:20px; height:20px; stroke-width:1.5; }
 
+
+/* ================= [MOD-26] 刷视频 ================= */
+.vd-page { background:var(--color-bg); }
+.vd-head { flex:none; padding:10px 14px 9px; border-bottom:1px solid var(--color-border); }
+.vd-tabs { display:flex; gap:6px; justify-content:center; }
+.vd-tab { padding:6px 14px; border-radius:14px; font-size:11px; letter-spacing:.08em;
+  border:1px solid var(--color-border); background:var(--color-surface); color:var(--color-muted); cursor:pointer; }
+.vd-tab.on { background:var(--color-text); color:var(--color-surface); border-color:var(--color-text); }
+.vd-body { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+
+/* ---- 推荐流：一次只挂一个播放器 ---- */
+
+/* ---- 推荐流：短视频式一屏一条，往上滑切下一条 ---- */
+.vd-body-lock { overflow:hidden !important; }
+.vd-feed-wrap { position:relative; height:100%; display:flex; flex-direction:column; }
+.vd-feed-t { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:12px;
+  letter-spacing:.14em; color:var(--color-text); }
+.vd-feed-n { font-size:10px; color:var(--color-muted); font-family:monospace; }
+.vd-snap-bar { flex:none; display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding:9px 16px 7px; border-bottom:1px solid var(--color-border); }
+.vd-snap { flex:1; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  scroll-snap-type:y mandatory; scrollbar-width:none; overscroll-behavior-y:contain; }
+.vd-snap::-webkit-scrollbar { display:none; }
+.vd-snap-item { height:100%; box-sizing:border-box; padding:10px 14px 14px;
+  scroll-snap-align:start; scroll-snap-stop:always; display:flex; }
+.vd-card { flex:1; min-height:0; display:flex; flex-direction:column;
+  border:1px solid var(--color-border); border-radius:18px; background:var(--color-surface);
+  overflow:hidden; box-shadow:0 6px 24px rgba(0,0,0,.06); }
+.vd-stage { position:relative; width:100%; aspect-ratio:16/9; flex:none; background:var(--color-bg); overflow:hidden; }
+.vd-cover { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; padding:20px; text-align:center; cursor:pointer;
+  background:linear-gradient(150deg, color-mix(in srgb,var(--color-accent) 16%,var(--color-surface)) 0%, var(--color-surface) 68%); }
+.vd-cover-cat { font-size:9.5px; letter-spacing:.2em; color:var(--color-muted); }
+.vd-cover-t { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:17px; line-height:1.65;
+  letter-spacing:.04em; color:var(--color-text); max-width:90%; }
+.vd-cover-play { width:44px; height:44px; border-radius:50%; border:1px solid var(--color-border);
+  background:var(--color-surface); color:var(--color-text); display:flex; align-items:center; justify-content:center;
+  font-size:15px; box-shadow:0 2px 10px rgba(0,0,0,.08); }
+.vd-cover-hint { font-size:9.5px; color:var(--color-muted); letter-spacing:.06em; }
+.vd-player { position:absolute; inset:0; width:100%; height:100%; border:0; display:block; background:#000; }
+.vd-info { flex:1; min-height:0; padding:15px 15px 14px; display:flex; flex-direction:column; }
+.vd-title { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:15px; line-height:1.7;
+  color:var(--color-text); letter-spacing:.02em; }
+.vd-sub { font-size:10.5px; color:var(--color-muted); margin-top:6px; }
+.vd-bvid { font-family:monospace; font-size:9px; opacity:.75; margin-left:6px; }
+.vd-acts { display:flex; flex-wrap:wrap; gap:7px; margin-top:13px; }
+.vd-btn { flex:1; min-width:88px; padding:9px 6px; border-radius:11px; font-size:11px; letter-spacing:.06em;
+  border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text); cursor:pointer; text-align:center; }
+.vd-btn.pri { background:var(--color-accent); border-color:var(--color-accent); color:var(--color-bg); }
+.vd-btn:disabled { opacity:.34; cursor:default; }
+.vd-btn.saved { border-color:var(--color-accent); color:var(--color-accent); }
+.vd-mid { flex:1; min-height:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:6px; pointer-events:none; }
+.vd-mid-no { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:54px; line-height:1;
+  color:var(--color-text); opacity:.055; }
+.vd-mid-txt { font-size:10px; color:var(--color-muted); opacity:.6; letter-spacing:.14em; }
+.vd-swipe-hint { padding-top:14px; font-size:9.5px; line-height:1.9;
+  color:var(--color-muted); letter-spacing:.04em; }
+.vd-fab { position:absolute; right:14px; bottom:18px; z-index:12; display:flex; flex-direction:column; gap:8px; }
+.vd-fab button { width:38px; height:38px; border-radius:50%; border:1px solid var(--color-border);
+  background:var(--color-surface); color:var(--color-text); font-size:14px; cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.12); }
+.vd-fab button:disabled { opacity:.3; }
+.vd-tip { font-size:10px; line-height:1.8; color:var(--color-muted); margin-top:12px;
+  padding:10px 12px; border:1px dashed var(--color-border); border-radius:12px; }
+
+/* ---- 屏蔽词 / 频道 ---- */
+.vd-block-bar { display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding:9px 11px; margin-bottom:10px; border:1px dashed var(--color-border); border-radius:12px; }
+.vd-block-l { font-size:10.5px; color:var(--color-text); letter-spacing:.04em; }
+.vd-block-n { font-size:9.5px; color:var(--color-muted); }
+.vd-panel { border:1px solid var(--color-border); border-radius:13px; background:var(--color-surface);
+  padding:12px; margin-bottom:12px; }
+.vd-panel-t { font-size:10px; letter-spacing:.14em; color:var(--color-muted); margin-bottom:9px; }
+.vd-words { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+.vd-word { display:inline-flex; align-items:center; gap:5px; padding:5px 9px; border-radius:12px;
+  font-size:10.5px; border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text); }
+.vd-none { font-size:10px; color:var(--color-muted); opacity:.8; padding:3px 2px; }
+.vd-word button { border:0; background:none; color:var(--color-muted); font-size:12px; cursor:pointer; padding:0 1px; }
+.vd-empty-cta { border:1px solid var(--color-border); border-radius:14px; background:var(--color-surface);
+  padding:18px 14px; text-align:center; }
+.vd-empty-cta-t { font-size:12px; color:var(--color-text); line-height:1.8; }
+.vd-empty-cta-s { font-size:10px; color:var(--color-muted); line-height:1.8; margin:6px 0 12px; }
+.vd-empty-acts { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; }
+.vd-empty-acts .vd-btn { flex:1 1 42%; min-width:0; }
+.vd-hot { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:4px; }
+.vd-hot .vd-chip { font-size:10px; }
+.vd-hot-lbl { font-size:9.5px; color:var(--color-muted); letter-spacing:.12em; margin:10px 0 7px; }
+.vd-chan { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+.vd-chan .vd-chip { padding-right:7px; }
+.vd-chan .vd-chip button { border:0; background:none; color:inherit; font-size:11px; cursor:pointer; margin-left:3px; opacity:.65; padding:0; }
+
+/* ---- 搜索 ---- */
+.vd-search-wrap { padding:14px 14px 24px; }
+.vd-sbox { display:flex; gap:7px; margin-bottom:10px; }
+.vd-inp { flex:1; min-width:0; box-sizing:border-box; padding:11px 12px; border-radius:12px;
+  border:1px solid var(--color-border); background:var(--color-surface); color:var(--color-text);
+  font-size:12.5px; outline:none; }
+.vd-go { padding:0 16px; border-radius:12px; border:1px solid var(--color-accent);
+  background:var(--color-accent); color:var(--color-bg); font-size:12px; cursor:pointer; white-space:nowrap; }
+.vd-chips { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+.vd-chip { padding:5px 11px; border-radius:14px; font-size:10.5px; border:1px solid var(--color-border);
+  background:var(--color-surface); color:var(--color-muted); cursor:pointer; }
+.vd-chip.on { background:var(--color-text); color:var(--color-surface); border-color:var(--color-text); }
+.vd-sec-t { font-size:10px; letter-spacing:.16em; color:var(--color-muted); margin:14px 0 8px; }
+.vd-net { display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;
+  margin:-2px 0 9px; font-size:9.5px; line-height:1.8; color:var(--color-muted); }
+.vd-net-state { flex:1; min-width:0; }
+.vd-net-all { flex:none; padding:5px 10px; border-radius:11px; font-size:10px;
+  border:1px solid var(--color-border); background:var(--color-surface); color:var(--color-text); cursor:pointer; }
+.vd-note { font-size:9.5px; line-height:1.85; color:var(--color-muted); margin:-4px 0 10px; }
+.vd-res { display:flex; gap:10px; align-items:center; padding:11px 12px; border-radius:13px;
+  border:1px solid var(--color-border); background:var(--color-surface); margin-bottom:8px; }
+.vd-res-main { flex:1; min-width:0; }
+.vd-res-t { font-size:12.5px; color:var(--color-text); line-height:1.55;
+  overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+.vd-res-s { font-size:9.5px; color:var(--color-muted); margin-top:4px; }
+.vd-mini-btn { flex:none; padding:7px 10px; border-radius:10px; font-size:10.5px;
+  border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text); cursor:pointer; }
+.vd-mini-btn.pri { border-color:var(--color-accent); color:var(--color-accent); }
+.vd-empty { text-align:center; padding:36px 10px; color:var(--color-muted); font-size:11.5px; line-height:2; }
+.vd-fold { border:1px dashed var(--color-border); border-radius:12px; padding:11px 12px; margin-top:14px; }
+.vd-fold-t { font-size:10.5px; color:var(--color-text); cursor:pointer; letter-spacing:.06em; }
+.vd-fold-b { margin-top:9px; }
+.vd-hint { font-size:9.5px; line-height:1.8; color:var(--color-muted); margin-top:7px; }
+
+/* ---- 仓库 ---- */
+.vd-body .vd-search-wrap, .vd-body .vd-shelf { min-height:100%; }
+.vd-shelf { padding:14px 14px 24px; }
+.vd-shelf-item { display:flex; gap:10px; align-items:center; padding:11px 12px; border-radius:13px;
+  border:1px solid var(--color-border); background:var(--color-surface); margin-bottom:8px; }
+.vd-shelf-n { width:20px; flex:none; text-align:center; font-family:monospace; font-size:10px; color:var(--color-muted); }
+.vd-toast { position:absolute; left:50%; bottom:24px; transform:translateX(-50%); padding:8px 15px;
+  border-radius:999px; background:var(--color-text); color:var(--color-bg); font-size:11px; z-index:40;
+  white-space:nowrap; pointer-events:none; animation:vdToast 2.6s ease forwards; }
+@keyframes vdToast { 0%{opacity:0} 12%,76%{opacity:.95} 100%{opacity:0} }
 /* ================= [MOD-25] 阅读室 ================= */
 .rd-wrap { padding:16px 16px 28px; }
+/* 阅读记录：书架最上面的一个框，沿用原站圆角卡片与主题变量 */
+.rd-stats { border:1px solid var(--color-border); border-radius:16px; background:var(--color-surface);
+  padding:12px 12px 13px; margin-bottom:14px; }
+.rd-stats-head { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px; }
+.rd-stats-title { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:11px;
+  letter-spacing:.14em; color:var(--color-text); }
+.rd-stats-hint { font-size:9.5px; color:var(--color-muted); }
+.rd-stats-grid { display:flex; gap:7px; }
+.rd-stat { flex:1; min-width:0; display:flex; flex-direction:column; align-items:center; gap:5px;
+  background:var(--color-bg); border:1px solid var(--color-border); border-radius:12px; padding:10px 3px 9px; }
+.rd-stat-num { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:13px; line-height:1.3;
+  color:var(--color-text); white-space:nowrap; max-width:100%; overflow:hidden; text-overflow:ellipsis; }
+.rd-stat-lbl { font-size:9.5px; line-height:1.35; color:var(--color-muted); text-align:center;
+  max-width:100%; overflow:hidden; text-overflow:ellipsis; }
+.rd-meta-stat { color:var(--color-muted); }
 .rd-note { font-size:10.5px; line-height:1.85; color:var(--color-muted); padding:11px 13px;
   border:1px dashed var(--color-border); border-radius:14px; background:var(--color-surface); margin-bottom:14px; }
 .rd-note b { color:var(--color-text); font-weight:600; }
@@ -3046,8 +3197,13 @@ html.dark textarea, html.dark input { color: #ffffff !important; caret-color: #f
       box-shadow:inset 0 0 0 1px rgba(0,0,0,.045); }
   .slp-sum-cap { font-size:10px; letter-spacing:.24em; color:var(--color-muted); text-align:center; }
   .slp-sum-moon { font-size:26px; color:var(--cp-primary); text-align:center; margin:10px 0 2px; line-height:1; }
-  .slp-sum-dur { font-family:'Noto Serif SC','Noto Serif SC Offline',serif;
-      font-size:27px; letter-spacing:.06em; color:var(--color-text); text-align:center; margin-top:10px; }
+  /* 一整行排完，不许把「分」挤到下一行；数字大、单位小，长时长也不会溢出相纸 */
+  .slp-sum-dur { display:flex; flex-wrap:nowrap; align-items:baseline; justify-content:center;
+      white-space:nowrap; gap:2px; font-family:'Noto Serif SC','Noto Serif SC Offline',serif;
+      color:var(--color-text); text-align:center; margin-top:10px; line-height:1.25; }
+  .slp-d-lead { font-size:clamp(13px,4.2vw,18px); letter-spacing:.08em; color:var(--color-muted); margin-right:4px; }
+  .slp-d-num  { font-size:clamp(22px,7vw,28px); font-weight:400; letter-spacing:.01em; margin:0 3px; }
+  .slp-d-unit { font-size:clamp(13px,4vw,17px); font-style:normal; letter-spacing:.04em; margin:0 1px; }
   .slp-sum-range { font-size:10.5px; letter-spacing:.12em; color:var(--color-muted); text-align:center; margin-top:8px; }
   .slp-sum-line { height:1px; background:var(--color-border); margin:18px 0 16px; }
   .slp-sum-lbl { font-size:9.5px; letter-spacing:.22em; color:var(--color-muted); margin-bottom:9px; }
@@ -3616,7 +3772,7 @@ html[class*="theme-"] [class*="bg-bg/30"] { background-color:transparent !import
               opacity:.45; pointer-events:none; }
 
 /* 图1 / 图2 叠放，点一下换到前面 */
-.hp-stack { position:relative; height:24vh; min-height:155px; max-height:215px; flex-shrink:0; margin-bottom:10px; }
+.hp-stack { position:relative; height:31vh; min-height:198px; max-height:282px; flex-shrink:0; margin-bottom:3px; }
 /* ---- 拍立得相纸 ----
    外层是相纸（白边），内层 .hp-ph-frame 才是照片。上/左右白边窄、底部留宽，
    是拍立得最标志的比例；底部那条白边同时是装饰槽，以后加贴纸/胶带就放 .hp-deco 里。 */
@@ -3644,8 +3800,8 @@ html.dark { --hp-paper:#E7E2D6; --hp-ink:#4A423C; --hp-line:rgba(74,66,60,.38); 
 .hp-deco-no { font-style:normal; font-size:8px; letter-spacing:.16em; color:var(--hp-ink) !important; opacity:.72; }
 .hp-deco-line { flex:1; height:1px; background:var(--hp-line); }
 .hp-deco-star { font-style:normal; font-size:9px; line-height:1; color:var(--hp-star) !important; opacity:.85; }
-.hp-photo.p1 { left:2%;  top:6%;  width:70%; height:82%; transform:rotate(-2.5deg); z-index:2; }
-.hp-photo.p2 { right:2%; top:0;   width:62%; height:74%; transform:rotate(3deg);   z-index:1; }
+.hp-photo.p1 { left:1%;  top:3%;  width:78%; height:93%; transform:rotate(-2.5deg); z-index:2; }
+.hp-photo.p2 { right:1%; top:0;   width:69%; height:87%; transform:rotate(3deg);   z-index:1; }
 .hp-photo.p1.front { z-index:3; transform:rotate(-1deg) translate(4px,-6px) scale(1.03); box-shadow:0 10px 26px rgba(0,0,0,.22), 0 2px 5px rgba(0,0,0,.08); }
 .hp-photo.p2.front { z-index:3; transform:rotate(1.5deg) translate(-4px,4px) scale(1.03); box-shadow:0 10px 26px rgba(0,0,0,.22), 0 2px 5px rgba(0,0,0,.08); }
 .hp-ph { font-size:10px; color:var(--color-muted); letter-spacing:.12em; }
@@ -3654,7 +3810,7 @@ html.dark { --hp-paper:#E7E2D6; --hp-ink:#4A423C; --hp-line:rgba(74,66,60,.38); 
           font-size:10px; display:flex; align-items:center; justify-content:center; z-index:4; }
 
 /* 心形装饰线 */
-.hp-heart { flex-shrink:0; height:14px; margin:2px 0 12px; }
+.hp-heart { flex-shrink:0; height:14px; margin:0 0 8px; }
 .hp-heart svg { width:100%; height:100%; fill:none; stroke:var(--color-border); stroke-width:1.2; }
 
 /* 下排：左竖列 + 右竖长图 */
@@ -3782,6 +3938,8 @@ html.dark[class*="theme-"] span.hp-pick { color:var(--hp-ink) !important; }
   .hp-grid4 .hp-cell:nth-child(11) { grid-column: 3 / span 1; justify-self: stretch; }
   /* 第 12 个（阅读室）补齐第三行最后一格 */
   .hp-grid4 .hp-cell:nth-child(12) { grid-column: 4 / span 1; justify-self: stretch; }
+  /* 第 13 个（刷视频）单独起第四行，左对齐 */
+  .hp-grid4 .hp-cell:nth-child(13) { grid-column: 1 / span 1; justify-self: stretch; }
 
 /* ============ [MOD-20] 寻他 · 卜卦占星方位盘 ============
    全部颜色走 --color-*，九套主题与昼夜自动跟随；盘面是象征推演，不排真实天象。 */
@@ -7420,7 +7578,13 @@ html, body { overscroll-behavior-y: none; }
                 <div class="slp-sum-inner">
                     <div class="slp-sum-cap">{{ slpSummary.dateText }} · 这一觉</div>
                     <div class="slp-sum-moon">☾</div>
-                    <div class="slp-sum-dur">你睡了 {{ slpSummary.durText }}</div>
+                    <div class="slp-sum-dur">
+                        <span class="slp-d-lead">你睡了</span>
+                        <template v-for="(p, i) in slpDurParts" :key="i">
+                            <b v-if="p.num" class="slp-d-num">{{ p.t }}</b>
+                            <i v-else class="slp-d-unit">{{ p.t }}</i>
+                        </template>
+                    </div>
                     <div class="slp-sum-range">{{ slpSummary.timeRange }}</div>
                     <div class="slp-sum-line"></div>
 
@@ -8164,6 +8328,178 @@ html, body { overscroll-behavior-y: none; }
 </div>
 
 
+
+<!-- ===== [MOD-26] 刷视频：点开就有推荐，可搜、可收进仓库 ===== -->
+<div v-if="currentView === 'video'" key="video" class="absolute inset-0 flex flex-col z-20 vd-page">
+    <header class="h-14 flex items-center justify-between px-4 shrink-0 bg-surface border-b border-border">
+        <button @click="switchView('home')" class="p-2 -ml-2 text-text"><i data-lucide="chevron-left" class="w-5 h-5 stroke-[1.5]"></i></button>
+        <span class="text-[13px] font-medium tracking-widest serif-text">刷视频</span>
+        <button @click="vdShuffle" class="p-2 -mr-2 text-text" title="换一批"><i data-lucide="shuffle" class="w-5 h-5 stroke-[1.5]"></i></button>
+    </header>
+
+    <div class="vd-head">
+        <div class="vd-tabs">
+            <span class="vd-tab" :class="{ on: vdTab === 'feed' }" @click="vdTab = 'feed'">推荐</span>
+            <span class="vd-tab" :class="{ on: vdTab === 'search' }" @click="vdTab = 'search'">搜一搜</span>
+            <span class="vd-tab" :class="{ on: vdTab === 'shelf' }" @click="vdTab = 'shelf'">我的仓库 {{ vdShelf.length ? '· ' + vdShelf.length : '' }}</span>
+        </div>
+    </div>
+
+    <div class="vd-body" :class="{ 'vd-body-lock': vdTab === 'feed' }">
+        <!-- ========== 推荐流：上下滑 / 按钮切，一次只挂一个播放器 ========== -->
+
+        <!-- ========== 推荐：短视频式一屏一条，往上滑切下一条 ========== -->
+        <div v-if="vdTab === 'feed'" class="vd-feed-wrap">
+            <div class="vd-snap-bar">
+                <span class="vd-feed-t">今天随便看看</span>
+                <span class="vd-feed-n">{{ vdIdx + 1 }} / {{ vdFeed.length }} · 已屏蔽 {{ vdBlockedCount }} 条</span>
+            </div>
+
+            <div class="vd-snap" ref="vdSnap" @scroll="vdOnScroll">
+                <div v-for="(v, i) in vdFeed" :key="v.bvid" class="vd-snap-item">
+                    <div class="vd-card">
+                        <div class="vd-stage">
+                            <div v-if="!(i === vdIdx && vdPlaying)" class="vd-cover" @click="vdPlayAt(i)">
+                                <span class="vd-cover-cat">{{ v.cat }}</span>
+                                <div class="vd-cover-t">{{ v.title }}</div>
+                                <span class="vd-cover-play">▶</span>
+                                <span class="vd-cover-hint">点一下播放 · 在下方往上滑换下一条</span>
+                            </div>
+                            <iframe v-else :key="v.bvid" class="vd-player" :src="vdPlayerUrl(v)"
+                                allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                                allowfullscreen scrolling="no" frameborder="0" referrerpolicy="no-referrer"
+                                :title="v.title"></iframe>
+                        </div>
+                        <div class="vd-info">
+                            <div class="vd-title">{{ v.title }}</div>
+                            <div class="vd-sub">{{ v.up || '来自 B 站' }} · {{ v.cat }}<span class="vd-bvid">{{ v.bvid }}</span></div>
+                            <div class="vd-acts">
+                                <button class="vd-btn" :class="{ saved: vdInShelf(v.bvid) }" @click="vdToggleShelf(v)">{{ vdInShelf(v.bvid) ? '已收进仓库' : '＋ 收进仓库' }}</button>
+                                <button class="vd-btn" @click="vdOpenBili(v)">去 B 站看</button>
+                                <button class="vd-btn" @click="vdDanmaku = !vdDanmaku; vdPlaying = false">弹幕 {{ vdDanmaku ? '开' : '关' }}</button>
+                            </div>
+                            <div class="vd-mid">
+                                <span class="vd-mid-no">{{ String(i + 1).padStart(2, '0') }}</span>
+                                <span class="vd-mid-txt">往上滑，看下一条 ♡</span>
+                            </div>
+                            <div class="vd-swipe-hint">在这块文字上往上滑，就跳到下一条 ♡<br>播放器用 B 站官方外链，个别视频 UP 主没开站外播放时点「去 B 站看」就行。</div>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="!vdFeed.length" class="vd-snap-item">
+                    <div class="vd-empty">这批都被屏蔽或刷完啦<br>去「搜一搜」调整屏蔽词，或点右上角换一批 ♡</div>
+                </div>
+            </div>
+
+            <div class="vd-fab">
+                <button :disabled="vdIdx <= 0" @click="vdTurn(-1)" title="上一条">↑</button>
+                <button :disabled="vdIdx >= vdFeed.length - 1" @click="vdTurn(1)" title="下一条">↓</button>
+            </div>
+        </div>
+
+        <!-- ========== 搜一搜 ========== -->
+        <div v-else-if="vdTab === 'search'" class="vd-search-wrap">
+            <div class="vd-sbox">
+                <input v-model="vdQuery" class="vd-inp" placeholder="搜标题 / UP 主 / 关键词 / BV 号" @keyup.enter="vdSearch">
+                <button class="vd-go" @click="vdSearch">搜索</button>
+            </div>
+
+            <div class="vd-hot-lbl">大家常搜 · 点一下就有结果</div>
+            <div class="vd-hot">
+                <span v-for="w in vdHotWords" :key="w" class="vd-chip" @click="vdQuery = w">{{ w }}</span>
+            </div>
+
+            <div v-if="vdChannels.length" class="vd-chan" style="margin-top:10px">
+                <span v-for="(c, i) in vdChannels" :key="c + i" class="vd-chip on" @click="vdUseChannel(c)">{{ c }}<button @click.stop="vdDelChannel(i)">×</button></span>
+            </div>
+
+            <div class="vd-chips" style="margin-top:10px">
+                <span class="vd-chip" :class="{ on: vdScope === 'all' }" @click="vdScope = 'all'">全部</span>
+                <span class="vd-chip" :class="{ on: vdScope === 'seed' }" @click="vdScope = 'seed'">推荐库</span>
+                <span class="vd-chip" :class="{ on: vdScope === 'shelf' }" @click="vdScope = 'shelf'">我的仓库</span>
+                <span class="vd-chip" :class="{ on: vdBlockOpen }" @click="vdBlockOpen = !vdBlockOpen">屏蔽词</span>
+                <span class="vd-chip" @click="vdSearch()">联网搜 ↻</span>
+                <span class="vd-chip" @click="vdSearchBili">去 B 站搜 ↗</span>
+            </div>
+            <div class="vd-note">点「搜索 / 联网搜」会去 B 站找公开视频，找到的能直接播、能收进仓库；个别时候连不上，就点「去 B 站搜 ↗」。</div>
+
+            <!-- 屏蔽词：默认规则写死在代码里，界面只管自己加的；精确子串匹配 -->
+            <div v-if="vdBlockOpen" class="vd-panel">
+                <div class="vd-panel-t">屏蔽关键词</div>
+                <div class="vd-words">
+                    <span v-for="(w, i) in vdBlocksCustom" :key="w + i" class="vd-word">{{ w }}<button @click="vdDelBlock(i)" title="删掉">×</button></span>
+                    <span v-if="!vdBlocksCustom.length" class="vd-none">还没加自己的屏蔽词</span>
+                </div>
+                <div class="vd-sbox" style="margin-bottom:0">
+                    <input v-model="vdBlockNew" class="vd-inp" placeholder="再加一个屏蔽词，一行一个也行" @keyup.enter="vdAddBlock">
+                    <button class="vd-go" @click="vdAddBlock">添加</button>
+                </div>
+                <div class="vd-hint">标题、UP 主、标签里含有屏蔽词就整条不显示（推荐、搜索、仓库都生效）。一行一个，点 × 删掉。</div>
+            </div>
+
+            <div class="vd-sec-t">{{ vdQuery.trim() ? '「' + vdQuery.trim() + '」的结果 · ' + vdResults.length + ' 条' : '推荐库里随便挑' }}</div>
+            <div class="vd-net">
+                <span class="vd-net-state">{{ vdNetState }}</span>
+                <button v-if="vdRemote.length" class="vd-net-all" @click="vdSaveRemoteAll">＋ 把联网结果全收进仓库</button>
+            </div>
+            <div v-for="(r, i) in vdResults" :key="r.bvid + i" class="vd-res">
+                <div class="vd-res-main">
+                    <div class="vd-res-t">{{ r.title }}</div>
+                    <div class="vd-res-s">{{ r.up || '来自 B 站' }}<template v-if="r.from !== 'web' && r.from !== 'direct' && r.cat"> · {{ r.cat }}</template><template v-if="r.from === 'web' || r.from === 'direct'"> · </template><span v-if="r.from === 'web'" class="vd-bvid">联网</span><span v-if="r.from === 'direct'" class="vd-bvid">BV 号</span><span class="vd-bvid">{{ r.bvid }}</span></div>
+                </div>
+                <button class="vd-mini-btn" @click="vdPlayFromResult(r)">▶ 播</button>
+                <button class="vd-mini-btn pri" :class="{ saved: vdInShelf(r.bvid) }" @click="vdToggleShelf(r)">{{ vdInShelf(r.bvid) ? '已收' : '＋ 收藏' }}</button>
+            </div>
+
+            <!-- 搜不出来时给明确出口，不再是一句空话 -->
+            <div v-if="!vdResults.length" class="vd-empty-cta">
+                <div class="vd-empty-cta-t">还没找到「{{ vdQuery.trim() || '这个词' }}」</div>
+                <div class="vd-empty-cta-s">联网这条路偶尔会被挡，不是视频不存在。<br>点「联网搜 ↻」再试一次，或直接去 B 站搜 / 把词存成频道 / 贴 BV 号。</div>
+                <div class="vd-empty-acts">
+                    <button class="vd-btn pri" @click="vdSearchBili">去 B 站搜 ↗</button>
+                    <button class="vd-btn" @click="vdAddChannel">存成我的频道 ♡</button>
+                </div>
+            </div>
+
+            <div class="vd-fold">
+                <div class="vd-fold-t" @click="vdFold = !vdFold">{{ vdFold ? '▾' : '▸' }} 想搜 B 站全网？接一个自己的接口（可选）</div>
+                <div v-if="vdFold" class="vd-fold-b">
+                    <input v-model="vdApi" class="vd-inp" placeholder="自己的接口（可不填），例如 https://xxx.workers.dev/search" @change="vdSaveApi">
+                    <div class="vd-hint">填了会优先试它：<code>?keyword=关键词</code>，返回 <code>[{bvid,title,up}]</code> 或 <code>{list:[...]}</code> 都行。不填也没关系，默认会自动试几个公共只读通道；它们不归本站管，偶尔会被限流，所以留这个口子给你放自己的中转。</div>
+                    <div class="vd-hint">也可以把 B 站链接 / BV 号贴一次加进仓库（以后都不用再贴）：</div>
+                    <div class="vd-sbox" style="margin-top:7px">
+                        <input v-model="vdPaste" class="vd-inp" placeholder="粘贴 B 站链接或 BV 号">
+                        <button class="vd-go" @click="vdAddPaste">收进来</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 我的仓库 ========== -->
+        <div v-else class="vd-shelf">
+            <div class="vd-feed-top">
+                <span class="vd-feed-t">我收的视频</span>
+                <span class="vd-feed-n">{{ vdShelfShown.length }} 条<span v-if="vdShelf.length !== vdShelfShown.length"> · 屏蔽 {{ vdShelf.length - vdShelfShown.length }}</span></span>
+            </div>
+            <div v-for="(r, i) in vdShelfShown" :key="r.bvid + i" class="vd-shelf-item">
+                <span class="vd-shelf-n">{{ i + 1 }}</span>
+                <div class="vd-res-main">
+                    <div class="vd-res-t">{{ r.title }}</div>
+                    <div class="vd-res-s">{{ r.up || '来自 B 站' }} · {{ r.cat }}<span class="vd-bvid">{{ r.bvid }}</span></div>
+                </div>
+                <button class="vd-mini-btn" @click="vdPlayFromResult(r)">▶</button>
+                <button class="vd-mini-btn" @click="vdMoveShelf(r.bvid, -1)" :disabled="i === 0">↑</button>
+                <button class="vd-mini-btn" @click="vdDelShelf(r.bvid)">×</button>
+            </div>
+            <div v-if="!vdShelfShown.length" class="vd-empty">仓库还是空的<br>去「推荐」或「搜一搜」点收藏 ♡</div>
+            <button v-if="vdShelf.length" class="vd-btn" style="width:100%;margin-top:8px" @click="vdClearShelf">清空仓库</button>
+            <div class="vd-tip">仓库里的会混进推荐流一起刷；导出全量备份、导入、清理缓存都会带着它。</div>
+        </div>
+    </div>
+
+    <div v-if="vdToast" class="vd-toast">{{ vdToast }}</div>
+</div>
+
 <!-- ===== [MOD-25] 阅读室 ===== -->
 <div v-if="currentView === 'reading'" key="reading" class="absolute inset-0 flex flex-col z-20 rd-page">
     <header class="h-14 flex items-center justify-between px-4 shrink-0 bg-surface border-b border-border">
@@ -8175,6 +8511,27 @@ html, body { overscroll-behavior-y: none; }
     <main ref="rdMain" class="flex-1 overflow-y-auto">
         <!-- ========== 书架 ========== -->
         <div v-if="rdView === 'shelf'" class="rd-wrap">
+            <!-- 阅读记录：我看了多久 / 看了几本 / 他陪我看了多久 -->
+            <div class="rd-stats">
+                <div class="rd-stats-head">
+                    <span class="rd-stats-title">阅读记录</span>
+                    <span class="rd-stats-hint">书架 {{ rdBooks.length }} 本 · 翻开才算</span>
+                </div>
+                <div class="rd-stats-grid">
+                    <div class="rd-stat">
+                        <span class="rd-stat-num">{{ rdFmtDur(rdStats.totalSec) }}</span>
+                        <span class="rd-stat-lbl">我读了</span>
+                    </div>
+                    <div class="rd-stat">
+                        <span class="rd-stat-num">{{ rdStats.opened.length }} 本</span>
+                        <span class="rd-stat-lbl">读过的书</span>
+                    </div>
+                    <div class="rd-stat">
+                        <span class="rd-stat-num">{{ rdFmtDur(rdStats.togetherSec) }}</span>
+                        <span class="rd-stat-lbl">{{ profiles.them.name }} 陪我读</span>
+                    </div>
+                </div>
+            </div>
             <div class="rd-note">
                 <span class="rd-note-t">怎么把书放进来</span>
                 <b>① 传文件</b>：.txt / .md / .epub，本机直接读，不上传。<br>
@@ -8199,7 +8556,7 @@ html, body { overscroll-behavior-y: none; }
             <div class="rd-meta">
                 <div class="rd-meta-l">
                     <div class="rd-meta-t">{{ rdBook ? rdBook.title : '' }}</div>
-                    <div class="rd-meta-s">{{ rdBook ? (rdBook.author || '佚名') : '' }} · 一页一页读，不跳页</div>
+                    <div class="rd-meta-s">{{ rdBook ? (rdBook.author || '佚名') : '' }} · 一页一页读，不跳页<span v-if="rdStats.totalSec >= 60" class="rd-meta-stat"> · 已读 {{ rdFmtDur(rdStats.totalSec) }}</span></div>
                 </div>
                 <span class="rd-together" :class="{ off: !rdTogether }"><i></i>{{ rdTogether ? profiles.them.name + ' 在一起读' : '一个人读' }}</span>
             </div>
@@ -8730,7 +9087,8 @@ createApp({
             sleep: { img: '', name: '睡眠', icon: 'bed-double', path: 'sleep' },
             shop:  { img: '', name: '商场', icon: 'shopping-bag', path: 'shop' },
             horary:{ img: '', name: '寻他', icon: 'navigation',    path: 'horary' },
-            reading:{ img: '', name: '阅读', icon: 'book-open',     path: 'reading' }
+            reading:{ img: '', name: '阅读', icon: 'book-open',     path: 'reading' },
+            video:  { img: '', name: '刷视频', icon: 'play',         path: 'video' }
         });
 
         // 自定义图标数据读不出来时，不要留一个空方框：清掉坏图，回退到原 SVG 图标。
@@ -8838,9 +9196,366 @@ createApp({
         const patGoManage = () => { patPickerOpen.value = false; libraryTab.value = 'pat'; switchView('library'); };
 
 
+
+        // ================= [MOD-26] 刷视频 =================
+
+        // ================= [MOD-26] 刷视频 =================
+        // 起步推荐：一批真实公开的 B 站视频（只放 UGC 向，尽量避开版权/会员内容）。
+        // 点开就有，不用贴 BV 号；tags 给足同义词，搜「猫」「做饭」「历史」「游戏」都能出结果。
+        const VIDEO_SEED = [
+            { bvid:'BV1kZWX62ENY', title:'为什么是最后一期？影视飓风 1800 万粉丝 Q&A', up:'影视飓风', cat:'日常', tags:'聊天 幕后 摄影 相机 Q&A 影视飓风' },
+            { bvid:'BV1hrW367Emp', title:'辽阔的土地生不出狭隘的爱', up:'小王不爱干正事', cat:'日常', tags:'旅行 风景 生活 治愈 vlog 路上 大地' },
+            { bvid:'BV14gW16iEq8', title:'【烂奇迹】三毛：我的一生颠沛流离，活到现在算是个奇迹', up:'HA哈喽椰', cat:'知识', tags:'人物 传记 文学 读书 三毛 故事' },
+            { bvid:'BV1sEW16cEJN', title:'把旧发条装新身体上会发生什么？', up:'叶玲秋雨', cat:'手作', tags:'手工 机械 创意 DIY 修复 发条' },
+            { bvid:'BV1u6tPzSEWG', title:'AI 切下各种自然现象', up:'', cat:'自然', tags:'ASMR 解压 视觉 自然 冰川 海浪 火山 AI' },
+            { bvid:'BV1dStUznETg', title:'麦门单品好吃程度排行，从夯到拉', up:'', cat:'食物', tags:'测评 美食 日常 麦当劳 吃 排行' },
+            { bvid:'BV1pAapzaEJ5', title:'阅兵的意义是什么？走进新中国 18 次大阅兵', up:'', cat:'知识', tags:'历史 科普 阅兵 军事 九三' },
+            { bvid:'BV1EfaBzuETw', title:'一期视频带你看懂所有阅兵装备！', up:'', cat:'知识', tags:'科普 装备 阅兵 军事 武器' },
+            { bvid:'BV1nwauzREuU', title:'谁来谁没来？阅兵观礼台 2015 VS 2025，看世界格局的重塑', up:'', cat:'知识', tags:'历史 观察 阅兵 世界 格局' },
+            { bvid:'BV1dUhyzjEp2', title:'一个外卖员的现实版 mc 烧饭 × 猪排滑蛋饭', up:'', cat:'食物', tags:'做饭 治愈 mc 我的世界 料理 猪排 饭 外卖' },
+            { bvid:'BV1o3eYzXEj4', title:'一个外卖员的现实版 mc 烧饭', up:'', cat:'食物', tags:'做饭 日常 mc 我的世界 游戏 料理' },
+            { bvid:'BV1QWaRzTEqg', title:'人教版《作为小县城唯一玩过原神的人》', up:'', cat:'日常', tags:'朗读 幽默 原神 游戏 小县城 课文' },
+            { bvid:'BV11faGzVE45', title:'（朗诵）作为小县城唯一玩过原神的人', up:'', cat:'日常', tags:'朗诵 文学 原神 游戏 小县城' },
+            { bvid:'BV1aNWm6UEeC', title:'他真的太优雅了！灰太狼 & 红太狼【非凡之爱】', up:'可口的红糖', cat:'动画', tags:'二创 动画 喜羊羊 灰太狼 优雅' },
+            { bvid:'BV144nY6xELV', title:'陌生人拿着我的衣服牵苦根', up:'', cat:'日常', tags:'狗狗 狗 温暖 短片 失明狗 陌生人' },
+            { bvid:'BV1ECnv6pEqD', title:'怎么样才能回到从前', up:'', cat:'日常', tags:'独白 回忆 伤感 农活 方言 短片' },
+            { bvid:'BV1ZrnH6jE94', title:'黄昏与殿堂，跳舞与小丑', up:'', cat:'音乐', tags:'舞蹈 跳舞 光影 逆光 小丑 殿堂' },
+            { bvid:'BV1JBnh6gE1h', title:'功夫小霉猫', up:'', cat:'日常', tags:'猫 猫咪 猫猫 功夫 搞笑 短片' },
+            { bvid:'BV17rHA6tEcm', title:'头一回见，点份烤冷面，放一桶酱', up:'', cat:'食物', tags:'美食 搞笑 街边 小吃 烤冷面 酱 外卖' },
+            { bvid:'BV1TRJR6XEzf', title:'一个开了很久的汉堡店～', up:'', cat:'食物', tags:'小店 故事 手绘 汉堡 店 日常' },
+            { bvid:'BV1R4nr6tE7S', title:'「当我妈让我喊弟弟出来吃饭」', up:'安老大与小王八_', cat:'日常', tags:'姐弟 家庭 搞笑 妈妈 弟弟 吃饭' },
+            { bvid:'BV1CLnm6FEC6', title:'你还是下去通透吧', up:'', cat:'日常', tags:'钓鱼 蛇 贴纸 搞笑 短片' },
+            { bvid:'BV1bMni6KEkd', title:'空气呀空气，肺哥断不了情根', up:'', cat:'音乐', tags:'改编 翻唱 唱歌 器官 肺 情歌' },
+            { bvid:'BV1u5n66mE4J', title:'大阪城套了 3 层：底下埋着丰臣，顶上是带电梯的水泥楼', up:'', cat:'知识', tags:'历史 建筑 旅行 日本 大阪城 城' },
+            { bvid:'BV1hFnm63ESF', title:'爱你老鸡一会见', up:'', cat:'食物', tags:'美食 短片 鸡 菜 情话 治愈' },
+            { bvid:'BV18Knm6TEq6', title:'当栗子用她的 1 级中文和我交流', up:'', cat:'日常', tags:'语言 中文 可爱 栗子 交流 日常' },
+            { bvid:'BV1aknm6rEXW', title:'兄弟们，她竟然懂我……哈哈哈哈', up:'', cat:'日常', tags:'日常 搞笑 石头 情侣 闪回 短片' },
+            { bvid:'BV1Sfny6AEzY', title:'天塌了', up:'', cat:'日常', tags:'日常 短片 倒霉 录屏 搞笑' },
+            { bvid:'BV1cTnz6eENJ', title:'逐 渐 升 温', up:'', cat:'日常', tags:'情侣 问答 送命题 升温 日常' },
+            { bvid:'BV1ecJR6fE6N', title:'情侣', up:'', cat:'日常', tags:'猫 情侣 女友 上屏下屏 对照' },
+            { bvid:'BV1gHWg6GEqj', title:'《崩坏：星穹铁道》动画短片：「月下的欢快葬礼」', up:'崩坏星穹铁道', cat:'动画', tags:'游戏 星穹铁道 崩铁 动画 PV 短片' },
+            { bvid:'BV1bonb6JEAh', title:'我把躲空间斩做成了游戏', up:'', cat:'游戏', tags:'游戏 反应 搞笑 自制 小游戏' },
+            { bvid:'BV1sznz6rESc', title:'小猫地铁上聆听神爹音乐却被隔壁女孩搭讪，这下小猫可惨了。', up:'', cat:'日常', tags:'猫 猫咪 地铁 搞笑 音乐 短片' },
+            { bvid:'BV1sAvwzQEWT', title:'「LESSON」开始了，乔尼', up:'', cat:'动画', tags:'二创 JOJO 渲染大赛 动画 学车 老奶奶' },
+            { bvid:'BV1uv411q7Mv', title:'在 MC 中还原糖调小镇', up:'', cat:'游戏', tags:'MC 我的世界 建筑 还原 游戏 小镇' }
+        ];
+        // 内置屏蔽词：精确子串匹配。只藏这两个词本身，不藏「格瑞已女向」「格瑞乙女向」。
+        const VD_BUILTIN_BLOCKS = ['格瑞cp', '格瑞爱情向梦女'];
+        const VD_SHELF_KEY = 'liubai_video_shelf_db';
+        const VD_API_KEY = 'liubai_video_api_db';
+        const VD_BLOCK_KEY = 'liubai_video_block_db';
+        const VD_CHANNEL_KEY = 'liubai_video_channels_db';
+
+        const vdTab = ref('feed');
+        const vdShelf = ref([]);
+        const vdFeed = ref([]);
+        const vdIdx = ref(0);
+        const vdPlaying = ref(false);
+        const vdDanmaku = ref(false);
+        const vdQuery = ref('');
+        const vdScope = ref('all');
+        const vdFold = ref(false);
+        const vdBlockOpen = ref(false);
+        const vdBlockNew = ref('');
+        const vdBlocksCustom = ref([]);
+        const vdChannels = ref([]);
+        const vdApi = ref('');
+        const vdPaste = ref('');
+        const vdRemote = ref([]);
+        const vdToast = ref('');
+        const vdSnap = ref(null);
+        let vdToastTimer = null, vdScrollLockUntil = 0;
+
+        const vdShowToast = (t) => { vdToast.value = t; clearTimeout(vdToastTimer); vdToastTimer = setTimeout(() => { vdToast.value = ''; }, 2600); };
+        const vdShuffleArr = (arr) => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+        const vdAllBlocks = computed(() => VD_BUILTIN_BLOCKS.concat(vdBlocksCustom.value));
+        // 标题 / UP 主 / 分类 / 标签 / BV 号里含有屏蔽词就整条不显示
+        const vdIsBlocked = (v) => {
+            if (!v) return false;
+            const hay = [v.title, v.up, v.cat, v.tags, v.bvid].map(x => String(x || '')).join(' ').toLowerCase();
+            return vdAllBlocks.value.some(w => { const k = String(w || '').trim().toLowerCase(); return k && hay.indexOf(k) >= 0; });
+        };
+        const vdBlockedCount = computed(() => {
+            const pool = vdShelf.value.concat(VIDEO_SEED);
+            return pool.filter(v => vdIsBlocked(v)).length;
+        });
+        const vdShelfShown = computed(() => vdShelf.value.filter(v => !vdIsBlocked(v)));
+        const vdHotWords = computed(() => {
+            const cnt = {};
+            VIDEO_SEED.forEach(v => String(v.tags || '').split(/\s+/).forEach(w => { if (w && w.length <= 6) cnt[w] = (cnt[w] || 0) + 1; }));
+            return Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]).slice(0, 14);
+        });
+
+        const vdBuildFeed = () => {
+            // 仓库优先，再接打乱后的起步推荐；去重 + 屏蔽
+            const seen = {}, out = [];
+            for (const v of vdShelf.value) { if (v && v.bvid && !seen[v.bvid] && !vdIsBlocked(v)) { seen[v.bvid] = 1; out.push(Object.assign({}, v, { cat: v.cat || '我收的' })); } }
+            for (const v of vdShuffleArr(VIDEO_SEED)) { if (!seen[v.bvid] && !vdIsBlocked(v)) { seen[v.bvid] = 1; out.push(Object.assign({}, v)); } }
+            vdFeed.value = out; vdIdx.value = 0; vdPlaying.value = false;
+            nextTick(() => { const el = vdSnap.value; if (el) el.scrollTop = 0; });
+        };
+        const vdCur = computed(() => vdFeed.value[vdIdx.value] || null);
+        const vdPlayerUrl = (v) => 'https://player.bilibili.com/player.html?bvid=' + encodeURIComponent(v.bvid)
+            + '&page=1&high_quality=1&danmaku=' + (vdDanmaku.value ? '1' : '0') + '&as_wide=1&autoplay=0';
+        const vdOpenBili = (v) => { try { window.open('https://www.bilibili.com/video/' + encodeURIComponent(v.bvid), '_blank', 'noopener'); } catch (e) {} };
+        const vdPlayAt = (i) => { vdIdx.value = i; vdPlaying.value = true; };
+        // 短视频式：一屏一条，scroll 到哪条就播哪条（点封面才挂播放器）
+        const vdOnScroll = (e) => {
+            const el = e && e.target; if (!el) return;
+            if (Date.now() < vdScrollLockUntil) return;
+            const n = Math.round(el.scrollTop / Math.max(1, el.clientHeight));
+            if (n >= 0 && n < vdFeed.value.length && n !== vdIdx.value) { vdIdx.value = n; vdPlaying.value = false; }
+        };
+        const vdScrollTo = (i) => {
+            const n = Math.max(0, Math.min(vdFeed.value.length - 1, i));
+            vdIdx.value = n; vdPlaying.value = false;
+            vdScrollLockUntil = Date.now() + 480;
+            nextTick(() => { const el = vdSnap.value || document.querySelector('.vd-snap'); if (el) el.scrollTo({ top: n * el.clientHeight, behavior: 'smooth' }); });
+        };
+        const vdTurn = (d) => vdScrollTo(vdIdx.value + d);
+        // 兼容老入口（手势/滚轮），统一走 scrollTo
+        const vdTs = () => {};
+        const vdTe = () => {};
+        const vdWheel = () => {};
+        watch(vdTab, (t) => {
+            if (t !== 'feed') return;
+            nextTick(() => { const el = vdSnap.value; if (el) el.scrollTop = vdIdx.value * el.clientHeight; });
+        });
+
+        const vdSaveShelf = () => { try { localforage.setItem(VD_SHELF_KEY, JSON.parse(JSON.stringify(vdShelf.value))); } catch (e) {} };
+        const vdSaveApi = () => { try { localforage.setItem(VD_API_KEY, String(vdApi.value || '').trim()); } catch (e) {} };
+        const vdSaveBlocks = () => { try { localforage.setItem(VD_BLOCK_KEY, JSON.parse(JSON.stringify(vdBlocksCustom.value))); } catch (e) {} };
+        const vdSaveChannels = () => { try { localforage.setItem(VD_CHANNEL_KEY, JSON.parse(JSON.stringify(vdChannels.value))); } catch (e) {} };
+        const vdLoad = async () => {
+            try {
+                const v = await localforage.getItem(VD_SHELF_KEY);
+                if (Array.isArray(v)) vdShelf.value = v.filter(x => x && typeof x.bvid === 'string').slice(0, 300)
+                    .map(x => ({ bvid: x.bvid, title: String(x.title || '我加的视频').slice(0, 90), up: String(x.up || '').slice(0, 30), cat: String(x.cat || '我收的').slice(0, 12), tags: String(x.tags || '').slice(0, 60), at: x.at || Date.now() }));
+                const a = await localforage.getItem(VD_API_KEY);
+                if (typeof a === 'string') vdApi.value = a;
+                const b = await localforage.getItem(VD_BLOCK_KEY);
+                if (Array.isArray(b)) vdBlocksCustom.value = b.filter(x => typeof x === 'string' && x.trim()).slice(0, 100).map(x => String(x).trim().slice(0, 30));
+                const c = await localforage.getItem(VD_CHANNEL_KEY);
+                if (Array.isArray(c)) vdChannels.value = c.filter(x => typeof x === 'string' && x.trim()).slice(0, 20).map(x => String(x).trim().slice(0, 24));
+            } catch (e) {}
+            vdBuildFeed();
+        };
+        const vdInShelf = (bvid) => vdShelf.value.some(x => x.bvid === bvid);
+        const vdToggleShelf = (v) => {
+            if (!v || !v.bvid) return;
+            const i = vdShelf.value.findIndex(x => x.bvid === v.bvid);
+            if (i >= 0) { vdShelf.value.splice(i, 1); vdShowToast('已从仓库移除'); }
+            else {
+                if (vdIsBlocked(v)) { vdShowToast('这条命中了屏蔽词，没收进来'); return; }
+                vdShelf.value.unshift({ bvid: v.bvid, title: String(v.title || '我加的视频').slice(0, 90), up: String(v.up || '').slice(0, 30), cat: String(v.cat || '我收的').slice(0, 12), tags: String(v.tags || '').slice(0, 60), at: Date.now() });
+                vdShowToast('收进仓库了 ♡');
+            }
+            vdSaveShelf(); vdBuildFeed();
+        };
+        const vdDelShelf = (bvid) => { const i = vdShelf.value.findIndex(x => x.bvid === bvid); if (i >= 0) { vdShelf.value.splice(i, 1); vdSaveShelf(); vdBuildFeed(); vdShowToast('移除了一条'); } };
+        const vdMoveShelf = (bvid, d) => { const i = vdShelf.value.findIndex(x => x.bvid === bvid); const j = i + d; if (i < 0 || j < 0 || j >= vdShelf.value.length) return; const t = vdShelf.value[i]; vdShelf.value[i] = vdShelf.value[j]; vdShelf.value[j] = t; vdSaveShelf(); vdBuildFeed(); };
+        const vdClearShelf = () => { if (!confirm('清空我的仓库？起步推荐还在，不会没得刷。')) return; vdShelf.value = []; vdSaveShelf(); vdBuildFeed(); vdShowToast('仓库清空了'); };
+        const vdPlayFromResult = (v) => {
+            let i = vdFeed.value.findIndex(x => x.bvid === v.bvid);
+            if (i < 0) { vdFeed.value.unshift(Object.assign({}, v, { cat: v.cat || '搜到的' })); i = 0; }
+            vdTab.value = 'feed'; vdIdx.value = i; vdPlaying.value = true;
+            nextTick(() => { const el = vdSnap.value; if (el) { vdScrollLockUntil = Date.now() + 300; el.scrollTop = i * el.clientHeight; } });
+        };
+
+        // ---- 屏蔽词管理 ----
+        const vdAddBlock = () => {
+            const raw = String(vdBlockNew.value || '').trim();
+            if (!raw) return;
+            const words = raw.split(/[\n,，、]+/).map(x => x.trim()).filter(Boolean);
+            let n = 0;
+            for (const w of words) {
+                const k = w.slice(0, 30);
+                if (!k || VD_BUILTIN_BLOCKS.indexOf(k) >= 0 || vdBlocksCustom.value.indexOf(k) >= 0) continue;
+                vdBlocksCustom.value.push(k); n++;
+            }
+            vdBlockNew.value = '';
+            vdSaveBlocks(); vdBuildFeed();
+            vdShowToast(n ? '加了 ' + n + ' 个屏蔽词' : '这个词已经在里面了');
+        };
+        const vdDelBlock = (i) => { vdBlocksCustom.value.splice(i, 1); vdSaveBlocks(); vdBuildFeed(); vdShowToast('删掉了一个屏蔽词'); };
+        // ---- 我的频道：搜不到的词存下来，下次一键再搜 ----
+        const vdAddChannel = () => {
+            const q = String(vdQuery.value || '').trim().slice(0, 24);
+            if (!q) { vdShowToast('先输入一个词'); return; }
+            if (vdChannels.value.indexOf(q) >= 0) { vdShowToast('这个频道已经在啦'); return; }
+            vdChannels.value.unshift(q); if (vdChannels.value.length > 20) vdChannels.value.pop();
+            vdSaveChannels(); vdShowToast('存成频道了 ♡');
+        };
+        const vdDelChannel = (i) => { vdChannels.value.splice(i, 1); vdSaveChannels(); };
+        const vdUseChannel = (c) => { vdQuery.value = c; vdSearch(); };
+
+        // ---- 联网搜 B 站：多通道挨个试，谁通就用谁；解析不依赖单一接口 ----
+        const vdNetState = ref('');
+        const vdNetBusy = ref(false);
+        const VD_BV_RE = /^BV[a-zA-Z0-9]{10}$/;
+        const vdCleanTxt = (t) => String(t || '')
+            .replace(/<[^>]*>/g, '').replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#39;/g, "'")
+            .replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+        const vdNormItem = (x) => {
+            if (!x) return null;
+            const bvid = String(x.bvid || x.aid && ('BV' + x.aid) || '');
+            if (!VD_BV_RE.test(bvid)) return null;
+            return {
+                bvid, title: (vdCleanTxt(x.title || x.name || x.arcurl || '') || '来自 B 站的视频').slice(0, 90),
+                up: vdCleanTxt(x.up || x.author || x.owner || x.mid || '').slice(0, 30),
+                cat: '联网', tags: vdCleanTxt(x.tag || x.tags || x.description || '').slice(0, 60), from: 'web'
+            };
+        };
+        // 兼容：数组 / {list} / B 站 {data:{result:[...]}} / 分组里的 data
+        const vdParseJson = (body) => {
+            let j = body;
+            if (typeof body === 'string') {
+                try { j = JSON.parse(body); }
+                catch (e) {
+                    const m = body.match(/```(?:json)?\s*([\s\S]*?)```/);
+                    if (m) { try { j = JSON.parse(m[1]); } catch (e2) { j = null; } } else j = null;
+                }
+            }
+            if (!j || typeof j !== 'object') return [];
+            let list = Array.isArray(j) ? j : (Array.isArray(j.list) ? j.list : []);
+            const d = j.data;
+            if (!list.length && d) {
+                if (Array.isArray(d.result)) {
+                    // search/all/v2 会把不同区分组，组里才是真视频
+                    for (const g of d.result) {
+                        if (Array.isArray(g && g.data)) list = list.concat(g.data);
+                        else if (g && g.bvid) list.push(g);
+                    }
+                } else if (Array.isArray(d.list)) list = d.list;
+                else if (Array.isArray(d)) list = d;
+            }
+            return list.map(vdNormItem).filter(Boolean);
+        };
+        // 页面文本兜底：markdown 链接 [标题](...BVxxx...) 或裸 BV 号
+        const vdParseText = (txt) => {
+            const t = String(txt || ''); if (!t) return [];
+            const out = [], seen = {};
+            const link = /\[([^\]\n]{2,90})\]\([^)]*?(BV[a-zA-Z0-9]{10})[^)]*\)/g;
+            let m;
+            while ((m = link.exec(t)) !== null) {
+                if (seen[m[2]]) continue; seen[m[2]] = 1;
+                out.push({ bvid: m[2], title: vdCleanTxt(m[1]).slice(0, 90) || '来自 B 站的视频', up: '', cat: '联网', tags: '', from: 'web' });
+            }
+            const bare = /(BV[a-zA-Z0-9]{10})/g;
+            while ((m = bare.exec(t)) !== null) {
+                if (seen[m[1]]) continue; seen[m[1]] = 1;
+                out.push({ bvid: m[1], title: '来自 B 站的视频', up: '', cat: '联网', tags: '', from: 'web' });
+            }
+            return out;
+        };
+        const vdFetch = async (url, ms) => {
+            const ctl = new AbortController();
+            const timer = setTimeout(() => ctl.abort(), ms || 6500);
+            try {
+                const r = await fetch(url, { method: 'GET', signal: ctl.signal });
+                if (!r.ok) return null;
+                return await r.text();
+            } catch (e) { return null; }
+            finally { clearTimeout(timer); }
+        };
+        const vdNetSearch = async (q) => {
+            const api = 'https://api.bilibili.com/x/web-interface/search/type?search_type=video&page=1&keyword=' + encodeURIComponent(q);
+            const own = String(vdApi.value || '').trim();
+            const eps = [];
+            if (own) eps.push({ json: true, url: own + (own.indexOf('?') >= 0 ? '&' : '?') + 'keyword=' + encodeURIComponent(q) });
+            eps.push({ json: true, url: 'https://r.jina.ai/' + api });
+            eps.push({ json: true, url: 'https://api.allorigins.win/raw?url=' + encodeURIComponent(api) });
+            eps.push({ json: true, url: 'https://corsproxy.io/?url=' + encodeURIComponent(api) });
+            eps.push({ json: false, url: 'https://r.jina.ai/https://search.bilibili.com/all?keyword=' + encodeURIComponent(q) });
+            // 并行问所有通道：谁通就用谁，多个通就合并，等待时间约等于最慢的那一个
+            const batches = await Promise.all(eps.map(async (ep) => {
+                const txt = await vdFetch(ep.url, 6000);
+                if (!txt) return [];
+                try { return ep.json ? vdParseJson(txt) : vdParseText(txt); }
+                catch (e) { return []; }
+            }));
+            const all = [], seen = {};
+            for (const got of batches) {
+                for (const v of got) {
+                    if (!v || !VD_BV_RE.test(v.bvid) || seen[v.bvid]) continue;
+                    seen[v.bvid] = 1; all.push(v);
+                }
+            }
+            return all.slice(0, 60);
+        };
+
+        // 搜索：站内即时结果 + 联网结果，合并去重后一起显示
+        const vdLocalPool = computed(() => {
+            const out = [], seen = {};
+            const add = (v, from) => { if (v && v.bvid && !seen[v.bvid]) { seen[v.bvid] = 1; out.push(Object.assign({}, v, { from })); } };
+            if (vdScope.value !== 'seed') vdShelf.value.forEach(v => add(v, 'shelf'));
+            if (vdScope.value !== 'shelf') VIDEO_SEED.forEach(v => add(v, 'seed'));
+            vdRemote.value.forEach(v => add(v, 'web'));
+            return out;
+        });
+        const vdResults = computed(() => {
+            const raw = String(vdQuery.value || '').trim();
+            const q = raw.toLowerCase();
+            const pool = vdLocalPool.value.filter(v => !vdIsBlocked(v));
+            // 任何 BV 号 / B 站链接都能直接出一张可播卡片，不依赖网络
+            const m = raw.match(/(BV[a-zA-Z0-9]{10})/);
+            const direct = m ? [{ bvid: m[1], title: '直接打开这个视频', up: '', cat: 'BV 号', tags: raw, from: 'direct' }] : [];
+            let list;
+            if (!q) list = pool.slice(0, 24);
+            else list = pool.filter(v => (String(v.title || '') + ' ' + String(v.up || '') + ' ' + String(v.tags || '') + ' ' + String(v.cat || '') + ' ' + String(v.bvid || '')).toLowerCase().indexOf(q) >= 0).slice(0, 60);
+            const seen = {}; list.forEach(v => { seen[v.bvid] = 1; });
+            return direct.filter(v => !seen[v.bvid]).concat(list).slice(0, 60);
+        });
+        const vdSearch = async () => {
+            const q = String(vdQuery.value || '').trim();
+            if (!q) { vdRemote.value = []; vdNetState.value = ''; return; }
+            if (vdNetBusy.value) return;
+            vdNetBusy.value = true;
+            vdNetState.value = '正在联网找 B 站…';
+            try {
+                const got = await vdNetSearch(q);
+                const kept = got.filter(x => !vdIsBlocked(x));
+                vdRemote.value = kept;
+                const hidden = got.length - kept.length;
+                vdNetState.value = kept.length
+                    ? '联网找到 ' + kept.length + ' 条' + (hidden ? ' · 已屏蔽 ' + hidden + ' 条' : '')
+                    : '联网暂时没连上，先用站内结果';
+                vdShowToast(kept.length ? '联网找到 ' + kept.length + ' 条 ♡' : '联网没连上，可点「去 B 站搜 ↗」');
+            } catch (e) {
+                vdNetState.value = '联网暂时没连上，先用站内结果';
+            } finally { vdNetBusy.value = false; }
+        };
+        const vdSaveRemoteAll = () => {
+            let n = 0;
+            for (const v of vdRemote.value.slice().reverse()) {
+                if (!v || !VD_BV_RE.test(v.bvid) || vdInShelf(v.bvid) || vdIsBlocked(v)) continue;
+                vdShelf.value.unshift({ bvid: v.bvid, title: v.title, up: v.up, cat: '联网', tags: v.tags, at: Date.now() });
+                n++;
+            }
+            if (!n) { vdShowToast('这些都在仓库里了'); return; }
+            vdSaveShelf(); vdBuildFeed(); vdShowToast('收进仓库 ' + n + ' 条 ♡');
+        };
+        const vdSearchBili = () => {
+            const q = String(vdQuery.value || '').trim() || '治愈';
+            try { window.open('https://search.bilibili.com/all?keyword=' + encodeURIComponent(q), '_blank', 'noopener'); } catch (e) {}
+        };
+        const vdAddPaste = () => {
+            const t = String(vdPaste.value || '').trim();
+            const m = t.match(/BV([a-zA-Z0-9]{10})/);
+            if (!m) { vdShowToast('没认出 BV 号，贴 B 站链接或 BV 号就行'); return; }
+            const bvid = 'BV' + m[1];
+            if (vdInShelf(bvid)) { vdShowToast('仓库里已经有这条了'); vdPaste.value = ''; return; }
+            vdToggleShelf({ bvid, title: vdQuery.value.trim() ? vdQuery.value.trim() : '我加的视频', up: '', cat: '我收的', tags: vdQuery.value.trim() });
+            vdPaste.value = '';
+        };
+        vdLoad();
+
+
         // ================= [MOD-25] 阅读室：书架 / 导入 / 一页一页 / 弹幕 =================
         const RD_BOOKS_KEY = 'liubai_reading_books_db';
         const RD_STATE_KEY = 'liubai_reading_state_db';
+        const RD_STATS_KEY = 'liubai_reading_stats_db';
         const RD_BUILTIN = [
             '这页写得真好', '别翻太快，我想再看一会儿', '你读到哪儿了', '这一段好像我们',
             '困了就靠着我，书我给你翻', '慢慢读，我不急', '灯还亮着呢', '他悄悄把书角折了一下',
@@ -8849,6 +9564,56 @@ createApp({
         ];
         const RD_ACCEPT = ['好，我陪你读。', '来了，翻到哪页了？', '嗯，一页一页来。', '把灯调暗一点，慢慢看。'];
         const rdBooks = ref([]);
+        // 阅读记录：totalSec 自己翻书的时间，togetherSec 他陪着一起读的时间，opened 翻开过的不同书
+        const rdStats = reactive({ totalSec: 0, togetherSec: 0, opened: [] });
+        const rdFmtDur = (sec) => {
+            const v = Math.max(0, Math.floor(Number(sec) || 0));
+            if (v < 60) return v + '秒';
+            const m = Math.floor(v / 60);
+            if (m < 60) return m + '分';
+            const h = Math.floor(m / 60), mm = m % 60;
+            return mm ? h + '小时' + mm + '分' : h + '小时';
+        };
+        const rdSaveStats = () => {
+            try {
+                localforage.setItem(RD_STATS_KEY, {
+                    totalSec: Math.max(0, Number(rdStats.totalSec) || 0),
+                    togetherSec: Math.max(0, Number(rdStats.togetherSec) || 0),
+                    opened: rdStats.opened.filter(x => typeof x === 'string').slice(0, 200)
+                });
+            } catch (e) {}
+        };
+        const rdMarkOpened = (id) => {
+            if (!id || typeof id !== 'string') return;
+            if (rdStats.opened.indexOf(id) !== -1) return;
+            rdStats.opened.push(id);
+            if (rdStats.opened.length > 200) rdStats.opened.shift();
+            rdSaveStats();
+        };
+        // 每秒一跳：只有真的在「阅读页 / 页面可见」时才算，切到后台或书架都不记
+        let rdTickLast = Date.now(), rdTickCount = 0;
+        const rdTick = () => {
+            const now = Date.now();
+            let d = (now - rdTickLast) / 1000;
+            rdTickLast = now;
+            if (typeof document !== 'undefined' && document.visibilityState !== 'visible') return;
+            if (!(d > 0)) return;
+            d = Math.min(d, 3);                 // 后台回来最多补 3 秒，不把离开的时间算进来
+            try {
+                if (currentView.value !== 'reading' || rdView.value !== 'read') return;
+                rdStats.totalSec += d;
+                if (rdTogether.value) rdStats.togetherSec += d;
+                if (++rdTickCount >= 10) { rdTickCount = 0; rdSaveStats(); }
+            } catch (e) { /* setup 还没跑完的第一跳，跳过即可 */ }
+        };
+        setInterval(rdTick, 1000);
+        if (typeof document !== 'undefined') {
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') rdSaveStats();
+                else rdTickLast = Date.now();
+            });
+            window.addEventListener('beforeunload', rdSaveStats);
+        }
         const rdView = ref('shelf');
         const rdBookId = ref('');
         const rdPage = ref(0);
@@ -8931,6 +9696,12 @@ createApp({
                     rdLineMode.value = ['mix', 'builtin', 'mine'].includes(st.lineMode) ? st.lineMode : 'mix';
                     rdDanmuSpeed.value = ['slow', 'normal', 'fast'].includes(st.danmuSpeed) ? st.danmuSpeed : 'slow';
                 }
+                const rs = await localforage.getItem(RD_STATS_KEY);
+                if (rs && typeof rs === 'object') {
+                    rdStats.totalSec = Math.max(0, Number(rs.totalSec) || 0);
+                    rdStats.togetherSec = Math.max(0, Number(rs.togetherSec) || 0);
+                    rdStats.opened = Array.isArray(rs.opened) ? rs.opened.filter(x => typeof x === 'string').slice(0, 200) : [];
+                }
                 if (rdBookId.value && !rdBooks.value.some(b => b.id === rdBookId.value)) rdBookId.value = '';
             } catch (e) {}
         };
@@ -8961,10 +9732,11 @@ createApp({
         const rdOpenBook = (id) => {
             const b = rdBooks.value.find(x => x.id === id); if (!b) return;
             rdBookId.value = id;
+            rdMarkOpened(id);
             rdPage.value = Math.min(Math.max(0, b.page || 0), rdBookPages(b).length - 1);
             rdView.value = 'read'; rdDanmus.value = []; rdToast.value = ''; rdSaveState(); rdScrollTop();
         };
-        const rdBackToShelf = () => { rdView.value = 'shelf'; rdTogether.value = false; rdDanmus.value = []; rdSaveState(); rdScrollTop(); };
+        const rdBackToShelf = () => { rdView.value = 'shelf'; rdTogether.value = false; rdDanmus.value = []; rdSaveState(); rdSaveStats(); rdScrollTop(); };
         const rdBack = () => { if (rdView.value === 'read') rdBackToShelf(); else switchView('home'); };
 
         // ---- 弹幕字卡：内置 + 你自己添加的字卡 ----
@@ -9045,7 +9817,7 @@ createApp({
             messages.value.push({ id: genId(), sender: 'me', type: 'readinvite', bookId: b.id, title: b.title, author: b.author || '', pages: rdBookPages(b).length, content: '', timestamp: Date.now() });
             try { playTone('send'); } catch (e) {}
             scrollToBottom(); saveAll();
-            rdTogether.value = true; rdSaveState();
+            rdTogether.value = true; rdSaveState(); rdSaveStats();
             setTimeout(() => {
                 messages.value.push({ id: genId(), sender: 'them', type: 'text', content: RD_ACCEPT[Math.floor(Math.random() * RD_ACCEPT.length)], timestamp: Date.now() });
                 saveAll();
@@ -9064,6 +9836,7 @@ createApp({
             const b = rdBooks.value.find(x => x.id === msg.bookId);
             if (!b) { rdShowToast('这本书已经不在书架上了'); return; }
             rdBookId.value = b.id;
+            rdMarkOpened(b.id);
             rdPage.value = Math.min(Math.max(0, b.page || 0), rdBookPages(b).length - 1);
             rdView.value = 'read'; rdTogether.value = true;
             switchView('reading'); rdSaveState(); rdScrollTop();
@@ -10408,12 +11181,8 @@ createApp({
         "今天",
         "明天",
         "昨天",
-        "前天",
-        "后天",
         "今晚",
         "昨晚",
-        "明早",
-        "明晚",
         "早上",
         "上午",
         "中午",
@@ -10421,21 +11190,11 @@ createApp({
         "傍晚",
         "晚上",
         "夜里",
-        "半夜",
-        "凌晨",
         "刚才",
-        "刚刚",
         "现在",
         "最近",
         "这两天",
-        "这几天",
-        "周末",
-        "明天早上",
-        "明天晚上",
-        "昨天晚上",
-        "今天早上",
-        "今天下午",
-        "今天晚上"
+        "这几天"
     ],
     "状态": [
         "到家",
@@ -10457,21 +11216,34 @@ createApp({
         "做完",
         "聊完",
         "睡醒",
-        "坐下"
+        "坐下",
+        "洗完",
+        "收好"
     ],
     "动作": [
+        "到家",
+        "回家",
+        "出门",
+        "回来",
         "睡",
-        "忙",
         "吃",
         "喝",
         "休息",
+        "上班",
+        "下班",
+        "走",
+        "到",
+        "歇",
         "聊",
         "说",
         "打电话",
         "发消息",
         "看手机",
-        "聊天",
-        "想起来"
+        "出去",
+        "进来",
+        "查一下",
+        "试一下",
+        "等一下"
     ],
     "心情": [
         "先",
@@ -10482,7 +11254,9 @@ createApp({
         "都",
         "还是",
         "刚好",
-        "正好"
+        "正好",
+        "顺便",
+        "顺手"
     ],
     "程度": [
         "有点",
@@ -10492,22 +11266,29 @@ createApp({
         "不太",
         "真的",
         "其实",
-        "好像",
-        "大概",
-        "可能",
-        "也许",
-        "特别"
+        "特别",
+        "稍微",
+        "略微",
+        "有点儿"
     ],
     "名词": [
         "事",
         "事情",
-        "消息",
+        "工作",
+        "课",
+        "班",
         "安排",
         "计划",
         "打算",
+        "主意",
+        "想法",
         "办法",
         "问题",
-        "工作"
+        "文件",
+        "清单",
+        "备忘",
+        "提醒",
+        "日程"
     ],
     "处所": [
         "家",
@@ -10530,7 +11311,11 @@ createApp({
         "咖啡馆",
         "路上",
         "楼下",
-        "楼上"
+        "楼上",
+        "车里",
+        "小区",
+        "公园",
+        "江边"
     ],
     "语气": [
         "吧",
@@ -10539,7 +11324,8 @@ createApp({
         "啊",
         "哦",
         "嘛",
-        "啦"
+        "啦",
+        "呗"
     ],
     "连接": [
         "再",
@@ -10551,744 +11337,917 @@ createApp({
         "其实",
         "还是",
         "本来",
-        "干脆"
+        "顺便",
+        "顺手",
+        "刚好",
+        "正好"
+    ],
+    "物": [
+        "东西",
+        "文件",
+        "清单",
+        "备忘",
+        "提醒",
+        "票",
+        "快递",
+        "包裹",
+        "水",
+        "饭",
+        "碗",
+        "杯子",
+        "衣服",
+        "被子",
+        "窗",
+        "门",
+        "灯",
+        "空调",
+        "风扇",
+        "伞",
+        "钥匙",
+        "包",
+        "充电器",
+        "耳机",
+        "书",
+        "本子",
+        "笔",
+        "纸",
+        "照片",
+        "截图",
+        "地址",
+        "号码",
+        "密码",
+        "歌单",
+        "闹钟",
+        "日程",
+        "外卖",
+        "药",
+        "热水袋",
+        "毯子",
+        "椅子",
+        "桌子",
+        "窗帘",
+        "台灯",
+        "手机壳",
+        "数据线",
+        "电池",
+        "说明书",
+        "包装盒",
+        "纸箱",
+        "便当",
+        "水果",
+        "面包",
+        "牛奶",
+        "茶",
+        "咖啡",
+        "粥",
+        "汤",
+        "菜",
+        "碗筷",
+        "勺子",
+        "锅盖",
+        "外套",
+        "毛衣",
+        "袜子",
+        "拖鞋",
+        "枕套",
+        "床单"
+    ],
+    "处置": [
+        "放好",
+        "收好",
+        "洗好",
+        "擦好",
+        "装好",
+        "带上",
+        "关好",
+        "调好",
+        "记下",
+        "存好",
+        "摆好",
+        "晾上",
+        "拆开",
+        "换好",
+        "补好",
+        "查好",
+        "改好",
+        "删掉",
+        "存下",
+        "拿过来",
+        "端过去",
+        "递过去",
+        "热好",
+        "倒好",
+        "冲好",
+        "盛好",
+        "盖好",
+        "扣好",
+        "锁好",
+        "系好",
+        "解开",
+        "贴上",
+        "撕掉",
+        "折好",
+        "卷好",
+        "归置好",
+        "收拾好",
+        "挂好",
+        "摆上",
+        "铺好",
+        "叠好",
+        "分好",
+        "留好",
+        "温好",
+        "泡好",
+        "翻开",
+        "合上",
+        "推开",
+        "拉好",
+        "挪好",
+        "扶好",
+        "收进",
+        "拿出",
+        "摊开",
+        "摞好",
+        "充满"
+    ],
+    "闲动作": [
+        "休息",
+        "忙",
+        "坐",
+        "歇",
+        "聊",
+        "待着",
+        "喝水",
+        "翻书",
+        "吃",
+        "喝"
     ]
-};;;;;;;;;;;;;
+};;;;;;;;;;;;;;;;;;;;;
         // 不再按词性硬拼：功能字写死在句式里，只留最稳的 1~4 个空位；
         // 长句一律用现成整句，所以出来的都是能直接发的大白话。
         const DICT_TPL = {
     "1": [
         "{状态}了",
-        "{人称}在呢",
-        "还没{状态}呢",
         "刚{状态}",
-        "{人称}知道了",
+        "还没{状态}呢",
         "{状态}了吗",
-        "{人称}刚{状态}",
-        "{人称}还没{状态}",
-        "我刚{状态}，还没缓过来",
+        "{人称}在呢",
+        "{动作}了",
+        "先{动作}",
+        "{动作}了吗",
+        "{名词}我记着呢",
+        "那{名词}不急",
+        "{处所}这边挺好的",
+        "{程度}忙",
+        "{程度}累",
+        "{程度}困",
         "刚{状态}，先歇会儿",
         "刚{状态}，才看到消息",
         "刚{状态}，等会儿再跟你说",
         "刚{状态}，还没顾上看手机",
-        "刚{状态}，先喝口水",
-        "我刚{状态}，你别急",
-        "我刚{状态}，一会儿回你",
-        "刚{状态}，正好看到你消息",
-        "刚{状态}，忽然想起你",
-        "刚{状态}，手机才充上电",
         "{时间}有点忙，晚点回你",
         "{时间}有点累，早点睡了",
         "{时间}没什么事，就想跟你聊两句",
-        "{时间}走得早，没来得及说一声",
-        "我刚{状态}，你呢",
-        "{时间}没什么大事，就随便问问",
-        "{名词}我记着呢",
-        "那{名词}不急，明天再说",
-        "刚{状态}，先不聊了",
         "{时间}没什么特别的，就想说句话",
-        "{我}刚{状态}，还没顾上吃饭",
-        "{时间}{我}有点累，先歇会儿",
-        "{我}刚{状态}，等会儿再好好说",
-        "{时间}没什么事，就想跟你说句话",
-        "刚{状态}，等会儿再好好说",
-        "{我}刚{状态}，还没顾上，等会儿再说",
-        "{时间}没什么事，就随便聊聊",
-        "{我}刚{状态}，先不聊了",
-        "{时间}{我}没什么事，就随便问问",
-        "{我}刚{状态}，你别急",
-        "在吗",
-        "说吧",
-        "别急",
-        "不急",
-        "累不累",
-        "这就来",
-        "慢慢来",
-        "听着呢",
-        "麻烦了",
-        "听你的",
-        "改天聊",
-        "不着急",
-        "回一下",
-        "先挂了",
-        "刚睡醒",
-        "到家了吗",
-        "正准备睡",
-        "先不说了",
-        "早点休息",
-        "没什么事",
-        "我先缓缓",
-        "刚吃完饭",
-        "刚歇会儿",
-        "刚看到消息",
-        "到了说一声",
-        "等会儿就回",
-        "早点休息吧",
-        "最近还好吗",
-        "你先歇会儿",
-        "等会儿再聊",
-        "先不打扰了",
-        "我这边挺好的",
-        "这两天有点忙",
-        "我记着这事呢",
-        "你别碰那杯，烫",
-        "等会儿再跟你说",
-        "才忙完，刚坐下",
-        "我先不打扰你了",
-        "我先去吃口东西",
-        "你那边还亮着灯吗",
-        "你慢慢吃，我等你",
-        "你别急，我记着呢",
-        "刚看到，等我一下",
-        "刚到家，等会儿聊",
-        "我这边都安排好了",
-        "你要是困了就先睡",
-        "等会儿再跟你细说",
-        "我这边没事，你放心",
-        "没事，就是想问问你",
-        "我先洗个澡，回头聊",
-        "我把充电器放包里了",
-        "我把日程改到下午了",
-        "你别撑着，先歇会儿",
-        "你要是困，就别等了",
-        "今天路上买了杯热的",
-        "今天走得急，没带伞",
-        "你别站太久，坐下来",
-        "今天话不多，但都在",
-        "我先下了，明天再聊",
-        "别总熬夜，早点休息",
-        "刚看到你消息，我还在",
-        "等你有空我们再慢慢聊",
-        "困了就先睡，不用等我",
-        "我把闹钟调早了十分钟",
-        "你别硬撑，不舒服就说",
-        "刚把地拖了，小心点走",
-        "你别急，我等你就是了",
-        "你要是忘了，我提醒你",
-        "刚把票根收好了，没丢",
-        "刚把台灯打开，亮一点",
-        "刚把水壶放上，马上开",
-        "今天没什么事，就等你",
-        "今天有点静，就听听歌",
-        "刚把水凉了，可以喝了",
-        "今天天气挺好，别窝着",
-        "刚把台灯挪到你那边了",
-        "我这边没事，你别惦记",
-        "我先不聊了，回头再说",
-        "刚才没忍住打了个哈欠",
-        "这两天有点累，早点睡了",
-        "到了跟我说一声，我放心",
-        "你先睡，我这边还有点事",
-        "你要是困了就跟我说一声",
-        "你要是饿了我这儿有吃的",
-        "今天没什么事，想早点睡",
-        "我把伞放门口了，你拿着",
-        "今天有点闷，开了会儿窗",
-        "我这边快弄完了，别催我",
-        "你要是累了就别回消息了",
-        "我把时间往后挪了半小时",
-        "刚把水烧开，等会儿泡茶",
-        "刚把灯调暗了，准备睡了",
-        "我把备注写好了，你看看",
-        "你别低头太久，抬会儿头",
-        "我把日子记错了，改一下",
-        "你要是不舒服，早点躺下",
-        "你要是热，我把窗帘拉上",
-        "我把药放桌上了，记得吃",
-        "刚才在开车，没看到消息",
-        "不用特意等我，你先走吧",
-        "那件事不着急，你慢慢弄",
-        "我这边刚空下来，你说吧",
-        "你慢慢来，什么时候都行",
-        "刚才走神了，没看到消息",
-        "等会儿到家了跟你说一声",
-        "想了一下，还是明天再说吧",
-        "刚充上电，手机前面没电了",
-        "刚把文件发你了，查收一下",
-        "我把明天要用的东西装好了",
-        "你要是出门，记得把门带上",
-        "刚从外面回来，手还有点凉",
-        "刚看到时间，得赶紧出门了",
-        "我把票买好了，等会儿发你",
-        "今天太阳落得早，天黑得快",
-        "刚把水杯灌满，放你桌上了",
-        "你要是嫌吵，我把音量调小",
-        "刚把灯换成暖光了，不刺眼",
-        "我把充电器借你了，记得还",
-        "今天没什么胃口，喝点粥吧",
-        "我把歌单调好了，等会儿放",
-        "我把手机放枕边了，听得到",
-        "我这边差不多了，你那边呢",
-        "我这会儿走不开，晚点过去",
-        "今天有点懒，哪儿也不想去",
-        "我这边快好了，再等我一下",
-        "你别笑我，我就是有点啰嗦",
-        "我不急着要答案，你慢慢想",
-        "等会儿有空吗，想跟你聊两句",
-        "今天没什么胃口，随便吃了点",
-        "你要是不想动，我给你送过去",
-        "刚把窗帘拉上，屋里凉快点了",
-        "刚把手机充满，这会儿能用了",
-        "我把明天要穿的衣服拿出来了",
-        "明天有空的话，我们见一面吧",
-        "那件事我记着呢，明天给你回",
-        "你要是困了就先睡，明天再说",
-        "今天风挺大的，你出门多穿点",
-        "刚把东西归置好，等会儿找你",
-        "晚点给你回电话，这会儿不方便",
-        "今天太阳挺好的，晒了会儿被子",
-        "我今天走得早，没能跟你说一声",
-        "刚接到消息，可能得改一下时间",
-        "你那边要是忙，就先不用回我了",
-        "我想着你可能还没歇，就问一句",
-        "这事不急着定，我们再想想也不迟",
-        "我这会儿不方便说话，晚点打给你",
-        "今天运气不太好，不过也没什么大事",
-        "刚把东西收拾好，等会儿给你送过去",
-        "我这边快弄完了，你再等我一小会儿",
-        "今天没什么特别的，就想跟你聊两句",
-        "刚到家，外面下雨了，你出门记得带伞",
-        "你要是方便的话，等会儿语音聊两句？",
-        "刚才在开会，手机调了静音，才看到消息",
-        "想了想还是跟你说一声，明天我可能晚点到",
-        "我这边没什么事，就是想问问你今天怎么样",
-        "刚才手机没电了，充上才看到消息，不好意思"
+        "{名词}不急，明天再说",
+        "{物}我记着呢",
+        "那{物}不急，明天再说",
+        "快{状态}了",
+        "{程度}想歇会儿",
+        "{人称}知道了",
+        "{时间}没什么事，就随便问问",
+        "刚{状态}，先不聊了",
+        "{物}放桌上了",
+        "刚{状态}，正好看到你消息",
+        "刚{状态}，忽然想起你",
+        "刚{状态}，先喝口水",
+        "我刚{状态}，还没缓过来",
+        "我刚{状态}，等会儿再跟你细说",
+        "我刚{状态}，等会儿再跟你说",
+        "我刚{状态}，这会儿没什么事",
+        "我刚{状态}，还没歇，等会儿再说",
+        "刚{状态}，先坐一会儿",
+        "{物}我收好了",
+        "{闲动作}着呢",
+        "刚{状态}，等会儿再说",
+        "等会儿再{动作}",
+        "还没{状态}呢，等会儿再说",
+        "这会儿再说吧，我先{动作}了",
+        "等会儿再{闲动作}",
+        "要不要一起{闲动作}"
     ],
     "2": [
+        "{时间}{状态}了",
         "{人称}{状态}了",
         "{人称}在{处所}",
-        "{人称}的{名词}",
-        "{人称}先{动作}",
-        "{时间}再{动作}",
-        "{时间}{状态}了",
-        "{我}{程度}忙，晚点说",
-        "{人称}{心情}{动作}",
+        "先{动作}{语气}",
+        "{动作}了{语气}",
+        "把{物}{处置}了",
+        "{我}刚{状态}",
         "{人称}想{动作}",
         "{人称}还没{状态}呢",
+        "{人称}的{名词}",
+        "{时间}{动作}了",
+        "{我}在{处所}等你",
+        "{程度}想{动作}",
+        "{时间}有点忙，晚点{动作}",
+        "{人称}把{名词}放一放",
         "{人称}在{处所}呢",
-        "{人称}{状态}{语气}",
-        "{人称}这边{状态}了",
-        "{人称}刚{状态}，还没歇",
-        "{我}刚{状态}，等会儿再跟你说",
-        "{我}刚{状态}，还没缓过来",
-        "{时间}{我}没顾上回你，不好意思",
-        "{时间}{我}有点忙，晚点再说",
-        "{时间}{我}先{动作}了，回头再聊",
-        "{我}刚{状态}，没顾上回你",
-        "{时间}要不要一起吃个饭",
-        "{我}这会儿不在{处所}，晚点回你",
-        "{我}刚{状态}，忽然想起一件事",
-        "{时间}{我}没什么事，就想问问你",
+        "{我}刚{状态}，还没歇",
         "{人称}先把{名词}放一放，不急",
-        "{时间}再说吧，{我}先{动作}了",
         "{人称}{状态}了，跟你说一声",
-        "刚{状态}，{时间}再跟你说",
-        "{我}刚{状态}，你先忙",
         "{时间}{我}没顾上看手机，不好意思",
-        "{时间}{我}刚{状态}，还没缓过来",
-        "{人称}{状态}了，{时间}再{动作}",
-        "{时间}{人称}在{处所}，先歇会儿",
-        "{我}刚{状态}，{时间}跟你慢慢说",
-        "{人称}刚{状态}，等会儿再{动作}",
-        "稍等",
-        "收到",
-        "放心",
-        "我在呢",
-        "怎么了",
-        "回头说",
-        "早点睡",
-        "知道啦",
-        "不客气",
-        "交给我",
-        "我来吧",
-        "放心吧",
-        "歇一下",
-        "回头见",
-        "你放心",
-        "有空再说",
-        "晚点联系",
-        "回头联系",
-        "别熬太晚",
-        "还没吃饭",
-        "刚腾出手",
-        "我先想想",
-        "别太累了",
-        "等会儿回你",
-        "顺便问一句",
-        "不用着急回",
-        "等下给你发",
-        "今天累不累",
-        "记得早点睡",
-        "明天再联系",
-        "我还在路上",
-        "我刚看到消息",
-        "不急，慢慢来",
-        "等会儿联系你",
-        "你别空肚喝牛奶",
-        "刚到家，还没歇",
-        "你那边忙完了吗",
-        "一会儿再跟你说",
-        "你那边还顺利吗",
-        "你慢慢走，不用赶",
-        "你别着急，来得及",
-        "你别喝太急，慢点",
-        "刚到家，先歇会儿",
-        "不打扰了，先这样",
-        "明天早上再联系吧",
-        "你今天吃得怎么样",
-        "我在呢，随时都在",
-        "不急着回，先忙你的",
-        "别熬太晚，早点休息",
-        "要不要一起点个外卖",
-        "你要是忙就先别管我",
-        "刚看到外面出太阳了",
-        "我把钥匙放老地方了",
-        "你别碰凉水，我来弄",
-        "你别着凉，加件衣服",
-        "你要是饿，冰箱里有",
-        "我把伞收了，没下雨",
-        "手机没电了，刚充上",
-        "你说的时间我记下了",
-        "刚到家，外面有点凉",
-        "今天有点忙，晚点回你",
-        "要不要我给你带杯热的",
-        "手机调了静音，刚看到",
-        "刚喝了口水，才缓过来",
-        "你要是累了就靠一会儿",
-        "你要是头晕就先躺会儿",
-        "今天话少，不是不高兴",
-        "你别把水洒了，慢点端",
-        "我把窗关了，怕吵到你",
-        "你要是累，就别说话了",
-        "我把手机静音了，怕吵",
-        "刚把水杯递过去，接着",
-        "刚把碗端过去，小心烫",
-        "今天没睡够，有点迷糊",
-        "刚把门带上，风进不来",
-        "刚把水杯添满，别断了",
-        "别等我了，你先开始吧",
-        "这事不急，改天说也行",
-        "你要是累了，就别硬撑",
-        "没什么大事，就随便问问",
-        "刚忙完，终于能歇会儿了",
-        "刚看到消息，刚才在洗澡",
-        "我这边堵车，可能晚点到",
-        "刚把灯关小了点，太亮了",
-        "你别急，我一条一条回你",
-        "今天衣服穿少了，有点凉",
-        "刚把饭热了一下，趁热吃",
-        "今天买多了，给你分一半",
-        "我把门留着，你直接进来",
-        "我把手机放远了，没看到",
-        "今天云挺厚，可能要下雨",
-        "你要是还没吃，我等等你",
-        "你别一次吃太多，慢慢来",
-        "今天没带钥匙，等了一下",
-        "刚把书合上，歇会儿眼睛",
-        "我把包放门口了，别踩到",
-        "我把清单发你了，核对下",
-        "你要是不方便，我去找你",
-        "这事不急，明天再说也行",
-        "我先去忙了，回头再找你",
-        "你要是方便，帮我看一眼",
-        "刚才在忙，没顾上看手机",
-        "手机刚才没电，不好意思",
-        "我先把手头这点事收个尾",
-        "你别熬了，明天还得早起",
-        "刚把碗洗了，终于能坐会儿",
-        "你那边下雨了吗，记得带伞",
-        "我这边有点吵，晚点打给你",
-        "你先别开空调，等会儿再开",
-        "我把手机号发你了，存一下",
-        "刚把杯子洗了，给你倒点水",
-        "我把东西分好了，一份给你",
-        "你别熬着了，剩下的明天弄",
-        "我把地址改了一下，你看下",
-        "你要是没空，我自己去就行",
-        "刚把饭端到桌上了，来吃吧",
-        "刚把快递拆了，东西没问题",
-        "刚把饭盒洗了，明天还能用",
-        "我把伞撑开了，放门口晾着",
-        "刚把空调关了，自然风挺好",
-        "等会儿要不要一起吃点东西",
-        "等会儿忙完了，我再跟你说",
-        "有点想你了，就顺便说一句",
-        "刚想起一件事，顺口跟你说",
-        "我想了想，还是不打扰你了",
-        "明天要是没空，改天也一样",
-        "我先去忙，回头给你发消息",
-        "我这会儿不太方便，晚点回你",
-        "我把地址发你，你看看对不对",
-        "我这边信号一般，先发消息吧",
-        "我这边刚开始，还得等一会儿",
-        "你别空腹喝咖啡，先吃点东西",
-        "刚把手机拿起来，就看到你了",
-        "你要是累了就先歇，不急着回",
-        "等会儿我给你打电话，方便吗",
-        "我刚到家，还没来得及看手机",
-        "刚把手机充上电，才看到消息",
-        "刚想起来，那件事还没跟你说",
-        "路上买了点水果，等会儿带给你",
-        "刚把桌子收拾了，看着清爽多了",
-        "要是明天有空，我们一起吃个饭",
-        "等这阵子忙完，我们好好吃顿饭",
-        "今天话说得有点多，你别嫌我烦",
-        "别急着回消息，先把手头的事做完",
-        "刚把手机调回来了，现在能接电话",
-        "你到家了跟我说一声，我就不担心了",
-        "我这边都安排好了，你就不用操心了",
-        "我想着你可能也还没睡，就多说两句",
-        "你要是不同意也没关系，我们再商量",
-        "今天有点忙，消息回得慢，不是没看见",
-        "刚看到你消息，我还在路上，一会儿到",
-        "等这阵子过去，我们找个时间好好聊聊",
-        "你别熬太晚了，身体要紧，明天还得早起",
-        "你要是累了就先睡，剩下的明天再说也不迟",
-        "这两天没顾上联系，不是忘了，一直记着呢",
-        "晚饭我随便吃了点，你别担心，记得按时吃饭"
+        "把{物}{处置}了，等会儿再说",
+        "{时间}{程度}忙",
+        "{人称}{程度}忙，晚点说",
+        "{我}在{处所}呢",
+        "{我}刚{状态}，你别急",
+        "{我}刚{状态}，一会儿回你",
+        "{我}刚{状态}，还没缓过来",
+        "{我}刚{状态}，你先忙",
+        "{人称}刚{状态}",
+        "{人称}在{处所}等你呢",
+        "{时间}{闲动作}了一会儿",
+        "我刚{状态}，等会儿再{动作}",
+        "我刚{状态}，等会儿再好好{闲动作}",
+        "我刚{状态}，等会儿再{闲动作}",
+        "{人称}把{名词}放一放，等会儿再说",
+        "刚{状态}，等会儿再{动作}"
     ],
     "3": [
-        "{时间}{人称}{状态}了",
-        "{时间}{人称}在{处所}",
-        "{人称}在{处所}{动作}",
-        "{时间}{人称}再{动作}",
-        "{人称}先{动作}{语气}",
+        "{人称}刚{状态}{语气}",
+        "{人称}{心情}{动作}",
+        "{我}刚{状态}，{程度}累",
         "{时间}{我}{程度}忙，晚点回你",
-        "{人称}{心情}想{动作}",
-        "{人称}在{处所}{状态}了",
-        "{我}在{处所}等你呢",
-        "{时间}{我}刚{状态}，还没缓过来",
-        "{时间}{人称}在{处所}，等会儿再{动作}",
-        "{我}刚{状态}，{时间}再跟你细说",
-        "{时间}{我}有点忙，晚点回你",
-        "{我}刚{状态}，没顾上回你，不好意思",
-        "{人称}把{名词}放一放，{时间}再说",
-        "{人称}{状态}了再{动作}{语气}",
-        "{我}刚{状态}，等会儿再跟你说",
-        "{时间}{人称}在{处所}，正准备{动作}",
-        "晚安",
-        "明白",
-        "都行",
-        "睡了吗",
-        "等一下",
-        "别多想",
-        "多喝水",
-        "没关系",
-        "常联系",
-        "刚忙完",
-        "不麻烦",
-        "你先忙",
-        "刚到家",
-        "才看到",
-        "别急啊",
-        "路上小心",
-        "明天再说",
-        "我记着呢",
-        "记得吃饭",
-        "我马上到",
-        "刚回过神",
-        "不急着说",
-        "回头再聊",
-        "一会儿再说",
-        "就随便聊聊",
-        "不打扰你了",
-        "晚点跟你说",
-        "晚上有空吗",
-        "想到就说了",
-        "有空再细说",
-        "还没顾上回你",
-        "等会儿给你回",
-        "这两天没顾上",
-        "你先忙，不急",
-        "刚想起来跟你说",
-        "刚忙完手头的事",
-        "吃了没，别饿着",
-        "你先忙，我等你",
-        "吃了吗，别又凑合",
-        "今天走神了好几次",
-        "你别空着肚子出门",
-        "你别急，我马上回",
-        "等会儿给你回消息",
-        "你慢慢来，我不催",
-        "刚到家，先洗个澡",
-        "我先下了，明天见",
-        "我刚吃完，正歇着",
-        "我先去忙，回头联系",
-        "今天辛苦啦，早点睡",
-        "刚洗完衣服，晾上了",
-        "你要是不方便就改天",
-        "你把外套穿上再出门",
-        "今天风停了，挺舒服",
-        "刚把门反锁了，放心",
-        "刚把手机充上，别拔",
-        "你要是困了，我挂了",
-        "你别急，我等你吃完",
-        "我记着呢，不会忘的",
-        "别回太快，先忙你的",
-        "你慢慢吃，不用管我",
-        "想了想还是跟你说一声",
-        "你别急，我慢慢跟你说",
-        "你先把药吃了，别空腹",
-        "你别站着，找个地方坐",
-        "你要是困了就别等我了",
-        "今天安静，就随便待着",
-        "今天有点干，多喝点水",
-        "刚把窗台擦了，能坐了",
-        "你别急，我一会儿就到",
-        "今天安静得有点不习惯",
-        "刚把外套挂好了，没皱",
-        "刚把椅子擦了，可以坐",
-        "今天买多了，分你一半",
-        "刚把桌面收了，干净了",
-        "你要是累，就别回我了",
-        "晚饭吃了吗，别又忘了",
-        "等会儿有空了再好好聊",
-        "你先歇着，我不打扰了",
-        "刚把灯关了，正准备睡",
-        "明天有空的话一起吃个饭",
-        "你那边要是忙就先不说了",
-        "别喝冰的，给你倒了温水",
-        "今天没带伞，好在雨不大",
-        "你别老低着头，脖子会酸",
-        "刚把热水倒好，放桌上了",
-        "我把提醒设好了，不会忘",
-        "刚把灯打开，屋里亮堂了",
-        "你别一直坐着，起来动动",
-        "我把清单列好了，你看看",
-        "刚把汤盛出来，晾一会儿",
-        "刚把椅子挪过来了，坐吧",
-        "你要是方便，帮我拿一下",
-        "今天买了点新的，等你看",
-        "刚把灯调暗了，不晃眼",
-        "你要是忙，我先不下楼了",
-        "刚把灯全关了，只留一盏",
-        "刚把水开了，给你倒一杯",
-        "我把地址存好了，不会错",
-        "你要是不方便，改天也行",
-        "你慢慢吃，不用急着回我",
-        "今天先这样吧，早点休息",
-        "我这边一切照旧，别惦记",
-        "你别多心，我没别的意思",
-        "今天话有点多，你别嫌烦",
-        "我这边都安排好了，放心",
-        "今天走了好多路，腿有点酸",
-        "刚把空调调低了点，太热了",
-        "今天累得不想动，就躺着了",
-        "刚把快递取了，放在门口了",
-        "你别盯着屏幕了，闭会儿眼",
-        "今天没睡好，中午补了个觉",
-        "你别一次买太多，够用就行",
-        "我这边刚坐下，才看到消息",
-        "刚看到你消息，正好也没事",
-        "刚把药盒找出来了，放桌上",
-        "今天起得早，这会儿有点困",
-        "刚把桌面清了，找东西方便",
-        "刚把桌子擦了，可以放东西",
-        "刚把碗放进水池，等会儿洗",
-        "你要是冷，我把暖水袋拿来",
-        "刚才没顾上回，不是没看见",
-        "你那边要是下雨，记得带伞",
-        "你别笑我，我就是有点记挂",
-        "我就随便问问，不用认真答",
-        "你要是方便，回我一句就行",
-        "我这边挺好，就是有点想你",
-        "等你闲下来，我们再好好聊",
-        "别一直盯着手机，歇会儿眼睛",
-        "刚把窗户关上，外面风太大了",
-        "我这边差不多好了，马上收尾",
-        "刚看到天气预报，晚上会降温",
-        "今天买的水果挺甜，给你留了",
-        "我把时间留出来了，不排别的",
-        "我这边快好了，你再等我一下",
-        "今天有点乱，晚点再跟你细说",
-        "刚看到那张照片，忽然想起你",
-        "等这阵子过去，我们再慢慢说",
-        "今天运气一般，不过也没什么",
-        "我今天早点下班，等会儿去找你",
-        "我刚把事情忙完，这会儿有空了",
-        "刚想起来，那东西还在你那儿吧",
-        "等我把这点事收个尾，就来找你",
-        "你这会儿忙不忙，不忙就说两句",
-        "你要是还没吃，我顺便给你带一份",
-        "你别多想，我就是想确认一下时间",
-        "我想了一下，还是按之前说好的来吧",
-        "我先去忙了，回头给你发消息，别急",
-        "等会儿下楼买点东西，你要带什么吗",
-        "我刚坐下，手机就响了，还以为是你",
-        "明天要是没别的事，我们一起吃个饭吧",
-        "我先不打扰你了，你歇会儿，晚点联系",
-        "我这边都挺好的，你别惦记，忙你的就行",
-        "刚吃完饭，正准备歇一会儿，你就发来了",
-        "刚把手里的事忙完，这会儿终于能歇口气了",
-        "今天没干什么，就待着，忽然想跟你说句话",
-        "刚想起来跟你说，明天的时间可能要往后挪一点"
+        "{时间}{我}先{动作}了",
+        "{时间}{我}不在{处所}",
+        "{人称}把{物}{处置}了",
+        "{人称}{连接}想{动作}",
+        "{时间}{人称}{状态}了",
+        "{人称}在{处所}{闲动作}",
+        "把{物}{处置}了{语气}",
+        "{时间}{我}{程度}忙，晚点说",
+        "{人称}{程度}想{动作}",
+        "{时间}{人称}再{动作}",
+        "{时间}{我}有点忙，{连接}晚点回你",
+        "{我}刚{状态}，{连接}没顾上回你",
+        "{时间}{我}先{动作}了，回头再聊",
+        "{我}刚{状态}，等会儿再{闲动作}",
+        "{人称}刚{状态}，还没{状态}",
+        "把{物}{处置}了，等会儿再{闲动作}",
+        "把{物}{处置}了，等会儿再{动作}",
+        "{人称}在{处所}{闲动作}呢"
     ],
     "4": [
-        "{时间}{我}{程度}忙，晚点回你",
-        "{人称}{心情}想{动作}{语气}",
+        "{时间}{人称}{程度}忙，晚点{动作}",
+        "{我}在{处所}把{物}{处置}了",
+        "{人称}在{处所}把{物}{处置}了",
+        "{时间}{人称}把{物}{处置}了",
+        "{我}刚{状态}，先把{物}{处置}了",
+        "{时间}{人称}{心情}{动作}",
+        "{时间}{我}{程度}累，先{动作}",
+        "{人称}在{处所}{闲动作}了{语气}",
+        "{时间}{人称}在{处所}，等会儿再{闲动作}",
         "{时间}{人称}{状态}了{语气}",
-        "{时间}{我}刚{状态}，还没歇，{时间}再说",
-        "{我}刚{状态}，没顾上，晚点再联系",
-        "{时间}{人称}在{处所}，等会儿再{动作}",
-        "{我}刚{状态}，等会儿再跟你好好聊",
-        "{我}刚{状态}，等会儿再跟你说",
-        "早安",
-        "没事",
-        "随便",
-        "忙不忙",
-        "马上来",
-        "先这样",
-        "明天见",
-        "辛苦了",
-        "再联系",
-        "还没睡",
-        "来得及",
-        "看一下",
-        "还没歇",
-        "刚坐下",
-        "吃饭了吗",
-        "我刚到家",
-        "有空一起",
-        "路上慢点",
-        "刚想起来",
-        "我记下了",
-        "明天再聊",
-        "我这就回",
-        "我在家呢",
-        "慢慢来就好",
-        "我这边都好",
-        "今天辛苦了",
-        "明天再补上",
-        "我先去忙了",
-        "我这边没事",
-        "你先忙你的",
-        "等会儿再看看",
-        "明天再跟你说",
-        "我这边都挺好",
-        "有空再慢慢聊",
-        "到了跟我说一声",
-        "别着急，慢慢来",
-        "今天过得怎么样",
-        "你先忙，我不催",
-        "你慢慢说，我在听",
-        "我这边快到路口了",
-        "你别赶，时间还够",
-        "要不要一起吃个饭",
-        "刚吃完，还没收拾",
-        "刚看到消息，别急",
-        "你别急，我慢慢看",
-        "我记着呢，你放心",
-        "等我把手头的事忙完",
-        "想起来就顺手说一句",
-        "你到家了吗，我刚到",
-        "今天开会开得有点久",
-        "今天水凉，别直接喝",
-        "今天路滑，走慢一点",
-        "刚把水倒好，不烫了",
-        "刚把饭盖好，别凉了",
-        "你别熬了，明天再说",
-        "刚把灯打开，别摸黑",
-        "你要是忙，晚点也行",
-        "别着急，我等你就好",
-        "刚洗完澡，才坐下来",
-        "我记下了，不会忘的",
-        "今天就这样，早点休息",
-        "刚才信号不好，没听清",
-        "别搬重东西，等我过来",
-        "刚想起来还有件事没办",
-        "你要是冷就把外套披上",
-        "今天风小，出去走了走",
-        "你慢慢收拾，我不着急",
-        "今天没什么安排，随你",
-        "你别老熬夜，脸色不好",
-        "刚把杯子捂热了，给你",
-        "刚把杯子挪到你那边了",
-        "你别硬扛，跟我说一声",
-        "刚把消息看完，慢慢回",
-        "我把明天的事提前做了",
-        "刚把饭盛好，过来吃吧",
-        "我刚坐下来，才缓过来",
-        "我刚坐下，还没缓过来",
-        "你那边冷不冷，多穿点",
-        "你先别回，歇会儿再说",
-        "刚想起还有件事没跟你说",
-        "我先去吃个饭，回头找你",
-        "你别着急回，先把饭吃了",
-        "今天路上人不多，挺顺的",
-        "刚把碗筷摆好，等你过来",
-        "刚把歌关了，屋里安静了",
-        "你别站风口上，容易着凉",
-        "你要是手冷，捂会儿杯子",
-        "刚把被子晒了，晚上暖和",
-        "你要是热，我把风扇打开",
-        "你要是走累了，就打个车",
-        "你要是忙，我就先不说了",
-        "今天电梯坏了，走的楼梯",
-        "你要是冷，我把窗关小点",
-        "你要是忘了，我再发一遍",
-        "我把闹钟往前调了五分钟",
-        "今天饭点过了，随便吃点",
-        "刚把窗推开一点，透透气",
-        "你别急，慢慢走，我等你",
-        "刚看到你发的，我慢慢看",
-        "今天这一趟下来，有点累",
-        "我在路上，大概一会儿到",
-        "没事，就是想听听你说话",
-        "刚看到你发的，笑了一下",
-        "你要是忙，就先不用回了",
-        "刚才没看到消息，不好意思",
-        "我把明天的事记在日历上了",
-        "明早我可能起晚点，别叫我",
-        "刚想起来，明天好像要下雨",
-        "我把时间记错了，不好意思",
-        "刚想起来，钥匙还在你那儿",
-        "我这边刚忙完，正准备坐下",
-        "你要是还没出发，就别急了",
-        "刚把包收拾好，明天直接走",
-        "刚把窗开了一条缝，透透气",
-        "我把闹钟关了，想多睡会儿",
-        "刚把杯子递过去了，小心烫",
-        "你要是冷，我把毯子拿过来",
-        "刚把消息回完，能歇会儿了",
-        "你要是不想出门，就待着吧",
-        "刚把杯子洗干净了，放心用",
-        "你要是还没睡，就再聊两句",
-        "刚把饭热上，等会儿再回你",
-        "今天没干什么，就随便待着",
-        "今天风有点大，出门多穿点",
-        "今天就这样吧，你也早点睡",
-        "刚看到时间，才发现不早了",
-        "我就想确认一下，没别的事",
-        "我这边快好了，再等我十分钟",
-        "刚看到你发的照片，拍得挺好",
-        "今天水喝得少，等会儿多喝点",
-        "今天饭做得有点多，给你留了",
-        "今天走得慢，路上看了会儿天",
-        "信号不太好，等会儿再打给你",
-        "我想了想，还是按你说的来吧",
-        "你别多想，我就是随口问一句",
-        "今天没什么事，就想跟你聊聊",
-        "你那边要是下雨，别忘了带伞",
-        "今天风好大，出门记得加件外套",
-        "刚把水烧上，等会儿给你冲一杯",
-        "今天天气不错，要不要出去走走",
-        "我想着你可能还没吃，就问一句",
-        "我在家呢，哪儿也没去，你放心",
-        "等会儿我可能要出门，先说一声",
-        "那件事我记着呢，等忙完这阵就办",
-        "我这边刚空下来，正好看到你发的",
-        "今天就这样吧，早点休息，明天再聊",
-        "等会儿我可能要出门，先跟你说一声",
-        "明天再联系吧，今天大家都早点休息",
-        "我先挂了，等会儿到家再给你发消息",
-        "你发的我看到了，等我慢慢回你，别急",
-        "刚才没忍住笑了，你说的那句我记下了",
-        "你先忙你的，我这边不急，什么时候都行",
-        "今天走了一整天，刚到家坐下，还没缓过来",
-        "等会儿我给你回电话，这会儿不太方便说话",
-        "刚看到天气预报，明天可能下雨，记得带伞"
+        "{时间}{人称}在{处所}{闲动作}",
+        "把{物}{处置}了，{连接}{动作}",
+        "{时间}{我}{程度}忙，晚点{动作}",
+        "{人称}在{处所}，{心情}{闲动作}着",
+        "{我}刚{状态}，{连接}没{动作}"
     ]
-};;;;;;;
+};;;;;;;;;;
+        // 现成话低频池：真拼之外偶尔来一句，保证自然度
+        const DICT_SENT = [
+    "在吗",
+    "说吧",
+    "别急",
+    "不急",
+    "累不累",
+    "这就来",
+    "慢慢来",
+    "听着呢",
+    "麻烦了",
+    "听你的",
+    "改天聊",
+    "不着急",
+    "回一下",
+    "先挂了",
+    "刚睡醒",
+    "到家了吗",
+    "正准备睡",
+    "先不说了",
+    "早点休息",
+    "没什么事",
+    "我先缓缓",
+    "刚吃完饭",
+    "刚歇会儿",
+    "刚看到消息",
+    "到了说一声",
+    "等会儿就回",
+    "早点休息吧",
+    "最近还好吗",
+    "你先歇会儿",
+    "等会儿再聊",
+    "先不打扰了",
+    "我这边挺好的",
+    "这两天有点忙",
+    "我记着这事呢",
+    "你别碰那杯，烫",
+    "等会儿再跟你说",
+    "才忙完，刚坐下",
+    "我先不打扰你了",
+    "我先去吃口东西",
+    "你那边还亮着灯吗",
+    "你慢慢吃，我等你",
+    "你别急，我记着呢",
+    "刚看到，等我一下",
+    "刚到家，等会儿聊",
+    "我这边都安排好了",
+    "你要是困了就先睡",
+    "等会儿再跟你细说",
+    "我这边没事，你放心",
+    "没事，就是想问问你",
+    "我先洗个澡，回头聊",
+    "我把充电器放包里了",
+    "我把日程改到下午了",
+    "你别撑着，先歇会儿",
+    "你要是困，就别等了",
+    "今天路上买了杯热的",
+    "今天走得急，没带伞",
+    "你别站太久，坐下来",
+    "今天话不多，但都在",
+    "我先下了，明天再聊",
+    "别总熬夜，早点休息",
+    "刚看到你消息，我还在",
+    "等你有空我们再慢慢聊",
+    "困了就先睡，不用等我",
+    "我把闹钟调早了十分钟",
+    "你别硬撑，不舒服就说",
+    "刚把地拖了，小心点走",
+    "你别急，我等你就是了",
+    "你要是忘了，我提醒你",
+    "刚把票根收好了，没丢",
+    "刚把台灯打开，亮一点",
+    "刚把水壶放上，马上开",
+    "今天没什么事，就等你",
+    "今天有点静，就听听歌",
+    "刚把水凉了，可以喝了",
+    "今天天气挺好，别窝着",
+    "刚把台灯挪到你那边了",
+    "我这边没事，你别惦记",
+    "我先不聊了，回头再说",
+    "刚才没忍住打了个哈欠",
+    "这两天有点累，早点睡了",
+    "到了跟我说一声，我放心",
+    "你先睡，我这边还有点事",
+    "你要是困了就跟我说一声",
+    "你要是饿了我这儿有吃的",
+    "今天没什么事，想早点睡",
+    "我把伞放门口了，你拿着",
+    "今天有点闷，开了会儿窗",
+    "我这边快弄完了，别催我",
+    "你要是累了就别回消息了",
+    "我把时间往后挪了半小时",
+    "刚把水烧开，等会儿泡茶",
+    "刚把灯调暗了，准备睡了",
+    "我把备注写好了，你看看",
+    "你别低头太久，抬会儿头",
+    "我把日子记错了，改一下",
+    "你要是不舒服，早点躺下",
+    "你要是热，我把窗帘拉上",
+    "我把药放桌上了，记得吃",
+    "刚才在开车，没看到消息",
+    "不用特意等我，你先走吧",
+    "那件事不着急，你慢慢弄",
+    "我这边刚空下来，你说吧",
+    "你慢慢来，什么时候都行",
+    "刚才走神了，没看到消息",
+    "等会儿到家了跟你说一声",
+    "想了一下，还是明天再说吧",
+    "刚充上电，手机前面没电了",
+    "刚把文件发你了，查收一下",
+    "我把明天要用的东西装好了",
+    "你要是出门，记得把门带上",
+    "刚从外面回来，手还有点凉",
+    "刚看到时间，得赶紧出门了",
+    "我把票买好了，等会儿发你",
+    "今天太阳落得早，天黑得快",
+    "刚把水杯灌满，放你桌上了",
+    "你要是嫌吵，我把音量调小",
+    "刚把灯换成暖光了，不刺眼",
+    "我把充电器借你了，记得还",
+    "今天没什么胃口，喝点粥吧",
+    "我把歌单调好了，等会儿放",
+    "我把手机放枕边了，听得到",
+    "我这边差不多了，你那边呢",
+    "我这会儿走不开，晚点过去",
+    "今天有点懒，哪儿也不想去",
+    "我这边快好了，再等我一下",
+    "你别笑我，我就是有点啰嗦",
+    "我不急着要答案，你慢慢想",
+    "等会儿有空吗，想跟你聊两句",
+    "今天没什么胃口，随便吃了点",
+    "你要是不想动，我给你送过去",
+    "刚把窗帘拉上，屋里凉快点了",
+    "刚把手机充满，这会儿能用了",
+    "我把明天要穿的衣服拿出来了",
+    "明天有空的话，我们见一面吧",
+    "那件事我记着呢，明天给你回",
+    "你要是困了就先睡，明天再说",
+    "今天风挺大的，你出门多穿点",
+    "刚把东西归置好，等会儿找你",
+    "晚点给你回电话，这会儿不方便",
+    "今天太阳挺好的，晒了会儿被子",
+    "我今天走得早，没能跟你说一声",
+    "刚接到消息，可能得改一下时间",
+    "你那边要是忙，就先不用回我了",
+    "我想着你可能还没歇，就问一句",
+    "这事不急着定，我们再想想也不迟",
+    "我这会儿不方便说话，晚点打给你",
+    "今天运气不太好，不过也没什么大事",
+    "刚把东西收拾好，等会儿给你送过去",
+    "我这边快弄完了，你再等我一小会儿",
+    "今天没什么特别的，就想跟你聊两句",
+    "刚到家，外面下雨了，你出门记得带伞",
+    "你要是方便的话，等会儿语音聊两句？",
+    "刚才在开会，手机调了静音，才看到消息",
+    "想了想还是跟你说一声，明天我可能晚点到",
+    "我这边没什么事，就是想问问你今天怎么样",
+    "刚才手机没电了，充上才看到消息，不好意思",
+    "稍等",
+    "收到",
+    "放心",
+    "我在呢",
+    "怎么了",
+    "回头说",
+    "早点睡",
+    "知道啦",
+    "不客气",
+    "交给我",
+    "我来吧",
+    "放心吧",
+    "歇一下",
+    "回头见",
+    "你放心",
+    "有空再说",
+    "晚点联系",
+    "回头联系",
+    "别熬太晚",
+    "还没吃饭",
+    "刚腾出手",
+    "我先想想",
+    "别太累了",
+    "等会儿回你",
+    "顺便问一句",
+    "不用着急回",
+    "等下给你发",
+    "今天累不累",
+    "记得早点睡",
+    "明天再联系",
+    "我还在路上",
+    "我刚看到消息",
+    "不急，慢慢来",
+    "等会儿联系你",
+    "你别空肚喝牛奶",
+    "刚到家，还没歇",
+    "你那边忙完了吗",
+    "一会儿再跟你说",
+    "你那边还顺利吗",
+    "你慢慢走，不用赶",
+    "你别着急，来得及",
+    "你别喝太急，慢点",
+    "刚到家，先歇会儿",
+    "不打扰了，先这样",
+    "明天早上再联系吧",
+    "你今天吃得怎么样",
+    "我在呢，随时都在",
+    "不急着回，先忙你的",
+    "别熬太晚，早点休息",
+    "要不要一起点个外卖",
+    "你要是忙就先别管我",
+    "刚看到外面出太阳了",
+    "我把钥匙放老地方了",
+    "你别碰凉水，我来弄",
+    "你别着凉，加件衣服",
+    "你要是饿，冰箱里有",
+    "我把伞收了，没下雨",
+    "手机没电了，刚充上",
+    "你说的时间我记下了",
+    "刚到家，外面有点凉",
+    "今天有点忙，晚点回你",
+    "要不要我给你带杯热的",
+    "手机调了静音，刚看到",
+    "刚喝了口水，才缓过来",
+    "你要是累了就靠一会儿",
+    "你要是头晕就先躺会儿",
+    "今天话少，不是不高兴",
+    "你别把水洒了，慢点端",
+    "我把窗关了，怕吵到你",
+    "你要是累，就别说话了",
+    "我把手机静音了，怕吵",
+    "刚把水杯递过去，接着",
+    "刚把碗端过去，小心烫",
+    "今天没睡够，有点迷糊",
+    "刚把门带上，风进不来",
+    "刚把水杯添满，别断了",
+    "别等我了，你先开始吧",
+    "这事不急，改天说也行",
+    "你要是累了，就别硬撑",
+    "没什么大事，就随便问问",
+    "刚忙完，终于能歇会儿了",
+    "刚看到消息，刚才在洗澡",
+    "我这边堵车，可能晚点到",
+    "刚把灯关小了点，太亮了",
+    "你别急，我一条一条回你",
+    "今天衣服穿少了，有点凉",
+    "刚把饭热了一下，趁热吃",
+    "今天买多了，给你分一半",
+    "我把门留着，你直接进来",
+    "我把手机放远了，没看到",
+    "今天云挺厚，可能要下雨",
+    "你要是还没吃，我等等你",
+    "你别一次吃太多，慢慢来",
+    "今天没带钥匙，等了一下",
+    "刚把书合上，歇会儿眼睛",
+    "我把包放门口了，别踩到",
+    "我把清单发你了，核对下",
+    "你要是不方便，我去找你",
+    "这事不急，明天再说也行",
+    "我先去忙了，回头再找你",
+    "你要是方便，帮我看一眼",
+    "刚才在忙，没顾上看手机",
+    "手机刚才没电，不好意思",
+    "我先把手头这点事收个尾",
+    "你别熬了，明天还得早起",
+    "刚把碗洗了，终于能坐会儿",
+    "你那边下雨了吗，记得带伞",
+    "我这边有点吵，晚点打给你",
+    "你先别开空调，等会儿再开",
+    "我把手机号发你了，存一下",
+    "刚把杯子洗了，给你倒点水",
+    "我把东西分好了，一份给你",
+    "你别熬着了，剩下的明天弄",
+    "我把地址改了一下，你看下",
+    "你要是没空，我自己去就行",
+    "刚把饭端到桌上了，来吃吧",
+    "刚把快递拆了，东西没问题",
+    "刚把饭盒洗了，明天还能用",
+    "我把伞撑开了，放门口晾着",
+    "刚把空调关了，自然风挺好",
+    "等会儿要不要一起吃点东西",
+    "等会儿忙完了，我再跟你说",
+    "有点想你了，就顺便说一句",
+    "刚想起一件事，顺口跟你说",
+    "我想了想，还是不打扰你了",
+    "明天要是没空，改天也一样",
+    "我先去忙，回头给你发消息",
+    "我这会儿不太方便，晚点回你",
+    "我把地址发你，你看看对不对",
+    "我这边信号一般，先发消息吧",
+    "我这边刚开始，还得等一会儿",
+    "你别空腹喝咖啡，先吃点东西",
+    "刚把手机拿起来，就看到你了",
+    "你要是累了就先歇，不急着回",
+    "等会儿我给你打电话，方便吗",
+    "我刚到家，还没来得及看手机",
+    "刚把手机充上电，才看到消息",
+    "刚想起来，那件事还没跟你说",
+    "路上买了点水果，等会儿带给你",
+    "刚把桌子收拾了，看着清爽多了",
+    "要是明天有空，我们一起吃个饭",
+    "等这阵子忙完，我们好好吃顿饭",
+    "今天话说得有点多，你别嫌我烦",
+    "别急着回消息，先把手头的事做完",
+    "刚把手机调回来了，现在能接电话",
+    "你到家了跟我说一声，我就不担心了",
+    "我这边都安排好了，你就不用操心了",
+    "我想着你可能也还没睡，就多说两句",
+    "你要是不同意也没关系，我们再商量",
+    "今天有点忙，消息回得慢，不是没看见",
+    "刚看到你消息，我还在路上，一会儿到",
+    "等这阵子过去，我们找个时间好好聊聊",
+    "你别熬太晚了，身体要紧，明天还得早起",
+    "你要是累了就先睡，剩下的明天再说也不迟",
+    "这两天没顾上联系，不是忘了，一直记着呢",
+    "晚饭我随便吃了点，你别担心，记得按时吃饭",
+    "晚安",
+    "明白",
+    "都行",
+    "睡了吗",
+    "等一下",
+    "别多想",
+    "多喝水",
+    "没关系",
+    "常联系",
+    "刚忙完",
+    "不麻烦",
+    "你先忙",
+    "刚到家",
+    "才看到",
+    "别急啊",
+    "路上小心",
+    "明天再说",
+    "我记着呢",
+    "记得吃饭",
+    "我马上到",
+    "刚回过神",
+    "不急着说",
+    "回头再聊",
+    "一会儿再说",
+    "就随便聊聊",
+    "不打扰你了",
+    "晚点跟你说",
+    "晚上有空吗",
+    "想到就说了",
+    "有空再细说",
+    "还没顾上回你",
+    "等会儿给你回",
+    "这两天没顾上",
+    "你先忙，不急",
+    "刚想起来跟你说",
+    "刚忙完手头的事",
+    "吃了没，别饿着",
+    "你先忙，我等你",
+    "吃了吗，别又凑合",
+    "今天走神了好几次",
+    "你别空着肚子出门",
+    "你别急，我马上回",
+    "等会儿给你回消息",
+    "你慢慢来，我不催",
+    "刚到家，先洗个澡",
+    "我先下了，明天见",
+    "我刚吃完，正歇着",
+    "我先去忙，回头联系",
+    "今天辛苦啦，早点睡",
+    "刚洗完衣服，晾上了",
+    "你要是不方便就改天",
+    "你把外套穿上再出门",
+    "今天风停了，挺舒服",
+    "刚把门反锁了，放心",
+    "刚把手机充上，别拔",
+    "你要是困了，我挂了",
+    "你别急，我等你吃完",
+    "我记着呢，不会忘的",
+    "别回太快，先忙你的",
+    "你慢慢吃，不用管我",
+    "想了想还是跟你说一声",
+    "你别急，我慢慢跟你说",
+    "你先把药吃了，别空腹",
+    "你别站着，找个地方坐",
+    "你要是困了就别等我了",
+    "今天安静，就随便待着",
+    "今天有点干，多喝点水",
+    "刚把窗台擦了，能坐了",
+    "你别急，我一会儿就到",
+    "今天安静得有点不习惯",
+    "刚把外套挂好了，没皱",
+    "刚把椅子擦了，可以坐",
+    "今天买多了，分你一半",
+    "刚把桌面收了，干净了",
+    "你要是累，就别回我了",
+    "晚饭吃了吗，别又忘了",
+    "等会儿有空了再好好聊",
+    "你先歇着，我不打扰了",
+    "刚把灯关了，正准备睡",
+    "明天有空的话一起吃个饭",
+    "你那边要是忙就先不说了",
+    "别喝冰的，给你倒了温水",
+    "今天没带伞，好在雨不大",
+    "你别老低着头，脖子会酸",
+    "刚把热水倒好，放桌上了",
+    "我把提醒设好了，不会忘",
+    "刚把灯打开，屋里亮堂了",
+    "你别一直坐着，起来动动",
+    "我把清单列好了，你看看",
+    "刚把汤盛出来，晾一会儿",
+    "刚把椅子挪过来了，坐吧",
+    "你要是方便，帮我拿一下",
+    "今天买了点新的，等你看",
+    "刚把灯调暗了，不晃眼",
+    "你要是忙，我先不下楼了",
+    "刚把灯全关了，只留一盏",
+    "刚把水开了，给你倒一杯",
+    "我把地址存好了，不会错",
+    "你要是不方便，改天也行",
+    "你慢慢吃，不用急着回我",
+    "今天先这样吧，早点休息",
+    "我这边一切照旧，别惦记",
+    "你别多心，我没别的意思",
+    "今天话有点多，你别嫌烦",
+    "我这边都安排好了，放心",
+    "今天走了好多路，腿有点酸",
+    "刚把空调调低了点，太热了",
+    "今天累得不想动，就躺着了",
+    "刚把快递取了，放在门口了",
+    "你别盯着屏幕了，闭会儿眼",
+    "今天没睡好，中午补了个觉",
+    "你别一次买太多，够用就行",
+    "我这边刚坐下，才看到消息",
+    "刚看到你消息，正好也没事",
+    "刚把药盒找出来了，放桌上",
+    "今天起得早，这会儿有点困",
+    "刚把桌面清了，找东西方便",
+    "刚把桌子擦了，可以放东西",
+    "刚把碗放进水池，等会儿洗",
+    "你要是冷，我把暖水袋拿来",
+    "刚才没顾上回，不是没看见",
+    "你那边要是下雨，记得带伞",
+    "你别笑我，我就是有点记挂",
+    "我就随便问问，不用认真答",
+    "你要是方便，回我一句就行",
+    "我这边挺好，就是有点想你",
+    "等你闲下来，我们再好好聊",
+    "别一直盯着手机，歇会儿眼睛",
+    "刚把窗户关上，外面风太大了",
+    "我这边差不多好了，马上收尾",
+    "刚看到天气预报，晚上会降温",
+    "今天买的水果挺甜，给你留了",
+    "我把时间留出来了，不排别的",
+    "我这边快好了，你再等我一下",
+    "今天有点乱，晚点再跟你细说",
+    "刚看到那张照片，忽然想起你",
+    "等这阵子过去，我们再慢慢说",
+    "今天运气一般，不过也没什么",
+    "我今天早点下班，等会儿去找你",
+    "我刚把事情忙完，这会儿有空了",
+    "刚想起来，那东西还在你那儿吧",
+    "等我把这点事收个尾，就来找你",
+    "你这会儿忙不忙，不忙就说两句",
+    "你要是还没吃，我顺便给你带一份",
+    "你别多想，我就是想确认一下时间",
+    "我想了一下，还是按之前说好的来吧",
+    "我先去忙了，回头给你发消息，别急",
+    "等会儿下楼买点东西，你要带什么吗",
+    "我刚坐下，手机就响了，还以为是你",
+    "明天要是没别的事，我们一起吃个饭吧",
+    "我先不打扰你了，你歇会儿，晚点联系",
+    "我这边都挺好的，你别惦记，忙你的就行",
+    "刚吃完饭，正准备歇一会儿，你就发来了",
+    "刚把手里的事忙完，这会儿终于能歇口气了",
+    "今天没干什么，就待着，忽然想跟你说句话",
+    "刚想起来跟你说，明天的时间可能要往后挪一点",
+    "早安",
+    "没事",
+    "随便",
+    "忙不忙",
+    "马上来",
+    "先这样",
+    "明天见",
+    "辛苦了",
+    "再联系",
+    "还没睡",
+    "来得及",
+    "看一下",
+    "还没歇",
+    "刚坐下",
+    "吃饭了吗",
+    "我刚到家",
+    "有空一起",
+    "路上慢点",
+    "刚想起来",
+    "我记下了",
+    "明天再聊",
+    "我这就回",
+    "我在家呢",
+    "慢慢来就好",
+    "我这边都好",
+    "今天辛苦了",
+    "明天再补上",
+    "我先去忙了",
+    "我这边没事",
+    "你先忙你的",
+    "等会儿再看看",
+    "明天再跟你说",
+    "我这边都挺好",
+    "有空再慢慢聊",
+    "到了跟我说一声",
+    "别着急，慢慢来",
+    "今天过得怎么样",
+    "你先忙，我不催",
+    "你慢慢说，我在听",
+    "我这边快到路口了",
+    "你别赶，时间还够",
+    "要不要一起吃个饭",
+    "刚吃完，还没收拾",
+    "刚看到消息，别急",
+    "你别急，我慢慢看",
+    "我记着呢，你放心",
+    "等我把手头的事忙完",
+    "想起来就顺手说一句",
+    "你到家了吗，我刚到",
+    "今天开会开得有点久",
+    "今天水凉，别直接喝",
+    "今天路滑，走慢一点",
+    "刚把水倒好，不烫了",
+    "刚把饭盖好，别凉了",
+    "你别熬了，明天再说",
+    "刚把灯打开，别摸黑",
+    "你要是忙，晚点也行",
+    "别着急，我等你就好",
+    "刚洗完澡，才坐下来",
+    "我记下了，不会忘的",
+    "今天就这样，早点休息",
+    "刚才信号不好，没听清",
+    "别搬重东西，等我过来",
+    "刚想起来还有件事没办",
+    "你要是冷就把外套披上",
+    "今天风小，出去走了走",
+    "你慢慢收拾，我不着急",
+    "今天没什么安排，随你",
+    "你别老熬夜，脸色不好",
+    "刚把杯子捂热了，给你",
+    "刚把杯子挪到你那边了",
+    "你别硬扛，跟我说一声",
+    "刚把消息看完，慢慢回",
+    "我把明天的事提前做了",
+    "刚把饭盛好，过来吃吧",
+    "我刚坐下来，才缓过来",
+    "我刚坐下，还没缓过来",
+    "你那边冷不冷，多穿点",
+    "你先别回，歇会儿再说",
+    "刚想起还有件事没跟你说",
+    "我先去吃个饭，回头找你",
+    "你别着急回，先把饭吃了",
+    "今天路上人不多，挺顺的",
+    "刚把碗筷摆好，等你过来",
+    "刚把歌关了，屋里安静了",
+    "你别站风口上，容易着凉",
+    "你要是手冷，捂会儿杯子",
+    "刚把被子晒了，晚上暖和",
+    "你要是热，我把风扇打开",
+    "你要是走累了，就打个车",
+    "你要是忙，我就先不说了",
+    "今天电梯坏了，走的楼梯",
+    "你要是冷，我把窗关小点",
+    "你要是忘了，我再发一遍",
+    "我把闹钟往前调了五分钟",
+    "今天饭点过了，随便吃点",
+    "刚把窗推开一点，透透气",
+    "你别急，慢慢走，我等你",
+    "刚看到你发的，我慢慢看",
+    "今天这一趟下来，有点累",
+    "我在路上，大概一会儿到",
+    "没事，就是想听听你说话",
+    "刚看到你发的，笑了一下",
+    "你要是忙，就先不用回了",
+    "刚才没看到消息，不好意思",
+    "我把明天的事记在日历上了",
+    "明早我可能起晚点，别叫我",
+    "刚想起来，明天好像要下雨",
+    "我把时间记错了，不好意思",
+    "刚想起来，钥匙还在你那儿",
+    "我这边刚忙完，正准备坐下",
+    "你要是还没出发，就别急了",
+    "刚把包收拾好，明天直接走",
+    "刚把窗开了一条缝，透透气",
+    "我把闹钟关了，想多睡会儿",
+    "刚把杯子递过去了，小心烫",
+    "你要是冷，我把毯子拿过来",
+    "刚把消息回完，能歇会儿了",
+    "你要是不想出门，就待着吧",
+    "刚把杯子洗干净了，放心用",
+    "你要是还没睡，就再聊两句",
+    "刚把饭热上，等会儿再回你",
+    "今天没干什么，就随便待着",
+    "今天风有点大，出门多穿点",
+    "今天就这样吧，你也早点睡",
+    "刚看到时间，才发现不早了",
+    "我就想确认一下，没别的事",
+    "我这边快好了，再等我十分钟",
+    "刚看到你发的照片，拍得挺好",
+    "今天水喝得少，等会儿多喝点",
+    "今天饭做得有点多，给你留了",
+    "今天走得慢，路上看了会儿天",
+    "信号不太好，等会儿再打给你",
+    "我想了想，还是按你说的来吧",
+    "你别多想，我就是随口问一句",
+    "今天没什么事，就想跟你聊聊",
+    "你那边要是下雨，别忘了带伞",
+    "今天风好大，出门记得加件外套",
+    "刚把水烧上，等会儿给你冲一杯",
+    "今天天气不错，要不要出去走走",
+    "我想着你可能还没吃，就问一句",
+    "我在家呢，哪儿也没去，你放心",
+    "等会儿我可能要出门，先说一声",
+    "那件事我记着呢，等忙完这阵就办",
+    "我这边刚空下来，正好看到你发的",
+    "今天就这样吧，早点休息，明天再聊",
+    "等会儿我可能要出门，先跟你说一声",
+    "明天再联系吧，今天大家都早点休息",
+    "我先挂了，等会儿到家再给你发消息",
+    "你发的我看到了，等我慢慢回你，别急",
+    "刚才没忍住笑了，你说的那句我记下了",
+    "你先忙你的，我这边不急，什么时候都行",
+    "今天走了一整天，刚到家坐下，还没缓过来",
+    "等会儿我给你回电话，这会儿不太方便说话",
+    "刚看到天气预报，明天可能下雨，记得带伞",
+    "有点忙",
+    "有点累",
+    "稍微有点忙",
+    "刚缓过来",
+    "不想动"
+];;;
+;;;;;;;
         // 点词条时用这些通顺句式把词嵌进去，不硬贴在句首
         const DICT_LOCK_TPL = {
     "人称": [
@@ -11326,9 +12285,22 @@ createApp({
         "{时间}{人称}在{处所}",
         "{我}在{处所}等你"
     ],
-    "语气": [],
-    "连接": []
-};;;;
+    "语气": [
+        "先{动作}{语气}",
+        "{动作}了{语气}",
+        "{人称}{状态}了{语气}",
+        "等会儿再说{语气}",
+        "别急{语气}",
+        "{时间}再说{语气}"
+    ],
+    "连接": [
+        "{连接}没顾上回你",
+        "{人称}{连接}想{动作}",
+        "我{连接}在呢",
+        "刚{状态}，{连接}没顾上回你",
+        "{时间}{连接}{动作}了"
+    ]
+};;;;;
 
         const dictCustom = ref([]);
         const dictQuery = ref(''), dictCat = ref('all');
@@ -11397,20 +12369,187 @@ createApp({
             const pool = limit && limit.length ? limit : dictAll.value.filter(w => w.c === c).map(w => w.t);
             return pool.length ? pool[Math.floor(Math.random() * pool.length)] : '';
         };
-        const DICT_SLOT_RE = /\{(人称|时间|动作|心情|名词|语气|连接|处所|程度|状态|我)\}/g;
+        // 「物」和「处置」必须来自同一语义组，才会出现「把水倒好」「把衣服晾上」，而不是「把菜挂好」
+        const DICT_PAIR_GROUP = [
+    {
+        "物": [
+            "水",
+            "粥",
+            "汤",
+            "咖啡",
+            "茶",
+            "牛奶",
+            "饭",
+            "菜",
+            "杯子",
+            "碗"
+        ],
+        "处置": [
+            "倒好",
+            "热好",
+            "盛好",
+            "温好",
+            "泡好",
+            "端过去",
+            "盖好",
+            "拿过来"
+        ]
+    },
+    {
+        "物": [
+            "衣服",
+            "被子",
+            "外套",
+            "毛衣",
+            "袜子",
+            "床单",
+            "枕套",
+            "毯子",
+            "窗帘",
+            "毛巾"
+        ],
+        "处置": [
+            "洗好",
+            "晾上",
+            "叠好",
+            "收好",
+            "挂好",
+            "折好",
+            "换好",
+            "带上"
+        ]
+    },
+    {
+        "物": [
+            "灯",
+            "台灯",
+            "空调",
+            "风扇",
+            "窗",
+            "门",
+            "闹钟",
+            "手机",
+            "充电器",
+            "电池",
+            "耳机",
+            "数据线"
+        ],
+        "处置": [
+            "关好",
+            "打开",
+            "调好"
+        ]
+    },
+    {
+        "物": [
+            "文件",
+            "清单",
+            "备忘",
+            "票",
+            "照片",
+            "截图",
+            "书",
+            "本子",
+            "纸",
+            "说明书",
+            "歌单",
+            "日程",
+            "包装盒",
+            "纸箱",
+            "笔"
+        ],
+        "处置": [
+            "存好",
+            "记下",
+            "删掉",
+            "收好",
+            "拆开",
+            "留好",
+            "摆好"
+        ]
+    },
+    {
+        "物": [
+            "快递",
+            "包裹",
+            "外卖",
+            "东西",
+            "包",
+            "伞",
+            "钥匙",
+            "碗筷",
+            "勺子",
+            "锅盖",
+            "桌子",
+            "椅子",
+            "手机壳",
+            "便当",
+            "水果",
+            "面包",
+            "药"
+        ],
+        "处置": [
+            "拆开",
+            "拿过来",
+            "摆好",
+            "收好",
+            "放好",
+            "装好",
+            "带上",
+            "挂好",
+            "挪好",
+            "扶好",
+            "摞好",
+            "归置好",
+            "收拾好",
+            "留好",
+            "热好"
+        ]
+    },
+    {
+        "物": [
+            "热水袋",
+            "毯子",
+            "暖水袋"
+        ],
+        "处置": [
+            "热好",
+            "拿过来",
+            "放好",
+            "铺好",
+            "收好",
+            "留好"
+        ]
+    }
+];;;;;;
+        const DICT_SLOT_RE = /\{(人称|时间|动作|心情|名词|语气|连接|处所|程度|状态|我|物|处置|闲动作)\}/g;
         const dictFill = (tpl, locked) => {
             const used = {};
+            const needPair = tpl.indexOf('{物}') !== -1 && tpl.indexOf('{处置}') !== -1;
+            const grp = needPair ? DICT_PAIR_GROUP[Math.floor(Math.random() * DICT_PAIR_GROUP.length)] : null;
+            const pickCat = (c) => {
+                if (grp && c === '物') return grp.物[Math.floor(Math.random() * grp.物.length)];
+                if (grp && c === '处置') return grp.处置[Math.floor(Math.random() * grp.处置.length)];
+                return dictPickCat(c);
+            };
             return tpl.replace(DICT_SLOT_RE, (m, c) => {
                 // 点的是名词，句式里若是「在{处所}」，也用这个词
                 const key = (c === '处所' && locked && locked['名词'] && !used['名词']) ? '名词' : c;
                 if (locked && locked[key] && !used[key]) { used[key] = 1; return locked[key]; }
-                return dictPickCat(c);
-            }).replace(/了了/g, '了')
+                return pickCat(c);
+            }).replace(/了了/g, '了').replace(/在在/g, '在')
               .replace(/一下一下/g, '一下').replace(/一会儿一会儿/g, '一会儿')
-              .replace(/了呢/g, '呢').replace(/了吧/g, '吧')
+              .replace(/了呢/g, '呢').replace(/了吧/g, '吧').replace(/了呀/g, '呀')
+              .replace(/还还/g, '还').replace(/不太不想/g, '不想')
+              .replace(/了嘛/g, '嘛').replace(/了哦/g, '哦').replace(/了呗/g, '呗').replace(/了啦/g, '啦')
+              .replace(/刚刚刚/g, '刚刚').replace(/，，/g, '，')
               .replace(/\s+/g, '');
         };
         const dictMakeLine = (n, locked) => {
+            // 约两成偶尔发一句现成话，其余都是真拼：k 就是这轮真的填进去的词数
+            if (!locked && DICT_SENT.length && Math.random() < 0.22) {
+                return DICT_SENT[Math.floor(Math.random() * DICT_SENT.length)];
+            }
             const k = Math.max(1, Math.min(4, Number(n) || dictCountNow()));
             const tpls = DICT_TPL[k] || DICT_TPL[2];
             const tpl = tpls[Math.floor(Math.random() * tpls.length)];
@@ -11439,7 +12578,17 @@ createApp({
             const isPlace = cat0 === '名词' && (DICT_SAFE['处所'] || []).indexOf(t) !== -1;
             const cat = isPlace ? '处所' : cat0;
             // 功能词（语气／连接／心情）不硬塞进句子，直接回一句日常整句
-            if (['语气', '连接', '心情'].indexOf(cat) !== -1) { dictPushMsg(dictMakeLine(1)); return; }
+            if (cat === '心情') {
+                // 程度副词直接接「忙 / 累」，别硬塞进「他有点吃」这种骨架
+                const deg = ['有点','挺','很','太','不太','真的','特别','稍微','略微','有点儿',
+                             '不算','未必','大概','可能','也许','其实','好像'];
+                if (deg.indexOf(t) !== -1) {
+                    dictPushMsg(t + (Math.random() < 0.5 ? '忙' : '累'));
+                } else {
+                    dictPushMsg(dictMakeLine(1));
+                }
+                return;
+            }
             const pool = (DICT_LOCK_TPL[cat] || []).filter(tpl => tpl.indexOf('{' + cat + '}') !== -1);
             const locked = {}; locked[cat] = t;
             if (isPlace) locked['名词'] = t;
@@ -15509,6 +16658,13 @@ createApp({
             const h = Math.floor(mins / 60), m = mins % 60;
             return m ? h + ' 小时 ' + m + ' 分' : h + ' 小时';
         };
+        // 把「59 小时 28 分」拆成 数字 / 单位 交替的片段，交给模板分级排版
+        const slpDurParts = computed(() => {
+            const t = String((slpSummary.value && slpSummary.value.durText) || '');
+            const out = []; const re = /(\d+|[^\d\s]+)/g; let m;
+            while ((m = re.exec(t)) !== null) out.push({ t: m[0], num: /^\d+$/.test(m[0]) });
+            return out;
+        });
         const slpTime = (t) => { const d = new Date(t); return String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0'); };
         const slpTick = () => { slpElapsed.value = slpStartAt.value ? Math.max(0, Math.floor((Date.now() - slpStartAt.value) / 1000)) : 0; };
         const slpStartTimer = () => { if (slpTimerId) clearInterval(slpTimerId); slpTick(); slpTimerId = setInterval(slpTick, 1000); };
@@ -16487,7 +17643,7 @@ createApp({
         };
 
         const cleanOrphanKeys = async () => {
-            if (!confirm('将清理旧版遗留的废料缓存。\n\n会保留：聊天记录、手账、塔罗日记、字卡、表情包、书架上的书、头像、壁纸、播放列表、陪伴、生理期记录、问卷库、商场零钱与自制商品、天气城市。\n\n继续？')) return;
+            if (!confirm('将清理旧版遗留的废料缓存。\n\n会保留：聊天记录、手账、塔罗日记、字卡、表情包、书架上的书、阅读记录、刷视频仓库与屏蔽词/频道、头像、壁纸、播放列表、陪伴、生理期记录、问卷库、商场零钱与自制商品、天气城市。\n\n继续？')) return;
             const keep = new Set([
                 'liubai_messages_db', 'liubai_profiles_db', 'liubai_settings_db', 'liubai_letters_db', 'liubai_videoAutoCall_db',
                 'liubai_stickers_db', 'liubai_replyGroups_db', 'liubai_replySettings_db', 'liubai_playlist_db',
@@ -16506,7 +17662,9 @@ createApp({
                 'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders', 'liubai_shop_custom_db',
                 'liubai_qa_bank_db', 'liubai_pat_actions_db',
                 'liubai_reading_books_db', 'liubai_reading_state_db', 'liubai_dict_custom_db',
-                'liubai_menstrual_care_shift'
+                'liubai_reading_stats_db', 'liubai_menstrual_care_shift',
+                'liubai_video_shelf_db', 'liubai_video_api_db',
+                'liubai_video_block_db', 'liubai_video_channels_db'
             ]);
             let removed = 0, freed = 0;
             try {
@@ -16718,7 +17876,9 @@ createApp({
                     'liubai_sleep_mix', 'liubai_sleep_recipes', 'liubai_sleep_chat', 'liubai_sleep_history', 'liubai_sleep_vols',
                     'liubai_sleep_session', 'liubai_sleep_summary',
                     'liubai_shop_wallet', 'liubai_shop_cart', 'liubai_shop_orders', 'liubai_shop_custom_db', 'liubai_qa_bank_db', 'liubai_horary_db', 'liubai_pat_actions_db',
-                    'liubai_reading_books_db', 'liubai_reading_state_db', 'liubai_dict_custom_db',
+                    'liubai_reading_books_db', 'liubai_reading_state_db', 'liubai_dict_custom_db', 'liubai_reading_stats_db',
+                    'liubai_video_shelf_db', 'liubai_video_api_db',
+                    'liubai_video_block_db', 'liubai_video_channels_db',
                     'liubai_companion_custom_name', 'liubai_companion_msgs', 'liubai_companion_recent',
                     'liubai_menstrual_records', 'liubai_menstrual_cycle_avg', 'liubai_menstrual_duration_avg', 'liubai_menstrual_care_shift',
                 'liubai_hp_img1', 'liubai_hp_img2', 'liubai_hp_img3',
@@ -16783,6 +17943,10 @@ createApp({
                     patActions: await localforage.getItem('liubai_pat_actions_db'),
                     readingBooks: await localforage.getItem('liubai_reading_books_db'),
                     readingState: await localforage.getItem('liubai_reading_state_db'),
+                    readingStats: { totalSec: rdStats.totalSec, togetherSec: rdStats.togetherSec, opened: rdStats.opened.slice() },
+                    videoShelf: JSON.parse(JSON.stringify(vdShelf.value)), videoApi: String(vdApi.value || ''),
+                    videoBlocks: JSON.parse(JSON.stringify(vdBlocksCustom.value)),
+                    videoChannels: JSON.parse(JSON.stringify(vdChannels.value)),
                     dictCustom: await localforage.getItem('liubai_dict_custom_db'),
                     menstrualRecords: await localforage.getItem('liubai_menstrual_records'),
                     menstrualCycleAvg: await localforage.getItem('liubai_menstrual_cycle_avg'),
@@ -16845,6 +18009,41 @@ createApp({
                           if (Array.isArray(data.patActions)) await localforage.setItem('liubai_pat_actions_db', data.patActions.filter(a => a && typeof a.text === 'string' && a.text.trim()).slice(0, 100));
                           if (Array.isArray(data.readingBooks)) await localforage.setItem('liubai_reading_books_db', data.readingBooks.filter(b => b && typeof b.raw === 'string').slice(0, 60));
                           if (data.readingState && typeof data.readingState === 'object') await localforage.setItem('liubai_reading_state_db', data.readingState);
+                          if (Array.isArray(data.videoShelf)) {
+                              const _vs = data.videoShelf.filter(x => x && typeof x.bvid === 'string').slice(0, 300)
+                                  .map(x => ({ bvid: x.bvid, title: String(x.title || '我加的视频').slice(0, 90), up: String(x.up || '').slice(0, 30), cat: String(x.cat || '我收的').slice(0, 12), tags: String(x.tags || '').slice(0, 60), at: x.at || Date.now() }));
+                              await localforage.setItem(VD_SHELF_KEY, _vs);
+                              vdShelf.value = _vs;
+                          }
+                          if (typeof data.videoApi === 'string') {
+                              await localforage.setItem(VD_API_KEY, data.videoApi);
+                              vdApi.value = data.videoApi;
+                          }
+                          if (Array.isArray(data.videoBlocks)) {
+                              const _vb = data.videoBlocks.filter(x => typeof x === 'string' && x.trim()).slice(0, 100)
+                                  .map(x => String(x).trim().slice(0, 30));
+                              await localforage.setItem(VD_BLOCK_KEY, _vb);
+                              vdBlocksCustom.value = _vb;
+                          }
+                          if (Array.isArray(data.videoChannels)) {
+                              const _vc = data.videoChannels.filter(x => typeof x === 'string' && x.trim()).slice(0, 20)
+                                  .map(x => String(x).trim().slice(0, 24));
+                              await localforage.setItem(VD_CHANNEL_KEY, _vc);
+                              vdChannels.value = _vc;
+                          }
+                          vdBuildFeed();
+                          if (data.readingStats && typeof data.readingStats === 'object') {
+                              const _rs = data.readingStats;
+                              const _clean = {
+                                  totalSec: Math.max(0, Number(_rs.totalSec) || 0),
+                                  togetherSec: Math.max(0, Number(_rs.togetherSec) || 0),
+                                  opened: Array.isArray(_rs.opened) ? _rs.opened.filter(x => typeof x === 'string').slice(0, 200) : []
+                              };
+                              await localforage.setItem('liubai_reading_stats_db', _clean);
+                              rdStats.totalSec = _clean.totalSec;
+                              rdStats.togetherSec = _clean.togetherSec;
+                              rdStats.opened = _clean.opened.slice();
+                          }
                           if (Array.isArray(data.dictCustom)) await localforage.setItem('liubai_dict_custom_db', data.dictCustom.filter(w => w && typeof w.t === 'string' && w.t.trim()).slice(0, 2000));
                           if (data.menstrualRecords && typeof data.menstrualRecords === 'object') await localforage.setItem('liubai_menstrual_records', data.menstrualRecords);
                           if (typeof data.menstrualCycleAvg === 'number') await localforage.setItem('liubai_menstrual_cycle_avg', data.menstrualCycleAvg);
@@ -19904,7 +21103,7 @@ createApp({
         // 名字、图标全部沿用 homeIcons 里的原值，这里只做排版，不改任何显示名。
         const hpPage = ref(0);
         const hpFront = ref(1);                 // 哪张图在上面：1 或 2
-        const hpEight = ['music', 'mailbox', 'watch', 'weather', 'menstrual', 'companion', 'journal', 'tarot', 'sleep', 'shop', 'horary', 'reading'];
+        const hpEight = ['music', 'mailbox', 'watch', 'weather', 'menstrual', 'companion', 'journal', 'tarot', 'sleep', 'shop', 'horary', 'reading', 'video'];
         const hpImg1 = ref(''), hpImg2 = ref(''), hpImg3 = ref(''), hpAnnivImg = ref('');
         const hpAnnivName = ref('');
         const hpAnnivDays = ref(0);
@@ -20041,6 +21240,7 @@ createApp({
             currentView.value = v;
             if (v !== 'music') msStop();
             if (v === 'sleep') sleepView.value = 'setup';
+            if (v === 'video') { vdTab.value = 'feed'; vdBuildFeed(); }
             if (v === 'shop') shopResumeWishes();
             if (v === 'mailbox') { mailboxView.value = 'list'; if (unreadLetters.value > 0) mailTab.value = 'inbox'; }
             if (v === 'companion') { cpShowMore.value = false; cpShowSticker.value = false; }
@@ -20263,7 +21463,7 @@ createApp({
             sleepView, slpChatMsgs, slpInput, slpMsgText, slpSend, slpStart, slpExit, slpSaveChat,
             slpShowSticker, slpToggleSticker, slpSendSticker,
             slpHistory, slpHistoryOpen, slpHistorySel, slpOpenHistory, slpCloseHistory, slpViewHistory,
-            slpStartAt, slpElapsed, slpElapsedText, slpSummary, slpLastSummary,
+            slpStartAt, slpElapsed, slpElapsedText, slpSummary, slpLastSummary, slpDurParts,
             slpEnd, slpResume, slpAgain, slpGoSetup, slpGoHome, slpShowLast, slpLoadSession, slpBuildSummary,
             mensPeriodStarts, mensStats, mensPredictDays,
             mensYear, mensMonth, mensCells, mensShiftMonth,
@@ -20308,7 +21508,15 @@ mensFmtDate, mensHasRecord, mensToggleSymptom,
             themeList, applyColorTheme,
             dictCats, dictAll, dictShown, dictFilteredCount, dictLimit, dictCustom, dictQuery, dictCat, dictAddOpen, dictAddText, dictAddCat, dictToast,
             dictDel, dictOpenAdd, dictSaveAdd, dictHeSend, dictHeSendWord, dictMakeLine, dictCountNow, dictLoad,
+            vdTab, vdShelf, vdFeed, vdIdx, vdCur, vdPlaying, vdDanmaku, vdQuery, vdScope, vdFold, vdApi, vdPaste, vdRemote, vdToast, VIDEO_SEED,
+            vdSnap, vdBlockOpen, vdBlockNew, vdBlocksCustom, vdAllBlocks, vdChannels, VD_BUILTIN_BLOCKS,
+            vdIsBlocked, vdBlockedCount, vdShelfShown, vdHotWords, vdOnScroll, vdScrollTo, vdPlayAt,
+            vdAddBlock, vdDelBlock, vdAddChannel, vdDelChannel, vdUseChannel, vdDelShelf, vdMoveShelf,
+            vdNetState, vdNetBusy, vdSaveRemoteAll, vdNetSearch, vdParseJson, vdParseText,
+            vdResults, vdPlayerUrl, vdOpenBili, vdTurn, vdTs, vdTe, vdWheel, vdShuffle: vdBuildFeed, vdInShelf, vdToggleShelf,
+            vdClearShelf, vdPlayFromResult, vdSearch, vdSearchBili, vdAddPaste, vdSaveApi, vdLoad,
             rdBooks, rdMain, rdView, rdBook, rdBookId, rdPage, rdPageCount, rdPageText, rdPages, rdTogether,
+            rdStats, rdFmtDur, rdSaveStats, rdMarkOpened,
             rdDanmuOn, rdDanmus, rdLineMode, rdDanmuSpeed, rdSpeedLabel, rdCycleDanmuSpeed, rdImportOpen, rdImportTab, rdImportTitle, rdImportAuthor, rdImportText, rdAppendId, rdBusy, rdErr, rdToast,
             rdBookPages, rdBookPct, rdFmtNum, rdBack, rdBackToShelf, rdOpenBook, rdTurn, rdInvite, rdInviteFromChat, rdOpenFromInvite,
             rdOpenImport, rdSaveText, rdOnFile, rdDeleteBook, rdPushDanmu, rdPickLine, rdSaveBooks, rdSaveState,
