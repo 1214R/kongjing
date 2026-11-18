@@ -3468,8 +3468,6 @@ html.dark textarea, html.dark input { color: #ffffff !important; caret-color: #f
 .blk-banner span { flex:1; min-width:0; }
 .blk-banner button { margin-left:auto; flex:none; border:none; background:transparent; cursor:pointer;
   color:var(--color-muted); font-size:10px; text-decoration:underline; padding:2px 0 2px 8px; }
-.iw-one-side { padding:0; }
-.iw-one-side > button { min-width:112px; }
 .chat-set-block-note { display:block; width:100%; text-align:left; font-size:10px;
   color:var(--color-muted); line-height:1.7; }
 
@@ -4855,12 +4853,13 @@ html, body { overscroll-behavior-y: none; }
 </div>
 
 
-<!-- ===== [MOD-02R] 天气 · iOS 风格：只显示「我这边」真实天气 ===== -->
+<!-- ===== [MOD-02R] 天气 · iOS 风格：一个主视图随时切「我这边 / 对方那边」 ===== -->
 <div v-else-if="currentView === 'weather'" key="weather" class="absolute inset-0 flex flex-col z-20 weather-page ios-weather" :style="iwSky">
     <header class="h-14 flex items-center justify-between px-4 shrink-0 iw-header">
         <button @click="switchView('home')" class="p-2 -ml-2 iw-back"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-        <div class="iw-seg iw-one-side">
-            <button class="on">我这边</button>
+        <div class="iw-seg">
+            <button :class="{ on: weatherSide === 'my' }" @click="iwSwitchSide('my')">我这边</button>
+            <button :class="{ on: weatherSide === 'them' }" @click="iwSwitchSide('them')">对方那边</button>
         </div>
         <button class="iw-refresh" :class="{ spin: weatherNow.loading }" @click="iwRefresh"><i data-lucide="refresh-cw"></i></button>
     </header>
@@ -4879,7 +4878,7 @@ html, body { overscroll-behavior-y: none; }
             <div class="iw-err" v-else-if="weatherNow.error">{{ weatherNow.error }}</div>
         </div>
         <div v-else class="iw-empty-hero">
-            <div class="iw-t">还没定下我这边的城市</div>
+            <div class="iw-t">{{ weatherNow.side === 'my' ? '还没定下我这边的城市' : '还没添上对方的城市' }}</div>
             <div class="iw-s">点下面「管理城市」搜一个，或自定义一个名字</div>
             <button class="iw-manage-btn" style="margin-top:8px" @click="weatherManageOpen = true">去添一个</button>
         </div>
@@ -4927,7 +4926,7 @@ html, body { overscroll-behavior-y: none; }
             </div>
             <div class="iw-metric">
                 <div class="iw-m-h"><i data-lucide="map-pin"></i>正在看</div>
-                <div class="iw-m-v" style="font-size:16px;line-height:1.4;margin-top:11px">我这边</div>
+                <div class="iw-m-v" style="font-size:16px;line-height:1.4;margin-top:11px">{{ weatherNow.side === 'my' ? '我这边' : '对方那边' }}</div>
                 <div class="iw-m-s">{{ weatherNow.updateTime || '还没更新过' }}</div>
             </div>
         </div>
@@ -4936,21 +4935,29 @@ html, body { overscroll-behavior-y: none; }
         <div class="iw-card">
             <div class="iw-card-h"><i data-lucide="map"></i>随时换个地区看</div>
             <div class="iw-chips" style="margin-top:11px">
-                <button class="iw-chip" :class="{ on: myWeather.cityName === c.name }" v-for="c in myRecentCities" :key="c.name" @click="iwSetMyCity(c)">{{ c.name }}</button>
-                <button v-if="!myRecentCities.length" class="iw-chip" @click="iwRefresh">定位我所在的地方</button>
-                <button class="iw-chip iw-chip-add" @click="weatherManageOpen = !weatherManageOpen">＋ 搜城市</button>
+                <template v-if="weatherSide === 'my'">
+                    <button class="iw-chip" :class="{ on: myWeather.cityName === c.name }" v-for="c in myRecentCities" :key="c.name" @click="iwSetMyCity(c); iwSwitchSide('my')">{{ c.name }}</button>
+                    <button v-if="!myRecentCities.length" class="iw-chip" @click="iwRefresh">定位我所在的地方</button>
+                    <button class="iw-chip iw-chip-add" @click="weatherManageOpen = !weatherManageOpen">＋ 搜城市</button>
+                </template>
+                <template v-else>
+                    <button class="iw-chip" :class="{ on: virtualWeather.cityName === c.name }" v-for="c in virtualCities" :key="c.name" @click="setVirtualCity(c)">{{ c.name }}</button>
+                    <button v-if="!virtualCities.length" class="iw-chip" @click="weatherManageOpen = !weatherManageOpen">添对方的城市</button>
+                    <button class="iw-chip iw-chip-add" @click="weatherManageOpen = !weatherManageOpen">＋ 管理</button>
+                </template>
             </div>
         </div>
 
         <!-- 分页圆点 -->
         <div class="iw-pager">
-            <i class="on"></i>
+            <i :class="{ on: weatherSide === 'my' }" @click="iwSwitchSide('my')"></i>
+            <i :class="{ on: weatherSide === 'them' }" @click="iwSwitchSide('them')"></i>
         </div>
         <button class="iw-manage-btn" @click="weatherManageOpen = !weatherManageOpen">{{ weatherManageOpen ? '收起管理' : '管理城市' }}</button>
 
-        <!-- 管理面板：搜索或定位我这边的城市 -->
+        <!-- 管理面板：按当前在看的一边，给对应的搜索 / 城市列表 -->
         <div class="iw-panel" v-if="weatherManageOpen">
-            <div>
+            <template v-if="weatherSide === 'my'">
                 <h4>我这边 · 搜索或定位</h4>
                 <div class="flex gap-2 mb-2">
                     <input v-model="searchQueryMy" class="weather-search-input mb-0!" placeholder="搜索城市" @input="onSearchInput('my')">
@@ -4963,11 +4970,38 @@ html, body { overscroll-behavior-y: none; }
                 <div v-if="searchQueryMy && searchResultsMy.length === 0 && !searchDoneMy" class="weather-empty">正在搜索…</div>
                 <div v-else-if="searchQueryMy && searchResultsMy.length === 0 && searchDoneMy" class="weather-empty">没找到这个地方，换个简短的名字，或点右侧自定义。</div>
                 <button class="iw-add-btn" style="margin-top:10px" @click="locateAndFetchWeather">◎ 定位我所在的地方</button>
-            </div>
+            </template>
+            <template v-else>
+                <h4>对方那边 · 城市列表</h4>
+                <div class="weather-city-list">
+                    <div v-for="(c, i) in virtualCities" :key="i" class="weather-city-item">
+                        <div>
+                            <div class="name">{{ c.name }}</div>
+                            <div class="meta">{{ c.admin || c.country || '自定义城市' }}</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button v-if="virtualWeather.cityName !== c.name" @click="setVirtualCity(c)" style="font-size:11px;color:#fff;padding:4px 9px;background:rgba(255,255,255,.2);border-radius:8px;border:0;cursor:pointer">看这个</button>
+                            <span v-else style="font-size:10px;opacity:.72">正在看</span>
+                            <button @click="removeVirtualCity(i)" style="color:#fff;padding:4px;border:0;background:transparent;cursor:pointer"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                        </div>
+                    </div>
+                    <div v-if="virtualCities.length === 0" class="weather-empty">还没有城市，在下面搜一个</div>
+                </div>
+                <div class="flex gap-2 mb-2" style="margin-top:12px">
+                    <input v-model="searchQueryVirtual" class="weather-search-input mb-0!" placeholder="搜索城市" @input="onSearchInput('virtual')">
+                    <button @click="setCustomCity('virtual')" class="weather-add-custom">自定义</button>
+                </div>
+                <div v-for="(r, i) in searchResultsVirtual" :key="i" class="weather-search-result mt-2" :class="{ 'is-exact': r.exact }" @click="addSearchCity('virtual', r)">
+                    <span>{{ r.name }}<span class="weather-lv">{{ r.levelText }}</span><span v-if="r.admin" style="opacity:.7;font-size:10px;margin-left:4px">{{ r.admin }}</span></span>
+                    <span style="opacity:.7;font-size:10px">添加为对方城市</span>
+                </div>
+                <div v-if="searchQueryVirtual && searchResultsVirtual.length === 0 && !searchDoneVirtual" class="weather-empty">正在搜索…</div>
+                <div v-else-if="searchQueryVirtual && searchResultsVirtual.length === 0 && searchDoneVirtual" class="weather-empty">没找到这个地方，换个简短的名字，或点右侧自定义。</div>
+            </template>
         </div>
 
-        <!-- 天气关心：真实天气变冷 / 变热，他主动发一句到聊天 -->
-        <div class="iw-card">
+        <!-- 天气关心：只属于「我这边」；切到对方那边整张卡不显示 -->
+        <div class="iw-card" v-if="weatherSide === 'my'">
             <div class="iw-card-h"><i data-lucide="heart"></i>天气关心</div>
             <div class="wx-care-row">
                 <div class="wx-care-label">变冷变热、下雨下雪，让他主动提醒我
@@ -5001,7 +5035,7 @@ html, body { overscroll-behavior-y: none; }
             <button class="wx-care-btn" :disabled="wxCareLevel === 'none' && !wxCarePhen" @click="wxCareManual">让他现在说一句 ♡</button>
         </div>
 
-        <p class="iw-note">我这边是真实天气。<br>选好城市，上面的名字和下面的天气会一起换；最细只到县 / 区。</p>
+        <p class="iw-note">我这边是真实天气，对方那边是这里生成的小天气，两边互不相干。<br>选好城市，上面的名字和下面的天气会一起换；最细只到县 / 区。</p>
 
         <!-- 旧版式留作回退，不渲染 -->
         <template v-if="false">
@@ -14286,6 +14320,8 @@ createApp({
         };
         // manual = 点「让他现在说一句」：纯预览，只发一条，不占今天的额度、不改档位
         const wxCareJudge = (manual = false) => {
+            // 对方那边不需要天气关心：正在看对方那边的天气页时，不自动发关心语
+            if (!manual && currentView.value === 'weather' && weatherSide.value === 'them') return false;
             if (settings.blockedThem) return false;   // 拉黑期间不发天气关心字卡
             if (!wxCare.enabled && !manual) return false;
             const t = wxCareTemp.value;
@@ -14396,7 +14432,7 @@ createApp({
         const myCoords = ref({ lat: null, lon: null });
 
         // ===== [MOD-02R] iOS 风格天气：一个主视图，随时切「我这边 / 对方那边」 =====
-        const weatherSide = ref('my');
+        const weatherSide = ref((() => { try { return localStorage.getItem('liubai_weather_side') === 'them' ? 'them' : 'my'; } catch (e) { return 'my'; } })());
         const weatherManageOpen = ref(false);
         const myRecentCities = ref((() => { try { const v = JSON.parse(localStorage.getItem('liubai_weather_recent_my') || '[]'); return Array.isArray(v) ? v.filter(c => c && c.name).slice(0, 8) : []; } catch (e) { return []; } })());
         const iwIsNight = () => { const h = new Date().getHours(); return h < 6 || h >= 19; };
@@ -14500,11 +14536,12 @@ createApp({
             const right = Math.max(0, Math.min(100, (d.max - r.min) / span * 100));
             return { left: left.toFixed(1) + '%', width: Math.max(6, right - left).toFixed(1) + '%' };
         };
-        const iwSwitchSide = () => {
-            weatherSide.value = 'my'; weatherManageOpen.value = false;
-            try { localStorage.setItem('liubai_weather_side', 'my'); } catch (e) {}
+        const iwSwitchSide = (s) => {
+            weatherSide.value = s === 'them' ? 'them' : 'my';
+            weatherManageOpen.value = false;
+            try { localStorage.setItem('liubai_weather_side', weatherSide.value); } catch (e) {}
         };
-        const iwRefresh = () => { locateAndFetchWeather(); };
+        const iwRefresh = () => { if (weatherSide.value === 'them') regenerateVirtualWeather(); else locateAndFetchWeather(); };
         const iwRememberMy = (c) => {
             if (!c || !c.name) return;
             myRecentCities.value = [c].concat(myRecentCities.value.filter(x => x.name !== c.name)).slice(0, 8);
@@ -14580,7 +14617,7 @@ createApp({
                     lastGenTime: virtualWeather._lastGenTime || 0 },
                 myCityName: myWeather.cityName, myCoords: myCoords.value,
                 myGeo: { district: myGeo.district, city: myGeo.city, province: myGeo.province, full: myGeo.full, source: myGeo.source } })); } catch(e) {}
-            try { localStorage.setItem('liubai_weather_side', 'my'); } catch(e) {}
+            try { localStorage.setItem('liubai_weather_side', weatherSide.value); } catch(e) {}
             try { localStorage.setItem('liubai_weather_recent_my', JSON.stringify(myRecentCities.value)); } catch(e) {}
         };
 
@@ -14595,7 +14632,7 @@ createApp({
                     // 老存档没有逐小时 / 7 日序列：补一批，iOS 卡片才不会空着
                     if (virtualWeather.cityName && (!Array.isArray(virtualWeather.daily) || !virtualWeather.daily.length)) genVirtualWeather();
                 }
-                weatherSide.value = 'my';   // 不再恢复「对方那边」
+                try { const sd = localStorage.getItem('liubai_weather_side'); if (sd === 'them') weatherSide.value = 'them'; } catch (e) {}
                 if (saved.myCityName) {
                     myWeather.cityName = saved.myCityName;
                     // 刷新后先把上次成功的完整天气填回来，主温度、四宫格一次到位，再后台取新的
@@ -14675,7 +14712,7 @@ createApp({
         const checkVirtualWeatherExpiry = () => { if (!virtualWeather.cityName) return; const last = virtualWeather._lastGenTime || 0; if (Date.now() - last >= 24 * 3600 * 1000) genVirtualWeather(); };
         const setVirtualCity = (c) => {
             virtualWeather.cityName = c.name; genVirtualWeather();   // 上面名字 + 下面温度/小时/7日 一起换
-            weatherManageOpen.value = false;
+            weatherSide.value = 'them'; weatherManageOpen.value = false;
         };
         const addSearchCity = (type, r) => {
             if (type === 'my') {
@@ -18071,7 +18108,7 @@ createApp({
                     shopCustom: await localforage.getItem('liubai_shop_custom_db'),
                     videoAutoCall: videoAutoCall.value,
                     weatherData: localStorage.getItem('liubai_weather_data_v2'),
-                    weatherSide: 'my',
+                    weatherSide: localStorage.getItem('liubai_weather_side'),
                     weatherRecentMy: localStorage.getItem('liubai_weather_recent_my'),
                     weatherSnapshot: localStorage.getItem(WEATHER_SNAP_KEY),
                     placeCache: localStorage.getItem(PLACE_CACHE_KEY),
@@ -18140,7 +18177,7 @@ createApp({
                           if (Array.isArray(data.shopCustom)) await localforage.setItem('liubai_shop_custom_db', data.shopCustom.filter(x => x && typeof x.id === 'string' && String(x.name || '').trim()).slice(0, CAP.shopCustom));
                           if (typeof data.videoAutoCall === 'boolean') { await localforage.setItem('liubai_videoAutoCall_db', data.videoAutoCall); videoAutoCall.value = data.videoAutoCall; }
                           if (typeof data.weatherData === 'string') localStorage.setItem('liubai_weather_data_v2', data.weatherData);
-                          localStorage.setItem('liubai_weather_side', 'my');
+                          if (typeof data.weatherSide === 'string') localStorage.setItem('liubai_weather_side', data.weatherSide);
                           if (typeof data.weatherRecentMy === 'string') localStorage.setItem('liubai_weather_recent_my', data.weatherRecentMy);
                           if (typeof data.weatherSnapshot === 'string') localStorage.setItem(WEATHER_SNAP_KEY, data.weatherSnapshot);
                           if (typeof data.placeCache === 'string') localStorage.setItem(PLACE_CACHE_KEY, data.placeCache);
@@ -21822,7 +21859,7 @@ mood 写这一刻的气氛，例如 安静 / 开心 / 想你 / 下雨 / 深夜 /
             if (v === 'sleep') sleepView.value = 'setup';
             if (v === 'spark') { spCheck(); spDailyTick(); }
             if (v === 'chat') spDailyTick();
-            if (v === 'weather') wxCareJudge();
+            if (v === 'weather' && weatherSide.value === 'my') wxCareJudge();
             if (['chat','music','shop','weather','reading','home'].indexOf(v) >= 0) setTimeout(() => aiGlobalTick('用户翻到了「' + v + '」'), 1200);
             if (v === 'shop') shopResumeWishes();
             if (v === 'mailbox') { mailboxView.value = 'list'; if (unreadLetters.value > 0) mailTab.value = 'inbox'; }
