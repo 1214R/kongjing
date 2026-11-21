@@ -2,7 +2,11 @@
 <html lang="zh-CN" class="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FBF9F4">
 <title>空境</title>
 <!-- 站点图标（浏览器收藏夹 / 新标签页快捷方式显示的「封面」）-->
 <link id="lbIcon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20192%20192%22%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20rx%3D%2242%22%20fill%3D%22%231c1c1e%22%2F%3E%3Ctext%20x%3D%2296%22%20y%3D%22128%22%20text-anchor%3D%22middle%22%20font-family%3D%22serif%22%20font-size%3D%2294%22%20fill%3D%22%23ffffff%22%3E%E7%A9%BA%3C%2Ftext%3E%3C%2Fsvg%3E">
@@ -1620,6 +1624,46 @@ body { background-color:#d1d5db; font-family:"PingFang SC","Microsoft YaHei",sys
 .sp-msg-sub { font-size:10.5px; color:var(--color-muted); margin-top:5px; line-height:1.7; }
 .sp-msg-go { margin-top:10px; padding-top:9px; border-top:1px solid var(--color-border); font-size:11px; color:var(--color-accent); letter-spacing:.06em; }
 .app-container { width:100vw; height:100vh; height:100dvh; background:var(--color-bg); position:relative; display:flex; flex-direction:column; overflow:hidden; overscroll-behavior:none; }
+
+/* ===== 强制全屏：网站自己画上下两条状态栏，中间页面整体让出位置 ===== */
+/* 顶栏内容整体往下让一截，避开挖孔/摄像头；底栏内容往上提一点，上下都留口气 */
+:root { --fs-top: calc(52px + env(safe-area-inset-top, 0px)); --fs-bottom: calc(36px + env(safe-area-inset-bottom, 0px)); }
+.app-container.fs-on { height:calc(100dvh - var(--fs-top) - var(--fs-bottom)) !important; top:var(--fs-top); }
+/* body 原本把 #app 垂直居中；内容区变矮后会整体下移，全屏时改成贴顶 */
+body.fs-active { align-items:flex-start !important; justify-content:flex-start !important; }
+.fs-bar { position:fixed; left:0; right:0; z-index:50; box-sizing:border-box; display:flex; align-items:center;
+          gap:10px; padding:0 18px; background:var(--color-bg); color:var(--color-text);
+          border-color:var(--color-border); transition:none;
+          font-family:"Noto Serif SC",'Noto Serif SC Offline',"Songti SC",serif; user-select:none; }
+.fs-bar.top { top:0; height:var(--fs-top);
+              padding-top:calc(env(safe-area-inset-top, 0px) + 18px);
+              border-bottom:1px solid var(--color-border); }
+.fs-bar.bottom { bottom:0; height:var(--fs-bottom);
+                 padding-bottom:calc(env(safe-area-inset-bottom, 0px) + 10px);
+                 border-top:1px solid var(--color-border); }
+.fs-side { flex:1; min-width:0; display:flex; align-items:center; gap:7px; font-size:10px;
+           letter-spacing:.1em; color:var(--color-muted); white-space:nowrap; overflow:hidden; }
+.fs-side.right { justify-content:flex-end; }
+.fs-brand { font-size:11px; letter-spacing:.24em; color:var(--color-text); opacity:.82; }
+.fs-rule { flex:none; width:22px; height:1px; background:var(--color-border); }
+.fs-star { font-size:8px; color:var(--color-accent); opacity:.7; flex:none; }
+.fs-clock { font-size:15px; letter-spacing:.12em; font-variant-numeric:tabular-nums;
+            color:var(--color-text); white-space:nowrap; }
+.fs-hint { font-size:9px; letter-spacing:.06em; color:var(--color-muted); opacity:.7; white-space:nowrap; }
+.fs-bat { flex:none; width:19px; height:10px; border:1px solid var(--color-muted); border-radius:2.5px;
+          position:relative; opacity:.75; }
+.fs-bat::after { content:''; position:absolute; right:-4px; top:2px; width:2px; height:4px;
+                 border-radius:0 1px 1px 0; background:var(--color-muted); }
+.fs-bat-fill { position:absolute; left:1.5px; top:1.5px; bottom:1.5px; border-radius:1px;
+               background:var(--color-muted); transition:width .4s; }
+.fs-bolt { flex:none; font-size:9px; color:var(--color-accent); }
+.fs-pct { font-size:10px; letter-spacing:.06em; color:var(--color-muted); font-variant-numeric:tabular-nums; }
+.fs-grip { width:46px; height:3px; border-radius:3px; background:var(--color-muted); opacity:.34; }
+.fs-exit { flex:none; font-size:10px; letter-spacing:.1em; padding:4px 10px; border-radius:999px;
+           border:1px solid var(--color-border); background:transparent; color:var(--color-muted);
+           font-family:inherit; cursor:pointer; }
+.fs-exit:active { background:var(--color-border); }
+.fs-bar.top.tappable { cursor:pointer; }
 @media (min-width:768px) { .app-container { width:375px; height:812px; max-height:100vh; max-height:100dvh; border-radius:40px; box-shadow:0 25px 50px -12px rgba(0,0,0,.25), inset 0 0 0 8px #000; border:1px solid #333; } }
 .msg-bubble { display:inline-block!important; padding:8px 12px!important; border-radius:20px!important; color:rgba(0,0,0,.85)!important; position:relative!important; background:rgba(255,255,255,.72)!important; -webkit-backdrop-filter:none!important; backdrop-filter:none!important; line-height:1.45!important; border:1px solid rgba(255,255,255,.6)!important; box-shadow:0 2px 6px rgba(0,0,0,.04), inset 0 1px 0 rgba(255,255,255,.8)!important; word-wrap:break-word; max-width:100%; }
 .dark .msg-bubble { color:rgba(255,255,255,.92)!important; background:rgba(38,38,44,.82)!important; border:1px solid rgba(255,255,255,.12)!important; box-shadow:0 2px 6px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.05)!important; }
@@ -1862,7 +1906,7 @@ html.dark .music-page, .music-page.vp-dark {
    主题本身在 html.theme-xxx 上定义了 --color-* 和 app-container 的渐变，
    这里把同一套渐变/文字色注入音乐页，按钮与线条则直接继承 --color-*。 */
 html.theme-rishi .music-page {
-    --vp-bg: linear-gradient(165deg,#FFF6DC 0%,#FFE7C2 34%,#FBCBB4 68%,#F6DDCB 100%);
+    --vp-bg: radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#FFFBEE 0%,#FFF3E2 34%,#FDE6DB 68%,#FBEFE6 100%);
     --vp-ink: 107, 74, 59;
     --vp-head-bg: rgba(255, 252, 243, .86);
 }
@@ -1872,7 +1916,7 @@ html.dark.theme-rishi .music-page {
     --vp-head-bg: rgba(30, 35, 56, .82);
 }
 html.theme-oufen .music-page {
-    --vp-bg: linear-gradient(165deg,#FBF1F1 0%,#EFE1E6 36%,#E9E9F3 72%,#FDF9EE 100%);
+    --vp-bg: radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#FDF8F8 0%,#F7F1F3 36%,#F4F4F9 72%,#FEFCF7 100%);
     --vp-ink: 90, 67, 72;
     --vp-head-bg: rgba(253, 250, 245, .86);
 }
@@ -1882,7 +1926,7 @@ html.dark.theme-oufen .music-page {
     --vp-head-bg: rgba(42, 36, 41, .82);
 }
 html.theme-taiting .music-page {
-    --vp-bg: linear-gradient(165deg,#EFF4EE 0%,#E3EBE2 36%,#F1E5F0 72%,#FDF9EE 100%);
+    --vp-bg: radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#F7FAF7 0%,#F2F5F1 36%,#F8F3F8 72%,#FEFCF7 100%);
     --vp-ink: 61, 74, 65;
     --vp-head-bg: rgba(251, 253, 248, .86);
 }
@@ -1892,7 +1936,7 @@ html.dark.theme-taiting .music-page {
     --vp-head-bg: rgba(34, 43, 37, .82);
 }
 html.theme-ziteng .music-page {
-    --vp-bg: linear-gradient(165deg,#F2ECF6 0%,#E8E0EF 36%,#E9EEEB 72%,#FDF9EE 100%);
+    --vp-bg: radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#F9F6FB 0%,#F4F0F7 36%,#F4F7F5 72%,#FEFCF7 100%);
     --vp-ink: 69, 62, 82;
     --vp-head-bg: rgba(252, 249, 253, .86);
 }
@@ -1902,7 +1946,7 @@ html.dark.theme-ziteng .music-page {
     --vp-head-bg: rgba(37, 33, 48, .82);
 }
 html.theme-ganlan .music-page {
-    --vp-bg: linear-gradient(165deg,#F3F3E8 0%,#E8E9DA 36%,#F7EBE5 72%,#FDF9EE 100%);
+    --vp-bg: radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#F9F9F4 0%,#F4F4ED 36%,#FBF5F3 72%,#FEFCF7 100%);
     --vp-ink: 72, 74, 59;
     --vp-head-bg: rgba(252, 252, 244, .86);
 }
@@ -1912,7 +1956,7 @@ html.dark.theme-ganlan .music-page {
     --vp-head-bg: rgba(40, 42, 33, .82);
 }
 html.theme-yuhou .music-page {
-    --vp-bg: linear-gradient(165deg,#EEF2F7 0%,#E4EAF1 36%,#EDF0EC 72%,#FDF9EE 100%);
+    --vp-bg: radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#F7F9FB 0%,#F2F5F8 36%,#F6F8F6 72%,#FEFCF7 100%);
     --vp-ink: 62, 72, 84;
     --vp-head-bg: rgba(250, 252, 253, .86);
 }
@@ -1922,7 +1966,7 @@ html.dark.theme-yuhou .music-page {
     --vp-head-bg: rgba(33, 40, 49, .82);
 }
 html.theme-caolv .music-page {
-    --vp-bg: linear-gradient(165deg,#FBE9F2 0%,#F3E4EC 32%,#DDEBC9 70%,#CFE7B6 100%);
+    --vp-bg: radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#FDF4F9 0%,#F9F2F6 32%,#EFF5E5 70%,#E8F3DC 100%);
     --vp-ink: 63, 74, 58;
     --vp-head-bg: rgba(253, 251, 245, .86);
 }
@@ -1932,7 +1976,7 @@ html.dark.theme-caolv .music-page {
     --vp-head-bg: rgba(37, 43, 32, .82);
 }
 html.theme-tianlan .music-page {
-    --vp-bg: linear-gradient(165deg,#DCEEFF 0%,#B9DEFF 30%,#E4F1FA 62%,#FFF4E3 100%);
+    --vp-bg: radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#EEF7FF 0%,#DDEFFF 30%,#F2F8FD 62%,#FFFAF2 100%);
     --vp-ink: 39, 75, 107;
     --vp-head-bg: rgba(250, 253, 255, .86);
 }
@@ -1942,7 +1986,7 @@ html.dark.theme-tianlan .music-page {
     --vp-head-bg: rgba(24, 39, 52, .82);
 }
 html.theme-xinghua .music-page {
-    --vp-bg: linear-gradient(165deg,#FDEDF4 0%,#F8E5EF 30%,#DDEAF6 68%,#CCE2F2 100%);
+    --vp-bg: radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#FEF6FA 0%,#FCF3F7 30%,#EFF5FB 68%,#E7F1F9 100%);
     --vp-ink: 74, 69, 87;
     --vp-head-bg: rgba(253, 251, 252, .86);
 }
@@ -2007,6 +2051,14 @@ html.dark.theme-xinghua .music-page {
       background:linear-gradient(rgba(var(--vp-ink),.22), rgba(var(--vp-ink),0)); }
 .vd-orn-side em { font-style:normal; font-size:9px; color:var(--color-accent); opacity:.5; }
 @media (min-width:400px) { .vd-orn-ring { width:248px; height:248px; } }
+/* 歌词模式：同一套装饰轻轻透在词后面，不抢字 */
+.vd-orn-lyric .vd-orn-top, .vd-orn-lyric .vd-score { display:none; }
+.vd-orn-lyric .vd-orn-ring { display:none; }
+.vd-orn-lyric .vd-orn-side { top:64px; gap:7px; opacity:.55; }
+.vd-orn-lyric .vd-orn-side.left { left:5px; }
+.vd-orn-lyric .vd-orn-side.right { right:5px; }
+.vd-orn-lyric .vd-fig { width:17px; height:19px; }
+.vd-orn-lyric .vd-dot { display:none; }
 /* ============ 黑胶唱片播放器 ============ */
 .vinyl-deck { position:relative; width:100%; max-width:360px; margin:0 auto; display:flex; flex-direction:column; align-items:center; padding-top:24px; }
 .vinyl-shaft { position:relative; width:210px; height:210px; flex-shrink:0; }
@@ -3067,10 +3119,14 @@ html.dark .qa-tag.sys { color:#BEE7CD !important; background:rgba(159,211,180,.1
 .lb-opt.on .lb-radio { border-color:var(--cp-primary); }
 .lb-opt.on .lb-radio i { background:var(--cp-primary); }
 .lb-acts { display:flex; gap:9px; margin-top:12px; }
-.lb-acts button { flex:1; padding:10px 0; border-radius:11px; font-size:11.5px;
+.lb-acts button { flex:1; min-height:40px; padding:10px 0; border-radius:11px; font-size:11.5px;
     letter-spacing:.16em; cursor:pointer; font-family:inherit; }
+.lb-acts button:only-child { flex:none; width:50%; margin:0 auto; }
 .lb-cancel { border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-muted); }
-.lb-ok { border:none; background:var(--cp-primary); color:#fff; }
+/* 用 --color-text/--color-bg 而不是主题专属变量：任何主题、深色下都一定看得见 */
+.lb-ok { border:1px solid var(--color-text); background:var(--color-text);
+    color:var(--color-bg); font-weight:600; }
+.lb-ok:active { opacity:.82; }
 .lb-foot { text-align:center; font-size:9px; letter-spacing:.14em; color:var(--color-muted);
     opacity:.65; margin-top:12px; }
 /* 单选触发器：替代原生 select，不弹系统大列表 */
@@ -3215,7 +3271,9 @@ html.dark .qa-tag.sys { color:#BEE7CD !important; background:rgba(159,211,180,.1
                 border-radius:16px; padding:14px 14px 16px; box-sizing:border-box;
                 background:var(--color-surface); border:1px solid var(--color-border);
                 box-shadow:0 16px 40px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.8);
-                animation:mlSetPop .22s cubic-bezier(.2,1.1,.4,1) both; }
+                animation:mlSetPop .22s cubic-bezier(.2,1.1,.4,1) both;
+                max-height:calc(100% - 76px); overflow-y:auto; scrollbar-width:none; }
+.ml-set-panel::-webkit-scrollbar { display:none; }
 .dark .ml-set-panel { box-shadow:0 16px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05); }
 @keyframes mlSetPop { from { opacity:0; transform:translateY(-7px) scale(.97); } to { opacity:1; transform:none; } }
 .ml-set-head { display:flex; align-items:center; justify-content:space-between; }
@@ -3232,6 +3290,21 @@ html.dark .qa-tag.sys { color:#BEE7CD !important; background:rgba(159,211,180,.1
 .ml-set-preview { margin-top:13px; padding:9px 10px; border-radius:10px; text-align:center;
                   background:var(--color-bg); border:1px solid var(--color-border);
                   font-size:13px; line-height:1.6; color:var(--color-text); }
+/* 信箱字体：我 / 他 两组，各选各的，预览也各用各的字体 */
+.ml-font-group + .ml-font-group { margin-top:12px; padding-top:11px;
+                                  border-top:1px dashed var(--color-border); }
+.ml-font-tip.row { display:flex; align-items:center; justify-content:space-between; gap:8px;
+                   text-align:left; margin:0 0 9px; letter-spacing:.1em; opacity:1; }
+.ml-font-tip.row span { color:var(--color-text); font-size:10px; opacity:.9; }
+.ml-font-tip.row em { font-style:normal; font-size:8.5px; letter-spacing:.04em;
+                      color:var(--color-muted); opacity:.85; white-space:nowrap; }
+.ml-set-preview.split { padding:0; background:transparent; border:none; }
+.ml-pv-row { padding:8px 10px 9px; border-radius:10px; text-align:center;
+             background:var(--color-bg); border:1px solid var(--color-border); }
+.ml-pv-row + .ml-pv-row { margin-top:7px; }
+.ml-pv-who { display:block; font-family:"Noto Serif SC","Noto Serif SC Offline","Songti SC",serif;
+             font-size:8.5px; letter-spacing:.14em; color:var(--color-muted);
+             opacity:.85; margin-bottom:4px; }
 
 /* 拆信：信封淡出上浮 → 信纸从下方浮上来 */
 .ml-swap-leave-active { transition:opacity .26s ease, transform .26s ease; }
@@ -3442,24 +3515,46 @@ html.dark textarea, html.dark input { color: #ffffff !important; caret-color: #f
 /* 晴光 */
 .iw-fx-sun .iw-fx-sun { display:block; right:8%; top:6%; width:120px; height:120px; border-radius:50%;
     background:radial-gradient(circle, rgba(255,248,224,.55), rgba(255,244,214,.16) 55%, transparent 72%); }
-/* 落雨：三层「短雨丝」错速错落往下走。
-   每根雨丝是一粒细长椭圆（不是贯穿全屏的斜线），按稀疏格子平铺；
-   每轮背景正好走一格，所以循环无缝，看着就是淅淅沥沥落下来。 */
+/* 落雨：三层「很疏的散点」，一格里只放几根短雨丝，位置 / 长短 / 明暗全错开。
+   三层倾角各不相同、格子大小互不相同、起始列也互相错开，叠起来不会排成一排排平行长线。
+   每轮正好走一整格高，循环无缝；雨丝更短更疏，是淅淅沥沥不是刷刷刷。 */
 .iw-fx-rain .iw-fx-rainlines, .iw-fx-rain .iw-fx-rain2, .iw-fx-rain .iw-fx-rain3 {
-    display:block; left:-25%; top:-50%; width:150%; height:200%;
-    transform:skewX(-9deg); background-repeat:repeat; }
-.iw-fx-rain .iw-fx-rainlines { opacity:.58;
-    background-image:radial-gradient(1.2px 10px at 50% 50%, rgba(255,255,255,.95), rgba(255,255,255,.28) 60%, transparent 100%);
-    background-size:23px 40px; animation:iwRain1 .62s linear infinite; }
-.iw-fx-rain .iw-fx-rain2 { opacity:.36; left:-31%;
-    background-image:radial-gradient(1px 13px at 50% 50%, rgba(255,255,255,.88), rgba(255,255,255,.22) 60%, transparent 100%);
-    background-size:33px 56px; animation:iwRain2 .94s linear infinite; }
-.iw-fx-rain .iw-fx-rain3 { opacity:.28; left:-19%;
-    background-image:radial-gradient(.9px 6px at 50% 50%, rgba(255,255,255,.85), rgba(255,255,255,.2) 60%, transparent 100%);
-    background-size:16px 30px; animation:iwRain3 .46s linear infinite; }
-@keyframes iwRain1 { 0%{background-position:0 0;} 100%{background-position:0 40px;} }
-@keyframes iwRain2 { 0%{background-position:0 0;} 100%{background-position:0 56px;} }
-@keyframes iwRain3 { 0%{background-position:0 0;} 100%{background-position:0 30px;} }
+    display:block; left:-30%; top:-50%; width:160%; height:200%;
+    background-repeat:repeat; }
+/* 近处：稍亮，轻右倾 7°，一格里 8 根、长短 5~10px，位置不成行不成列 */
+.iw-fx-rain .iw-fx-rainlines { opacity:.48; transform:rotate(7deg);
+    background-image:
+      radial-gradient(1px 9px    at 12% 8%,  rgba(255,255,255,.90), rgba(255,255,255,.18) 62%, transparent 100%),
+      radial-gradient(.8px 6px   at 47% 27%, rgba(255,255,255,.68), transparent 100%),
+      radial-gradient(1.1px 10px at 78% 16%, rgba(255,255,255,.82), rgba(255,255,255,.16) 60%, transparent 100%),
+      radial-gradient(.8px 5px   at 29% 61%, rgba(255,255,255,.58), transparent 100%),
+      radial-gradient(1px 8px    at 66% 84%, rgba(255,255,255,.74), rgba(255,255,255,.14) 62%, transparent 100%),
+      radial-gradient(.9px 7px   at 91% 48%, rgba(255,255,255,.62), transparent 100%),
+      radial-gradient(.8px 5px   at 56% 43%, rgba(255,255,255,.54), transparent 100%),
+      radial-gradient(1px 9px    at 20% 94%, rgba(255,255,255,.70), transparent 100%);
+    background-size:200px 236px; animation:iwRain1 1.25s linear infinite; }
+/* 远处：更疏更淡更慢，反过来左倾 6°，起始列错开 37px */
+.iw-fx-rain .iw-fx-rain2 { opacity:.30; transform:rotate(-6deg); left:-36%;
+    background-image:
+      radial-gradient(.9px 8px  at 21% 14%, rgba(255,255,255,.72), transparent 100%),
+      radial-gradient(.8px 5px  at 58% 49%, rgba(255,255,255,.54), transparent 100%),
+      radial-gradient(1px 10px at 86% 75%, rgba(255,255,255,.66), rgba(255,255,255,.14) 62%, transparent 100%),
+      radial-gradient(.8px 6px at 39% 91%, rgba(255,255,255,.56), transparent 100%),
+      radial-gradient(.9px 7px at 72% 32%, rgba(255,255,255,.60), transparent 100%);
+    background-size:262px 300px; animation:iwRain2 1.85s linear infinite; }
+/* 最细：几乎不倾，短促轻快，起始列再错开 83px */
+.iw-fx-rain .iw-fx-rain3 { opacity:.24; transform:rotate(1deg); left:-22%;
+    background-image:
+      radial-gradient(.8px 5px at 33% 12%, rgba(255,255,255,.56), transparent 100%),
+      radial-gradient(.9px 7px at 71% 46%, rgba(255,255,255,.64), transparent 100%),
+      radial-gradient(.8px 5px at 16% 88%, rgba(255,255,255,.54), transparent 100%),
+      radial-gradient(.7px 4px at 92% 67%, rgba(255,255,255,.48), transparent 100%),
+      radial-gradient(.9px 6px at 48% 71%, rgba(255,255,255,.58), transparent 100%);
+    background-size:168px 206px; animation:iwRain3 1.0s linear infinite; }
+/* 起始 x 各不相同：三层的「列」错开，不会叠成整齐的平行行 */
+@keyframes iwRain1 { 0%{background-position:0 0;}    100%{background-position:0 236px;} }
+@keyframes iwRain2 { 0%{background-position:37px 0;} 100%{background-position:37px 300px;} }
+@keyframes iwRain3 { 0%{background-position:83px 0;} 100%{background-position:83px 206px;} }
 /* 飘雪：两层点阵错速下落 */
 .iw-fx-snow .iw-fx-snow1, .iw-fx-snow .iw-fx-snow2 { display:block; inset:-60% 0 0 0; opacity:.55;
     background-image:
@@ -3708,8 +3803,8 @@ html.dark textarea, html.dark input { color: #ffffff !important; caret-color: #f
 @media (prefers-reduced-motion: reduce) { .boot-ring { animation-duration:2.4s; } }
 
 /* ================= [MOD-17] 陪伴模式 ================= */
-.companion-theme { --cp-primary:#8b7cf6; --cp-primary-soft:rgba(139,124,246,.13); --cp-primary-ring:rgba(139,124,246,.30); --cp-primary-weak:rgba(139,124,246,.18); }
-.dark .companion-theme { --cp-primary:#a78bfa; --cp-primary-soft:rgba(167,139,250,.16); --cp-primary-ring:rgba(167,139,250,.34); --cp-primary-weak:rgba(167,139,250,.22); }
+.companion-theme { --cp-primary:#B4AAF9; --cp-primary-soft:rgba(139,124,246,.13); --cp-primary-ring:rgba(139,124,246,.30); --cp-primary-weak:rgba(139,124,246,.18); }
+.dark .companion-theme { --cp-primary:#C6B4FC; --cp-primary-soft:rgba(167,139,250,.16); --cp-primary-ring:rgba(167,139,250,.34); --cp-primary-weak:rgba(167,139,250,.22); }
 .cp-header { display:flex; align-items:center; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--color-border); flex-shrink:0; background:var(--color-surface); }
 .cp-title { font-family:'Noto Serif SC','Noto Serif SC Offline',serif; font-size:15px; letter-spacing:.18em; color:var(--color-text); }
 /* 【调整】删掉顶部 hero 文案后，场景网格整体往上移 */
@@ -4477,12 +4572,12 @@ html.dark textarea, html.dark input { color: #ffffff !important; caret-color: #f
 
 /* 落日星河 —— 蜜桃奶黄 · 深藏蓝 */
 html.theme-rishi {
-  --color-bg:#FFF0D4; --color-surface:#FFFCF3; --color-text:#6B4A3B;
-  --color-muted:#85604F; --color-border:#E9CDB4; --color-accent:#13193D;
+  --color-bg:#FFF4DF; --color-surface:#FFFCF3; --color-text:#6B4A3B;
+  --color-muted:#85604F; --color-border:#EED8C4; --color-accent:#666A81;
 }
-html.theme-rishi .app-container, html.theme-rishi body { background:linear-gradient(165deg,#FFF6DC 0%,#FFE7C2 34%,#FBCBB4 68%,#F6DDCB 100%); }
+html.theme-rishi .app-container, html.theme-rishi body { background:radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#FFFBEE 0%,#FFF3E2 34%,#FDE6DB 68%,#FBEFE6 100%); }
 html.theme-rishi .companion-theme {
-  --cp-primary:#8C5A48; --cp-primary-soft:rgba(140,90,72,.13); --cp-primary-ring:rgba(140,90,72,.30); --cp-primary-weak:rgba(140,90,72,.18);
+  --cp-primary:#B49488; --cp-primary-soft:rgba(140,90,72,.13); --cp-primary-ring:rgba(140,90,72,.30); --cp-primary-weak:rgba(140,90,72,.18);
 }
 html.dark.theme-rishi {
   --color-bg:#131726 !important; --color-surface:#1E2338 !important; --color-text:#EFE9DE !important;
@@ -4490,17 +4585,17 @@ html.dark.theme-rishi {
 }
 html.dark.theme-rishi .app-container, html.dark.theme-rishi body { background:linear-gradient(165deg,#131726 0%,#25203A 50%,#3B2A38 100%); }
 html.dark.theme-rishi .companion-theme {
-  --cp-primary:#E3A98E; --cp-primary-soft:rgba(227,169,142,.16); --cp-primary-ring:rgba(227,169,142,.34); --cp-primary-weak:rgba(227,169,142,.22);
+  --cp-primary:#EDC7B6; --cp-primary-soft:rgba(227,169,142,.16); --cp-primary-ring:rgba(227,169,142,.34); --cp-primary-weak:rgba(227,169,142,.22);
 }
 
 /* 藕粉旧信 —— 藕粉 · 橄榄灰 · 淡紫蓝 */
 html.theme-oufen {
-  --color-bg:#F7EDED; --color-surface:#FDFAF5; --color-text:#5A4348;
-  --color-muted:#7B6166; --color-border:#E4D4D8; --color-accent:#A98D94;
+  --color-bg:#F9F2F2; --color-surface:#FDFAF5; --color-text:#5A4348;
+  --color-muted:#7B6166; --color-border:#EADDE1; --color-accent:#C7B5B9;
 }
-html.theme-oufen .app-container, html.theme-oufen body { background:linear-gradient(165deg,#FBF1F1 0%,#EFE1E6 36%,#E9E9F3 72%,#FDF9EE 100%); }
+html.theme-oufen .app-container, html.theme-oufen body { background:radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#FDF8F8 0%,#F7F1F3 36%,#F4F4F9 72%,#FEFCF7 100%); }
 html.theme-oufen .companion-theme {
-  --cp-primary:#8A6E76; --cp-primary-soft:rgba(138,110,118,.13); --cp-primary-ring:rgba(138,110,118,.30); --cp-primary-weak:rgba(138,110,118,.18);
+  --cp-primary:#B3A1A6; --cp-primary-soft:rgba(138,110,118,.13); --cp-primary-ring:rgba(138,110,118,.30); --cp-primary-weak:rgba(138,110,118,.18);
 }
 html.dark.theme-oufen {
   --color-bg:#1E1A1D !important; --color-surface:#2A2429 !important; --color-text:#EEE3E5 !important;
@@ -4508,17 +4603,17 @@ html.dark.theme-oufen {
 }
 html.dark.theme-oufen .app-container, html.dark.theme-oufen body { background:linear-gradient(165deg,#1E1A1D 0%,#28232C 50%,#302A33 100%); }
 html.dark.theme-oufen .companion-theme {
-  --cp-primary:#C7A3AD; --cp-primary-soft:rgba(199,163,173,.16); --cp-primary-ring:rgba(199,163,173,.34); --cp-primary-weak:rgba(199,163,173,.22);
+  --cp-primary:#DBC3CA; --cp-primary-soft:rgba(199,163,173,.16); --cp-primary-ring:rgba(199,163,173,.34); --cp-primary-weak:rgba(199,163,173,.22);
 }
 
 /* 苔庭旧梦 —— 灰绿 · 灰褐 · 淡紫 */
 html.theme-taiting {
-  --color-bg:#EDF3EC; --color-surface:#FBFDF8; --color-text:#3D4A41;
-  --color-muted:#68716A; --color-border:#D4DFD5; --color-accent:#7E9A86;
+  --color-bg:#F2F6F1; --color-surface:#FBFDF8; --color-text:#3D4A41;
+  --color-muted:#68716A; --color-border:#DDE6DE; --color-accent:#ABBDB0;
 }
-html.theme-taiting .app-container, html.theme-taiting body { background:linear-gradient(165deg,#EFF4EE 0%,#E3EBE2 36%,#F1E5F0 72%,#FDF9EE 100%); }
+html.theme-taiting .app-container, html.theme-taiting body { background:radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#F7FAF7 0%,#F2F5F1 36%,#F8F3F8 72%,#FEFCF7 100%); }
 html.theme-taiting .companion-theme {
-  --cp-primary:#5C7A66; --cp-primary-soft:rgba(92,122,102,.13); --cp-primary-ring:rgba(92,122,102,.30); --cp-primary-weak:rgba(92,122,102,.18);
+  --cp-primary:#95A99C; --cp-primary-soft:rgba(92,122,102,.13); --cp-primary-ring:rgba(92,122,102,.30); --cp-primary-weak:rgba(92,122,102,.18);
 }
 html.dark.theme-taiting {
   --color-bg:#171E1A !important; --color-surface:#222B25 !important; --color-text:#E3EBE4 !important;
@@ -4526,17 +4621,17 @@ html.dark.theme-taiting {
 }
 html.dark.theme-taiting .app-container, html.dark.theme-taiting body { background:linear-gradient(165deg,#171E1A 0%,#222A28 50%,#2C2830 100%); }
 html.dark.theme-taiting .companion-theme {
-  --cp-primary:#9CBBA3; --cp-primary-soft:rgba(156,187,163,.16); --cp-primary-ring:rgba(156,187,163,.34); --cp-primary-weak:rgba(156,187,163,.22);
+  --cp-primary:#BFD3C3; --cp-primary-soft:rgba(156,187,163,.16); --cp-primary-ring:rgba(156,187,163,.34); --cp-primary-weak:rgba(156,187,163,.22);
 }
 
 /* 紫藤薄雾 —— 雾紫 · 灰紫 · 淡青灰 */
 html.theme-ziteng {
-  --color-bg:#F0EBF5; --color-surface:#FCF9FD; --color-text:#453E52;
-  --color-muted:#766E80; --color-border:#DCD3E4; --color-accent:#9A8CAC;
+  --color-bg:#F4F0F8; --color-surface:#FCF9FD; --color-text:#453E52;
+  --color-muted:#766E80; --color-border:#E4DDEA; --color-accent:#BDB4C9;
 }
-html.theme-ziteng .app-container, html.theme-ziteng body { background:linear-gradient(165deg,#F2ECF6 0%,#E8E0EF 36%,#E9EEEB 72%,#FDF9EE 100%); }
+html.theme-ziteng .app-container, html.theme-ziteng body { background:radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#F9F6FB 0%,#F4F0F7 36%,#F4F7F5 72%,#FEFCF7 100%); }
 html.theme-ziteng .companion-theme {
-  --cp-primary:#756A88; --cp-primary-soft:rgba(117,106,136,.13); --cp-primary-ring:rgba(117,106,136,.30); --cp-primary-weak:rgba(117,106,136,.18);
+  --cp-primary:#A59EB2; --cp-primary-soft:rgba(117,106,136,.13); --cp-primary-ring:rgba(117,106,136,.30); --cp-primary-weak:rgba(117,106,136,.18);
 }
 html.dark.theme-ziteng {
   --color-bg:#1B1822 !important; --color-surface:#252130 !important; --color-text:#EAE3F0 !important;
@@ -4544,17 +4639,17 @@ html.dark.theme-ziteng {
 }
 html.dark.theme-ziteng .app-container, html.dark.theme-ziteng body { background:linear-gradient(165deg,#1B1822 0%,#262233 50%,#2A2C34 100%); }
 html.dark.theme-ziteng .companion-theme {
-  --cp-primary:#B6A2C8; --cp-primary-soft:rgba(182,162,200,.16); --cp-primary-ring:rgba(182,162,200,.34); --cp-primary-weak:rgba(182,162,200,.22);
+  --cp-primary:#D0C3DB; --cp-primary-soft:rgba(182,162,200,.16); --cp-primary-ring:rgba(182,162,200,.34); --cp-primary-weak:rgba(182,162,200,.22);
 }
 
 /* 橄榄晚风 —— 橄榄 · 灰蓝绿 · 淡粉 */
 html.theme-ganlan {
-  --color-bg:#F1F1E5; --color-surface:#FCFCF4; --color-text:#484A3B;
-  --color-muted:#6B6D5B; --color-border:#DEDFC9; --color-accent:#93967A;
+  --color-bg:#F4F4EC; --color-surface:#FCFCF4; --color-text:#484A3B;
+  --color-muted:#6B6D5B; --color-border:#E5E6D5; --color-accent:#B9BBA9;
 }
-html.theme-ganlan .app-container, html.theme-ganlan body { background:linear-gradient(165deg,#F3F3E8 0%,#E8E9DA 36%,#F7EBE5 72%,#FDF9EE 100%); }
+html.theme-ganlan .app-container, html.theme-ganlan body { background:radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#F9F9F4 0%,#F4F4ED 36%,#FBF5F3 72%,#FEFCF7 100%); }
 html.theme-ganlan .companion-theme {
-  --cp-primary:#6E7257; --cp-primary-soft:rgba(110,114,87,.13); --cp-primary-ring:rgba(110,114,87,.30); --cp-primary-weak:rgba(110,114,87,.18);
+  --cp-primary:#A1A392; --cp-primary-soft:rgba(110,114,87,.13); --cp-primary-ring:rgba(110,114,87,.30); --cp-primary-weak:rgba(110,114,87,.18);
 }
 html.dark.theme-ganlan {
   --color-bg:#1D1E17 !important; --color-surface:#282A21 !important; --color-text:#EDECDA !important;
@@ -4562,17 +4657,17 @@ html.dark.theme-ganlan {
 }
 html.dark.theme-ganlan .app-container, html.dark.theme-ganlan body { background:linear-gradient(165deg,#1D1E17 0%,#272A25 50%,#302A27 100%); }
 html.dark.theme-ganlan .companion-theme {
-  --cp-primary:#B7BA92; --cp-primary-soft:rgba(183,186,146,.16); --cp-primary-ring:rgba(183,186,146,.34); --cp-primary-weak:rgba(183,186,146,.22);
+  --cp-primary:#D0D2B8; --cp-primary-soft:rgba(183,186,146,.16); --cp-primary-ring:rgba(183,186,146,.34); --cp-primary-weak:rgba(183,186,146,.22);
 }
 
 /* 雨后石阶 —— 雾蓝 · 灰 · 浅灰绿 */
 html.theme-yuhou {
-  --color-bg:#ECF1F6; --color-surface:#FAFCFD; --color-text:#3E4854;
-  --color-muted:#65707C; --color-border:#D3DDE7; --color-accent:#8C9CAD;
+  --color-bg:#F1F4F8; --color-surface:#FAFCFD; --color-text:#3E4854;
+  --color-muted:#65707C; --color-border:#DDE4EC; --color-accent:#B4BFCA;
 }
-html.theme-yuhou .app-container, html.theme-yuhou body { background:linear-gradient(165deg,#EEF2F7 0%,#E4EAF1 36%,#EDF0EC 72%,#FDF9EE 100%); }
+html.theme-yuhou .app-container, html.theme-yuhou body { background:radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#F7F9FB 0%,#F2F5F8 36%,#F6F8F6 72%,#FEFCF7 100%); }
 html.theme-yuhou .companion-theme {
-  --cp-primary:#68798B; --cp-primary-soft:rgba(104,121,139,.13); --cp-primary-ring:rgba(104,121,139,.30); --cp-primary-weak:rgba(104,121,139,.18);
+  --cp-primary:#9DA8B4; --cp-primary-soft:rgba(104,121,139,.13); --cp-primary-ring:rgba(104,121,139,.30); --cp-primary-weak:rgba(104,121,139,.18);
 }
 html.dark.theme-yuhou {
   --color-bg:#171B21 !important; --color-surface:#212831 !important; --color-text:#E3EAF1 !important;
@@ -4580,17 +4675,17 @@ html.dark.theme-yuhou {
 }
 html.dark.theme-yuhou .app-container, html.dark.theme-yuhou body { background:linear-gradient(165deg,#171B21 0%,#222933 50%,#272D31 100%); }
 html.dark.theme-yuhou .companion-theme {
-  --cp-primary:#9FB6CB; --cp-primary-soft:rgba(159,182,203,.16); --cp-primary-ring:rgba(159,182,203,.34); --cp-primary-weak:rgba(159,182,203,.22);
+  --cp-primary:#C1D0DD; --cp-primary-soft:rgba(159,182,203,.16); --cp-primary-ring:rgba(159,182,203,.34); --cp-primary-weak:rgba(159,182,203,.22);
 }
 
 /* 草绿退红 —— 淡粉 → 草绿 */
 html.theme-caolv {
-  --color-bg:#F7EEF3; --color-surface:#FDFBF5; --color-text:#3F4A3A;
-  --color-muted:#65705E; --color-border:#DDDCD0; --color-accent:#8FB56E;
+  --color-bg:#F9F2F6; --color-surface:#FDFBF5; --color-text:#3F4A3A;
+  --color-muted:#65705E; --color-border:#E4E4DA; --color-accent:#B6CFA1;
 }
-html.theme-caolv .app-container, html.theme-caolv body { background:linear-gradient(165deg,#FBE9F2 0%,#F3E4EC 32%,#DDEBC9 70%,#CFE7B6 100%); }
+html.theme-caolv .app-container, html.theme-caolv body { background:radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#FDF4F9 0%,#F9F2F6 32%,#EFF5E5 70%,#E8F3DC 100%); }
 html.theme-caolv .companion-theme {
-  --cp-primary:#6F9555; --cp-primary-soft:rgba(111,149,85,.13); --cp-primary-ring:rgba(111,149,85,.30); --cp-primary-weak:rgba(111,149,85,.18);
+  --cp-primary:#A1BA90; --cp-primary-soft:rgba(111,149,85,.13); --cp-primary-ring:rgba(111,149,85,.30); --cp-primary-weak:rgba(111,149,85,.18);
 }
 html.dark.theme-caolv {
   --color-bg:#1A1E17 !important; --color-surface:#252B20 !important; --color-text:#E7EFE0 !important;
@@ -4598,17 +4693,17 @@ html.dark.theme-caolv {
 }
 html.dark.theme-caolv .app-container, html.dark.theme-caolv body { background:linear-gradient(165deg,#1A1E17 0%,#22271F 50%,#2C2430 100%); }
 html.dark.theme-caolv .companion-theme {
-  --cp-primary:#98BE7C; --cp-primary-soft:rgba(152,190,124,.16); --cp-primary-ring:rgba(152,190,124,.34); --cp-primary-weak:rgba(152,190,124,.22);
+  --cp-primary:#BCD5AA; --cp-primary-soft:rgba(152,190,124,.16); --cp-primary-ring:rgba(152,190,124,.34); --cp-primary-weak:rgba(152,190,124,.22);
 }
 
 /* 天蓝白 —— 天蓝 → 米白 */
 html.theme-tianlan {
-  --color-bg:#E8F3FE; --color-surface:#FAFDFF; --color-text:#274B6B;
-  --color-muted:#4C6E8A; --color-border:#C4DFF3; --color-accent:#4E9DD8;
+  --color-bg:#EEF6FE; --color-surface:#FAFDFF; --color-text:#274B6B;
+  --color-muted:#4C6E8A; --color-border:#D1E6F6; --color-accent:#8CBFE6;
 }
-html.theme-tianlan .app-container, html.theme-tianlan body { background:linear-gradient(165deg,#DCEEFF 0%,#B9DEFF 30%,#E4F1FA 62%,#FFF4E3 100%); }
+html.theme-tianlan .app-container, html.theme-tianlan body { background:radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#EEF7FF 0%,#DDEFFF 30%,#F2F8FD 62%,#FFFAF2 100%); }
 html.theme-tianlan .companion-theme {
-  --cp-primary:#2F7BB5; --cp-primary-soft:rgba(47,123,181,.13); --cp-primary-ring:rgba(47,123,181,.30); --cp-primary-weak:rgba(47,123,181,.18);
+  --cp-primary:#78A9CF; --cp-primary-soft:rgba(47,123,181,.13); --cp-primary-ring:rgba(47,123,181,.30); --cp-primary-weak:rgba(47,123,181,.18);
 }
 html.dark.theme-tianlan {
   --color-bg:#101C27 !important; --color-surface:#182734 !important; --color-text:#DEEBF7 !important;
@@ -4616,17 +4711,17 @@ html.dark.theme-tianlan {
 }
 html.dark.theme-tianlan .app-container, html.dark.theme-tianlan body { background:linear-gradient(165deg,#101C27 0%,#1A2C3C 50%,#2A2A33 100%); }
 html.dark.theme-tianlan .companion-theme {
-  --cp-primary:#6BA9DC; --cp-primary-soft:rgba(107,169,220,.16); --cp-primary-ring:rgba(107,169,220,.34); --cp-primary-weak:rgba(107,169,220,.22);
+  --cp-primary:#9FC7E8; --cp-primary-soft:rgba(107,169,220,.16); --cp-primary-ring:rgba(107,169,220,.34); --cp-primary-weak:rgba(107,169,220,.22);
 }
 
 /* 杏花碧落 —— 淡粉 → 淡蓝 */
 html.theme-xinghua {
-  --color-bg:#FAF0F5; --color-surface:#FDFBFC; --color-text:#4A4557;
-  --color-muted:#6C6679; --color-border:#E2D8E5; --color-accent:#A9A6C9;
+  --color-bg:#FBF4F8; --color-surface:#FDFBFC; --color-text:#4A4557;
+  --color-muted:#6C6679; --color-border:#E8E1EB; --color-accent:#C7C5DC;
 }
-html.theme-xinghua .app-container, html.theme-xinghua body { background:linear-gradient(165deg,#FDEDF4 0%,#F8E5EF 30%,#DDEAF6 68%,#CCE2F2 100%); }
+html.theme-xinghua .app-container, html.theme-xinghua body { background:radial-gradient(120% 78% at 50% -6%, rgba(255,255,255,.58), rgba(255,255,255,0) 72%),linear-gradient(165deg,#FEF6FA 0%,#FCF3F7 30%,#EFF5FB 68%,#E7F1F9 100%); }
 html.theme-xinghua .companion-theme {
-  --cp-primary:#8278A6; --cp-primary-soft:rgba(130,120,166,.13); --cp-primary-ring:rgba(130,120,166,.30); --cp-primary-weak:rgba(130,120,166,.18);
+  --cp-primary:#AEA7C5; --cp-primary-soft:rgba(130,120,166,.13); --cp-primary-ring:rgba(130,120,166,.30); --cp-primary-weak:rgba(130,120,166,.18);
 }
 html.dark.theme-xinghua {
   --color-bg:#1C1A24 !important; --color-surface:#262331 !important; --color-text:#EDE7F2 !important;
@@ -4634,7 +4729,7 @@ html.dark.theme-xinghua {
 }
 html.dark.theme-xinghua .app-container, html.dark.theme-xinghua body { background:linear-gradient(165deg,#1C1A24 0%,#262235 50%,#232C3A 100%); }
 html.dark.theme-xinghua .companion-theme {
-  --cp-primary:#AF95C6; --cp-primary-soft:rgba(175,149,198,.16); --cp-primary-ring:rgba(175,149,198,.34); --cp-primary-weak:rgba(175,149,198,.22);
+  --cp-primary:#CBBADA; --cp-primary-soft:rgba(175,149,198,.16); --cp-primary-ring:rgba(175,149,198,.34); --cp-primary-weak:rgba(175,149,198,.22);
 }
 
 /* 深色下文字统一进主题色（原文件把裸标签强制成纯白，这里只在启用主题时接管） */
@@ -5158,19 +5253,35 @@ html.dark .hr-cell.bond .hr-cell-v, .dark .hr-cell.bond .hr-cell-v { color:var(-
 /* ---- 顶格：一行小字，可自己改 ----
    周围补四角细角标 + 上方一线一星 + 主字两侧细线，跟站内 .sp-rule / .hp-deco 同一套 */
 .hp-top { position:relative; flex-shrink:0; text-align:center; padding:8px 16px 6px; }
-.hp-top-c { position:absolute; width:13px; height:13px; opacity:.42; pointer-events:none; }
-.hp-top-c.tl { top:6px;    left:6px;    border-top:1px solid var(--color-border);    border-left:1px solid var(--color-border); }
-.hp-top-c.tr { top:6px;    right:6px;   border-top:1px solid var(--color-border);    border-right:1px solid var(--color-border); }
-.hp-top-c.bl { bottom:6px; left:6px;    border-bottom:1px solid var(--color-border); border-left:1px solid var(--color-border); }
-.hp-top-c.br { bottom:6px; right:6px;   border-bottom:1px solid var(--color-border); border-right:1px solid var(--color-border); }
+.hp-top-c { position:absolute; width:15px; height:15px; opacity:.72; pointer-events:none;
+            border-color:var(--color-muted); }
+.hp-top-c.tl { top:6px;    left:6px;    border-top:2px solid var(--color-muted);    border-left:2px solid var(--color-muted); }
+.hp-top-c.tr { top:6px;    right:6px;   border-top:2px solid var(--color-muted);    border-right:2px solid var(--color-muted); }
+.hp-top-c.bl { bottom:6px; left:6px;    border-bottom:2px solid var(--color-muted); border-left:2px solid var(--color-muted); }
+.hp-top-c.br { bottom:6px; right:6px;   border-bottom:2px solid var(--color-muted); border-right:2px solid var(--color-muted); }
 .hp-top-orn { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:9px; }
 .hp-top-orn i { width:30px; height:1px; background:var(--color-border); opacity:.85; }
 .hp-top-orn span { font-size:8px; line-height:1; color:var(--color-muted); opacity:.7; }
-.hp-top-main { display:inline-flex; align-items:center; gap:13px;
+.hp-top-line { display:flex; align-items:center; justify-content:center; gap:11px; width:100%; padding:0 2px; }
+.hp-wing { display:flex; align-items:center; gap:7px; flex:0 1 94px; min-width:0;
+           color:var(--color-muted); opacity:.62; pointer-events:none; }
+.hp-wing.right { justify-content:flex-end; }
+.hp-w-fig { flex:none; width:18px; height:18px; display:block; }
+.hp-w-fig svg { width:100%; height:100%; display:block; }
+.hp-w-rule { position:relative; flex:1; min-width:12px; height:1px;
+             background:linear-gradient(90deg, transparent, var(--color-border)); }
+.hp-wing.right .hp-w-rule { background:linear-gradient(270deg, transparent, var(--color-border)); }
+.hp-w-rule::after { content:''; position:absolute; left:16%; right:16%; top:-4px; height:1px;
+                     background:var(--color-border); opacity:.45; }
+.hp-w-dia { flex:none; width:5px; height:5px; border:1px solid var(--color-border); transform:rotate(45deg); }
+.hp-w-spark { flex:none; font-style:normal; font-size:8px; line-height:1;
+              color:var(--color-accent); opacity:.72; }
+.hp-w-dots { flex:none; display:flex; align-items:center; gap:3px; }
+.hp-w-dots b { width:2px; height:2px; border-radius:50%; background:var(--color-muted); opacity:.5; }
+.hp-w-dots b:last-child { width:1.5px; height:1.5px; opacity:.32; }
+.hp-top-main { display:inline-block; max-width:62%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
                font-size:27px; letter-spacing:.3em; text-indent:.3em; color:var(--color-text);
                font-family:"Noto Serif SC",'Noto Serif SC Offline',"Songti SC","STSong",serif; font-weight:600; line-height:1.25; }
-.hp-top-main::before, .hp-top-main::after { content:''; width:22px; height:1px;
-               background:var(--color-border); opacity:.8; letter-spacing:0; text-indent:0; }
 .hp-top-sub  { font-size:12px; letter-spacing:.2em; text-indent:.2em; color:var(--color-muted);
                margin-top:8px; line-height:1.4; }
 
@@ -5378,10 +5489,25 @@ html.dark .hr-cell.bond .hr-cell-v, .dark .hr-cell.bond .hr-cell-v { color:var(-
     background:linear-gradient(135deg, transparent 50%, rgba(90,130,165,.10) 50%, rgba(255,255,255,.60) 52%);
     border-top-left-radius:3px; }
 .jb-sticky-text { font-family:"Kaiti SC","STKaiti","KaiTi","楷体",'Noto Serif SC Offline',serif;
-    color:#4d6379; line-height:1.55; text-align:center; word-break:break-word; white-space:pre-wrap;
-    max-width:100%; max-height:100%; overflow:hidden; padding-top:2px;
+    color:#4d6379; line-height:1.5; text-align:center; word-break:break-word; white-space:pre-wrap;
+    width:100%; max-height:100%; overflow:hidden; padding-top:2px;
     text-shadow:0 1px 0 rgba(255,255,255,.55); }
 .dark .jb-sticky-text { color:#4d6379; }
+/* 空便签上一句极淡的提示，点一下就变成能打字的纸 */
+.jb-sticky-text.ph { color:#8ba6bd; opacity:.62; font-size:10px; letter-spacing:.08em; }
+.dark .jb-sticky-text.ph { color:#8ba6bd; }
+/* 直接在便签纸上写字：透明输入层，跟纸面同一套字体，不另弹窗 */
+.jb-sticky-write { position:relative; z-index:2; width:100%; height:100%; box-sizing:border-box;
+    pointer-events:auto; resize:none; outline:none; border:none; border-radius:0;
+    background:transparent; box-shadow:inset 0 -1px 0 rgba(120,160,195,.35);
+    font-family:"Kaiti SC","STKaiti","KaiTi","楷体",'Noto Serif SC Offline',serif;
+    color:#4d6379; line-height:1.5; text-align:center; word-break:break-word;
+    padding:2px 0 0; text-shadow:0 1px 0 rgba(255,255,255,.55); }
+.dark .jb-sticky-write { color:#4d6379; }
+.jb-sticky-write::placeholder { color:#8ba6bd; opacity:.7; }
+.jb-sticky-write { caret-color:var(--jb-accent); }
+.jb-sticky.writing { box-shadow:0 3px 14px rgba(60,90,120,.30), inset 0 0 0 1px rgba(120,160,195,.42); }
+.dark .jb-sticky.writing { box-shadow:0 4px 16px rgba(0,0,0,.48), inset 0 0 0 1px rgba(255,255,255,.20); }
 .jb-sticky-art { position:absolute; right:7px; bottom:7px; width:26px; height:26px; object-fit:contain; opacity:.85; pointer-events:none; }
 /* 便签面板 */
 .jb-sticky-top { display:flex; gap:12px; align-items:flex-start; }
@@ -5406,6 +5532,7 @@ html.dark .hr-cell.bond .hr-cell-v, .dark .hr-cell.bond .hr-cell-v { color:var(-
 .jb-sticky-input { width:100%; box-sizing:border-box; font-size:12px; padding:9px 11px; border-radius:10px;
     border:1px solid var(--color-border); background:var(--color-bg); color:var(--color-text); outline:none; }
 .jb-sticky-input::placeholder { color:var(--color-muted); opacity:.7; }
+.jb-sticky-textarea { resize:none; line-height:1.7; font-family:"Kaiti SC","STKaiti","KaiTi","楷体",'Noto Serif SC Offline',serif; }
 .jb-sticky-optional { font-size:9px; letter-spacing:.04em; opacity:.6; }
 .jb-sticky-arts { display:flex; gap:7px; overflow-x:auto; padding-bottom:4px; }
 .jb-sticky-art-cell { flex:0 0 38px; width:38px; height:38px; border-radius:9px; border:1px solid var(--color-border);
@@ -5724,7 +5851,34 @@ html, body { overscroll-behavior-y: none; }
 </script>
 <div id="app" v-cloak>
 <transition name="fade"><div v-if="showIntro" class="intro-overlay text-text"><div class="intro-text">见字如面</div><div class="intro-sub">字里有你，便不算远</div></div></transition>
-<div class="app-container text-sm" :style="globalWallpaper ? { backgroundImage: 'url(' + globalWallpaper + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', imageRendering: '-webkit-optimize-contrast' } : {}">
+
+<!-- ===== 强制全屏：上状态栏（站点名 / 时间 / 电量）===== -->
+<div v-if="fsBarsOn" class="fs-bar top" :class="{ tappable: fsHint === 'tap' }" @click="fsHint === 'tap' && fsEnter()">
+    <div class="fs-side">
+        <span class="fs-brand">留白</span><i class="fs-rule"></i><i class="fs-star">✦</i>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;flex:none;">
+        <span class="fs-clock">{{ fsTime }}</span>
+        <span v-if="fsHint" class="fs-hint">{{ fsHint === 'tap' ? '轻点进入全屏' : '沉浸中' }}</span>
+    </div>
+    <div class="fs-side right">
+        <template v-if="fsBattery !== null">
+            <span v-if="fsCharging" class="fs-bolt">ϟ</span>
+            <span class="fs-bat"><i class="fs-bat-fill" :style="{ width: Math.max(3, fsBattery) + '%' }"></i></span>
+            <span class="fs-pct">{{ fsBattery }}%</span>
+        </template>
+        <template v-else><i class="fs-star">✦</i><span class="fs-pct">只在这台设备上</span></template>
+    </div>
+</div>
+
+<!-- ===== 强制全屏：下状态栏（日期 / 手势细条 / 退出）===== -->
+<div v-if="fsBarsOn" class="fs-bar bottom">
+    <div class="fs-side"><span>{{ fsDate }}</span><i class="fs-rule"></i><i class="fs-star">✦</i></div>
+    <div style="flex:none;display:flex;align-items:center;"><i class="fs-grip"></i></div>
+    <div class="fs-side right"><span class="fs-hint">{{ fsTime }}</span><button class="fs-exit" @click="fsToggle">退出全屏</button></div>
+</div>
+
+<div class="app-container text-sm" :class="{ 'fs-on': fsBarsOn }" :style="globalWallpaper ? { backgroundImage: 'url(' + globalWallpaper + ')', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', imageRendering: '-webkit-optimize-contrast' } : {}">
 <transition name="view">
 <!-- ===== [MOD-01] 首页 / 九宫格导航 ===== -->
 <!-- 【调整】顶部留白 pt-24(96px)→pt-12(48px)，整体上移 -->
@@ -5741,7 +5895,20 @@ html, body { overscroll-behavior-y: none; }
             <div class="hp-top" @click="hpEditTop">
                 <i class="hp-top-c tl"></i><i class="hp-top-c tr"></i><i class="hp-top-c bl"></i><i class="hp-top-c br"></i>
                 <div class="hp-top-orn"><i></i><span>✦</span><i></i></div>
-                <div class="hp-top-main">{{ hpTopMain }}</div>
+                <!-- 主字两侧：星屑点 / 线条小图案 / 渐隐双线 / 小菱形 / 小星，左右成对 -->
+                <div class="hp-top-line">
+                    <span class="hp-wing left" aria-hidden="true">
+                        <i class="hp-w-dots"><b></b><b></b></i>
+                        <span class="hp-w-fig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 14.6A8.6 8.6 0 0 1 9.4 3.6a8.6 8.6 0 1 0 11 11z"/><path d="M17.5 3.2v3.2M15.9 4.8h3.2"/></svg></span>
+                        <i class="hp-w-rule"></i><i class="hp-w-dia"></i><i class="hp-w-spark">✦</i>
+                    </span>
+                    <div class="hp-top-main" :style="hpTopMain.length > 6 ? { fontSize:'19px', letterSpacing:'.12em', textIndent:'.12em' } : (hpTopMain.length > 4 ? { fontSize:'22px', letterSpacing:'.18em', textIndent:'.18em' } : {})">{{ hpTopMain }}</div>
+                    <span class="hp-wing right" aria-hidden="true">
+                        <i class="hp-w-spark">✦</i><i class="hp-w-dia"></i><i class="hp-w-rule"></i>
+                        <span class="hp-w-fig"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.2c.7 4.2 1.9 5.4 6.1 6.1-4.2.7-5.4 1.9-6.1 6.1-.7-4.2-1.9-5.4-6.1-6.1 4.2-.7 5.4-1.9 6.1-6.1z"/><path d="M18.6 16.4v2.6M17.3 17.7h2.6"/></svg></span>
+                        <i class="hp-w-dots"><b></b><b></b></i>
+                    </span>
+                </div>
                 <div class="hp-top-sub">{{ hpTopSub }}</div>
             </div>
 
@@ -6257,6 +6424,20 @@ html, body { overscroll-behavior-y: none; }
             </div>
         </section>
         <section>
+            <h3 class="text-[11px] font-semibold text-muted tracking-widest px-2 mb-2">全屏 · 沉浸</h3>
+            <div class="bg-surface border border-border rounded-xl overflow-hidden text-[13px]">
+                <div class="flex items-center justify-between p-3.5 border-b border-border">
+                    <span>强制全屏</span>
+                    <button @click="fsToggle" class="w-10 h-5 rounded-full relative" :class="settings.forceFullscreen ? 'bg-text' : 'bg-border'"><div class="absolute top-1 left-1 w-3 h-3 bg-surface rounded-full transition-transform" :class="settings.forceFullscreen ? 'translate-x-5' : 'translate-x-0'"></div></button>
+                </div>
+                <div class="flex items-center justify-between p-3.5 border-b border-border">
+                    <span>状态栏</span>
+                    <span class="text-[10px] text-muted">{{ fsBattery === null ? '时间 · 日期' : '时间 · 日期 · 电量' }}</span>
+                </div>
+                <div class="p-3.5"><span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">打开后整屏只留这个站：上面一条细状态栏显示现在几点、日期和手机电量，下面一条配手势细条与「退出全屏」。电量只在浏览器愿意给的时候才显示，读不到就留一颗小 ✦，不会编个数字；时间取自你手机本地，都不上传、不进备份。<br>安卓 Chrome 会连浏览器地址栏一起藏起来；iPhone 的网页不能直接全屏，把本页「添加到主屏幕」再打开就能做到，状态栏照样在。刷新后第一次轻点页面会补回全屏，按 ESC 退出也只需再点一下。</span></div>
+            </div>
+        </section>
+        <section>
             <h3 class="text-[11px] font-semibold text-muted tracking-widest px-2 mb-2">排版</h3>
             <div class="bg-surface border border-border rounded-xl overflow-hidden text-[13px]">
                 <div class="flex items-center justify-between p-3.5 border-b border-border"><span>墨色模式</span><button @click="toggleDarkMode" class="w-10 h-5 rounded-full relative" :class="settings.darkMode ? 'bg-text' : 'bg-border'"><div class="absolute top-1 left-1 w-3 h-3 bg-surface rounded-full transition-transform" :class="settings.darkMode ? 'translate-x-5' : 'translate-x-0'"></div></button></div>
@@ -6311,6 +6492,42 @@ html, body { overscroll-behavior-y: none; }
                     </div>
                 </template>
                 <div class="p-3.5"><span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">打开后，他有个全局状态：每到一个刷新间隔就按概率重抽一次「在线 / 不在线（忙碌）」，聊天页名字后面能看见。文字、表情包、图片、语音、红包、卡片等所有你发出去的消息都带这个标记：在线时 1~5 秒内显示「已读」，回复照原来那套来；不在线时显示「未读」，只有设定概率才回你。等刷新抽到在线（他上线），之前攒下的未读会一起变成「已读」，再按概率决定回不回。手动点输入框旁边的「叫他回」不受状态限制。状态和下次刷新时刻都存在本机，刷新页面不会跳变、不会重复上线。</span></div>
+            </div>
+        </section>
+        <section>
+            <h3 class="text-[11px] font-semibold text-muted tracking-widest px-2 mb-2">作息自习</h3>
+            <div class="bg-surface border border-border rounded-xl overflow-hidden text-[13px]">
+                <div class="flex items-center justify-between p-3.5 border-b border-border">
+                    <span>按我的作息上线</span>
+                    <button @click="settings.habitMode = !settings.habitMode" class="w-10 h-5 rounded-full relative" :class="settings.habitMode ? 'bg-text' : 'bg-border'"><div class="absolute top-1 left-1 w-3 h-3 bg-surface rounded-full transition-transform" :class="settings.habitMode ? 'translate-x-5' : 'translate-x-0'"></div></button>
+                </div>
+                <template v-if="settings.habitMode">
+                    <div class="flex items-center justify-between p-3.5 border-b border-border">
+                        <span>先学几天</span>
+                        <div class="flex items-center gap-3">
+                            <button @click="habitSetDays(-1)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">−</button>
+                            <span class="w-10 text-center font-mono font-medium">{{ habitTarget }} 天</span>
+                            <button @click="habitSetDays(1)" class="w-7 h-7 rounded-full bg-bg flex items-center justify-center text-muted active:bg-border">+</button>
+                        </div>
+                    </div>
+                    <div class="p-3.5 border-b border-border">
+                        <div class="flex items-center gap-1.5 mb-2.5">
+                            <i v-for="i in habitTarget" :key="i" class="w-1.5 h-1.5 rounded-full" :class="i <= habitDaysDone ? 'bg-text' : 'bg-border'"></i>
+                            <span class="ml-auto text-[10px] text-muted">{{ habitReady ? '已学会' : '还在摸你的作息 · 第 ' + Math.min(habitDaysDone + 1, habitTarget) + '/' + habitTarget + ' 天' }}</span>
+                        </div>
+                        <div class="text-[11px] text-muted leading-relaxed">
+                            <template v-if="habitReady">
+                                你常来 <b class="font-medium text-text">{{ habitOpenText }}</b>，聊得久是 <b class="font-medium text-text">{{ habitTalkText }}</b>。这一小时他上线的概率约 <b class="font-medium text-text">{{ habitNowPct }}%</b> — 全天平均仍是 <b class="font-medium text-text">{{ settings.stateOnlineRate == null ? 80 : settings.stateOnlineRate }}%</b>，没变。
+                            </template>
+                            <template v-else>这几天只安静记录，不改动他上线的概率；学够了才把在线时段轻轻挪到你常来的时候。</template>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-3.5 border-b border-border">
+                        <span class="text-[11px] text-muted">只记在这台设备上</span>
+                        <button @click="habitReset" class="text-[11px] px-3 py-1.5 rounded-full border border-border text-muted active:bg-border">重新学一遍</button>
+                    </div>
+                </template>
+                <div class="p-3.5"><span class="text-[10px] text-muted/80 leading-relaxed block w-full text-left">先安静记几天你一般几点上线、哪段时间在聊天页待得久，再让他更容易在那些时段上线：常来的时段概率高一点、冷门时段低一点，<b class="font-medium">全天平均在线率仍是你设的那个数，一点不变</b>。记录只有日期、小时格子和分钟数，不存聊天内容、不上传，跟着刷新和全量备份 / 导入走；最多留最近 21 天。</span></div>
             </div>
         </section>
         <section>
@@ -6715,11 +6932,11 @@ html, body { overscroll-behavior-y: none; }
         <template v-if="libraryTab === 'pat'">
             <div class="text-[10px] text-muted/80 leading-relaxed px-1 pb-1">
                 仿微信的居中小灰字。两边各写各的：前缀「我」「他」写死，后面自己填。<br>
-                点卡片＝他发他那行；聊天页三个点 →「拍一拍」＝你发我那行。
+                点卡片＝只看看这条，不会发出去；要发去聊天页「三个点 → 拍一拍」里挑。
             </div>
             <div v-for="a in patAll" :key="a.id" class="rounded-xl p-3 flex flex-col gap-2 border" :style="{ backgroundColor: settings.darkMode ? '#171719' : '#ffffff', borderColor: settings.darkMode ? '#2a2a2a' : '#e2e2e2' }">
                 <div class="flex items-start justify-between gap-2">
-                    <div class="flex-1 cursor-pointer" style="min-width:0" @click="patPickFromLibrary(a)">
+                    <div class="flex-1" style="min-width:0" @click="patViewCard(a)">
                         <div class="pat-line pat-line-me">{{ patFormat(a, 'me') }}</div>
                         <div class="pat-line">{{ patFormat(a, 'them') }}</div>
                     </div>
@@ -6748,8 +6965,11 @@ html, body { overscroll-behavior-y: none; }
                 </div>
                 <button class="mc-lib-btn" @click="myCardNow">让他现在拼一组 ♡</button>
             </div>
+            <div class="text-[10px] text-muted/80 leading-relaxed px-1 pb-1">
+                点字卡＝只改这一条，不会发到聊天；想让他发，点下面「让他现在拼一组」。
+            </div>
             <div v-for="card in filteredCards" :key="card.id" class="rounded-xl p-3 flex flex-col gap-2 border" :style="{ backgroundColor: settings.darkMode ? '#171719' : '#ffffff', borderColor: settings.darkMode ? '#2a2a2a' : '#e2e2e2' }">
-                <div class="text-[14px] leading-relaxed whitespace-pre-wrap" :style="{ color: settings.darkMode ? '#ffffff' : '#000000' }">{{ card.text }}</div>
+                <div class="text-[14px] leading-relaxed whitespace-pre-wrap" @click="openCardEditor(card)" :style="{ color: settings.darkMode ? '#ffffff' : '#000000', cursor: 'pointer' }">{{ card.text }}</div>
                 <div class="flex items-center justify-between mt-1">
                     <div class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-bg border border-border">
                         <span class="w-1.5 h-1.5 rounded-full" :style="{ background: card.color || '#888' }"></span>
@@ -7871,7 +8091,7 @@ html, body { overscroll-behavior-y: none; }
         </div>
         <div class="vinyl-deck">
             <!-- 磁带这一面：唱片两侧留白用极淡细线 / 竖排小字 / 虚线光环填一下，不挡操作 -->
-            <div v-if="settings.musicMode !== 'lyric'" class="vd-orn" aria-hidden="true">
+            <div class="vd-orn" :class="{ 'vd-orn-lyric': settings.musicMode === 'lyric' }" aria-hidden="true">
                 <div class="vd-orn-top"><span></span><em>第 {{ syncState.index + 1 }} 面 · 共 {{ syncPlaylist.length }} 首</em><span></span></div>
                 <div class="vd-orn-ring"></div>
                 <!-- 光环上撒几颗极淡星屑 -->
@@ -8778,7 +8998,7 @@ html, body { overscroll-behavior-y: none; }
                     <span v-if="!l.read && l.from === 'them'" class="letter-list-unread"></span>
                     {{ l.from === 'them' ? profiles.them.name + ' 的来信' : '致 ' + profiles.them.name }}
                 </div>
-                <div class="letter-list-preview">{{ l.content.replace(/\n/g, ' ').slice(0, 30) }}...</div>
+                <div class="letter-list-preview" :style="letterPreviewFont(l)">{{ l.content.replace(/\n/g, ' ').slice(0, 30) }}...</div>
                 <div class="letter-list-time">{{ formatTime(l.timestamp) }}</div>
             </div>
         </div>
@@ -8789,7 +9009,7 @@ html, body { overscroll-behavior-y: none; }
     <main v-else-if="mailboxView === 'write'" class="flex-1 overflow-hidden">
         <div class="letter-write-wrap">
             <div class="letter-write-to">致：{{ profiles.them.name }}</div>
-            <textarea v-model="draftLetter" class="letter-write-input" :style="letterFontStyle" placeholder="见字如面，一切安好..."></textarea>
+            <textarea v-model="draftLetter" class="letter-write-input" :style="letterFontStyleMe" placeholder="见字如面，一切安好..."></textarea>
             <div class="flex gap-2 mt-3">
                 <button @click="mailboxView = 'list'" class="flex-1 py-3 rounded-xl border border-border text-text text-[13px]">取消</button>
                 <button @click="sendLetter" class="flex-1 py-3 rounded-xl bg-accent text-bg text-[13px] font-medium">寄出</button>
@@ -8804,7 +9024,7 @@ html, body { overscroll-behavior-y: none; }
                     <span>{{ formatTime(currentLetter.timestamp) }}</span>
                 </div>
                 <div class="ml-paper-rule"></div>
-                <div class="ml-paper-body" :style="letterFontStyle">{{ currentLetter.content }}</div>
+                <div class="ml-paper-body" :style="readLetterFontStyle">{{ currentLetter.content }}</div>
                 <div class="ml-paper-foot">✦</div>
                 <button @click="deleteLetter(currentLetter.id)" class="mt-6 text-red-500 text-[12px]">焚毁此信</button>
             </div>
@@ -8835,7 +9055,7 @@ html, body { overscroll-behavior-y: none; }
                     <span>{{ formatTime(mailEnvelopeLetter.timestamp) }}</span>
                 </div>
                 <div class="ml-paper-rule"></div>
-                <div class="ml-paper-body" :style="letterFontStyle">{{ mailEnvelopeLetter.content }}</div>
+                <div class="ml-paper-body" :style="letterFontStyleThem">{{ mailEnvelopeLetter.content }}</div>
                 <div class="ml-paper-foot">✦</div>
                 <button class="ml-done" @click="mailEnvelopeClose">收好</button>
             </div>
@@ -8853,13 +9073,26 @@ html, body { overscroll-behavior-y: none; }
             </button>
         </div>
         <div class="ml-set-rule"></div>
-        <div class="ml-font-tip">信纸字体</div>
-        <div class="ml-fonts">
-            <button v-for="f in MAIL_FONTS" :key="f.k" class="ml-font-chip"
-                    :class="{ active: mailFont === f.k }" :style="{ fontFamily: f.css }"
-                    @click="mailSetFont(f.k)">{{ f.n }}</button>
+        <div class="ml-font-group">
+            <div class="ml-font-tip row"><span>我写的字</span><em>写信框 · 我寄出的</em></div>
+            <div class="ml-fonts">
+                <button v-for="f in MAIL_FONTS" :key="'me-' + f.k" class="ml-font-chip"
+                        :class="{ active: mailFontMe === f.k }" :style="{ fontFamily: f.css }"
+                        @click="mailSetFont('me', f.k)">{{ f.n }}</button>
+            </div>
         </div>
-        <div class="ml-set-preview" :style="letterFontStyle">见字如面，一切安好</div>
+        <div class="ml-font-group">
+            <div class="ml-font-tip row"><span>他写的字</span><em>收到的信 · 拆信纸</em></div>
+            <div class="ml-fonts">
+                <button v-for="f in MAIL_FONTS" :key="'them-' + f.k" class="ml-font-chip"
+                        :class="{ active: mailFontThem === f.k }" :style="{ fontFamily: f.css }"
+                        @click="mailSetFont('them', f.k)">{{ f.n }}</button>
+            </div>
+        </div>
+        <div class="ml-set-preview split">
+            <div class="ml-pv-row"><span class="ml-pv-who">我 · {{ mailFontMeName }}</span><div :style="letterFontStyleMe">见字如面，一切安好</div></div>
+            <div class="ml-pv-row"><span class="ml-pv-who">他 · {{ mailFontThemName }}</span><div :style="letterFontStyleThem">风很轻，我也挺好的</div></div>
+        </div>
     </div>
 </div>
 
@@ -9729,17 +9962,23 @@ html, body { overscroll-behavior-y: none; }
 
                 <div v-for="it in jbCur.items" :key="it.id" class="jb-item" :class="{ sel: jbSel === it.id }"
                      :style="{ left: it.x + '%', top: it.y + '%', width: it.size + 'px', height: jbItemH(it) + 'px', transform: 'translate(-50%,-50%) rotate(' + it.rot + 'deg)', zIndex: it.z }"
-                     @click.stop="jbSel = it.id" @touchstart.stop="jbStartDrag(it, $event)" @mousedown.stop="jbStartDrag(it, $event)">
+                     @click.stop="jbTapItem(it)" @touchstart.stop="jbStartDrag(it, $event)" @mousedown.stop="jbStartDrag(it, $event)">
                     <img v-if="it.kind === 'photo'" :src="it.src" class="jb-photo">
                     <div v-else-if="it.kind === 'tape'" class="jb-tape" :style="{ backgroundColor: it.color }"></div>
                     <div v-else-if="it.kind === 'note'" class="jb-note" :style="{ backgroundColor: it.paper }">
                         <span class="jb-note-pin"></span>
                         <span class="jb-note-text">{{ it.text }}</span>
                     </div>
-                    <div v-else-if="it.kind === 'sticky'" class="jb-sticky" :style="{ '--jb-paper': it.paper || '#EDF6FD' }">
+                    <div v-else-if="it.kind === 'sticky'" class="jb-sticky" :class="{ writing: jbStickyWriting === it.id }" :style="{ '--jb-paper': it.paper || '#EDF6FD' }">
                         <span class="jb-sticky-tape"></span>
                         <img v-if="it.art" :src="it.art" class="jb-sticky-art">
-                        <div class="jb-sticky-text" :style="{ fontSize: (it.size >= 150 ? 13 : it.size >= 110 ? 12 : 11) + 'px' }">{{ it.text }}</div>
+                        <textarea v-if="jbStickyWriting === it.id" class="jb-sticky-write"
+                                  v-model="it.text" maxlength="120" placeholder="写点什么…"
+                                  :style="{ fontSize: jbStickyFont(it) + 'px' }"
+                                  @click.stop @touchstart.stop @mousedown.stop
+                                  @blur.stop="jbStickyWriting = ''"></textarea>
+                        <div v-else class="jb-sticky-text" :class="{ ph: !it.text }"
+                             :style="{ fontSize: jbStickyFont(it) + 'px' }">{{ it.text || '点一下写点什么' }}</div>
                     </div>
                     <img v-else :src="it.src">
                 </div>
@@ -9801,8 +10040,9 @@ html, body { overscroll-behavior-y: none; }
                         </div>
                     </div>
                 </div>
-                <div class="jb-panel-sec" style="margin-top:12px">写点什么</div>
-                <input class="jb-sticky-input" v-model="jbStickyText" maxlength="40" placeholder="一句话、一个小记号…">
+                <div class="jb-panel-sec" style="margin-top:12px">写点什么 <span class="jb-sticky-optional">贴上去后点一下还能接着写</span></div>
+                <textarea class="jb-sticky-input jb-sticky-textarea" v-model="jbStickyText" maxlength="120" rows="2"
+                          placeholder="一句话、一个小记号…可以换行"></textarea>
                 <div class="jb-panel-sec" style="margin-top:12px">贴个小图案 <span class="jb-sticky-optional">可不选</span></div>
                 <div class="jb-sticky-arts">
                     <div class="jb-sticky-art-cell" :class="{ on: !jbStickyArt }" @click="jbStickyArt = ''"><span>无</span></div>
@@ -9815,7 +10055,10 @@ html, body { overscroll-behavior-y: none; }
 
         <!-- 选中贴纸时的操作条 -->
         <div v-if="jbSelItem" class="jb-item-bar" :class="{ 'with-edit': jbSelItem.kind === 'sticky' }">
-            <div v-if="jbSelItem.kind === 'sticky'" class="jb-item-btn edit" @click="jbEditSticky">改一改</div>
+            <template v-if="jbSelItem.kind === 'sticky'">
+                <div class="jb-item-btn edit" @click="jbWriteSticky()">写点字</div>
+                <div class="jb-item-btn edit" @click="jbEditSticky">改一改</div>
+            </template>
             <div class="jb-item-btn" @click="jbRotItem(-12)">↺ 转</div>
             <div class="jb-item-btn" @click="jbRotItem(12)">↻ 转</div>
             <div class="jb-item-btn" @click="jbScaleItem(-8)">－</div>
@@ -10675,9 +10918,6 @@ html, body { overscroll-behavior-y: none; }
         <div class="lb-bar"></div>
         <div class="lb-h">
             <span class="lb-t">{{ lbModal.title }}</span>
-            <button class="lb-x" @click="lbClose(null)" aria-label="关掉">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-            </button>
         </div>
         <div v-if="lbModal.msg" class="lb-msg">{{ lbModal.msg }}</div>
         <input v-if="lbModal.type === 'prompt'" v-model="lbModal.input" class="lb-inp" :placeholder="lbModal.placeholder" maxlength="120" @keyup.enter="lbOk">
@@ -10687,9 +10927,10 @@ html, body { overscroll-behavior-y: none; }
                 <span class="lb-radio"><i></i></span>
             </div>
         </div>
-        <div v-else class="lb-acts">
+        <!-- 确定 / 取消 都在，颜色走一定存在的主题变量，白底白字不会再「隐形」 -->
+        <div class="lb-acts">
             <button v-if="lbModal.type !== 'alert'" class="lb-cancel" @click="lbClose(null)">取消</button>
-            <button class="lb-ok" @click="lbOk">{{ lbModal.type === 'confirm' ? '确定' : '好' }}</button>
+            <button v-if="lbModal.type !== 'pick'" class="lb-ok" @click="lbOk">{{ lbModal.type === 'confirm' ? '确定' : '好' }}</button>
         </div>
         <div class="lb-foot">留白 · 只存在这台设备上</div>
     </div>
@@ -10982,7 +11223,10 @@ createApp({
             characterDesc: '',
             relationship: 'lover', chatMode: 'online',
             myDesc: '',
-            themeKey: ''
+            themeKey: '',
+            forceFullscreen: false,
+            // 作息自习：本机静默记几天「什么时候来 / 什么时候聊得久」，再把他的在线时段往这儿挪
+            habitMode: true, habitDays: 7, habitReady: false, habitLog: []
         });
         
         const settingsTab = ref('normal');
@@ -11343,7 +11587,11 @@ createApp({
             patActions.value = patActions.value.filter(a => a.id !== id);
             patSaveDB();
         };
-        const patPickFromLibrary = (a) => { patSend(a, 'them'); switchView('chat'); };
+        // 语料库里点一条拍一拍：只看看，不发送、不跳聊天
+        const patViewCard = (a) => {
+            lbAlert('我' + patTail(a, 'me') + '\n' + '他' + patTail(a, 'them') + '\n\n要发的话，去聊天页「三个点 → 拍一拍」里挑一条。', '这条拍一拍');
+        };
+        const patPickFromLibrary = (a) => { patViewCard(a); };
         const patOpenPicker = () => { showMorePanel.value = false; patPickerOpen.value = true; };
         const patPickFromChat = (a) => { patPickerOpen.value = false; patSend(a, 'me'); };
         const patGoManage = () => { patPickerOpen.value = false; libraryTab.value = 'pat'; switchView('library'); };
@@ -14742,7 +14990,9 @@ createApp({
         const currentLetter = ref(null);
         const unreadLetters = computed(() => letters.value.filter(l => l.from === 'them' && !l.read).length);
         // [MOD-25] 内置信纸字体（各胶囊用自己的字体显示名字，选了立刻能看见）
-        const LETTER_FONT_KEY = 'liubai_letter_font';
+        const LETTER_FONT_KEY = 'liubai_letter_font';            // 旧版「整箱一个字体」，只做迁移兜底
+        const LETTER_FONT_KEY_ME = 'liubai_letter_font_me';      // 我写的字
+        const LETTER_FONT_KEY_THEM = 'liubai_letter_font_them';  // 他写的字
         // 六款都是手写体，且六种笔触互不相同：钢笔 / 毛笔 / 宋韵 / 行草 / 细笔 / 圆体。
         // 字体已内嵌在页面里（子集化 woff2），离线也能用；每档再配一点字号与字距，区别更明显。
         const MAIL_FONTS = [
@@ -14753,18 +15003,40 @@ createApp({
             { k:'sans',  n:'细笔手写', css:'"LB Fine","Long Cang","Kaiti SC",cursive',          size:15,   ls:.8,   lh:2.2  },
             { k:'round', n:'圆体手写', css:'"LB Round","ZCOOL KuaiLe","Yuanti SC",sans-serif',  size:14.5, ls:.3,   lh:1.95 }
         ];
-        let _mailFontInit = 'serif';
-        try { const _v = localStorage.getItem(LETTER_FONT_KEY); if (_v && MAIL_FONTS.some(f => f.k === _v)) _mailFontInit = _v; } catch (e) {}
-        const mailFont = ref(_mailFontInit);
-        const letterFontStyle = computed(() => {
-            const f = MAIL_FONTS.find(x => x.k === mailFont.value) || MAIL_FONTS[0];
+        const _validMailFont = (k) => k && MAIL_FONTS.some(f => f.k === k) ? k : null;
+        const _readMailFont = (key) => {
+            try { return _validMailFont(localStorage.getItem(key)); } catch (e) { return null; }
+        };
+        let _oldMailFont = null;
+        try { _oldMailFont = _validMailFont(localStorage.getItem(LETTER_FONT_KEY)); } catch (e) {}
+        // 旧存档两边都沿用原来那一款；全新打开时默认两款不同，一眼看出可以分开
+        const mailFontMe = ref(_readMailFont(LETTER_FONT_KEY_ME) || _oldMailFont || 'serif');
+        const mailFontThem = ref(_readMailFont(LETTER_FONT_KEY_THEM) || _oldMailFont || 'kai');
+        const mailFontMeName = computed(() => (MAIL_FONTS.find(f => f.k === mailFontMe.value) || MAIL_FONTS[0]).n);
+        const mailFontThemName = computed(() => (MAIL_FONTS.find(f => f.k === mailFontThem.value) || MAIL_FONTS[0]).n);
+        const letterFontStyleFor = (k) => {
+            const f = MAIL_FONTS.find(x => x.k === k) || MAIL_FONTS[0];
             return { fontFamily: f.css, fontSize: (f.size || 14) + 'px',
                      letterSpacing: (f.ls || 0) + 'px', lineHeight: f.lh || 2.05 };
+        };
+        const letterFontStyleMe = computed(() => letterFontStyleFor(mailFontMe.value));
+        const letterFontStyleThem = computed(() => letterFontStyleFor(mailFontThem.value));
+        // 读信页：他寄来的用他的字，我寄出的回看时用我的字
+        const readLetterFontStyle = computed(() =>
+            currentLetter.value && currentLetter.value.from === 'them'
+                ? letterFontStyleThem.value : letterFontStyleMe.value);
+        // 列表摘要只换字形，不放大字号，免得小字挤成一团
+        const letterPreviewFont = (l) => ({
+            fontFamily: (l.from === 'them' ? letterFontStyleThem.value : letterFontStyleMe.value).fontFamily
         });
-        const mailSetFont = (k) => {
+        const mailSetFont = (who, k) => {
             if (!MAIL_FONTS.some(f => f.k === k)) return;
-            mailFont.value = k;
-            try { localStorage.setItem(LETTER_FONT_KEY, k); } catch (e) {}
+            const isMe = who !== 'them';
+            (isMe ? mailFontMe : mailFontThem).value = k;
+            try {
+                localStorage.setItem(isMe ? LETTER_FONT_KEY_ME : LETTER_FONT_KEY_THEM, k);
+                localStorage.setItem(LETTER_FONT_KEY, k);   // 老版本打开同一份存档也有字可用
+            } catch (e) {}
         };
         // 打开小设置时把六款手写体一起唤醒，切档就不会先闪一下系统字体
         const mailToggleFontPanel = () => {
@@ -18535,7 +18807,6 @@ createApp({
             { k:'guzheng',   name:'山雾慢慢',   paths:['M3 7h18','M3 12h18','M3 17h18','M6 4v16','M18 4v16','M9 7l3 10'] },
             { k:'guitar',    name:'不赶时间', paths:['M9 3v6','M15 3v6','M8 9a4 4 0 0 0 8 0','M8 9c-3 0-5 3-5 7a7 7 0 0 0 14 0c0-4-2-7-5-7','M12 14v.01'] },
             { k:'softpad',   name:'云上小憩',   paths:['M2 9c3-3 5 3 8 0s5-3 8 0','M2 14c3-3 5 3 8 0s5-3 8 0','M2 19c3-3 5 3 8 0s5-3 8 0'] },
-            { k:'musicrain', name:'好梦之前',   paths:['M12 2v3','M7 5a6 6 0 0 0 10 0','M8 13l-1 3','M12 12l-1 4','M16 13l-1 3','M6 5h12'] }
         ];
         // ASMR 触发音：冰块、木头、纸、刷子、气泡……近距离小动静，全部实时合成
         const cpAsmr = [
@@ -18566,8 +18837,6 @@ createApp({
             // 挂麦 / 刮麦：麦克风网罩上的近距离触发音
             { k:'micscratch',name:'刮麦',   paths:['M12 2a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z','M5 11a7 7 0 0 0 14 0','M12 18v4','M8 22h8','M6 5l2 2','M18 5l-2 2'] },
             { k:'micbrush',  name:'刷麦',   paths:['M12 2a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z','M5 11a7 7 0 0 0 14 0','M12 18v4','M8 22h8','M3 4h6','M3 7h6'] },
-            { k:'mictap',    name:'敲麦',   paths:['M12 2a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z','M5 11a7 7 0 0 0 14 0','M12 18v4','M8 22h8','M18 3l2 2','M20 6l-3 3'] },
-            { k:'micrub',    name:'揉麦',   paths:['M12 2a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z','M5 11a7 7 0 0 0 14 0','M12 18v4','M8 22h8','M2 8c2-2 4 2 6 0','M16 8c2-2 4 2 6 0'] }
         ];
         const cpAllSounds = cpNoises.concat(cpMusics).concat(cpAsmr);
         const cpSoundName = (k) => { const n = cpAllSounds.find(x => x.k === k); return n ? n.name : k; };
@@ -20883,7 +21152,7 @@ createApp({
                         removed++;
                     }
                 }
-                const lsKeep = new Set(['liubai_theme_dark','liubai_sync_profiles','liubai_sync_settings','liubai_sync_replyGroups','liubai_sync_emojiList','liubai_sync_letters','liubai_playlist_string','liubai_watch_string','liubai_waiting_letter','liubai_letter_font','liubai_weather_data_v2','liubai_weather_side','liubai_weather_fx','liubai_weather_recent_my','liubai_weather_snapshot_v1','liubai_place_cache_v1','liubai_card_cd','liubai_transfer_cd','liubai_takeout_cd','liubai_shop_fav_cd','liubai_shop_me_bio','liubai_shop_addr','liubai_shop_paypwd','liubai_site_icon','liubai_site_title']);
+                const lsKeep = new Set(['liubai_theme_dark','liubai_sync_profiles','liubai_sync_settings','liubai_sync_replyGroups','liubai_sync_emojiList','liubai_sync_letters','liubai_playlist_string','liubai_watch_string','liubai_waiting_letter','liubai_letter_font','liubai_letter_font_me','liubai_letter_font_them','liubai_weather_data_v2','liubai_weather_side','liubai_weather_fx','liubai_weather_recent_my','liubai_weather_snapshot_v1','liubai_place_cache_v1','liubai_card_cd','liubai_transfer_cd','liubai_takeout_cd','liubai_shop_fav_cd','liubai_shop_me_bio','liubai_shop_addr','liubai_shop_paypwd','liubai_site_icon','liubai_site_title']);
                 for (let i = localStorage.length - 1; i >= 0; i--) {
                     const k = localStorage.key(i);
                     if (k && k.startsWith('liubai_') && !lsKeep.has(k)) {
@@ -21170,7 +21439,8 @@ createApp({
                     menstrualDurationAvg: await localforage.getItem('liubai_menstrual_duration_avg'),
                     menstrualCareShift: await localforage.getItem('liubai_menstrual_care_shift'),
                     hpBanner: await localforage.getItem('liubai_hp_banner_img'),
-                    letterFont: localStorage.getItem('liubai_letter_font'),
+                    letterFont: mailFontMe.value,
+                letterFontMe: mailFontMe.value, letterFontThem: mailFontThem.value,
                     callHistory: await localforage.getItem(CALL_HIS_KEY)
                 };
                 const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
@@ -21205,9 +21475,12 @@ createApp({
                         if (data.watchMessages) await localforage.setItem('liubai_watch_messages', data.watchMessages);
                         if (data.hpBanner) await localforage.setItem('liubai_hp_banner_img', data.hpBanner);
                         if (data.letterFont && MAIL_FONTS.some(f => f.k === data.letterFont)) {
-                            localStorage.setItem('liubai_letter_font', data.letterFont);
-                            mailFont.value = data.letterFont;
+                            // 老备份只有一份：我 / 他 都沿用那一款
+                            if (!(data.letterFontMe && MAIL_FONTS.some(f => f.k === data.letterFontMe))) mailSetFont('me', data.letterFont);
+                            if (!(data.letterFontThem && MAIL_FONTS.some(f => f.k === data.letterFontThem))) mailSetFont('them', data.letterFont);
                         }
+                        if (data.letterFontMe && MAIL_FONTS.some(f => f.k === data.letterFontMe)) mailSetFont('me', data.letterFontMe);
+                        if (data.letterFontThem && MAIL_FONTS.some(f => f.k === data.letterFontThem)) mailSetFont('them', data.letterFontThem);
                         if (data.avatarThem) await localforage.setItem('liubai_avatar_them', data.avatarThem);
                         if (data.avatarMe) await localforage.setItem('liubai_avatar_me', data.avatarMe);
                         if (data.journal) await localforage.setItem('liubai_journal_db', data.journal);
@@ -21771,6 +22044,121 @@ createApp({
             saveAll();
         };
 
+        // ================= 作息自习 =================
+        // 只在本机记：每天 24 个格子，open＝这个小时「来过」（打开/从后台回来），talk＝在聊天页待过的分钟数。
+        // 学够 N 个有效天后，把他「在线」的概率按小时重新分配：你常来的时段高一点、冷门时段低一点，
+        // 但 24 小时平均仍然严格等于你设的在线概率（配平迭代），所以「上线概率不变」。
+        // 只在「非 AI 模式 + 状态概率开关打开 + 已学会」时生效；学习期与 AI 模式一律保持原概率。
+        const habitTarget = computed(() => Math.max(3, Math.min(14, Number(settings.habitDays) || 7)));
+        const habitLogSafe = () => Array.isArray(settings.habitLog) ? settings.habitLog : [];
+        const habitDayKey = () => {
+            const d = new Date(), p = n => String(n).padStart(2, '0');
+            return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+        };
+        let habitLastBeatHour = -1;
+        const habitEnsureDay = () => {
+            const k = habitDayKey();
+            let day = habitLogSafe().find(x => x && x.d === k);
+            if (!day) {
+                day = { d: k, open: Array(24).fill(0), talk: Array(24).fill(0) };
+                settings.habitLog.push(day);
+                if (settings.habitLog.length > 21) settings.habitLog.splice(0, settings.habitLog.length - 21);
+            }
+            if (!Array.isArray(day.open) || day.open.length !== 24) day.open = Array(24).fill(0);
+            if (!Array.isArray(day.talk) || day.talk.length !== 24) day.talk = Array(24).fill(0);
+            return day;
+        };
+        const habitDaysDone = computed(() => habitLogSafe().filter(d =>
+            d && (Array.isArray(d.open) && d.open.some(v => v > 0) || Array.isArray(d.talk) && d.talk.some(v => v > 0))
+        ).length);
+        const habitReady = computed(() => !!settings.habitReady && habitDaysDone.value >= habitTarget.value);
+        const habitRefreshReady = () => {
+            if (!settings.habitReady && habitDaysDone.value >= habitTarget.value) settings.habitReady = true;
+            if (settings.habitReady && habitDaysDone.value < habitTarget.value) settings.habitReady = false;
+        };
+        // 打开页面 / 从后台回来：记一次「这个小时来过」，同一小时同一天只记一次
+        const habitMarkOpen = () => {
+            try {
+                if (isLoading) return;
+                const day = habitEnsureDay();
+                const h = new Date().getHours();
+                if (!day.open[h]) { day.open[h] = 1; habitRefreshReady(); saveAll(); }
+                else habitRefreshReady();
+            } catch (e) {}
+        };
+        // 心跳：只在聊天页累计「聊得久」的分钟数，别的页面不算聊天
+        const habitBeat = () => {
+            try {
+                if (isLoading || document.hidden) return;
+                const day = habitEnsureDay();
+                const h = new Date().getHours();
+                if (currentView.value === 'chat') { day.talk[h] = (day.talk[h] || 0) + 1; habitRefreshReady(); saveAll(); }
+                else if (h !== habitLastBeatHour) { habitRefreshReady(); }
+                habitLastBeatHour = h;
+            } catch (e) {}
+        };
+        // 汇总 24 小时权重：常来 0.6 + 聊得久 0.4，各归一化后做环形 3 点平滑，再垫一层基线
+        const habitWeights = () => {
+            const open = Array(24).fill(0), talk = Array(24).fill(0);
+            habitLogSafe().forEach(d => {
+                if (!d) return;
+                (Array.isArray(d.open) ? d.open : []).forEach((v, i) => { if (i < 24) open[i] += v ? 1 : 0; });
+                (Array.isArray(d.talk) ? d.talk : []).forEach((v, i) => { if (i < 24) talk[i] += Number(v) || 0; });
+            });
+            const norm = a => { const m = Math.max.apply(null, a.concat([1])); return a.map(x => x / m); };
+            const o = norm(open), t = norm(talk);
+            const raw = o.map((x, i) => .6 * x + .4 * t[i]);
+            const sm = raw.map((_, i) => .25 * raw[(i + 23) % 24] + .5 * raw[i] + .25 * raw[(i + 1) % 24]);
+            return sm.map(x => .35 + x);
+        };
+        // 概率守恒：p_h = P * w_h / mean(w)，clamp 后把溢出/缺口按剩余空间补给其它小时，迭代到 sum≈24P
+        const habitPctTable = (P) => {
+            const w = habitWeights();
+            const mean = w.reduce((a, b) => a + b, 0) / 24 || 1;
+            let a = w.map(x => Math.max(0, Math.min(100, P * x / mean)));
+            for (let k = 0; k < 8; k++) {
+                const diff = 24 * P - a.reduce((s, x) => s + x, 0);
+                if (Math.abs(diff) < .05) break;
+                const roomOf = i => diff > 0 ? (100 - a[i]) : a[i];
+                const idx = a.map((_, i) => i).filter(i => roomOf(i) > 0);
+                if (!idx.length) break;
+                const room = idx.reduce((s, i) => s + roomOf(i), 0);
+                idx.forEach(i => { a[i] = Math.max(0, Math.min(100, a[i] + diff * roomOf(i) / room)); });
+            }
+            return a;
+        };
+        const habitEffective = () => settings.habitMode === true && habitReady.value && settings.stateMode === true && !settings.useAI;
+        // 当前小时该用的在线概率；不生效时原样返回
+        const habitOnlinePct = (P) => habitEffective() ? habitPctTable(P)[new Date().getHours()] : P;
+        const habitTopText = (kind) => {
+            const open = Array(24).fill(0), talk = Array(24).fill(0);
+            habitLogSafe().forEach(d => {
+                if (!d) return;
+                (Array.isArray(d.open) ? d.open : []).forEach((v, i) => { if (i < 24) open[i] += v ? 1 : 0; });
+                (Array.isArray(d.talk) ? d.talk : []).forEach((v, i) => { if (i < 24) talk[i] += Number(v) || 0; });
+            });
+            const a = kind === 'talk' ? talk : open;
+            // 三小时滑窗求和，找「哪一段」而不是「哪一个钟点」，并列时也不会挑到零散的那一格
+            const win = a.map((_, h) => a[(h + 23) % 24] + a[h] + a[(h + 1) % 24]);
+            const mx = Math.max.apply(null, win);
+            if (mx <= 0) return '还没记下来';
+            const h = win.indexOf(mx);
+            return String((h + 23) % 24).padStart(2, '0') + '–' + String((h + 1) % 24).padStart(2, '0') + ' 点';
+        };
+        const habitOpenText = computed(() => habitTopText('open'));
+        const habitTalkText = computed(() => habitTopText('talk'));
+        const habitNowPct = computed(() => Math.round(habitOnlinePct(statePct(settings.stateOnlineRate, 80))));
+        const habitSetDays = (d) => { settings.habitDays = Math.max(3, Math.min(14, (Number(settings.habitDays) || 7) + d)); habitRefreshReady(); saveAll(); };
+        const habitReset = () => { settings.habitLog = []; settings.habitReady = false; habitLastBeatHour = -1; habitMarkOpen(); saveAll(); };
+        let habitBeatTimer = null;
+        const habitBoot = () => {
+            habitRefreshReady();
+            habitMarkOpen();
+            if (habitBeatTimer) clearInterval(habitBeatTimer);
+            habitBeatTimer = setInterval(habitBeat, 60000);
+            try { document.addEventListener('visibilitychange', () => { if (!document.hidden) habitMarkOpen(); }); } catch (e) {}
+        };
+
         // ================= [MOD] 他的状态 =================
         // 两态：在线 / 不在线（＝忙碌）。全局状态每 stateRefreshMin 分钟按概率重抽一次。
         // 所有我方消息（文字 / 表情 / 图片 / 语音 / 红包 / 卡片 / 通话…）统一带「已读 / 未读」：
@@ -21794,7 +22182,9 @@ createApp({
         const stateRefresh = (force, fromSend) => {
             const prev = themStateNow.value;
             const on = statePct(settings.stateOnlineRate, 80);
-            const next = Math.random() * 100 < on ? 'online' : 'offline';
+            // 作息自习学成后：这一小时用加权概率，全天平均仍等于 on
+            const pNow = habitOnlinePct(on);
+            const next = Math.random() * 100 < pNow ? 'online' : 'offline';
             themStateNow.value = next;
             settings.stateCurrent = next;
             settings.stateNextAt = Date.now() + stateRefreshMs();
@@ -22839,7 +23229,7 @@ mood 写这一刻的气氛，例如 安静 / 开心 / 想你 / 下雨 / 深夜 /
         };
         const jbCloseBook = () => {
             if (jbView.value !== 'open') { switchView('home'); return; }
-            jbPanel.value = ''; jbSel.value = '';
+            jbPanel.value = ''; jbSel.value = ''; jbStickyWriting.value = '';
             jbView.value = 'closing';
             setTimeout(() => { jbView.value = 'closed'; switchView('home'); }, 900);
         };
@@ -22949,10 +23339,40 @@ mood 写这一刻的气氛，例如 安静 / 开心 / 想你 / 下雨 / 深夜 /
         const jbStickyText    = ref('');
         const jbStickyArt     = ref('');
         const jbStickyEditing = ref('');      // 正在改的便签 id；空＝贴一张新的
+        const jbStickyWriting = ref('');      // 正在「就地写字」的便签 id；空＝没在写
+        // 字多就自己收小一点，尽量让整段话都留在纸上，不被裁掉
+        const jbStickyFont = (it) => {
+            const base = it.size >= 150 ? 13 : it.size >= 110 ? 12 : 11;
+            const n = String(it.text || '').length;
+            const shrink = n > 80 ? 3 : n > 40 ? 2 : n > 20 ? 1 : 0;
+            return Math.max(9, base - shrink);
+        };
+        const jbWriteSticky = (it) => {
+            const target = it || jbSelItem.value;
+            if (!target || target.kind !== 'sticky') return;
+            jbSel.value = target.id;
+            jbPanel.value = '';
+            jbStickyWriting.value = target.id;
+            jbSay('在这张便签上写吧 · 点别处收起');
+            setTimeout(() => {
+                const el = document.querySelector('.jb-sticky-write');
+                if (el) { try { el.focus(); el.setSelectionRange(el.value.length, el.value.length); } catch (e) {} }
+            }, 30);
+        };
+        // 按下时会顺手选中（见 jbStartDrag），所以「第一次点」只算选中；
+        // 第二下才直接在纸上写，拖动松手那一下也不会误弹键盘。
+        let jbJustPressed = '';
+        const jbTapItem = (it) => {
+            if (jbJustPressed === it.id) { jbJustPressed = ''; return; }
+            jbJustPressed = '';
+            if (it.kind === 'sticky' && jbSel.value === it.id && jbStickyWriting.value !== it.id) jbWriteSticky(it);
+            else { jbSel.value = it.id; if (jbStickyWriting.value && jbStickyWriting.value !== it.id) jbStickyWriting.value = ''; }
+        };
 
         const jbOpenStickyPanel = () => {
             if (jbPanel.value === 'sticky') { jbPanel.value = ''; return; }
             jbStickyEditing.value = '';
+            jbStickyWriting.value = '';
             jbStickyPaper.value = jbStickyColors[0];
             jbStickySize.value = 'm';
             jbStickyText.value = '';
@@ -22968,6 +23388,7 @@ mood 写这一刻的气氛，例如 安静 / 开心 / 想你 / 下雨 / 深夜 /
             jbStickySize.value = s ? s.k : 'm';
             jbStickyText.value = it.text || '';
             jbStickyArt.value = it.art || '';
+            jbStickyWriting.value = '';
             jbPanel.value = 'sticky';
         };
         const jbAddSticky = () => {
@@ -22975,7 +23396,7 @@ mood 写这一刻的气氛，例如 安静 / 开心 / 想你 / 下雨 / 深夜 /
             const data = {
                 kind:'sticky', paper: jbStickyPaper.value || jbStickyColors[0],
                 size: opt.w, h: opt.h,
-                text: String(jbStickyText.value || '').slice(0, 40),
+                text: String(jbStickyText.value || '').slice(0, 120),
                 art: jbStickyArt.value || ''
             };
             if (jbStickyEditing.value) {
@@ -22985,8 +23406,10 @@ mood 写这一刻的气氛，例如 安静 / 开心 / 想你 / 下雨 / 深夜 /
                 jbSay('便签改好了');
             } else {
                 jbAdd(data);
-                jbSay('便签贴上了 · 按住可以拖走');
+                jbSel.value = '';   // 刚贴上先别选中：点一下选中/拖走，再点一下才在纸上写字
+                jbSay('便签贴上了 · 按住拖走，点两下就能写字');
             }
+            jbStickyWriting.value = '';
             jbPanel.value = '';
         };
 
@@ -23043,6 +23466,8 @@ mood 写这一刻的气氛，例如 安静 / 开心 / 想你 / 下雨 / 深夜 /
             window.removeEventListener('mouseup', jbEndDrag);
         };
         const jbStartDrag = (it, e) => {
+            const wasSel = jbSel.value === it.id;
+            jbJustPressed = wasSel ? '' : it.id;   // 这一下只是按下/选中，click 别急着进写字
             jbSel.value = it.id; jbPanel.value = '';
             const t = e.touches ? e.touches[0] : e;
             // 翻页动画期间会短暂存在两页纸，取当前贴纸所在的那一页，避免坐标算错
@@ -25413,6 +25838,80 @@ mood 写这一刻的气氛，例如 安静 / 开心 / 想你 / 下雨 / 深夜 /
         // <i> 被重建后 lucide 不会自动补，会留下空白；监听 homeIcons 变化重新扫描一次即可恢复。
         watch(() => JSON.stringify(Object.values(homeIcons || {}).map(v => (v && (v.img || v.icon)) || '')), () => { nextTick(() => { if (window.lucide) lucide.createIcons(); }); });
 
+        // ================= 强制全屏：网站自绘上下两条状态栏 =================
+        const fsBarsOn = computed(() => settings.forceFullscreen === true);
+        watch(fsBarsOn, (v) => { try { document.body.classList.toggle('fs-active', v); } catch (e) {} }, { immediate: true });
+        const fsTime = ref('--:--');
+        const fsDate = ref('');
+        const fsBattery = ref(null);      // null = 浏览器不给，绝不编数字
+        const fsCharging = ref(false);
+        const fsHint = ref('');           // '' 正常 / 'tap' 轻点补进全屏 / 'quiet' 浏览器不支持 API
+        let fsBatObj = null, fsOnceBound = false;
+
+        const fsStandalone = () => {
+            try {
+                return !!(window.navigator.standalone ||
+                    (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+                    (window.matchMedia && window.matchMedia('(display-mode: fullscreen)').matches));
+            } catch (e) { return false; }
+        };
+        const fsTick = () => {
+            const d = new Date();
+            fsTime.value = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+            fsDate.value = (d.getMonth() + 1) + '月' + d.getDate() + '日 · 周' +
+                ['日', '一', '二', '三', '四', '五', '六'][d.getDay()];
+        };
+        const fsInitBattery = async () => {
+            try {
+                if (!navigator.getBattery) { fsBattery.value = null; return; }
+                fsBatObj = await navigator.getBattery();
+                const upd = () => {
+                    try { fsBattery.value = Math.round(fsBatObj.level * 100); fsCharging.value = !!fsBatObj.charging; }
+                    catch (e) { fsBattery.value = null; }
+                };
+                upd();
+                try { fsBatObj.addEventListener('levelchange', upd); fsBatObj.addEventListener('chargingchange', upd); } catch (e) {}
+            } catch (e) { fsBattery.value = null; }
+        };
+        const fsEnter = async () => {
+            if (!settings.forceFullscreen) return;
+            if (fsStandalone() || document.fullscreenElement) { fsHint.value = ''; return; }
+            const el = document.documentElement;
+            if (!el.requestFullscreen) { fsHint.value = 'quiet'; return; }  // iPhone：状态栏照常，只是不能藏系统栏
+            try { await el.requestFullscreen({ navigationUI: 'hide' }); fsHint.value = ''; }
+            catch (e) { fsHint.value = 'quiet'; }
+        };
+        const fsBindOnce = () => {
+            if (fsOnceBound) return;
+            fsOnceBound = true;
+            document.addEventListener('pointerdown', function once() {
+                document.removeEventListener('pointerdown', once, true);
+                fsOnceBound = false;
+                fsEnter();
+            }, true);
+        };
+        const fsExit = () => {
+            try { if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {}); } catch (e) {}
+            fsHint.value = '';
+        };
+        const fsToggle = () => {
+            settings.forceFullscreen = !settings.forceFullscreen;
+            if (settings.forceFullscreen) fsEnter(); else fsExit();
+            saveAll();
+        };
+        const fsOnFullChange = () => {
+            if (!settings.forceFullscreen || fsStandalone()) return;
+            if (document.fullscreenElement) fsHint.value = '';
+            else { fsHint.value = 'tap'; fsBindOnce(); }
+        };
+        const fsBoot = () => {
+            fsTick(); setInterval(fsTick, 30000);
+            fsInitBattery();
+            document.addEventListener('fullscreenchange', fsOnFullChange);
+            // 刷新后浏览器不允许无手势自动进全屏，等第一次轻点补上
+            if (settings.forceFullscreen && !fsStandalone()) { fsHint.value = 'tap'; fsBindOnce(); }
+        };
+
         onMounted(async () => {
             try { localStorage.removeItem('liubai_anniversary_string'); } catch (e) {}
             loadSiteIcon();
@@ -25432,11 +25931,13 @@ mood 写这一刻的气氛，例如 安静 / 开心 / 想你 / 下雨 / 深夜 /
             });
 
             await loadAll();
+            fsBoot();
             await spLoad(); spCheck(); spDailyTick();
             await wxCareLoad(); wxCareJudge();
             await aiGlobalLoad(); aiGlobalResetDay();
             setTimeout(() => aiGlobalTick('刚打开这个站'), 6500);
             stateBoot();         // 他的状态：恢复上次状态、补上过期的刷新
+            habitBoot();         // 作息自习：静默开记
             kaResume();          // 上次没发完的话，这次打开接着发
             await loadWeatherData();
             checkOfflineLetter();
@@ -25776,7 +26277,7 @@ mood 写这一刻的气氛，例如 安静 / 开心 / 想你 / 下雨 / 深夜 /
             aiGlobalState, aiGlobalToday, aiGlobalOn, aiGlobalManual, aiGlobalTick, aiGlobalRun, aiGlobalLoad, aiGlobalSave, aiGlobalPass, aiGlobalAllowed, aiGlobalNote, aiGlobalResetDay, aiToast, aiSay, aiActionPrompt, aiParseAction, aiBuildContext, aiRequest, aiRunAction, aiStateBrief,
             showIntro, currentView, unreadCount, messages, inputText, isTyping, profiles, settings, replyGroups, emojiList, libraryTab, searchQuery, activeGroupFilter, showGroupManager, showCardEditor, editingCard, filteredCards,
             patActions, patAll, patEditorOpen, patEditingId, patDraftMe, patDraftThem, patPickerOpen, patFormat, patTail,
-            patOpenEditor, patSaveCard, patDelete, patPickFromLibrary, patOpenPicker, patPickFromChat, patGoManage, patSend,
+            patOpenEditor, patSaveCard, patDelete, patPickFromLibrary, patViewCard, patOpenPicker, patPickFromChat, patGoManage, patSend,
             openCardEditor, saveCard, deleteCard, toggleCardEnable, addNewGroup, editGroupName, deleteGroup, setGroupColor, totalCardsCount,
             globalWallpaper, chatWallpaper, customBubbleCSS, customFontUrl, setWallpaper, clearWallpaper, applyBubbleCSS, applyFontUrl,
             homeIcons, setHomeIcon, clearHomeIcon, hpIconErr, hpIconGuard,
@@ -25794,7 +26295,9 @@ mood 写这一刻的气氛，例如 安静 / 开心 / 想你 / 下雨 / 深夜 /
             letters, mailboxView, draftLetter, currentLetter, unreadLetters,
             mailTab, visibleLetters,
             openWriteLetter, sendLetter, openLetter, deleteLetter, mailboxBack,
-            MAIL_FONTS, mailFont, mailFontOpen, letterFontStyle, mailSetFont, mailToggleFontPanel,
+            MAIL_FONTS, mailFontMe, mailFontThem, mailFontMeName, mailFontThemName, mailFontOpen,
+            letterFontStyleMe, letterFontStyleThem, readLetterFontStyle, letterPreviewFont,
+            mailSetFont, mailToggleFontPanel,
             mailEnvelopeOpen, mailEnvelopeLetter, mailSealStage, mailOpenEnvelope, mailEnvelopeClose,
             videoCall, videoAutoCall, fmtCallTime, vfSize, setFloatStyle,
             vcSense, vcSenseLabel, vcTapSense, vcMakeLines, vcOnSpeech, vcShowReply,
@@ -25904,8 +26407,12 @@ mensFmtDate, mensHasRecord, mensToggleSymptom,
             jbToast, jbSaved, jbItemH, jbWho, jbSetWho, jbThemWrite, jbThemBusy, jbThemHasText, jbThemAuto, jbToggleThemAuto, jbThemWaitText,
             jbThemArm, jbThemTick,
             toggleKeepAlive, kaResume, pendingReply,
+        fsBarsOn, fsTime, fsDate, fsBattery, fsCharging, fsHint, fsEnter, fsToggle,
+        habitTarget, habitDaysDone, habitReady, habitOpenText, habitTalkText, habitNowPct, habitSetDays, habitReset,
+        habitPctTable, habitOnlinePct,
             jbMoods, jbWxList, jbWx, jbWxOpen, jbPanel, jbArtList, jbFileInput,
             jbStickyColors, jbStickySizeOpts, jbStickyPaper, jbStickySize, jbStickyText, jbStickyArt, jbStickyEditing,
+            jbStickyWriting, jbStickyFont, jbWriteSticky, jbTapItem,
             jbOpenStickyPanel, jbEditSticky, jbAddSticky,
             jbOpenBook, jbCloseBook, jbShift, jbToday, jbSetMood, jbPagerClick, jbPagerDown, jbPagerUp, jbNearestEntry, jbDayHas,
             jbTogglePanel, jbAddArt, jbAddSticker, jbPickPhoto, jbOnPhoto,
